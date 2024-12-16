@@ -56,5 +56,5 @@ function onSubmittedForm(event, type) {
     }
 
     
-    window.location.href = type == 'edit' ? '/week3/pages/user/view.html' : '/week3/index.html';
+    window.location.href = type == 'edit' ? '../user/view.html' : '../../index.html';
 }
