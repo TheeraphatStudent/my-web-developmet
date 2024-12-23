@@ -1,6 +1,8 @@
 const toolTip = document.getElementsByClassName("tooltip.minimum")[0];
 const scoreDisplay = document.getElementById("score.display");
 
+const input = document.getElementById('keyboard-trigger');
+
 const words = [
     "Hello", "Goodbye", "Please", "Thank", "You", "Sorry", "Yes", "No", "Help", "Friend",
     "Family", "Food", "Water", "Drink", "Eat", "House", "Home", "School", "Work", "Play",
@@ -34,6 +36,8 @@ const init = () => {
     console.log("On initialize...");
     createContent();
     setupWordValidator();
+
+    input.focus();
 };
 
 const destroy = () => {
@@ -42,6 +46,8 @@ const destroy = () => {
     tooltipTimer = null;
     score = 0;
     scoreDisplay.textContent = score;
+
+    input.blur()
 
 };
 
