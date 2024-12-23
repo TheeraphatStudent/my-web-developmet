@@ -9,10 +9,32 @@
 </head>
 
 <body>
+    <span class="tooltip.minimum"></span>
+    <div class="cover bg.glass" id="started">
+        <button class="btn.simple" type="button">Start</button>
+
+    </div>
+
+    <div class="cover bg.glass flex flex-col" style="gap: 5rem; opacity: 0; display: none;" id="summary">
+        <span style="font-size: 4.5rem; color: var(--color-white); max-width: 800px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+            <span>Score: <span class="score.display">0</span></span>
+        </span>
+
+        <button class="btn.simple" type="button">Try Again?</button>
+
+    </div>
 
     <div class="container.main">
-        <div id="content">
+        <div class="container.childe items.around">
+            <span>Timer: <span id="timer.display">60</span> Second</span>
+            <span>Score: <span class="score.display">0</span></span>
         </div>
+        <div class="container.childe">
+            <div id="content">
+                <p>...</p>
+            </div>
+        </div>
+        <button class="btn.highlight" type="button" onclick="">Give Up?</button>
     </div>
 
     <?php
@@ -20,78 +42,10 @@
 
     ?>
 
-    <script>
-        const words = ["Hello", "Good"];
+    <script src="../src/script/display.js"></script>
+    <script src="../src/script/manager.js"></script>
+    <script src="../src/script/started.js"></script>
 
-        const getRandomWord = () => {
-            return words[Math.floor(Math.random() * words.length)];
-        };
-
-        let currentWord = getRandomWord();
-        let currentWordIndex = 0;
-
-        const init = () => {
-            console.log("On init...");
-            createContent();
-            setupWordValidator();
-        };
-
-        const createContent = () => {
-            const content = document.getElementById("content");
-            content.innerHTML = '';
-
-            currentWord.split('').forEach((char, index) => {
-                const wordElement = document.createElement("p");
-                wordElement.classList.add("word.sleep");
-
-                if (index === 0) {
-                    wordElement.classList.add("word.current");
-                }
-
-                wordElement.textContent = char;
-                content.appendChild(wordElement);
-            });
-        };
-
-        const setupWordValidator = () => {
-            window.addEventListener("keydown", handleKeyPress);
-        };
-
-        const handleKeyPress = (e) => {
-            // console.log("Handle key press: ", e.key);
-
-            if (e.key === 'Shift') return;
-
-            const currentCharAt = document.getElementsByClassName('word.sleep')[0]
-
-            if (!currentCharAt) return;
-
-            if (currentWord[currentWordIndex] === e.key) {
-                currentCharAt.classList.replace("word.sleep", "word.active");
-                currentCharAt.classList.add("word.current");
-                
-                
-                if (currentWordIndex > 0) {
-                    const prevCharAt = document.getElementsByClassName('word.active')[currentWordIndex - 1];
-                    prevCharAt.classList.remove("word.current");
-
-                }
-
-                currentWordIndex++;
-            } else {
-                currentCharAt.classList.add("word.danger");
-
-            }
-
-            if (currentWordIndex >= currentWord.length) {
-                currentWordIndex = 0;
-                currentWord = getRandomWord();
-                createContent();
-            }
-        };
-
-        init();
-    </script>
 </body>
 
 </html>

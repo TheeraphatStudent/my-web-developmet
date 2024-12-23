@@ -1,16 +1,16 @@
 .text-light {
   font-family: var(--font);
-  font-weight: 300;
+  font-weight: 200;
 }
 
 .text-regular {
   font-family: var(--font);
-  font-weight: 400;
+  font-weight: 300;
 }
 
 .text-medium {
   font-family: var(--font);
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .text-semibold {
