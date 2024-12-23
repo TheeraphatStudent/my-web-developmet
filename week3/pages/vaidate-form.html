@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+</head>
+
+<body>
+    <form action="" onsubmit="onSubmit(event)">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" required>
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <p id="message"></p>
+
+    <script>
+        const onSubmit = (event) => {
+            event.preventDefault();
+
+            const users = {
+                admin: [
+                    {
+                        username: "th33raphat@gmail.com",
+                        password: "123456"
+                    }
+                ],
+                user: [
+                    {
+                        username: "user@gmail.com",
+                        password: "123456"
+                    }
+                ]
+            }
+
+            const formContent = event?.target
+            console.log(formContent)
+
+            const email = formContent?.email?.value;
+            const password = formContent?.password?.value;
+
+            const message = document.getElementById("message")
+
+            let isValid = false;
+
+            for (const role in users) {
+                users[role].forEach(user => {
+                    if (user.username === email && user.password === password) {
+                        isValid = true;
+                    }
+                });
+            }
+
+            if (isValid) {
+                message.textContent = "Login successful!";
+                message.style.color = "green";
+            } else {
+                message.textContent = "Invalid email or password.";
+                message.style.color = "red";
+            }
+        }
+    </script>
+</body>
+
+</html>

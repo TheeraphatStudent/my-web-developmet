@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap");
+@import url("./text/weight.css");
+@import url("./text/typing.css");
+
+:root {
+  --font: "Kanit", serif;
+
+  --color-black: "#222222"
+  --color-gray: "#666666"
+  --color-red: "#882222"
+  --color-green: "#288222"
+  --color-blue: "#222288"
+}
+
+* {
+  font-family: var(--font);
+  font-weight: 400;
+  color: var(--color-green);
+}
+
+body {
+  overflow: hidden;
+}
+
+[class*="container.main"] {
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+[id="content"] {
+  display: flex;
+  height: fit-content;
+
+  p {
+    font-size: 5rem;
+  }
+}
