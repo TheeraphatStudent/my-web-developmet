@@ -1,3 +1,6 @@
+const toolTip = document.getElementsByClassName("tooltip.minimum")[0];
+const scoreDisplay = document.getElementById("score.display");
+
 const words = ["Hello", "Good"];
 
 const getRandomWord = () => {
@@ -6,17 +9,15 @@ const getRandomWord = () => {
 
 let currentWord = getRandomWord();
 let currentWordIndex = 0;
-let score = 0
+let score = 0;
 
 let tooltipTimer = null;
 
 const elementTimer = (element, duration) => {
     setTimeout(() => {
-        element
-
-    }, duration)
-
-}
+        element;
+    }, duration);
+};
 
 const init = () => {
     console.log("On initialize...");
@@ -25,12 +26,11 @@ const init = () => {
 };
 
 const destroy = () => {
-    console.log("On Destroying...")
+    console.log("On Destroying...");
     window.removeEventListener("keydown", handleKeyPress);
-    tooltipTimer = null
-    score = 0
-
-}
+    tooltipTimer = null;
+    score = 0;
+};
 
 const createContent = () => {
     const content = document.getElementById("content");
@@ -56,7 +56,7 @@ const setupWordValidator = () => {
 const keyChecker = (key) => {
     const ignoredKeys = ['Shift', 'Control', 'Tab', 'Space', 'CapsLock'];
     return ignoredKeys.includes(key) || key === undefined;
-}
+};
 
 const handleKeyPress = (e) => {
     console.log("Handle key press: ", e.key);
@@ -66,8 +66,6 @@ const handleKeyPress = (e) => {
 
     const currentCharAt = document.getElementsByClassName('word.sleep')[0];
     if (!currentCharAt) return;
-
-    const toolTip = document.getElementsByClassName("tooltip.minimum")[0];
 
     if (tooltipTimer) {
         clearTimeout(tooltipTimer);
@@ -92,7 +90,6 @@ const handleKeyPress = (e) => {
 
         toolTip.style.opacity = 1;
         toolTip.textContent = `Incorrect ):`;
-        // toolTip.style.right = `${currentPosition.x}px`;
 
         console.log(currentPosition.y + 10, currentPosition.x);
     }
@@ -106,7 +103,7 @@ const handleKeyPress = (e) => {
         toolTip.textContent = `Nice!! +1`;
 
         score++;
-        display.score.textContent = score
+        scoreDisplay.textContent = score
     }
 
     tooltipTimer = setTimeout(() => {

@@ -16,8 +16,9 @@
     </div>
 
     <div class="cover bg.glass flex flex-col" style="gap: 5rem; opacity: 0; display: none;" id="summary">
+        <!-- Span : 1 span | 1 id -->
         <span style="font-size: 4.5rem; color: var(--color-white); max-width: 800px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-            <span>Score: <span class="score.display">0</span></span>
+            <span>Score: <span id="score.display.summary">0</span> Point</span>
         </span>
 
         <button class="btn.simple" type="button">Try Again?</button>
@@ -27,7 +28,7 @@
     <div class="container.main">
         <div class="container.childe items.around">
             <span>Timer: <span id="timer.display">60</span> Second</span>
-            <span>Score: <span class="score.display">0</span></span>
+            <span>Score: <span id="score.display">0</span></span>
         </div>
         <div class="container.childe">
             <div id="content">
@@ -42,7 +43,6 @@
 
     ?>
 
-    <script src="../src/script/display.js"></script>
     <script src="../src/script/manager.js"></script>
     <script src="../src/script/started.js"></script>
 

@@ -10,6 +10,10 @@ const tryAgainButton = summaryCover.getElementsByTagName("button")[0];
 
 let gameTimerManager = null;
 
+// Display
+const timerDisplay = document.getElementById("timer.display");
+const scoreDisplaySummary = document.getElementById("score.display.summary");
+
 startedButton.addEventListener("click", (e) => {
     e.preventDefault();
     console.log("On Clicked Started Button Work!");
@@ -27,25 +31,26 @@ const startedContent = () => {
     init();
 
     setTimeout(() => {
-        // startTimer(GAME_TIMER_LIMIT.normal);
-        startTimer(3);
+        startTimer(GAME_TIMER_LIMIT.normal);
+        // startTimer(3);
     }, 750);
 };
 
 const startTimer = (duration) => {
     let timer = duration;
-    display.timer.textContent = timer;
+    timerDisplay.textContent = timer;
 
     if (gameTimerManager) {
         clearInterval(gameTimerManager);
     }
+
     gameTimerManager = setInterval(() => {
         timer--;
-        display.timer.textContent = timer;
+        timerDisplay.textContent = timer;
 
         if (timer <= 0) {
             clearInterval(gameTimerManager);
-            display.timer.textContent = "60";
+            timerDisplay.textContent = "60";
 
             summaryCover.style.display = "flex";
             summaryCover.style.opacity = 1;
@@ -53,6 +58,8 @@ const startTimer = (duration) => {
             onTryAgain();
         }
     }, 1000);
+
+    scoreDisplaySummary.textContent = score;
 };
 
 const onTryAgain = () => {
