@@ -1,14 +1,15 @@
+[class*="word.current"] {
+    text-decoration: underline;
+}
+
 [class*="word.sleep"] {
     color: var(--color-gray);
-
 }
 
 [class*="word.danger"] {
     color: var(--color-red);
-
 }
 
 [class*="word.active"] {
     color: var(--color-green);
-
 }

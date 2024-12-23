@@ -21,28 +21,76 @@
     ?>
 
     <script>
-        const words = ["Hello", "Good"]
+        const words = ["Hello", "Good"];
 
-        let getWord = words[Math.floor(Math.random() * words.length)]
-        console.log(getWord);
+        const getRandomWord = () => {
+            return words[Math.floor(Math.random() * words.length)];
+        };
 
-        window.addEventListener("keydown", (e) => {
-            console.log(e.key);
+        let currentWord = getRandomWord();
+        let currentWordIndex = 0;
 
-        });
+        const init = () => {
+            console.log("On init...");
+            createContent();
+            setupWordValidator();
+        };
 
-        let content = document.getElementById("content");
+        const createContent = () => {
+            const content = document.getElementById("content");
+            content.innerHTML = '';
 
-        for (let i = 0; i < getWord.length; i++) {
-            const word = document.createElement("p");
-            word.classList.add("word.sleep");
+            currentWord.split('').forEach((char, index) => {
+                const wordElement = document.createElement("p");
+                wordElement.classList.add("word.sleep");
 
-            word.textContent = getWord[i];
-            content.appendChild(word);
+                if (index === 0) {
+                    wordElement.classList.add("word.current");
+                }
 
-        }
+                wordElement.textContent = char;
+                content.appendChild(wordElement);
+            });
+        };
 
+        const setupWordValidator = () => {
+            window.addEventListener("keydown", handleKeyPress);
+        };
 
+        const handleKeyPress = (e) => {
+            // console.log("Handle key press: ", e.key);
+
+            if (e.key === 'Shift') return;
+
+            const currentCharAt = document.getElementsByClassName('word.sleep')[0]
+
+            if (!currentCharAt) return;
+
+            if (currentWord[currentWordIndex] === e.key) {
+                currentCharAt.classList.replace("word.sleep", "word.active");
+                currentCharAt.classList.add("word.current");
+                
+                
+                if (currentWordIndex > 0) {
+                    const prevCharAt = document.getElementsByClassName('word.active')[currentWordIndex - 1];
+                    prevCharAt.classList.remove("word.current");
+
+                }
+
+                currentWordIndex++;
+            } else {
+                currentCharAt.classList.add("word.danger");
+
+            }
+
+            if (currentWordIndex >= currentWord.length) {
+                currentWordIndex = 0;
+                currentWord = getRandomWord();
+                createContent();
+            }
+        };
+
+        init();
     </script>
 </body>
 

@@ -5,17 +5,17 @@
 :root {
   --font: "Kanit", serif;
 
-  --color-black: "#222222"
-  --color-gray: "#666666"
-  --color-red: "#882222"
-  --color-green: "#288222"
-  --color-blue: "#222288"
+  --color-black: #222222;
+  --color-gray: #666666;
+  --color-red: #882222;
+  --color-green: #288222;
+  --color-blue: #222288;
 }
 
 * {
   font-family: var(--font);
   font-weight: 400;
-  color: var(--color-green);
+
 }
 
 body {
