@@ -1,7 +1,18 @@
 const toolTip = document.getElementsByClassName("tooltip.minimum")[0];
 const scoreDisplay = document.getElementById("score.display");
 
-const words = ["Hello", "Good"];
+const words = [
+    "Hello", "Goodbye", "Please", "Thank", "You", "Sorry", "Yes", "No", "Help", "Friend",
+    "Family", "Food", "Water", "Drink", "Eat", "House", "Home", "School", "Work", "Play",
+    "Walk", "Run", "Jump", "Read", "Write", "Book", "Pen", "Paper", "Happy", "Sad",
+    "Angry", "Excited", "Love", "Hate", "Big", "Small", "Good", "Bad", "Hot", "Cold",
+    "Day", "Night", "Morning", "Evening", "Today", "Tomorrow", "Yesterday", "Now", "Later", "Soon",
+    "Dog", "Cat", "Bird", "Fish", "Car", "Bus", "Train", "Airplane", "Bike", "Road",
+    "Street", "Park", "City", "Town", "Country", "Beach", "Mountain", "River", "Ocean", "Tree",
+    "Flower", "Rain", "Sun", "Moon", "Star", "Sky", "Cloud", "Wind", "Snow", "Fire",
+    "Earth", "World", "People", "Child", "Parent", "Brother", "Sister", "Baby", "Man", "Woman",
+    "Old", "Young", "Fast", "Slow", "Clean", "Dirty", "Full", "Empty", "Open", "Close"
+]
 
 const getRandomWord = () => {
     return words[Math.floor(Math.random() * words.length)];
