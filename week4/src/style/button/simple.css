@@ -1,0 +1,41 @@
+[class*="btn.simple"] {
+    border-radius: .75rem;
+    background-color: color-mix(in srgb, var(--color-green) 60%, var(--color-white) 40%);
+    color: var(--color-black);
+    padding: 2rem 3.75rem;
+    border: none;
+    box-shadow: var(--shadow-sm);
+    font-size: 1.75rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+[class*="btn.simple"]:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    background-color: color-mix(in srgb, var(--color-green) 70%, var(--color-white) 30%);
+}
+
+[class*="btn.simple"]:active {
+    transform: translateY(1px);
+}
+
+[class*="btn.simple"]::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease-out, height 0.6s ease-out;
+}
+
+[class*="btn.simple"]:hover::after {
+    width: 300px;
+    height: 300px;
+}

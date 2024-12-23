@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;400;500;600;700&display=swap");
+
+/* Text */
+@import url("./text/weight.css");
+@import url("./text/typing.css");
+
+/* Button */
+@import url("./button/main.css");
+
+/* Tooltip */
+@import url('./tooltip/minimum.css');
+
+/* Container */
+@import url('./container/content.css');
+@import url('./display/justify.css');
+
+:root {
+  --font: "Kanit", serif;
+
+  --color-black: #222222;
+  --color-white: #fcffef;
+  --color-gray: #666666;
+  --color-red: #882222;
+  --color-green: #288222;
+  --color-blue: #222288;
+
+  --shadow-sm: 0 2px 4px #0000001a;
+}
+
+* {
+  font-family: var(--font);
+  font-weight: 400;
+  transition: all 0.1s ease-in-out;
+}
+
+body {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+[class*="bg.glass"] {
+  background: color-mix(in srgb, var(--color-black) 65%, #00000000 20%);
+  backdrop-filter: blur(2px);
+}
+
+[class*="cover"] {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+[id="content"] {
+  display: flex;
+  height: fit-content;
+
+  p {
+    font-size: 9.5rem;
+  }
+}
