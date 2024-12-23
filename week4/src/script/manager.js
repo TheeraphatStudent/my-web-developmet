@@ -55,11 +55,11 @@ const startTimer = (duration) => {
             summaryCover.style.display = "flex";
             summaryCover.style.opacity = 1;
 
+            scoreDisplaySummary.textContent = score;
+
             onTryAgain();
         }
     }, 1000);
-
-    scoreDisplaySummary.textContent = score;
 };
 
 const onTryAgain = () => {

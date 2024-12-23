@@ -30,6 +30,8 @@ const destroy = () => {
     window.removeEventListener("keydown", handleKeyPress);
     tooltipTimer = null;
     score = 0;
+    scoreDisplay.textContent = score;
+
 };
 
 const createContent = () => {
@@ -83,6 +85,9 @@ const handleKeyPress = (e) => {
             const prevCharAt = document.getElementsByClassName('word.active')[currentWordIndex - 1];
             prevCharAt.classList.remove("word.current");
         }
+
+        toolTip.style.opacity = 1;
+        toolTip.textContent = `Good!`;
 
         currentWordIndex++;
     } else {

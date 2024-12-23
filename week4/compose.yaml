@@ -6,7 +6,7 @@ services:
     ports:
       - '3000:80'
     volumes:
-      - ./src/index.php:/var/www/html/index.php
+      - ./src/:/var/www/html/
     depends_on:
       - database
 

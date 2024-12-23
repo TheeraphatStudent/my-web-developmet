@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Typing</title>
-    <link rel="stylesheet" href="../src/style/global.css">
+    <link rel="stylesheet" href="./style/global.css">
 </head>
 
 <body>
@@ -18,7 +18,7 @@
     <div class="cover bg.glass flex flex-col" style="gap: 5rem; opacity: 0; display: none;" id="summary">
         <!-- Span : 1 span | 1 id -->
         <span style="font-size: 4.5rem; color: var(--color-white); max-width: 800px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-            <span>Score: <span id="score.display.summary">0</span> Point</span>
+            <span>Score: <span style="font-size: 4.75rem;" class="text-bold" id="score.display.summary">0</span> Point</span>
         </span>
 
         <button class="btn.simple" type="button">Try Again?</button>
@@ -27,8 +27,8 @@
 
     <div class="container.main">
         <div class="container.childe items.around">
-            <span>Timer: <span id="timer.display">60</span> Second</span>
-            <span>Score: <span id="score.display">0</span></span>
+            <span>Timer: <span style="font-size: 1.25rem;" class="text-bold" id="timer.display">60</span> Second</span>
+            <span>Score: <span style="font-size: 1.25rem;" class="text-bold" id="score.display">0</span></span>
         </div>
         <div class="container.childe">
             <div id="content">
@@ -43,8 +43,8 @@
 
     ?>
 
-    <script src="../src/script/manager.js"></script>
-    <script src="../src/script/started.js"></script>
+    <script src="./script/manager.js"></script>
+    <script src="./script/started.js"></script>
 
 </body>
 
