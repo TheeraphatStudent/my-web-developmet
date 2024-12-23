@@ -72,8 +72,12 @@ const keyChecker = (key) => {
 };
 
 const handleKeyPress = (e) => {
-    console.log("Handle key press: ", e.key);
+
+    console.group("================ Handle key press ================");
     console.log(e);
+    console.log(e.key);
+    console.log(currentWord[currentWordIndex]);
+    console.groupEnd()
 
     if (keyChecker(e.code) || keyChecker(e.key)) return;
 
