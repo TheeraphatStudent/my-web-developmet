@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -128,11 +129,17 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="header">
         <h1>Theeraphat Student</h1>
@@ -143,10 +150,12 @@
         <!-- Project 1 -->
         <div class="card">
             <div class="card-header">
-                <h2>Project One</h2>
+                <h2>Marquee</h2>
             </div>
             <div class="card-content">
-                <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi repellat odio vel quibusdam deserunt cum quasi natus culpa assumenda quisquam ipsam, voluptate quas perspiciatis minus in repellendus neque tenetur dolorum!</p>
+                <p class="description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus praesentium
+                    impedit sit accusamus, veritatis modi excepturi suscipit pariatur enim voluptas sequi alias quasi
+                    eaque? Qui inventore natus nemo omnis fugit.</p>
                 <div class="iframe-container" id="iframe1-container">
                     <div class="placeholder">
                         <div class="loading-spinner"></div>
@@ -162,10 +171,12 @@
         <!-- Project 2 -->
         <div class="card">
             <div class="card-header">
-                <h2>Project Two</h2>
+                <h2>Scrolling</h2>
             </div>
             <div class="card-content">
-                <p class="description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsa recusandae atque, iusto fugiat et nisi, eaque suscipit, itaque dolorum eius omnis. Saepe laborum culpa nemo sunt aut aspernatur ex a!</p>
+                <p class="description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus praesentium
+                    impedit sit accusamus, veritatis modi excepturi suscipit pariatur enim voluptas sequi alias quasi
+                    eaque? Qui inventore natus nemo omnis fugit.</p>
                 <div class="iframe-container" id="iframe2-container">
                     <div class="placeholder">
                         <div class="loading-spinner"></div>
@@ -181,10 +192,12 @@
         <!-- Project 3 -->
         <div class="card">
             <div class="card-header">
-                <h2>Project Three</h2>
+                <h2>Login & Register</h2>
             </div>
             <div class="card-content">
-                <p class="description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusantium magni doloremque ullam neque modi asperiores est? Deleniti ullam sunt, explicabo corrupti nesciunt eveniet eius expedita in accusantium magni praesentium cum.</p>
+                <p class="description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus praesentium
+                    impedit sit accusamus, veritatis modi excepturi suscipit pariatur enim voluptas sequi alias quasi
+                    eaque? Qui inventore natus nemo omnis fugit.</p>
                 <div class="iframe-container" id="iframe3-container">
                     <div class="placeholder">
                         <div class="loading-spinner"></div>
@@ -200,10 +213,12 @@
         <!-- Project 4 -->
         <div class="card">
             <div class="card-header">
-                <h2>Project Four</h2>
+                <h2>Typing...</h2>
             </div>
             <div class="card-content">
-                <p class="description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus praesentium impedit sit accusamus, veritatis modi excepturi suscipit pariatur enim voluptas sequi alias quasi eaque? Qui inventore natus nemo omnis fugit.</p>
+                <p class="description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus praesentium
+                    impedit sit accusamus, veritatis modi excepturi suscipit pariatur enim voluptas sequi alias quasi
+                    eaque? Qui inventore natus nemo omnis fugit.</p>
                 <div class="iframe-container" id="iframe4-container">
                     <div class="placeholder">
                         <div class="loading-spinner"></div>
@@ -212,6 +227,29 @@
                     <iframe src="./week4/src/index.php" title="Project Four Demo" onload="hideLoader(this)"></iframe>
                 </div>
                 <!-- <button class="view-button" onclick="toggleIframe('iframe4-container')">View Project</button> -->
+                <button class="view-button" onclick="window.location.href = '/week4/src/index.html'">View
+                    Project</button>
+            </div>
+        </div>
+
+        <!-- Project Incomming -->
+        <div class="card" style="filter: grayscale(80%);">
+            <div class="card-header">
+                <h2>Incoming...</h2>
+            </div>
+            <div class="card-content">
+                <p class="description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus praesentium
+                    impedit sit accusamus, veritatis modi excepturi suscipit pariatur enim voluptas sequi alias quasi
+                    eaque? Qui inventore natus nemo omnis fugit.</p>
+                <div class="iframe-container" id="iframe4-container">
+                    <div class="placeholder">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text">Loading project...</div>
+                    </div>
+                    <iframe src="./week4/src/index.php" title="Project Four Demo" onload="hideLoader(this)"></iframe>
+                </div>
+                <!-- <button class="view-button" onclick="toggleIframe('iframe4-container')">View Project</button> -->
+                <button disabled class="view-button" onclick="window.location.href = '/week4/src/index.html'">Incomming...</button>
             </div>
         </div>
     </div>
@@ -220,7 +258,7 @@
         function toggleIframe(containerId) {
             const container = document.getElementById(containerId);
             container.classList.toggle('active');
-            
+
             const button = container.nextElementSibling;
             button.textContent = container.classList.contains('active') ? 'Hide Project' : 'View Project';
         }
@@ -231,4 +269,5 @@
         }
     </script>
 </body>
+
 </html>
