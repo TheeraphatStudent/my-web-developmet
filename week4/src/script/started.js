@@ -118,6 +118,12 @@ const handleKeyPress = (e) => {
         toolTip.textContent = `Incorrect ):`;
 
         console.log(currentPosition.y + 10, currentPosition.x);
+
+        if (score > 0) {
+            score--
+            scoreDisplay.textContent = score
+
+        }
     }
 
     if (currentWordIndex >= currentWord.length) {
