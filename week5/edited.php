@@ -49,7 +49,7 @@ if (isset($_GET['stdid'])) {
                         </label>
                         <div class="flex">
                             <input
-                                required
+                                required readonly
                                 class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 id="stdid" name="stdid" type="text" placeholder="Student Id" value="<?php echo htmlspecialchars($student['stdid'] ?? '') ?>">
                         </div>
