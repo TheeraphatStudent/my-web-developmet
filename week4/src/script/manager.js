@@ -76,6 +76,11 @@ const tryAgainHandler = (e) => {
     summaryCover.style.opacity = 0;
     summaryCover.style.transition = "opacity 0.75s ease-in-out";
 
+    currentWord = getRandomWord();
+    currentWordIndex = 0;
+    count_incorrect = 0;
+    score = 0;
+
     setTimeout(() => {
         summaryCover.style.display = 'none';
         startedContent();
