@@ -1,6 +1,7 @@
 <?php
 session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $uniq_id = $_POST['uniq_id'];
     $stdid = $_POST["stdid"];
     $prefix = $_POST["prefix"];
     $name = $_POST["name"];
@@ -14,7 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $students = json_decode($_SESSION["students"], true);
     }
 
-    $students[$stdid] = [
+    $students[$uniq_id] = [
+        "uniq_id" => $uniq_id,
         "stdid" => $stdid,
         "prefix" => $prefix,
         "name" => $name,

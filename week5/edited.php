@@ -1,15 +1,15 @@
 <?php
 session_start();
 
-if (isset($_GET['stdid'])) {
-    $stdid = $_GET['stdid'];
+if (isset($_GET['uniq_id'])) {
+    $uniq_id = $_GET['uniq_id'];
 
     $students = isset($_SESSION["students"]) ? json_decode($_SESSION["students"], true) : [];
 
     $student = null;
 
     foreach ($students as $s) {
-        if ($s['stdid'] == $stdid) {
+        if ($s['uniq_id'] == $uniq_id) {
             $student = $s;
             break;
         }
@@ -32,7 +32,7 @@ if (isset($_GET['stdid'])) {
         <div class="max-w-screen-lg flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="./" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src="./public/images/school.png" class="h-8" alt="Logo" />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Student's / <?php echo htmlspecialchars($stdid) ?></span>
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Student's / <?php echo htmlspecialchars($student['stdid'] ?? '') ?></span>
             </a>
         </div>
     </nav>
@@ -43,13 +43,15 @@ if (isset($_GET['stdid'])) {
             <!-- body -->
             <div class="p-4 md:p-5 space-y-4">
                 <form action="./submitted.php" method="post" id="added_student_form">
+                    <input type="hidden" name="uniq_id" id="uniq_id" value="<?php echo htmlspecialchars($student['uniq_id'] ?? '') ?>">
+
                     <div class="mb-4">
                         <label class="block text-gray-700 font-bold mb-2" for="stdid">
                             Student ID :
                         </label>
                         <div class="flex">
                             <input
-                                required readonly
+                                required
                                 class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 id="stdid" name="stdid" type="text" placeholder="Student Id" value="<?php echo htmlspecialchars($student['stdid'] ?? '') ?>">
                         </div>

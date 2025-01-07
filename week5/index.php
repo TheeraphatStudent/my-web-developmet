@@ -63,17 +63,6 @@ session_start()
 
                                     <?php
 
-                                    // $_SESSION["students"] = json_encode([
-                                    //     [
-                                    //         "prefix" => "Mr",
-                                    //         "name" => "John Doe",
-                                    //         "age" => 18,
-                                    //         "year" => 2,
-                                    //         "grade" => 3.75,
-                                    //         "birthday" => "7/09/2002"
-                                    //     ],
-                                    // ]);
-
                                     if (isset($_SESSION["students"]) || !empty($_SESSION["students"])) {
                                         $students = json_decode($_SESSION["students"], true);
 
@@ -89,9 +78,9 @@ session_start()
                                                 <td class='px-6 py-4 whitespace-nowrap text-sm text-gray-800'>{$student->grade}</td>
                                                 <td class='px-6 py-4 whitespace-nowrap text-sm text-gray-800'>{$student->birthday}</td>
                                                 <td class='flex gap-3 px-6 py-4 whitespace-nowrap text-end text-sm font-medium'>
-                                                    <button type='button' onclick='window.location.href=\"edited.php?stdid=$student->stdid\"' class='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none'>Edit</button>
+                                                    <button type='button' onclick='window.location.href=\"edited.php?uniq_id=$student->uniq_id\"' class='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none'>Edit</button>
                                                     <form action='./deleted.php' method='post' style='display:inline;'>
-                                                        <input type='hidden' name='stdid' value='{$student->stdid}'>
+                                                        <input type='hidden' name='uniq_id' value='{$student->uniq_id}'>
                                                         <button type='submit' class='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-red-600 hover:text-red-800 focus:outline-none focus:text-red-800 disabled:opacity-50 disabled:pointer-events-none'>Delete</button>
                                                     </form>
                                                 </td>
@@ -127,6 +116,8 @@ session_start()
                 <!-- body -->
                 <div class="p-4 md:p-5 space-y-4">
                     <form action="./submitted.php" method="post" id="added_student_form">
+                        <input type="text" class="hidden" name="uniq_id" id="uniq_id" value="<?php echo uniqid(); ?>">
+
                         <div class="mb-4">
                             <label class="block text-gray-700 font-bold mb-2" for="name">
                                 Student ID :
@@ -196,6 +187,7 @@ session_start()
                         </div>
                     </form>
                 </div>
+
                 <!-- footer -->
                 <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
                     <button type="button" onclick="validateAndSubmitForm();" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Add student</button>
