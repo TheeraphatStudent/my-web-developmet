@@ -10,6 +10,10 @@
   h3 {
     @apply text-lg;
   }
+
+  * {
+    transition: all 0.2s ease-in-out;
+  }
 }
 
 @tailwind components;

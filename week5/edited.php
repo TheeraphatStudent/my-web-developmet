@@ -1,19 +1,11 @@
 <?php
-session_start();
+include('submitted.php');
+
+$std = new Student();
 
 if (isset($_GET['uniq_id'])) {
     $uniq_id = $_GET['uniq_id'];
-
-    $students = isset($_SESSION["students"]) ? json_decode($_SESSION["students"], true) : [];
-
-    $student = null;
-
-    foreach ($students as $s) {
-        if ($s['uniq_id'] == $uniq_id) {
-            $student = $s;
-            break;
-        }
-    }
+    $student = $std->getInfoByUniqId($uniq_id);
 }
 ?>
 
@@ -32,7 +24,7 @@ if (isset($_GET['uniq_id'])) {
         <div class="max-w-screen-lg flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="./" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src="./public/images/school.png" class="h-8" alt="Logo" />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Student's / <?php echo htmlspecialchars($student['stdid'] ?? '') ?></span>
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Student's / <?php echo ($student->getStdID()) ?></span>
             </a>
         </div>
     </nav>
@@ -43,7 +35,7 @@ if (isset($_GET['uniq_id'])) {
             <!-- body -->
             <div class="p-4 md:p-5 space-y-4">
                 <form action="./submitted.php" method="post" id="added_student_form">
-                    <input type="hidden" name="uniq_id" id="uniq_id" value="<?php echo htmlspecialchars($student['uniq_id'] ?? '') ?>">
+                    <input type="hidden" name="uniq_id" id="uniq_id" value="<?php echo ($student->getUniqID()) ?>">
 
                     <div class="mb-4">
                         <label class="block text-gray-700 font-bold mb-2" for="stdid">
@@ -53,7 +45,7 @@ if (isset($_GET['uniq_id'])) {
                             <input
                                 required
                                 class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="stdid" name="stdid" type="text" placeholder="Student Id" value="<?php echo htmlspecialchars($student['stdid'] ?? '') ?>">
+                                id="stdid" name="stdid" type="text" placeholder="Student Id" value="<?php echo ($student->getStdID()) ?>">
                         </div>
                     </div>
                     <div class="mb-4">
@@ -63,13 +55,13 @@ if (isset($_GET['uniq_id'])) {
                         <div class="flex">
                             <select required name="prefix" id="prefix" class="shadow bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-tl-lg rounded-bl-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="" disabled>Choose Prefix</option>
-                                <option value="Mr" <?php echo (isset($student['prefix']) && $student['prefix'] == 'Mr') ? 'selected' : '' ?>>Mr.</option>
-                                <option value="Mrs" <?php echo (isset($student['prefix']) && $student['prefix'] == 'Mrs') ? 'selected' : '' ?>>Mrs.</option>
+                                <option value="Mr" <?php echo ($student->getPrefix() == 'Mr') ? 'selected' : ''; ?>>Mr.</option>
+                                <option value="Mrs" <?php echo ($student->getPrefix() == 'Mrs') ? 'selected' : ''; ?>>Mrs.</option>
                             </select>
                             <input
                                 required
                                 class="shadow appearance-none border rounded-tr-lg rounded-br-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                name="name" id="name" type="text" placeholder="Student name" value="<?php echo htmlspecialchars($student['name'] ?? '') ?>">
+                                name="name" id="name" type="text" placeholder="Student name" value="<?php echo ($student->getName()) ?>">
                         </div>
                     </div>
                     <div class="mb-4">
@@ -79,12 +71,12 @@ if (isset($_GET['uniq_id'])) {
                         <div class="flex">
                             <select required name="year" id="year" class="shadow bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="" disabled>Choose year</option>
-                                <option value="1" <?php echo (isset($student['year']) && $student['year'] == '1') ? 'selected' : '' ?>>1</option>
-                                <option value="2" <?php echo (isset($student['year']) && $student['year'] == '2') ? 'selected' : '' ?>>2</option>
-                                <option value="3" <?php echo (isset($student['year']) && $student['year'] == '3') ? 'selected' : '' ?>>3</option>
-                                <option value="4" <?php echo (isset($student['year']) && $student['year'] == '4') ? 'selected' : '' ?>>4</option>
-                                <option value="5" <?php echo (isset($student['year']) && $student['year'] == '5') ? 'selected' : '' ?>>5</option>
-                                <option value="6" <?php echo (isset($student['year']) && $student['year'] == '6') ? 'selected' : '' ?>>6</option>
+                                <option value="1" <?php echo ($student->getYear() == '1') ? 'selected' : '' ?>>1</option>
+                                <option value="2" <?php echo ($student->getYear() == '2') ? 'selected' : '' ?>>2</option>
+                                <option value="3" <?php echo ($student->getYear() == '3') ? 'selected' : '' ?>>3</option>
+                                <option value="4" <?php echo ($student->getYear() == '4') ? 'selected' : '' ?>>4</option>
+                                <option value="5" <?php echo ($student->getYear() == '5') ? 'selected' : '' ?>>5</option>
+                                <option value="6" <?php echo ($student->getYear() == '6') ? 'selected' : '' ?>>6</option>
                             </select>
                         </div>
                     </div>
@@ -97,7 +89,7 @@ if (isset($_GET['uniq_id'])) {
                                 <input
                                     required
                                     class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    name="grade" id="grade" type="text" placeholder="Average Grade" value="<?php echo htmlspecialchars($student['grade'] ?? '') ?>">
+                                    name="grade" id="grade" type="text" placeholder="Average Grade" value="<?php echo ($student->getGrade()) ?>">
                             </div>
                         </div>
                         <div class="w-full">
@@ -108,7 +100,7 @@ if (isset($_GET['uniq_id'])) {
                                 <input
                                     required
                                     class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    name="birthday" id="birthday" type="date" placeholder="Birthday" value="<?php echo htmlspecialchars($student['birthday'] ?? '') ?>">
+                                    name="birthday" id="birthday" type="date" placeholder="Birthday" value="<?php echo ($student->getBirthday()) ?>">
                             </div>
                         </div>
                     </div>
