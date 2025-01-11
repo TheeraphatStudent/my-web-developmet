@@ -37,6 +37,7 @@ const startedContent = () => {
 };
 
 const startTimer = (duration) => {
+    // 60
     let timer = duration;
     timerDisplay.textContent = timer;
 

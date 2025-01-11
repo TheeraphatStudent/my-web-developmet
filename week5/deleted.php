@@ -2,13 +2,13 @@
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $stdid = $_POST["stdid"];
+    $uniq_id = $_POST["uniq_id"];
 
     if (isset($_SESSION["students"]) && !empty($_SESSION["students"])) {
         $students = json_decode($_SESSION["students"], true);
 
-        if (isset($students[$stdid])) {
-            unset($students[$stdid]);
+        if (isset($students[$uniq_id])) {
+            unset($students[$uniq_id]);
         }
 
         $_SESSION["students"] = json_encode($students);
