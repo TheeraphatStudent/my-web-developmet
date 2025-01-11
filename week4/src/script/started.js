@@ -1,5 +1,6 @@
 const toolTip = document.getElementsByClassName("tooltip.minimum")[0];
 const scoreDisplay = document.getElementById("score.display");
+const incorrectDisplay = document.getElementById("incorrect.display");
 
 const input = document.getElementById('keyboard-trigger');
 
@@ -22,6 +23,7 @@ const getRandomWord = () => {
 
 let currentWord = getRandomWord();
 let currentWordIndex = 0;
+let count_incorrect = 0;
 let score = 0;
 
 let tooltipTimer = null;
@@ -55,6 +57,7 @@ const createContent = () => {
     const content = document.getElementById("content");
     content.innerHTML = '';
 
+    // N i g h t
     currentWord.split('').forEach((char, index) => {
         const wordElement = document.createElement("p");
         wordElement.classList.add("word.sleep");
@@ -98,7 +101,13 @@ const handleKeyPress = (e) => {
     toolTip.style.top = `${currentPosition.y - 20}px`;
     toolTip.style.left = `${currentPosition.x}px`;
 
-    if (currentWord[currentWordIndex] === e.key) {
+    // N i g h t
+    // N = N -> true
+    // 0 1 2 3 4
+
+    const currentChar = currentWord[currentWordIndex]
+
+    if (currentChar === e.key) {
         currentCharAt.classList.replace("word.sleep", "word.active");
         currentCharAt.classList.add("word.current");
 
@@ -111,7 +120,13 @@ const handleKeyPress = (e) => {
         toolTip.textContent = `Good!`;
 
         currentWordIndex++;
-    } else {
+    } 
+    
+    if (currentChar !== e.key) {
+        console.log("Not Correct")
+
+        count_incorrect++;
+
         currentCharAt.classList.add("word.danger");
 
         toolTip.style.opacity = 1;
@@ -119,15 +134,30 @@ const handleKeyPress = (e) => {
 
         console.log(currentPosition.y + 10, currentPosition.x);
 
-        if (score > 0) {
-            score--
-            scoreDisplay.textContent = score
+        if (count_incorrect >= 2) {
+            console.log("Random Work!")
+
+            if (score > 0) {
+                score--
+                scoreDisplay.textContent = score
+
+            }
+
+            currentWordIndex = 0;
+
+            currentWord = getRandomWord();
+            createContent();
+
+            count_incorrect = 0;
 
         }
+
+        incorrectDisplay.textContent = count_incorrect
     }
 
     if (currentWordIndex >= currentWord.length) {
         currentWordIndex = 0;
+
         currentWord = getRandomWord();
         createContent();
 
@@ -136,6 +166,9 @@ const handleKeyPress = (e) => {
 
         score++;
         scoreDisplay.textContent = score
+
+        count_incorrect = 0;
+        incorrectDisplay.textContent = count_incorrect
     }
 
     tooltipTimer = setTimeout(() => {
