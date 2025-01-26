@@ -1,5 +1,8 @@
 <?php
-include('submitted.php');
+include('./php/submitted.php');
+include('./php/connected.php');
+
+$init = new Init();
 
 $std = new Student();
 
@@ -7,6 +10,7 @@ $students = $std->getAllInfo();
 
 // echo '<pre>';
 // print_r($students);
+// print_r($init);
 // echo '</pre>';
 
 ?>
@@ -18,307 +22,193 @@ $students = $std->getAllInfo();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./public/style.css">
-    <title>Student Information</title>
+    <title>Welcome!</title>
 </head>
 
 <body>
-    <nav class="bg-white border-gray-200 dark:bg-gray-900 shadow-md h-[72px]">
-        <div class="flex max-w-screen-lg flex-wrap items-center justify-between mx-auto p-4">
-            <a href="./" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <img src="./public/images/school.png" class="h-8" alt="Logo" />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Student's</span>
-            </a>
+    <div class="font-[sans-serif]">
+        <div class="min-h-screen flex fle-col items-center justify-center p-8">
+            <div class="grid md:grid-cols-2 items-center gap-6 max-w-6xl w-full">
+                <div class="border border-gray-300 rounded-lg p-6 max-w-md shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] max-md:mx-auto">
+                    <!-- Login Form -->
+                    <form class="space-y-4" id="loginForm" action="./php/registered.php" method="get">
+                        <div class="mb-8">
+                            <h3 class="text-gray-800 text-3xl font-bold titleForm">Sign in</h3>
+                            <p class="text-gray-500 text-sm mt-4 leading-relaxed">ระบบจัดการข้อมูลนักเรียน</p>
+                        </div>
 
-            <div class="flex w-fit justify-end gap-3">
-                <button id="mock-student-btn" class="block text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800" type="button">
-                    Mock
-                </button>
-                <button id="add-student-btn" class="block text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" type="button">
-                    + Add student
-                </button>
-                <!-- <a href="./pages/register.php" class="px-3 py-2 bg-green-500 rounded-md text-semibold text-md text-white hover:bg-green-700">+ Add Student</a> -->
-            </div>
-        </div>
-    </nav>
-
-    <div class="flex flex-col w-full justify-center items-center">
-        <div class="flex flex-col w-full max-w-screen-lg p-5">
-
-            <!-- Table -->
-            <div class="flex flex-col">
-                <div class="-m-1.5 overflow-x-auto">
-                    <div class="min-w-full inline-block align-middle">
-                        <table class="min-w-full divide-y divide-gray-200" id="table_content">
-                            <caption class="p-5 text-lg font-semibold text-center text-gray-900 bg-white dark:text-white dark:bg-gray-800">
-                                <span>Total Students: <?php
-                                                        if (!isset($_SESSION["students"]) || empty($_SESSION["students"])) {
-                                                            echo 0;
-                                                        } else {
-                                                            $students = json_decode($_SESSION["students"], true);
-                                                            echo count($students);
-                                                        }
-                                                        ?></span>
-
-                            </caption>
-                            <thead class="bg-gray-200 rounded-tl-md rounded-tr-md">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-600 uppercase">Id</th>
-                                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-600 uppercase">Name</th>
-                                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-600 uppercase">year</th>
-                                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-600 uppercase">Grade</th>
-                                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-600 uppercase">Birthday</th>
-                                    <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-gray-600 uppercase"></th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200">
-
-                                <?php
-
-                                foreach ($students as $student) {
-                                    // print_r($student);
-                                    // print_r($student['prefix']);
-                                    // print_r($student['name']);
-                                    echo "<tr class='hover:bg-gray-100'>
-                                                    <td class='px-6 py-4 whitespace-nowrap text-sm text-gray-800'>{$student['stdid']}</td>
-                                                    <td class='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800'>{$student['prefix']}. {$student['name']}</td>
-                                                    <td class='px-6 py-4 whitespace-nowrap text-sm text-gray-800'>{$student['year']}</td>
-                                                    <td class='px-6 py-4 whitespace-nowrap text-sm text-gray-800'>{$student['grade']}</td>
-                                                    <td class='px-6 py-4 whitespace-nowrap text-sm text-gray-800'>{$student['birthday']}</td>
-                                                    <td class='flex gap-3 px-6 py-4 whitespace-nowrap text-end text-sm font-medium'>
-                                                        <button type='button' onclick='window.location.href=\"edited.php?uniq_id={$student['uniq_id']}\"' class='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none'>Edit</button>
-                                                        <form action='./deleted.php' method='post' style='display:inline;'>
-                                                            <input type='hidden' name='uniq_id' value='{$student['uniq_id']}'>
-                                                            <button type='submit' class='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-red-600 hover:text-red-800 focus:outline-none focus:text-red-800 disabled:opacity-50 disabled:pointer-events-none'>Delete</button>
-                                                        </form>
-                                                    </td>
-                                                </tr>";
-                                }
-
-                                ?>
-                            </tbody>
-                        </table>
-                        <div class="flex justify-center items-center w-full">
-                            <button class="before:ease relative h-8 w-8 overflow-hidden border border-red before:absolute before:left-0 before:-ml-2 before:h-48 before:w-48 before:origin-top-right before:-translate-x-full before:translate-y-12 before:-rotate-90 before:bg-gray-900 before:transition-all before:duration-300 hover:text-white hover:shadow-red hover:before:-rotate-180">
-                                <span class="relative z-10">-</span>
-                            </button>
-                            <div class="flex w-80 justify-center py-5 gap-3" id="table_pagination">
+                        <div>
+                            <label class="text-gray-800 text-sm mb-2 block">User name</label>
+                            <div class="relative flex items-center">
+                                <input name="username" type="text" requiredd class="w-full text-sm text-gray-800 border border-gray-300 pl-4 pr-10 py-3 rounded-lg outline-green-600" placeholder="Enter username" required />
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-4" viewBox="0 0 24 24">
+                                    <circle cx="10" cy="7" r="6" data-original="#000000"></circle>
+                                    <path d="M14 15H6a5 5 0 0 0-5 5 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 5 5 0 0 0-5-5zm8-4h-2.59l.3-.29a1 1 0 0 0-1.42-1.42l-2 2a1 1 0 0 0 0 1.42l2 2a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42l-.3-.29H22a1 1 0 0 0 0-2z" data-original="#000000"></path>
+                                </svg>
                             </div>
-                            <button class="before:ease relative h-8 w-8 overflow-hidden border border-red before:absolute before:left-0 before:-ml-2 before:h-48 before:w-48 before:origin-top-right before:-translate-x-full before:translate-y-12 before:-rotate-90 before:bg-gray-900 before:transition-all before:duration-300 hover:text-white hover:shadow-red hover:before:-rotate-180">
-                                <span class="relative z-10">+</span>
+                        </div>
+                        <div>
+                            <label class="text-gray-800 text-sm mb-2 block">Password</label>
+                            <div class="relative flex items-center">
+                                <input name="password" id="password" type="password" requiredd class="w-full text-sm text-gray-800 border border-gray-300 pl-4 pr-10 py-3 rounded-lg outline-green-600 password" placeholder="Enter password" required minlength="10" />
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-4 cursor-pointer togglePassword" viewBox="0 0 128 128">
+                                    <path id="eye-icon" d="M64 104C22.127 104 1.367 67.496.504 65.943a4 4 0 0 1 0-3.887C1.367 60.504 22.127 24 64 24s62.633 36.504 63.496 38.057a4 4 0 0 1 0 3.887C126.633 67.496 105.873 104 64 104zM8.707 63.994C13.465 71.205 32.146 96 64 96c31.955 0 50.553-24.775 55.293-31.994C114.535 56.795 95.854 32 64 32 32.045 32 13.447 56.775 8.707 63.994zM64 88c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm0-40c-8.822 0-16 7.178-16 16s7.178 16 16 16 16-7.178 16-16-7.178-16-16-16z"></path>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap items-center justify-between gap-4">
+                            <div class="flex items-center">
+                                <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 shrink-0 text-green-600 focus:ring-green-500 border-gray-300 rounded" />
+                                <label for="remember-me" class="ml-3 block text-sm text-gray-800">
+                                    Remember me
+                                </label>
+                            </div>
+
+                            <div class="text-sm">
+                                <a href="javascript:void(0);" class="text-green-600 hover:underline font-semibold">
+                                    Forgot your password?
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="!mt-8">
+                            <button type="submit" class="w-full shadow-xl py-2.5 px-4 text-sm tracking-wide rounded-lg text-white bg-green-600 hover:bg-green-700 focus:outline-none">
+                                Sign in
                             </button>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Modal -->
-    <div id="default-modal" tabindex="-1" aria-hidden="true" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <div class="relative p-4 w-full max-w-2xl max-h-full">
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                <!-- header -->
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                        Student Information <span class="text-green-500/50">(Added student)</span>
-                    </h3>
-                    <button type="button" class="text-red-400 bg-transparent hover:bg-red-200 hover:text-red-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-red-600 dark:hover:text-white" data-modal-hide="default-modal">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                <!-- body -->
-                <div class="p-4 md:p-5 space-y-4">
-                    <form action="./submitted.php" method="post" id="added_student_form">
-                        <input type="text" class="hidden" name="uniq_id" id="uniq_id" value="<?php echo uniqid(); ?>">
-
-                        <div class="mb-4">
-                            <label class="block text-gray-700 font-bold mb-2" for="name">
-                                Student ID :
-                            </label>
-                            <div class="flex">
-                                <input
-                                    required
-                                    class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="stdid" name="stdid" type="text" placeholder="Student Id">
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 font-bold mb-2" for="name">
-                                Fullname :
-                            </label>
-                            <div class="flex">
-                                <select required name="prefix" id="prefix" class="shadow bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-tl-lg rounded-bl-lg focus:ring-blue-500 focus:border-blue-500 block w-fit p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option value="" disabled selected>Choose Prefix</option>
-                                    <option value="Mr">Mr.</option>
-                                    <option value="Mrs">Mrs.</option>
-                                </select>
-                                <input
-                                    required
-                                    class="shadow appearance-none border rounded-tr-lg rounded-br-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    name="name" id="name" type="text" placeholder="Student name">
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 font-bold mb-2" for="year">
-                                Year :
-                            </label>
-                            <div class="flex">
-                                <select required name="year" id="year" class="shadow bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option value="" disabled selected>Choose year</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="flex mb-4 gap-5">
-                            <div class="w-full">
-                                <label class="block text-gray-700 font-bold mb-2" for="grade">
-                                    Grade :
-                                </label>
-                                <div class="flex">
-                                    <input
-                                        required
-                                        class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                        name="grade" id="grade" type="text" placeholder="Average Grade">
-                                </div>
-                            </div>
-                            <div class="w-full">
-                                <label class="block text-gray-700 font-bold mb-2" for="birthday">
-                                    Birthday :
-                                </label>
-                                <div class="flex">
-                                    <input
-                                        required
-                                        class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                        name="birthday" id="birthday" type="date" placeholder="Birthday">
-                                </div>
-                            </div>
-                        </div>
+                        <p class="text-sm !mt-8 text-center text-gray-500">Don't have an account
+                            <a href="javascript:void(0);" class="text-green-600 font-semibold hover:underline ml-1 whitespace-nowrap toggleForm">Register here</a>
+                        </p>
                     </form>
+
+                    <!-- Register Form -->
+                    <form class="space-y-4 hidden" id="registerForm" action="./php/registered.php" method="post">
+                        <div class="mb-8">
+                            <h3 class="text-gray-800 text-3xl font-bold titleForm">Create account</h3>
+                            <p class="text-gray-500 text-sm mt-4 leading-relaxed">ระบบจัดการข้อมูลนักเรียน</p>
+                        </div>
+
+                        <div>
+                            <label class="text-gray-800 text-sm mb-2 block">User name</label>
+                            <div class="relative flex items-center">
+                                <input name="username" type="text" requiredd class="w-full text-sm text-gray-800 border border-gray-300 pl-4 pr-10 py-3 rounded-lg outline-orange-600" placeholder="Enter username" required />
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-4" viewBox="0 0 24 24">
+                                    <circle cx="10" cy="7" r="6" data-original="#000000"></circle>
+                                    <path d="M14 15H6a5 5 0 0 0-5 5 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 5 5 0 0 0-5-5zm8-4h-2.59l.3-.29a1 1 0 0 0-1.42-1.42l-2 2a1 1 0 0 0 0 1.42l2 2a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42l-.3-.29H22a1 1 0 0 0 0-2z" data-original="#000000"></path>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-gray-800 text-sm mb-2 block">Email</label>
+                            <div class="relative flex items-center">
+                                <input name="email" type="email" requiredd class="w-full text-sm text-gray-800 border border-gray-300 pl-4 pr-10 py-3 rounded-lg outline-orange-600" placeholder="Enter email" required />
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-4" viewBox="0 0 24 24">
+                                    <path d="M0 4v16h24v-16h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 12v-11.817l10 8.104 10-8.104v11.817h-20z" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-gray-800 text-sm mb-2 block">Password</label>
+                            <div class="relative flex items-center">
+                                <input minlength="10" name="password" id="password" type="password" requiredd class="w-full text-sm text-gray-800 border border-gray-300 pl-4 pr-10 py-3 rounded-lg outline-orange-600 password" placeholder="Enter password" required />
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-4 cursor-pointer togglePassword" viewBox="0 0 128 128">
+                                    <path id="eye-icon" d="M64 104C22.127 104 1.367 67.496.504 65.943a4 4 0 0 1 0-3.887C1.367 60.504 22.127 24 64 24s62.633 36.504 63.496 38.057a4 4 0 0 1 0 3.887C126.633 67.496 105.873 104 64 104zM8.707 63.994C13.465 71.205 32.146 96 64 96c31.955 0 50.553-24.775 55.293-31.994C114.535 56.795 95.854 32 64 32 32.045 32 13.447 56.775 8.707 63.994zM64 88c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm0-40c-8.822 0-16 7.178-16 16s7.178 16 16 16 16-7.178 16-16-7.178-16-16-16z"></path>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="!mt-8">
+                            <button type="submit" class="w-full shadow-xl py-2.5 px-4 text-sm tracking-wide rounded-lg text-white bg-orange-600 hover:bg-orange-700 focus:outline-none">
+                                Already Done!
+                            </button>
+                        </div>
+
+                        <p class="text-sm !mt-8 text-center text-gray-500">I have an account!
+                            <a href="javascript:void(0);" class="text-orange-600 font-semibold hover:underline ml-1 whitespace-nowrap toggleForm">Login Here</a>
+                        </p>
+                    </form>
+
                 </div>
 
-                <!-- footer -->
-                <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button type="button" onclick="validateAndSubmitForm();" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Add student</button>
-                    <button data-modal-hide="default-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-red-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</button>
+                <div class="max-md:mt-8">
+                    <img src="./public/images/cover-login.webp" id="coverImg" class="w-full aspect-[71/50] max-md:w-4/5 mx-auto block object-contain" alt="Cat Cooperation Service" />
                 </div>
-
             </div>
         </div>
     </div>
 
+    <!-- Login & Register Toggle -->
     <script>
-        function validateAndSubmitForm() {
-            const form = document.getElementById('added_student_form');
-            const inputs = form.querySelectorAll('input[required], select[required]');
-            let isValid = true;
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputs = document.getElementsByTagName('input');
 
-            inputs.forEach(input => {
-                if (!input.value) {
-                    isValid = false;
+            document.addEventListener("contextmenu", function(e) {
+                e.preventDefault();
+            });
+
+            Array.from(inputs).forEach(input => {
+                if (input.type === 'password') {
+                    input.addEventListener('copy', function(e) {
+                        e.preventDefault();
+                        return false;
+                    });
                 }
             });
 
-            if (isValid) {
-                form.submit();
-            }
-        }
-    </script>
+            // Register & Login Forms
+            const registerForm = document.getElementById('registerForm');
+            const loginForm = document.getElementById('loginForm');
 
-    <script>
-        const pagination = document.getElementById('table_pagination')
-        const PAGE_SIZE = 12;
-        let students = [];
+            const toggleForms = document.querySelectorAll('.toggleForm');
 
-        fetch('submitted.php', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(response => response.json()).then((data) => {
-            students = data;
-        })
+            // Cover Img
+            const coverImg = document.getElementById('coverImg');
 
-        // Loop by : All data / Page size
-        const totalPage = Math.ceil(50 / PAGE_SIZE);
+            toggleForms.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    loginForm.classList.toggle('hidden');
+                    registerForm.classList.toggle('hidden');
 
-        for (let i = 0; i < totalPage; i++) {
-            const pageNumber = parseInt(i) + 1;
-            pagination.innerHTML += `<button class="min-w-8 min-h-8 bg-gray-200 rounded-sm hover:bg-slate-400">${i+1}</button>`
 
-        }
-    </script>
+                    loginForm.classList.add('scale-30', 'opacity-0');
+                    registerForm.classList.add('scale-30', 'opacity-0');
+                    coverImg.classList.add('scale-90', 'opacity-0');
 
-    <script>
-        document.getElementById('default-modal').classList.add('hidden')
+                    setTimeout(() => {
+                        const imgUrl = loginForm.classList.contains('hidden') ?
+                            './public/images/cover-register.webp' :
+                            './public/images/cover-login.webp';
 
-        document.getElementById('add-student-btn').addEventListener('click', function() {
-            document.getElementById('default-modal').classList.toggle('hidden');
-        });
+                        coverImg.src = imgUrl;
 
-        document.querySelectorAll('[data-modal-hide]').forEach(function(element) {
-            element.addEventListener('click', function() {
-                document.getElementById('default-modal').classList.add('hidden');
+                        setTimeout(() => {
+                            loginForm.classList.remove('scale-30', 'opacity-0');
+                            registerForm.classList.remove('scale-30', 'opacity-0');
+                            coverImg.classList.remove('scale-90', 'opacity-0');
+                        }, 50);
+                    }, 250);
+                });
             });
         });
+    </script>
 
-        function generateRandomDate() {
-            const year = Math.floor(Math.random() * (2006 - 1900)) + 1900;
-            const month = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
-            const day = String(Math.floor(Math.random() * 28) + 1).padStart(2, '0');
-            return `${year}-${month}-${day}`;
-        }
+    <!-- Password Toggle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const togglePasswordButtons = document.querySelectorAll('.togglePassword');
+            const passwordInputs = document.querySelectorAll('.password');
 
-        const mock = document.getElementById('mock-student-btn').addEventListener("click", () => {
-            const uuid_mock = self.crypto.randomUUID();
+            togglePasswordButtons.forEach((toggle, index) => {
+                toggle.addEventListener('click', () => {
+                    const type = passwordInputs[index].getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInputs[index].setAttribute('type', type);
 
-            const stdid_mock = Math.floor(Math.random() * 10000000000) + 10000000000;
-            const prefix_mock = ['Mr', 'Mrs'][Math.floor(Math.random() * 2)];
-            const year_mock = ['1', '2', '3', '4', '5', '6'][Math.floor(Math.random() * 6)];
-            const grade_mock = (Math.random() * 4).toFixed(2);
-            const birthday_mock = generateRandomDate();
-
-            const mockStudent = {
-                uniq_id: uuid_mock,
-                stdid: stdid_mock,
-                prefix: prefix_mock,
-                name: '_Name _Surname',
-                year: year_mock,
-                grade: grade_mock,
-                birthday: birthday_mock,
-            };
-
-            console.log(mockStudent)
-
-            fetch('submitted.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(mockStudent)
-                })
-                .then(res => {
-                    res.json()
-
-                    window.location.reload();
-                })
-                .then(data => {
-                    if (data.success) {
-                        console.log("Mock student added to session");
-
-                    } else {
-                        console.error("Failed to add mock student");
-
-                    }
-                })
-                .catch(error => console.error('Error:', error));
+                });
+            });
         });
     </script>
 
