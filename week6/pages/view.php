@@ -3,18 +3,12 @@ require_once(__DIR__ . '/../php/submitted.php');
 require_once(__DIR__ . '/../php/user.php');
 require_once(__DIR__ . '/../php/connected.php');
 
-// session_start();
-
-$std = new Student();
-
-$students = $std->getAllInfo();
+session_start();
 
 $init = new Init();
 $connection = $init->getConnected();
 
 $user = new User($connection);
-
-// print_r($_SESSION);
 
 if (isset($_SESSION['token'])) {
     $userToken = $_SESSION['token'];
@@ -32,9 +26,10 @@ if (isset($_SESSION['token'])) {
     exit;
 }
 
-// echo '<pre>';
-// print_r($students);
-// echo '</pre>';
+$std = new Student($connection);
+$students = ($std->getStudents())['data'];
+
+print_r($students)
 
 ?>
 
@@ -67,7 +62,7 @@ if (isset($_SESSION['token'])) {
             </div>
 
             <div class="flex w-fit justify-end gap-3">
-                <button id="mock-student-btn" class="block text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800" type="button">
+                <button id="logout-btn" class="block text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800" type="button">
                     Signout
                 </button>
             </div>
@@ -116,11 +111,11 @@ if (isset($_SESSION['token'])) {
                                                     <td class='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800'>{$student['prefix']}. {$student['name']}</td>
                                                     <td class='px-6 py-4 whitespace-nowrap text-sm text-gray-800'>{$student['year']}</td>
                                                     <td class='px-6 py-4 whitespace-nowrap text-sm text-gray-800'>{$student['grade']}</td>
-                                                    <td class='px-6 py-4 whitespace-nowrap text-sm text-gray-800'>{$student['birthday']}</td>
+                                                    <td class='px-6 py-4 whitespace-nowrap text-sm text-gray-800'>{$student['birth']}</td>
                                                     <td class='flex gap-3 px-6 py-4 whitespace-nowrap text-end text-sm font-medium'>
-                                                        <button type='button' onclick='window.location.href=\"./edited.php?uniq_id={$student['uniq_id']}\"' class='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none'>Edit</button>
+                                                        <button type='button' onclick='window.location.href=\"./edited.php?uniq_id={$student['uniqId']}\"' class='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none'>Edit</button>
                                                         <form action='../php/deleted.php' method='post' style='display:inline; margin: 0;'>
-                                                            <input type='hidden' name='uniq_id' value='{$student['uniq_id']}'>
+                                                            <input type='hidden' name='uniq_id' value='{$student['uniqId']}'>
                                                             <button type='submit' class='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-red-600 hover:text-red-800 focus:outline-none focus:text-red-800 disabled:opacity-50 disabled:pointer-events-none'>Delete</button>
                                                         </form>
                                                     </td>
@@ -247,8 +242,9 @@ if (isset($_SESSION['token'])) {
         </div>
     </div>
 
+    <script src="../script/modal.js"></script>
     <script>
-        function validateAndSubmitForm() {
+        const validateAndSubmitForm = () => {
             const form = document.getElementById('added_student_form');
             const inputs = form.querySelectorAll('input[required], select[required]');
             let isValid = true;
@@ -290,16 +286,21 @@ if (isset($_SESSION['token'])) {
     </script>
 
     <script>
-        document.getElementById('default-modal').classList.add('hidden')
-
         document.getElementById('add-student-btn').addEventListener('click', function() {
             document.getElementById('default-modal').classList.toggle('hidden');
         });
 
-        document.querySelectorAll('[data-modal-hide]').forEach(function(element) {
-            element.addEventListener('click', function() {
-                document.getElementById('default-modal').classList.add('hidden');
-            });
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            fetch('../php/logout.php', {
+                    method: 'POST',
+                    credentials: 'include'
+                })
+                .then(() => {
+                    window.location.href = '../';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         });
 
         function generateRandomDate() {

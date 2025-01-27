@@ -1,17 +1,10 @@
 <?php
-include('./php/submitted.php');
-include('./php/connected.php');
+// require_once(__DIR__ . '/php/student.php');
+// require_once(__DIR__ . '/php/submitted.php');
+// require_once(__DIR__ . '/php/connected.php');
 
-$init = new Init();
-
-$std = new Student();
-
-$students = $std->getAllInfo();
-
-// echo '<pre>';
-// print_r($students);
-// print_r($init);
-// echo '</pre>';
+// $init = new Init();
+// $connection = $init->getConnected();
 
 ?>
 
@@ -30,6 +23,7 @@ $students = $std->getAllInfo();
         <div class="min-h-screen flex fle-col items-center justify-center p-8">
             <div class="grid md:grid-cols-2 items-center gap-6 max-w-6xl w-full">
                 <div class="border border-gray-300 rounded-lg p-6 max-w-md shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] max-md:mx-auto">
+
                     <!-- Login Form -->
                     <form class="space-y-4" id="loginForm" action="./php/registered.php" method="get">
                         <div class="mb-8">
@@ -66,9 +60,9 @@ $students = $std->getAllInfo();
                             </div>
 
                             <div class="text-sm">
-                                <a href="javascript:void(0);" class="text-green-600 hover:underline font-semibold">
+                                <button type="button" class="text-orange-500 hover:underline font-semibold" id="forgot-password-btn">
                                     Forgot your password?
-                                </a>
+                                </button>
                             </div>
                         </div>
 
@@ -141,6 +135,104 @@ $students = $std->getAllInfo();
         </div>
     </div>
 
+    <!-- Reset Password Form -->
+    <div id="default-modal" tabindex="-1" aria-hidden="true" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="relative p-4 w-full max-w-2xl max-h-full">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Reset password
+                    </h3>
+                    <button type="button" class="text-red-400 bg-transparent hover:bg-red-200 hover:text-red-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-red-600 dark:hover:text-white" data-modal-hide="default-modal">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+
+                <!-- body -->
+                <div class="p-4 md:p-5 space-y-4">
+                    <form action="./php/password.php" method="post" id="reset_password_form">
+                        <input type="text" class="hidden" name="uniq_id" id="uniq_id" value="<?php echo uniqid(); ?>">
+
+                        <div class="mb-4">
+                            <label class="block text-gray-700 font-bold mb-2" for="username">
+                                Username :
+                            </label>
+                            <div class="flex">
+                                <input
+                                    required
+                                    class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    id="username" name="username" type="text" placeholder="Enter username">
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 font-bold mb-2" for="email">
+                                Email :
+                            </label>
+                            <div class="flex">
+                                <input
+                                    required
+                                    class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    id="email" name="email" type="email" placeholder="Enter email">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-gray-700 font-bold mb-2" for="password">
+                                Password :
+                            </label>
+                            <div class="flex">
+                                <input
+                                    required
+                                    class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    id="password" name="password" type="password" placeholder="Enter password">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- footer -->
+                <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                    <button type="button" id="confirmToResetPassword" onclick="validateAndSubmitForm('reset_password_form');" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Confirm</button>
+                    <button data-modal-hide="default-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-red-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="./script/modal.js"></script>
+    <script>
+        document.getElementById('forgot-password-btn').addEventListener('click', function() {
+            document.getElementById('default-modal').classList.toggle('hidden');
+        });
+
+        const validateAndSubmitForm = (formId) => {
+            const form = document.getElementById(formId);
+            if (!form) {
+                console.error(`Form with id "${formId}" not found`);
+                return;
+            }
+
+            const inputs = form.querySelectorAll('input[required], select[required]');
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                }
+
+            });
+
+            if (isValid) {
+                form.submit();
+            }
+        };
+    </script>
+
     <!-- Login & Register Toggle -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -159,7 +251,7 @@ $students = $std->getAllInfo();
                 }
             });
 
-            // Register & Login Forms
+            // Form
             const registerForm = document.getElementById('registerForm');
             const loginForm = document.getElementById('loginForm');
 

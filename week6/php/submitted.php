@@ -1,138 +1,159 @@
 <?php
-session_start();
 
-interface StudentInfo
-{
-    public function getUniqID(): string;
-    public function getStdID(): string;
-    public function getPrefix(): string;
-    public function getName(): string;
-    public function getYear(): int;
-    public function getGrade(): float;
-    public function getBirthday(): string;
-}
+require_once(__DIR__ .  '/student.php');
+require_once('../utils/useHttpStatus.php');
+require_once(__DIR__ .  '/connected.php');
 
-interface StudentProps
-{
-    public function getAllInfo(): array;
-    public function getInfoByUniqId(string $uniqId): ?StudentInfo;
-    public function postInfo(StudentInfo $info);
-}
+// session_start();
 
-class StudentData implements StudentInfo
-{
-    private $data;
+// interface StudentInfo
+// {
+//     public function getUniqID(): string;
+//     public function getStdID(): string;
+//     public function getPrefix(): string;
+//     public function getName(): string;
+//     public function getYear(): int;
+//     public function getGrade(): float;
+//     public function getBirthday(): string;
+// }
 
-    public function __construct(array $data)
-    {
-        $this->data = $data;
+// interface StudentProps
+// {
+//     public function getAllInfo(): array;
+//     public function getInfoByUniqId(string $uniqId): ?StudentInfo;
+//     public function postInfo(StudentInfo $info);
+// }
+
+// class StudentData implements StudentInfo
+// {
+//     private $data;
+
+//     public function __construct(array $data)
+//     {
+//         $this->data = $data;
+//     }
+
+//     public function getUniqID(): string
+//     {
+//         return $this->data['uniq_id'];
+//     }
+
+//     public function getStdID(): string
+//     {
+//         return $this->data['stdid'] ?? '';
+//     }
+
+//     public function getPrefix(): string
+//     {
+//         return $this->data['prefix'] ?? '';
+//     }
+
+//     public function getName(): string
+//     {
+//         return $this->data['name'] ?? '';
+//     }
+
+//     public function getYear(): int
+//     {
+//         return (int)$this->data['year'] ?? '';
+//     }
+
+//     public function getGrade(): float
+//     {
+//         return (float)$this->data['grade'] ?? '';
+//     }
+
+//     public function getBirthday(): string
+//     {
+//         return $this->data['birthday'] ?? '';
+//     }
+// }
+
+// class Student implements StudentProps
+// {
+
+//     public function postInfo(StudentInfo $info)
+//     {
+//         $uniq_id = $info->getUniqID();
+//         $stdid = $info->getStdID();
+//         $prefix = $info->getPrefix();
+//         $name = $info->getName();
+//         $year = $info->getYear();
+//         $grade = $info->getGrade();
+//         $birthday = $info->getBirthday();
+
+//         if (!isset($_SESSION["students"]) || empty($_SESSION["students"])) {
+//             $students = [];
+//         } else {
+//             $students = json_decode($_SESSION["students"], true);
+//         }
+
+//         $students[$uniq_id] = [
+//             "uniq_id" => $uniq_id,
+//             "stdid" => $stdid,
+//             "prefix" => $prefix,
+//             "name" => $name,
+//             "year" => $year,
+//             "grade" => $grade,
+//             "birthday" => $birthday,
+//         ];
+
+//         $_SESSION["students"] = json_encode($students);
+//     }
+
+//     public function getInfoByUniqId(string $uniqId): StudentInfo
+//     {
+//         $students = json_decode($_SESSION["students"], true);
+//         if (isset($students[$uniqId])) {
+//             return new StudentData($students[$uniqId]);
+//         } else {
+//             return null;
+//         }
+//     }
+
+//     public function getAllInfo(): array
+//     {
+//         $students = [];
+
+//         if (isset($_SESSION["students"]) && !empty($_SESSION["students"])) {
+//             $studentsData = json_decode($_SESSION["students"], true);
+//             foreach ($studentsData as $data) {
+//                 $students[] = new StudentData($data);
+//             }
+//         }
+
+//         return $students;
+//     }
+// }
+
+// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//     $student = new Student();
+
+//     $studentInfo = new StudentData($_POST);
+//     $student->postInfo($studentInfo);
+
+//     header("Location: ../pages/view.php");
+//     exit;
+// }
+
+$init = new Init();
+$connection = $init->getConnected();
+
+$student = new Student($connection);
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $result = $student->addedStudent($_POST);
+
+    if (!isset($res['error'])) {
+        $res = new HttpStatusResponse($result['status'], $result['message'], $_POST['uniq_id']);
+    } else {
+        $res = new HttpStatusResponse($result['status'], $result['error']);
     }
 
-    public function getUniqID(): string
-    {
-        return $this->data['uniq_id'];
-    }
+    $res->send();
+    // print_r($result);
 
-    public function getStdID(): string
-    {
-        return $this->data['stdid'] ?? '';
-    }
-
-    public function getPrefix(): string
-    {
-        return $this->data['prefix'] ?? '';
-    }
-
-    public function getName(): string
-    {
-        return $this->data['name'] ?? '';
-    }
-
-    public function getYear(): int
-    {
-        return (int)$this->data['year'] ?? '';
-    }
-
-    public function getGrade(): float
-    {
-        return (float)$this->data['grade'] ?? '';
-    }
-
-    public function getBirthday(): string
-    {
-        return $this->data['birthday'] ?? '';
-    }
-}
-
-class Student implements StudentProps
-{
-    // private $info;
-
-    // public function __construct()
-    // {
-
-    // }
-
-    public function postInfo(StudentInfo $info)
-    {
-        $uniq_id = $info->getUniqID();
-        $stdid = $info->getStdID();
-        $prefix = $info->getPrefix();
-        $name = $info->getName();
-        $year = $info->getYear();
-        $grade = $info->getGrade();
-        $birthday = $info->getBirthday();
-
-        if (!isset($_SESSION["students"]) || empty($_SESSION["students"])) {
-            $students = [];
-        } else {
-            $students = json_decode($_SESSION["students"], true);
-        }
-
-        $students[$uniq_id] = [
-            "uniq_id" => $uniq_id,
-            "stdid" => $stdid,
-            "prefix" => $prefix,
-            "name" => $name,
-            "year" => $year,
-            "grade" => $grade,
-            "birthday" => $birthday,
-        ];
-
-        $_SESSION["students"] = json_encode($students);
-    }
-
-    public function getInfoByUniqId(string $uniqId): StudentInfo
-    {
-        $students = json_decode($_SESSION["students"], true);
-        if (isset($students[$uniqId])) {
-            return new StudentData($students[$uniqId]);
-        } else {
-            return null;
-        }
-    }
-
-    public function getAllInfo(): array
-    {
-        $students = [];
-
-        if (isset($_SESSION["students"]) && !empty($_SESSION["students"])) {
-            $studentsData = json_decode($_SESSION["students"], true);
-            foreach ($studentsData as $data) {
-                $students[] = new StudentData($data);
-            }
-        }
-
-        return $students;
-    }
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $student = new Student();
-
-    $studentInfo = new StudentData($_POST);
-    $student->postInfo($studentInfo);
-
-    header("Location: ../pages/view.php");
+    header('Location:../pages/view.php');
+    echo "<script>window.location.href = '../pages/view.php';</script>";
     exit;
 }
