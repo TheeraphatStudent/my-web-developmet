@@ -29,7 +29,7 @@ if (isset($_SESSION['token'])) {
 $std = new Student($connection);
 $students = ($std->getStudents())['data'];
 
-print_r($students)
+// print_r($students)
 
 ?>
 
@@ -52,9 +52,9 @@ print_r($students)
             </a>
 
             <div class="flex w-fit justify-end gap-3">
-                <button id="mock-student-btn" class="block text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800" type="button">
+                <!-- <button id="mock-student-btn" class="block text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800" type="button">
                     Mock
-                </button>
+                </button> -->
                 <button id="add-student-btn" class="block text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" type="button">
                     + Add student
                 </button>
@@ -78,14 +78,7 @@ print_r($students)
                     <div class="min-w-full inline-block align-middle">
                         <table class="min-w-full divide-y divide-gray-200" id="table_content">
                             <caption class="p-5 text-lg font-semibold text-center text-gray-900 bg-white dark:text-white dark:bg-gray-800">
-                                <span>Total Students: <?php
-                                                        if (!isset($_SESSION["students"]) || empty($_SESSION["students"])) {
-                                                            echo 0;
-                                                        } else {
-                                                            $students = json_decode($_SESSION["students"], true);
-                                                            echo count($students);
-                                                        }
-                                                        ?></span>
+                                <span>Total Students: <?php echo ($std->getTotal()['data'] ?? 0); ?></span>
 
                             </caption>
                             <thead class="bg-gray-200 rounded-tl-md rounded-tr-md">
@@ -114,7 +107,8 @@ print_r($students)
                                                     <td class='px-6 py-4 whitespace-nowrap text-sm text-gray-800'>{$student['birth']}</td>
                                                     <td class='flex gap-3 px-6 py-4 whitespace-nowrap text-end text-sm font-medium'>
                                                         <button type='button' onclick='window.location.href=\"./edited.php?uniq_id={$student['uniqId']}\"' class='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none'>Edit</button>
-                                                        <form action='../php/deleted.php' method='post' style='display:inline; margin: 0;'>
+                                                        <form action='../php/submitted.php' method='post' style='display:inline; margin: 0;'>
+                                                            <input type='text' name='delete' id='delete' value='1' class='hidden'>
                                                             <input type='hidden' name='uniq_id' value='{$student['uniqId']}'>
                                                             <button type='submit' class='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-red-600 hover:text-red-800 focus:outline-none focus:text-red-800 disabled:opacity-50 disabled:pointer-events-none'>Delete</button>
                                                         </form>
@@ -160,6 +154,9 @@ print_r($students)
                 <!-- body -->
                 <div class="p-4 md:p-5 space-y-4">
                     <form action="../php/submitted.php" method="post" id="added_student_form">
+                        <!-- Post type -->
+                        <input type="text" name="post" id="post" value="2" class="hidden">
+
                         <input type="text" class="hidden" name="uniq_id" id="uniq_id" value="<?php echo uniqid(); ?>">
 
                         <div class="mb-4">
