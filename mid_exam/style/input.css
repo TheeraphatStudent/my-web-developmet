@@ -1,0 +1,54 @@
+@tailwind base;
+
+@layer base {
+  h1 {
+    @apply text-2xl;
+  }
+  h2 {
+    @apply text-xl;
+  }
+  h3 {
+    @apply text-lg;
+  }
+
+  * {
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+@tailwind components;
+@tailwind utilities;
+
+thead th:nth-child(1) {
+  width: 10%;
+}
+
+/* thead th:nth-child(2) {
+  width: 20%;
+}
+
+thead th:nth-child(3) {
+  width: 15%;
+}
+
+thead th:nth-child(4) {
+  width: 35%;
+} */
+
+th,
+td {
+  padding: .25rem;
+}
+
+/* tr:nth-child(even) {
+  background-color: #f2f2f2;
+} */
+
+tr, th, td {
+  border: none;
+
+}
+
+* {
+  overflow-x: hidden;
+}
