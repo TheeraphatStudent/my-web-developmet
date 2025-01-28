@@ -1,0 +1,50 @@
+services:
+  code:
+    build: 
+      context: .
+      dockerfile: C:\Users\ASUS\Desktop\Education\Year 2\Semester 2\Web Dev\week6\DockerFIle
+      # dockerfile: DockerFile
+    container_name: web-page
+    ports:
+      - '3000:80'
+    volumes:
+      - .:/var/www/html/
+    depends_on:
+      - database
+    networks:
+      - mynetwork
+
+  database:
+    image: mysql:latest
+    container_name: database
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: '123456'
+      MYSQL_DATABASE: 'week6-database'
+      MYSQL_USER: 'week6'
+      MYSQL_PASSWORD: '123456'
+    ports:
+      - "3307:3306"
+    volumes:
+      - sqldb:/var/lib/mysql
+    networks:
+      - mynetwork
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: week6-phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: 'database'
+      PMA_PORT: '3306'
+    ports:
+      - "8080:80"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  sqldb:

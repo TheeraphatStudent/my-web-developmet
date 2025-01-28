@@ -127,22 +127,6 @@ class Student implements StudentProps
     }
 }
 
-function addStudentToSession($uniq_id, $stdid, $prefix, $name, $year, $grade, $birthday)
-{
-    if (!isset($_SESSION['students'])) {
-        $_SESSION['students'] = [];
-    }
-
-    $_SESSION['students'][$uniq_id] = [
-        'stdid' => $stdid,
-        'prefix' => $prefix,
-        'name' => $name,
-        'year' => $year,
-        'grade' => $grade,
-        'birthday' => $birthday
-    ];
-}
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data = json_decode(file_get_contents('php://input'), true);
 
