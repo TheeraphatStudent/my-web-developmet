@@ -1,23 +1,8 @@
 services:
-  # code:
-  #   build: .
-  #     # context: .
-  #     # dockerfile: C:\Users\ASUS\Desktop\Education\Year 2\Semester 2\Web Dev\week6\DockerFIle
-  #     # dockerfile: DockerFile
-  #   container_name: web-page
-  #   ports:
-  #     - '3000:80'
-  #   volumes:
-  #     - .:/var/www/html/
-  #   depends_on:
-  #     - database
-  #   networks:
-  #     - mynetwork
   web:
-    # build: .
     build:
       context: .
-      dockerfile: C:\Users\ASUS\Desktop\Education\Year 2\Semester 2\Web Dev\week6\DockerFIle
+      dockerfile: DockerFile
     container_name: web-page
     ports:
       - '${PORT:-3000}:80'
