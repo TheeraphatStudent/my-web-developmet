@@ -48,6 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $response->send();
+
+    echo "<script>window.location.href = '../';</script>";
     exit;
 }
 
