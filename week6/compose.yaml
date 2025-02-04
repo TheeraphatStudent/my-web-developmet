@@ -33,27 +33,14 @@ services:
     networks:
       - mynetwork
 
-  # database:
-  #   image: mysql:latest
-  #   container_name: database
-  #   restart: always
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: '123456'
-  #     MYSQL_DATABASE: 'week6-database'
-  #     MYSQL_USER: 'week6'
-  #     MYSQL_PASSWORD: '123456'
-  #   ports:
-  #     - "3307:3306"
-  #   volumes:
-  #     - sqldb:/var/lib/mysql
   database:
     image: mysql:latest
     container_name: database
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-123456}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-week6-database}
-      MYSQL_USER: ${MYSQL_USER:-week6}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-week7-database}
+      MYSQL_USER: ${MYSQL_USER:-week7}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-123456}
     volumes:
       - sqldb:/var/lib/mysql
@@ -62,7 +49,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: week6-phpmyadmin
+    container_name: week7-phpmyadmin
     restart: always
     environment:
       PMA_HOST: 'database'
