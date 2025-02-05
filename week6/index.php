@@ -1,11 +1,6 @@
 <?php
-// require_once(__DIR__ . '/php/student.php');
-// require_once(__DIR__ . '/php/submitted.php');
-// require_once(__DIR__ . '/php/connected.php');
 
-// $init = new Init();
-// $connection = $init->getConnected();
-
+namespace Week6;
 ?>
 
 <!DOCTYPE html>
