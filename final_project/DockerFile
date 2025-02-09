@@ -1,13 +1,21 @@
-FROM php:apache
+FROM php:8.2-apache
 
 RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 RUN sed -i '/<Directory \/var\/www\/html>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
 RUN docker-php-ext-install pdo pdo_mysql
+
 RUN a2enmod rewrite
 
 COPY . /var/www/html/
 
 RUN chown -R www-data:www-data /var/www/html
 
+COPY apache2.conf /etc/apache2/conf-available/servername.conf
+RUN a2enconf servername
+
 EXPOSE 80
+
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
+CMD ["apache2-foreground"]

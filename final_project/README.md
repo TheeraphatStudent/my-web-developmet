@@ -1,27 +1,43 @@
-### MVC Concept
+## MVC Concept
 
 User <-> View <-> Controller <-> Model
 
 ### to rebuild tailwind css
 
-```
-npx tailwindcss -i .\public\input.css -o .\public\style.css --watch
+```bash
+npx tailwindcss -i .\public\style\input.css -o .\public\style\style.css --watch
 ```
 
 ### to check file in directory
 
-```
+```bash
 docker exec -it <container_name> ls -l /var/www/html/pages/php/submitted.php
 ```
 
 ### to run docker
 
-```
+```bash
 docker compose up -d
 ```
 
 ### to stop docker container
 
-```
+```bash
 docker compose down
 ```
+
+## Deploy with koyeb
+
+1. Test docker image
+
+```
+docker run -p 8080:80 th33raphat/web-final_act-gate:v0.1
+```
+
+2. Pull to docker hub
+
+```
+docker build -t web-final_act-gate -f .\DockerFile . ;& docker tag web-final_act-gate th33raphat/web-final_act-gate:v0.1 ;& docker push th33raphat/web-final_act-gate:v0.1
+```
+
+3. Go to koyeb and redeploy

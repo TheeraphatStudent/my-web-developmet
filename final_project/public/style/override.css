@@ -1,0 +1,57 @@
+#map {
+  overflow: hidden;
+}
+
+.search-box {
+  position: absolute;
+  top: 10px;
+  left: 50px;
+  z-index: 1000;
+  background: white;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Map V1 */
+
+[class="ldmap_menubar"] {
+  display: none !important;
+}
+
+[class="ldmap_toolbar"] {
+  display: none !important;
+}
+
+.ldmap_button.ldmap_geolocation {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.ldmap_zoombar_mini {
+  margin-left: 8px !important;
+}
+
+.ldmap_button.ldmap_zoomin {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.ldmap_button.ldmap_zoomout {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+/* Map V3 */
+
+.maplibregl-ctrl .maplibregl-ctrl-group, .ldmap-menubar {
+  display: none !important;
+}
+
+.maplibregl-ctrl.maplibregl-ctrl-group.ldmap-dpad {
+  display: none !important;
+}
+
+.maplibregl-ctrl-fullscreen.mapboxgl-ctrl-fullscreen {
+  display: none !important;
+}
