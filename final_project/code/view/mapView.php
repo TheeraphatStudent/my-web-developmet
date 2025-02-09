@@ -8,7 +8,6 @@ echo $mapApiKey
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Map</title>
     <script type="text/javascript" src="https://api.longdo.com/map3/?key=<?php echo ($mapApiKey); ?>"></script>
     <!-- <script type="text/javascript" src="https://api.longdo.com/map3/?key=55072ff6dc986c8484ea0615c17bf149"></script> -->
     <script type="module">
@@ -31,8 +30,10 @@ echo $mapApiKey
             });
         });
     </script>
-    <link rel="stylesheet" href="../public/style/style.css">
-    <link rel="stylesheet" href="../public/style/override.css">
+
+    <!-- <link rel="stylesheet" href="../public/style/style.css">
+    <link rel="stylesheet" href="../public/style/override.css"> -->
+    <link rel="stylesheet" href="../public/style/main.css">
 </head>
 
 <body>

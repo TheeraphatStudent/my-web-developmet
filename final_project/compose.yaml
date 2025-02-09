@@ -5,6 +5,7 @@ services:
       dockerfile: DockerFile
     restart: always
     container_name: web-page
+    image: th33raphat/web-final_act-gate:latest
     ports:
       - '3000:80'
     volumes:
@@ -39,7 +40,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: week6-phpmyadmin
+    container_name: final_project-phpmyadmin
     restart: always
     environment:
       PMA_HOST: 'database'
