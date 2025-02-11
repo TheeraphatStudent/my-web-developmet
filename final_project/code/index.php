@@ -11,7 +11,6 @@ use FinalProject\Controller\MainController;
 $action = $_GET['action'] ?? 'index';
 $controller = new MainController();
 
-$title = $controller->getTitle();
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +19,7 @@ $title = $controller->getTitle();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($title); ?></title>
+    <!-- <title>Act gate</title> -->
 </head>
 
 <body>
@@ -28,6 +27,7 @@ $title = $controller->getTitle();
     switch ($action) {
         case 'index':
             $controller->index();
+
             break;
         default:
             header("HTTP/1.0 404 Not Found");

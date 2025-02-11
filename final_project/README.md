@@ -2,11 +2,36 @@
 
 User <-> View <-> Controller <-> Model
 
-### to rebuild tailwind css
+
+### Php syntax
+
+`<?php ?>` To create php structure
+```
+<?php 
+echo "Hello World";
+
+?>
+```
+
+`?> <?php` To create chide php process inside parent
+```
+<?php 
+echo "Hello World";
+
+    ?> 
+        echo "This is an child!"
+
+    <?php
+?>
+```
+
+## To rebuild tailwind css
 
 ```bash
 npx tailwindcss -i .\public\style\input.css -o .\public\style\style.css --watch
 ```
+
+## Basic docker
 
 ### to check file in directory
 
