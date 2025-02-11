@@ -1,3 +1,7 @@
+# Event management
+
+PHP event management system
+
 ## MVC Concept
 
 User <-> View <-> Controller <-> Model
@@ -29,6 +33,12 @@ echo "Hello World";
 
 ```bash
 npx tailwindcss -i .\public\style\input.css -o .\public\style\style.css --watch
+```
+
+delay watch for 3 second
+
+```bash
+npx tailwindcss -i .\public\style\input.css -o .\public\style\style.css --watch --poll 3000
 ```
 
 ## Basic docker

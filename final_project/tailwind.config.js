@@ -12,10 +12,11 @@ module.exports = {
       red: "#E24B4B",
       yellow: "#FFC145",
       green: "#1B8600",
-      "light/red": "#E24B4B",
-      "light/yellow": "#FFC145",
-      "light/green": "#1B8600",
-      "light/blue": "#ABCDFF",
+      "dark/primary": "#104B48",
+      "dark/red": "#702828",
+      "dark/yellow": "#905A3C",
+      "dark/green": "#43784B",
+      "dark/blue": "#7D97B7"
     },
     extend: {
       maxWidth: {

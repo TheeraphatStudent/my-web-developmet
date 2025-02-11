@@ -1,4 +1,6 @@
 @tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   h1 {
@@ -16,5 +18,13 @@
   }
 }
 
-@tailwind components;
-@tailwind utilities;
+
+@layer components {
+  .primary-btn {
+    @apply flex items-center font-semibold h-14 bg-primary border-[.15rem] text-white border-primary px-6 rounded-xl hover:bg-secondary justify-center
+  }
+
+  .primary-btn-outline {
+    @apply flex items-center font-semibold h-14 bg-none border-[.15rem] text-primary border-primary px-6 rounded-xl hover:bg-secondary outline-none focus:outline-none
+  }
+}
