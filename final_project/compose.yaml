@@ -5,7 +5,7 @@ services:
       dockerfile: DockerFile
     restart: always
     container_name: web-page
-    image: th33raphat/web-final_act-gate:latest
+    # image: th33raphat/web-final_act-gate:latest
     ports:
       - '3000:80'
     volumes:

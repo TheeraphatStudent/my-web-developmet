@@ -1,12 +1,47 @@
+# Event management
+
+PHP event management system
+
 ## MVC Concept
 
 User <-> View <-> Controller <-> Model
 
-### to rebuild tailwind css
+
+### Php syntax
+
+`<?php ?>` To create php structure
+```
+<?php 
+echo "Hello World";
+
+?>
+```
+
+`?> <?php` To create chide php process inside parent
+```
+<?php 
+echo "Hello World";
+
+    ?> 
+        echo "This is an child!"
+
+    <?php
+?>
+```
+
+## To rebuild tailwind css
 
 ```bash
 npx tailwindcss -i .\public\style\input.css -o .\public\style\style.css --watch
 ```
+
+delay watch for 3 second
+
+```bash
+npx tailwindcss -i .\public\style\input.css -o .\public\style\style.css --watch --poll 3000
+```
+
+## Basic docker
 
 ### to check file in directory
 
