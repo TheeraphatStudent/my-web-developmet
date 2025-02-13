@@ -3,8 +3,6 @@ include(__DIR__ . '/../php/submitted.php');
 require_once(__DIR__ . '/../php/user.php');
 require_once(__DIR__ . '/../php/connected.php');
 
-session_start();
-
 $init = new Init();
 $connection = $init->getConnected();
 
@@ -18,9 +16,9 @@ if (isset($_GET['uniq_id'])) {
 // print_r($student);
 
 $user = new User($connection);
+$userToken = $_SESSION['token'];
 
 if (isset($_SESSION['token'])) {
-    $userToken = $_SESSION['token'];
     $isValid = $user->validateToken($userToken);
 
     // print_r($userToken);
@@ -34,6 +32,8 @@ if (isset($_SESSION['token'])) {
     header('Location: ../');
     exit;
 }
+
+print_r($_SESSION);
 ?>
 
 <!DOCTYPE html>
@@ -66,6 +66,7 @@ if (isset($_SESSION['token'])) {
                     <input type="text" name="update" id="update" value="0" class="hidden">
 
                     <input type="hidden" name="uniq_id" id="uniq_id" value="<?php echo ($student['uniqId']) ?>">
+                    <input type="hidden" name="token" id="token" value="<?php echo ($userToken) ?>">
 
                     <div class="mb-4">
                         <label class="block text-gray-700 font-bold mb-2" for="stdid">

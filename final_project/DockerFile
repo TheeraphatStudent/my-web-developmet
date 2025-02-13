@@ -11,7 +11,7 @@ COPY . /var/www/html/
 
 RUN chown -R www-data:www-data /var/www/html
 
-COPY apache2.conf /etc/apache2/conf-available/servername.conf
+COPY ./config/apache2.conf /etc/apache2/conf-available/servername.conf
 RUN a2enconf servername
 
 EXPOSE 80

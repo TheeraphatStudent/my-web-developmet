@@ -12,7 +12,7 @@ class Navbar extends Component
     {
         $activeLink = $this->data['activeLink'] ?? '';
 ?>
-        <nav class="absolute top-0 bg-white w-screen ">
+        <nav class="fixed top-0 bg-white w-screen z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between py-[.75rem]">
                     <div class="flex items-center">

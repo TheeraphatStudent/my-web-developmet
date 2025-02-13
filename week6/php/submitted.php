@@ -1,6 +1,9 @@
 <?php
 
+session_start();
+
 require_once(__DIR__ .  '/student.php');
+require_once(__DIR__ .  '/user.php');
 require_once('../utils/useHttpStatus.php');
 require_once(__DIR__ .  '/connected.php');
 
@@ -8,20 +11,41 @@ $init = new Init();
 $connection = $init->getConnected();
 
 $student = new Student($connection);
+$user = new User($connection);
+
+// print_r($_SESSION);
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    // if (isset($_SESSION['token'])) {
+    if (isset($_POST['token'])) {
+        $userToken = $_POST['token'];
+        $isValid = $user->validateToken($userToken);
+    
+        if (!$isValid['valid']) {
+            header('Location: ../');
+            exit;
+        }
+    } else {
+        header('Location: ../');
+        exit;
+    }
+
     $response = null;
     $result = null;
 
     switch (true) {
         case isset($_POST['update']):
             unset($_POST['update']);
+            unset($_POST['token']);
 
             $result = $student->updateStudentByUniqId($_POST['uniq_id'], $_POST);
             break;
 
         case isset($_POST['post']):
             unset($_POST['post']);
+            unset($_POST['token']);
+
             $result = $student->addedStudent($_POST);
             break;
 
