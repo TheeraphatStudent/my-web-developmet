@@ -12,7 +12,7 @@ class SchedulerCalendar extends Component
 ?>
         <link rel="stylesheet" href="../../../public/style/main.css">
         <div class="">
-            <div id="app" class="container mx-auto p-4 max-w-[1200px]">
+            <div id="app" class="container mx-auto p-4 max-w-content">
                 <div class="flex lg:flex-row flex-col  gap-4">
                     <!-- Calendar Section -->
                     <div class="bg-white/40 rounded-lg shadow-lg p-6 flex-1">
@@ -34,13 +34,13 @@ class SchedulerCalendar extends Component
                             <div class="text-center font-semibold">Sat</div>
                         </div>
 
-                        <div id="calendar" class="grid grid-cols-7 gap-2 h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] max-h-[500px]"></div>
+                        <div id="calendar" class="grid grid-cols-7 gap-2 min-h-fit h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] max-h-[500px]"></div>
                     </div>
 
                     <!-- Events Side Panel -->
                     <div class="bg-white/40 rounded-lg shadow-lg p-6 w-full lg:max-w-[350px]">
                         <h2 class="text-xl font-bold mb-4 text-secondary">Month Events</h2>
-                        <div id="monthEvents" class="space-y-4"></div>
+                        <div id="monthEvents" class="h-full max-h-[620px] overflow-y-auto space-y-4 pr-5"></div>
                     </div>
                 </div>
 

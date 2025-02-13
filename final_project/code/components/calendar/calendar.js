@@ -11,27 +11,69 @@ const events = {
             location: 'Restaurant ABC',
             time: '12:30 PM'
         },
-        {
-            title: 'A',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-            fullDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-            location: 'Restaurant ABC',
-            time: '12:30 PM'
-        },
-        {
-            title: 'B',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-            fullDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-            location: 'Restaurant ABC',
-            time: '12:30 PM'
-        },
-        {
-            title: 'C',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-            fullDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-            location: 'Restaurant ABC',
-            time: '12:30 PM'
-        }
+        // {
+        //     title: 'A',
+        //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        //     fullDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        //     location: 'Restaurant ABC',
+        //     time: '12:30 PM'
+        // },
+        // {
+        //     title: 'B',
+        //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        //     fullDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        //     location: 'Restaurant ABC',
+        //     time: '12:30 PM'
+        // },
+        // {
+        //     title: 'C',
+        //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        //     fullDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        //     location: 'Restaurant ABC',
+        //     time: '12:30 PM'
+        // },
+        // {
+        //     title: 'D',
+        //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        //     fullDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        //     location: 'Restaurant ABC',
+        //     time: '12:30 PM'
+        // },
+        // {
+        //     title: 'E',
+        //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        //     fullDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        //     location: 'Restaurant ABC',
+        //     time: '12:30 PM'
+        // },
+        // {
+        //     title: 'E',
+        //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        //     fullDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        //     location: 'Restaurant ABC',
+        //     time: '12:30 PM'
+        // },
+        // {
+        //     title: 'E',
+        //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        //     fullDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        //     location: 'Restaurant ABC',
+        //     time: '12:30 PM'
+        // },
+        // {
+        //     title: 'E',
+        //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        //     fullDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        //     location: 'Restaurant ABC',
+        //     time: '12:30 PM'
+        // },
+        // {
+        //     title: 'E',
+        //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        //     fullDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        //     location: 'Restaurant ABC',
+        //     time: '12:30 PM'
+        // },
     ],
 };
 
@@ -67,18 +109,20 @@ const renderCalendar = () => {
         const dateCell = document.createElement('div');
         const dateString = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
 
-        dateCell.className = 'shadow-md bg-gray-150/80 rounded p-2 border cursor-pointer hover:bg-primary group';
+        dateCell.className = 'calendar-day bg-white rounded p-2 border cursor-pointer hover:bg-gray-50';
         dateCell.innerHTML = `
-      <div class="font-semibold group-hover:text-white"><span>${day}</span></div>
-      <div class="flex flex-wrap mt-1 group-hover:text-white" id="events-${dateString}"></div>
+          <div class="font-semibold">${day}</div>
+          <div class="flex flex-wrap mt-1" id="events-${dateString}"></div>
         `;
+
+        const eventsContainer = dateCell.querySelector(`#events-${dateString} `);
+        eventsContainer.classList = 'flex flex-wrap w-full max-w-[80px] md:max-w-[60px] sm:max-w-[40px] h-[clamp(40px,15vw,60px)] gap-1';
 
         // Show icon on calendar
         if (events[dateString]) {
-            const eventsContainer = dateCell.querySelector(`#events - ${ dateString } `);
 
             events[dateString].forEach((event, index) => {
-                console.log(`Event Notify: ${ event.title } at ${ event.time } on ${ day } ${ monthYearString } Month`);
+                console.log(`Event Notify: ${event.title} at ${event.time} on ${day} ${monthYearString} Month`);
 
                 const eventDot = document.createElement('div');
                 eventDot.className = 'w-2 h-2 rounded-full bg-secondary m-0.5';
@@ -104,7 +148,7 @@ const renderCalendar = () => {
         const eventElement = document.createElement('div');
         eventElement.className = 'p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100';
         eventElement.innerHTML = `
-            <div div class="font-semibold" > ${ event.title }</div >
+            <div div class="font-semibold" > ${event.title}</div >
       <div class="text-sm text-gray-600">Date: ${day} ${monthYearString}</div>
       <div class="text-sm text-gray-600">Time: ${event.time}</div>
         `;
@@ -159,4 +203,7 @@ const showEventDetails = (date, eventIndex) => {
     document.getElementById('eventDetailsModal').classList.remove('hidden');
 }
 
-renderCalendar();
+// Loaded Content
+document.addEventListener('DOMContentLoaded', () => {
+    renderCalendar();
+})
