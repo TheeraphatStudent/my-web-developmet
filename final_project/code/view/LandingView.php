@@ -54,14 +54,16 @@ $calendar = new SchedulerCalendar();
     </div>
 
     <!-- Landing Content -->
-    <div class="flex flex-col w-screen h-screen max-w-content gap-5 *:w-full *:h-full">
+    <div class="flex flex-col w-screen h-screen max-w-content gap-5 *:w-full *:h-full my-8">
         <!-- Filter -->
-        <div>
+        <div class="h-fit max-h-fit">
             <?php
             $filter->render();
             ?>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-7xl mx-auto px-4">
+
+        <!-- Content -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-7xl mx-auto max-h-[860px] h-full">
             <?php for ($i = 0; $i < 6; $i++) : ?>
                 <div class="flex flex-col justify-between items-center p-5 gap-4 rounded-lg w-full h-[422px] shadow-md bg-orange-50">
                     <div class="flex flex-col justify-between items-center gap-[150px] rounded w-full h-60 bg-[url(https://picsum.photos/seed/picsum/1920/1080)] overflow-hidden">
@@ -115,7 +117,16 @@ $calendar = new SchedulerCalendar();
                 </div>
             <?php endfor; ?>
         </div>
+
+        <!-- Suggest -->
+         <div class="flex w-full min-h-[600px] bg-white"></div>
+
+        <!-- Step -->
+
     </div>
+
+    <!-- <footer class="w-full h-[500px] bg-white">
+    </footer> -->
 </body>
 
 </html>

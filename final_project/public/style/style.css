@@ -696,6 +696,11 @@ h3 {
   margin-right: auto;
 }
 
+.my-8 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
 .mb-2 {
   margin-bottom: 0.5rem;
 }
@@ -812,6 +817,19 @@ h3 {
   height: 100vh;
 }
 
+.h-\[500px\] {
+  height: 500px;
+}
+
+.h-fit {
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.h-\[600px\] {
+  height: 600px;
+}
+
 .max-h-\[500px\] {
   max-height: 500px;
 }
@@ -820,9 +838,30 @@ h3 {
   max-height: 620px;
 }
 
+.max-h-fit {
+  max-height: -moz-fit-content;
+  max-height: fit-content;
+}
+
+.max-h-\[\] {
+  max-height: ;
+}
+
+.max-h-\[850px\] {
+  max-height: 850px;
+}
+
+.max-h-\[860px\] {
+  max-height: 860px;
+}
+
 .min-h-fit {
   min-height: -moz-fit-content;
   min-height: fit-content;
+}
+
+.min-h-\[600px\] {
+  min-height: 600px;
 }
 
 .w-11 {
@@ -1197,6 +1236,11 @@ h3 {
   background-color: rgb(251 248 238 / 0.4);
 }
 
+.bg-teal-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(17 94 89 / var(--tw-bg-opacity, 1));
+}
+
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
@@ -1277,6 +1321,11 @@ h3 {
 .py-\[\.75rem\] {
   padding-top: .75rem;
   padding-bottom: .75rem;
+}
+
+.py-12 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 
 .pb-2\.5 {
