@@ -65,14 +65,14 @@ docker compose down
 
 1. Test docker image
 
-```
-docker run -p 8080:80 th33raphat/web-final_act-gate:v0.1
+```bash
+docker run -p 8080:80 th33raphat/web-final_act-gate:latest
 ```
 
 2. Pull to docker hub
 
-```
-docker build -t web-final_act-gate -f .\DockerFile . ;& docker tag web-final_act-gate th33raphat/web-final_act-gate:v0.1 ;& docker push th33raphat/web-final_act-gate:v0.1
+```bash
+docker build -t web-final_act-gate -f .\DockerFile . ;& docker tag web-final_act-gate th33raphat/web-final_act-gate:latest ;& docker push th33raphat/web-final_act-gate:latest
 ```
 
 3. Go to koyeb and redeploy

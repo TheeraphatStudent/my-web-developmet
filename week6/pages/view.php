@@ -3,8 +3,6 @@ require_once(__DIR__ . '/../php/submitted.php');
 require_once(__DIR__ . '/../php/user.php');
 require_once(__DIR__ . '/../php/connected.php');
 
-session_start();
-
 $init = new Init();
 $connection = $init->getConnected();
 
@@ -25,6 +23,9 @@ if (isset($_SESSION['token'])) {
     header('Location: ../');
     exit;
 }
+
+// print_r($user);
+print_r($connection);
 
 $std = new Student($connection);
 $students = ($std->getStudents())['data'];
@@ -110,6 +111,7 @@ $students = ($std->getStudents())['data'];
                                                         <form action='../php/submitted.php' method='post' style='display:inline; margin: 0;'>
                                                             <input type='text' name='delete' id='delete' value='1' class='hidden'>
                                                             <input type='hidden' name='uniq_id' value='{$student['uniqId']}'>
+                                                            <input type='hidden' name='token' id='token' value='$userToken'>
                                                             <button type='submit' class='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-red-600 hover:text-red-800 focus:outline-none focus:text-red-800 disabled:opacity-50 disabled:pointer-events-none'>Delete</button>
                                                         </form>
                                                     </td>
@@ -156,7 +158,7 @@ $students = ($std->getStudents())['data'];
                     <form action="../php/submitted.php" method="post" id="added_student_form">
                         <!-- Post type -->
                         <input type="text" name="post" id="post" value="2" class="hidden">
-
+                        <input type='hidden' name='token' id='token' value='<?php echo ($userToken) ?>'>
                         <input type="text" class="hidden" name="uniq_id" id="uniq_id" value="<?php echo uniqid(); ?>">
 
                         <div class="mb-4">

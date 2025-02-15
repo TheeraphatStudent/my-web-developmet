@@ -77,7 +77,7 @@ class User implements UserProps
             $user = $statement->fetch(PDO::FETCH_ASSOC);
 
             if (!$user) {
-                return ['status' => 404, 'error' => 'User not found', 'valid' => false];
+                return ['status' => 404, 'error' => 'User not found', 'valid' => false, 'response' => $user];
             }
 
             unset($user['username']);
