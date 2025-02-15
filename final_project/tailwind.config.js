@@ -7,6 +7,9 @@ module.exports = {
       maxWidth: {
         content: "1200px"
       },
+      fontFamily: {
+        'kanit': ['Kanit', 'sans-serif'],
+      },
       colors: {
         primary: "#226E6A",
         secondary: "#003C86",

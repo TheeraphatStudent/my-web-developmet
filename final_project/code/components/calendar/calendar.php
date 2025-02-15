@@ -12,7 +12,7 @@ class SchedulerCalendar extends Component
 ?>
         <link rel="stylesheet" href="../../../public/style/main.css">
         <div class="">
-            <div id="app" class="container mx-auto p-4 max-w-content">
+            <div id="app" class="container mx-auto max-w-content">
                 <div class="flex lg:flex-row flex-col  gap-4">
                     <!-- Calendar Section -->
                     <div class="bg-white/40 rounded-lg shadow-lg p-6 flex-1">
