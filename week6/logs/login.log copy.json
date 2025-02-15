@@ -1,9 +1,0 @@
-{
-    "status": 201,
-    "message": "Account created successfully",
-    "data": {
-        "id": 1,
-        "userId": "123456789"
-
-    }
-}
