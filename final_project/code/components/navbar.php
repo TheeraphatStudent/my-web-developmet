@@ -31,11 +31,11 @@ class Navbar extends Component
                             <a href='#' class='text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium'>Profile</a>
                             " :
                                 "
-                            <a href='#' class='group primary-btn signin-btn w-[160px]'>
-                                <span class='group-hover:text-white'>Sign In</span>
+                            <a href='..?action=register' class='group primary-btn signin-btn w-[160px]'>
+                                <span class='group-hover:text-white'>สร้างบัญชี</span>
                             </a>
-                            <a href='#' class='group primary-btn-outline login-btn'>
-                                <span class='group-hover:text-white'>Log In</span>
+                            <a href='..?action=login' class='group primary-btn-outline login-btn'>
+                                <span class='group-hover:text-white'>เข้าสู่ระบบ</span>
                             </a>
                             ";
                             ?>

@@ -691,6 +691,11 @@ h3 {
   margin: 0.125rem;
 }
 
+.mx-10 {
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -699,6 +704,11 @@ h3 {
 .my-8 {
   margin-top: 2rem;
   margin-bottom: 2rem;
+}
+
+.mx-\[calc\(100\%-80px\)\] {
+  margin-left: calc(100% - 80px);
+  margin-right: calc(100% - 80px);
 }
 
 .mb-2 {
@@ -793,6 +803,10 @@ h3 {
   height: 422px;
 }
 
+.h-\[500px\] {
+  height: 500px;
+}
+
 .h-\[50vh\] {
   height: 50vh;
 }
@@ -809,6 +823,11 @@ h3 {
   height: clamp(40px,15vw,60px);
 }
 
+.h-fit {
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
 .h-full {
   height: 100%;
 }
@@ -817,17 +836,12 @@ h3 {
   height: 100vh;
 }
 
-.h-\[500px\] {
-  height: 500px;
+.h-\[400px\] {
+  height: 400px;
 }
 
-.h-fit {
-  height: -moz-fit-content;
-  height: fit-content;
-}
-
-.h-\[600px\] {
-  height: 600px;
+.h-\[200px\] {
+  height: 200px;
 }
 
 .max-h-\[500px\] {
@@ -838,21 +852,25 @@ h3 {
   max-height: 620px;
 }
 
+.max-h-\[860px\] {
+  max-height: 860px;
+}
+
 .max-h-fit {
   max-height: -moz-fit-content;
   max-height: fit-content;
 }
 
-.max-h-\[\] {
-  max-height: ;
+.max-h-\[600px\] {
+  max-height: 600px;
 }
 
-.max-h-\[850px\] {
-  max-height: 850px;
+.max-h-\[400px\] {
+  max-height: 400px;
 }
 
-.max-h-\[860px\] {
-  max-height: 860px;
+.min-h-\[600px\] {
+  min-height: 600px;
 }
 
 .min-h-fit {
@@ -860,8 +878,8 @@ h3 {
   min-height: fit-content;
 }
 
-.min-h-\[600px\] {
-  min-height: 600px;
+.min-h-\[400px\] {
+  min-height: 400px;
 }
 
 .w-11 {
@@ -969,6 +987,10 @@ h3 {
   max-width: 28rem;
 }
 
+.max-w-\[calc\(100\%-80px\)\] {
+  max-width: calc(100% - 80px);
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -999,6 +1021,10 @@ h3 {
 
 .items-start {
   align-items: flex-start;
+}
+
+.items-end {
+  align-items: flex-end;
 }
 
 .items-center {
@@ -1236,11 +1262,6 @@ h3 {
   background-color: rgb(251 248 238 / 0.4);
 }
 
-.bg-teal-800 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(17 94 89 / var(--tw-bg-opacity, 1));
-}
-
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
@@ -1321,11 +1342,6 @@ h3 {
 .py-\[\.75rem\] {
   padding-top: .75rem;
   padding-bottom: .75rem;
-}
-
-.py-12 {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
 }
 
 .pb-2\.5 {

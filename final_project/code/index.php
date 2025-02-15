@@ -11,6 +11,17 @@ use FinalProject\Controller\MainController;
 $action = $_GET['action'] ?? 'index';
 $controller = new MainController();
 
+print_r($action);
+echo "</br>";
+
+print_r($_SERVER['REQUEST_URI']);
+
+function normalizeUri(string $uri): string
+{
+    $uri = strtolower(trim($uri, '/'));
+    return $uri == '' ? 'home' : $uri;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -29,6 +40,13 @@ $controller = new MainController();
             $controller->index();
 
             break;
+
+        case 'login':
+            break;
+
+        case 'register':
+            break;
+
         default:
             header("HTTP/1.0 404 Not Found");
             echo "Page not found";
