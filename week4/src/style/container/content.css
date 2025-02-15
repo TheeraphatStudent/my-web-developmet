@@ -1,0 +1,35 @@
+[class*="container.main"] {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+[class*="container.childe"] {
+    display: flex;
+    
+    span {
+        text-align: center;
+        min-width: 10rem;
+        width: 100%;
+
+    }
+
+}
+
+[class*="display"] {
+    display: none;
+
+}
+
+[class*="flex"] {
+    display: flex;
+
+}
+
+[class*="flex-col"] {
+    flex-direction: column;
+
+}

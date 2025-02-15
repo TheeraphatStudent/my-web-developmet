@@ -1,0 +1,11 @@
+{
+    "status": 201,
+    "message": "Account created successfully",
+    "data": {
+        "id": 1,
+        "userId": "7c0bcd13e72d62c1241696d4b693a9209cae1706e4e2531365637d973b6bfe659af3c0e0b4d3de9b4ff44cf926275f429e4b4d8e8e05dad76f8e1610b8607ef9",
+        "username": "username",
+        "email": "th33raphat@gmail.com",
+        "password": "$2y$12$hvdDKmybE91TkJ59Yb\/FeuwAxc2prUKlC4f.vzdSx1coGr0deybhO"
+    }
+}

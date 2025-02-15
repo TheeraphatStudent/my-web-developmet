@@ -1,0 +1,20 @@
+[class*="word.current"] {
+  /* text-decoration: underline; */
+  background-repeat: repeat-x;
+  background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/78779/bacon.svg");
+  background-position: 0 85%;
+  background-size: 28px 9px;
+  color: color-mix(in srgb, var(--color-gray) 70%, var(--color-white) 30%);
+}
+
+[class*="word.sleep"] {
+  color: color-mix(in srgb, var(--color-gray) 30%, var(--color-white) 70%);
+}
+
+[class*="word.danger"] {
+  color: var(--color-red);
+}
+
+[class*="word.active"] {
+  color: var(--color-green);
+}

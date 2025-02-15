@@ -1,0 +1,47 @@
+[class*="btn.highlight"] {
+    /* border-radius: 0.75rem; */
+    background-color: transparent;
+    color: var(--color-red);
+    border: none;
+    font-size: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+[class*="btn.highlight"]::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-red);
+    transition: width 0.3s ease-in-out;
+}
+
+[class*="btn.highlight"]:hover::before {
+    width: 100%;
+}
+
+[class*="btn.highlight"]:active {
+    transform: translateY(1px);
+}
+
+[class*="btn.highlight"]::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease-out, height 0.6s ease-out;
+}
+
+[class*="btn.highlight"]:hover::after {
+    width: 300px;
+    height: 300px;
+}
