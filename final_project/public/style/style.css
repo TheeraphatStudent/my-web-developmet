@@ -687,6 +687,22 @@ span {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.input-field {
+  width: 100%;
+  border-radius: 0.5rem;
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 1rem;
+  padding-right: 2.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  --tw-text-opacity: 1;
+  color: rgb(31 41 55 / var(--tw-text-opacity, 1));
+}
+
 .visible {
   visibility: visible;
 }
@@ -1623,33 +1639,8 @@ span {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-.shadow-orange-500\/50 {
-  --tw-shadow-color: rgb(249 115 22 / 0.5);
-  --tw-shadow: var(--tw-shadow-colored);
-}
-
-.shadow-primary {
-  --tw-shadow-color: #226E6A;
-  --tw-shadow: var(--tw-shadow-colored);
-}
-
-.shadow-primary\/60 {
-  --tw-shadow-color: rgb(34 110 106 / 0.6);
-  --tw-shadow: var(--tw-shadow-colored);
-}
-
-.shadow-orange-500\/60 {
-  --tw-shadow-color: rgb(249 115 22 / 0.6);
-  --tw-shadow: var(--tw-shadow-colored);
-}
-
-.shadow-orange-500\/80 {
-  --tw-shadow-color: rgb(249 115 22 / 0.8);
-  --tw-shadow: var(--tw-shadow-colored);
-}
-
-.shadow-primary\/80 {
-  --tw-shadow-color: rgb(34 110 106 / 0.8);
+.shadow-orange-500\/40 {
+  --tw-shadow-color: rgb(249 115 22 / 0.4);
   --tw-shadow: var(--tw-shadow-colored);
 }
 
@@ -1658,13 +1649,12 @@ span {
   --tw-shadow: var(--tw-shadow-colored);
 }
 
-.shadow-orange-500\/40 {
-  --tw-shadow-color: rgb(249 115 22 / 0.4);
-  --tw-shadow: var(--tw-shadow-colored);
-}
-
 .outline-orange-600 {
   outline-color: #ea580c;
+}
+
+.outline-green {
+  outline-color: #1B8600;
 }
 
 .filter {
@@ -1794,10 +1784,6 @@ span {
     flex-direction: row;
   }
 
-  .lg\:flex-col {
-    flex-direction: column;
-  }
-
   .lg\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
@@ -1820,9 +1806,5 @@ span {
 @media (min-width: 1280px) {
   .xl\:flex-row {
     flex-direction: row;
-  }
-
-  .xl\:flex-col {
-    flex-direction: column;
   }
 }
