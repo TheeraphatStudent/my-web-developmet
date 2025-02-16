@@ -9,6 +9,9 @@ require_once(__DIR__ . '/controller/MainController.php');
 require_once(__DIR__ . '/model/MapModel.php');
 
 $action = $_GET['action'] ?? 'index';
+// action : Page
+// request : user ขอการดำเนินการบางอย่าง เช่น Lonin
+
 $controller = new MainController();
 
 // print_r($action);
