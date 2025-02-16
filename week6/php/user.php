@@ -32,6 +32,8 @@ class User implements UserProps
 
             $userId = $this->connection->lastInsertId();
 
+            // ?
+            // = :id
             $statement = $this->connection->prepare("SELECT * FROM users WHERE id = :id");
             $statement->execute([':id' => $userId]);
             $user = $statement->fetch(PDO::FETCH_ASSOC);

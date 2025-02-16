@@ -22,7 +22,7 @@ class MainController
     public function index()
     {
         // $mapApiKey = $this->mapModel->getMapApiKey();
-        require_once("./view/LandingViewL.php");
+        require_once("./view/LandingView.php");
     }
 
     public function auth($type = 'login')

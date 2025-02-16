@@ -43,4 +43,8 @@
   .card {
     @apply flex w-full max-w-[450px] h-fit p-8 bg-white border shadow-xl rounded-xl;
   }
+
+  .input-field {
+    @apply w-full text-sm text-gray-800 border border-gray-300 pl-4 pr-10 py-3 rounded-lg;
+  }
 }
