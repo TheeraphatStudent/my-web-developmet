@@ -37,6 +37,7 @@ services:
       - ./.env
     volumes:
       - sqldb:/var/lib/mysql
+      # - ./sql:/docker-entrypoint-initdb.d
     networks:
       - mynetwork
 
