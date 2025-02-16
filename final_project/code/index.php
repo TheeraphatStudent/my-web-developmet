@@ -2,25 +2,17 @@
 
 namespace FinalProject;
 
-require_once(__DIR__ . '/php/environment.php');
+use FinalProject\Controller\MainController;
+
+// require_once(__DIR__ . '/php/environment.php');
 require_once(__DIR__ . '/controller/MainController.php');
 require_once(__DIR__ . '/model/MapModel.php');
-
-use FinalProject\Controller\MainController;
 
 $action = $_GET['action'] ?? 'index';
 $controller = new MainController();
 
-print_r($action);
-echo "</br>";
-
-print_r($_SERVER['REQUEST_URI']);
-
-function normalizeUri(string $uri): string
-{
-    $uri = strtolower(trim($uri, '/'));
-    return $uri == '' ? 'home' : $uri;
-}
+// print_r($action);
+// echo "</br>";
 
 ?>
 
@@ -42,9 +34,9 @@ function normalizeUri(string $uri): string
             break;
 
         case 'login':
-            break;
-
         case 'register':
+        case 'logout':
+            $controller->auth($action);
             break;
 
         default:

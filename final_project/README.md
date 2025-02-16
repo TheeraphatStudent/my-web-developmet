@@ -2,12 +2,36 @@
 
 PHP event management system
 
-## MVC Concept
+# MVC Concept
 
 User <-> View <-> Controller <-> Model
 
+### Project structure
 
-### Php syntax
+`# Controller`  
+- Render content
+- จัดการ Flow ที่ `MainController`
+- Logic
+
+`# Model`  
+- เชื่อมต่อฐานข้อมูล
+- Api key
+
+`# View`  
+- Content
+- ทำงานตามแต่ละ View ต้องทำ เช่น MapView ใช้แสดง Map เท่านั้น
+
+`# Component`
+- ส่วนย่อยๆของ Content ที่ View ต้องเรียกใช้บ่อยๆ
+- ถ้าเป็น Style สร้าง Component ได้ใน input.css ที่ layer components
+
+`# Public`
+- ส่วนที่ Client เข้าถึงได้โดยตรง เอาไว้เก็บ Image, Icon, Style
+
+### การทำงาน
+การ Route จะใช้ Parameter เป็รหลัก โดยจะ Query ที่ index.php
+
+# Php syntax
 
 `<?php ?>` To create php structure
 ```
@@ -29,7 +53,7 @@ echo "Hello World";
 ?>
 ```
 
-## To rebuild tailwind css
+# To rebuild tailwind css
 
 ```bash
 npx tailwindcss -i .\public\style\input.css -o .\public\style\style.css --watch
@@ -41,7 +65,7 @@ delay watch for 3 second
 npx tailwindcss -i .\public\style\input.css -o .\public\style\style.css --watch --poll 3000
 ```
 
-## Basic docker
+# Basic docker
 
 ### to check file in directory
 
@@ -61,7 +85,7 @@ docker compose up -d
 docker compose down
 ```
 
-## Deploy with koyeb
+# Deploy with koyeb
 
 1. Test docker image
 

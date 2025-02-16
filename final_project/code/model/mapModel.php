@@ -2,6 +2,7 @@
 
 namespace FinalProject\Model;
 
+require_once(__DIR__ . '/environment.php');
 use Environment;
 
 class MapModel
