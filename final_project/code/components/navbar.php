@@ -17,7 +17,7 @@ class Navbar extends Component
                 <div class="flex items-center justify-between py-[.75rem]">
                     <div class="flex items-center">
                         <a href="index.php" class="text-white font-bold text-xl">
-                            <img src="../../public/images/logo.png" alt="act gate" srcset="" width="70px" height="70px">
+                            <img src="public/images/logo.png" alt="act gate" srcset="" width="70px" height="70px">
                         </a>
                     </div>
 
@@ -31,11 +31,11 @@ class Navbar extends Component
                             <a href='#' class='text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium'>Profile</a>
                             " :
                                 "
-                            <a href='#' class='group primary-btn signin-btn w-[160px]'>
-                                <span class='group-hover:text-white'>Sign In</span>
+                            <a href='..?action=register' class='group primary-btn signin-btn w-[160px]'>
+                                <span class='group-hover:text-white'>สร้างบัญชี</span>
                             </a>
-                            <a href='#' class='group primary-btn-outline login-btn'>
-                                <span class='group-hover:text-white'>Log In</span>
+                            <a href='..?action=login' class='group primary-btn-outline login-btn'>
+                                <span class='group-hover:text-white'>เข้าสู่ระบบ</span>
                             </a>
                             ";
                             ?>
@@ -45,7 +45,7 @@ class Navbar extends Component
                     <div class="md:hidden block">
                         <div class="flex items-baseline space-x-4">
                             <a href='#' class='flex items-center font-semibold h-14 px-4 rounded-xl'>
-                                <img src="../../public/icons/drawer.png" alt="">
+                                <img src="public/icons/drawer.png" alt="">
                             </a>
                         </div>
                     </div>

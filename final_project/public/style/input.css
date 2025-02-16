@@ -2,32 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 
 @layer base {
   h1 {
-    @apply text-2xl;
+    @apply text-2xl font-kanit;
   }
   h2 {
-    @apply text-xl;
+    @apply text-xl font-kanit;
   }
   h3 {
-    @apply text-lg;
+    @apply text-lg font-kanit;
+  }
+
+  a {
+    @apply underline decoration-blue-800
+
+  }
+
+  span {
+    @apply font-kanit
+
   }
 
   * {
     transition: all 0.2s ease-in-out;
-    font-family: 'Kanit', sans-serif !important;
+    font-family: "Kanit", sans-serif !important;
   }
 }
 
-
 @layer components {
   .primary-btn {
-    @apply flex items-center font-semibold h-14 bg-primary border-[.15rem] text-white border-primary px-6 rounded-xl hover:bg-secondary justify-center
+    @apply flex items-center font-semibold h-14 bg-primary border-[.15rem] text-white border-primary px-6 rounded-xl hover:bg-secondary justify-center;
   }
 
   .primary-btn-outline {
-    @apply flex items-center font-semibold h-14 bg-none border-[.15rem] text-primary border-primary px-6 rounded-xl hover:bg-secondary outline-none focus:outline-none
+    @apply flex items-center font-semibold h-14 bg-none border-[.15rem] text-primary border-primary px-6 rounded-xl hover:bg-secondary outline-none focus:outline-none;
+  }
+
+  .card {
+    @apply flex w-full max-w-[450px] h-fit p-8 bg-white border shadow-xl rounded-xl;
   }
 }

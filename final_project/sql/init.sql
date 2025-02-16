@@ -41,13 +41,13 @@ CREATE TABLE `Event` (
 
 CREATE TABLE `User` (
   `userId` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `username` varchar(500),
-  `password` varchar(500),
-  `email` varchar(500),
-  `name` varchar(500),
-  `gender` varchar(500),
-  `education` varchar(500),
-  `telno` varchar(500),
+  `username` varchar(100),
+  `password` varchar(100),
+  `email` varchar(100),
+  `name` varchar(100),
+  `gender` varchar(100),
+  `education` varchar(100),
+  `telno` varchar(100),
   `birth` date,
   `created` date,
   `updated` date

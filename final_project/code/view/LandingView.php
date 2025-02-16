@@ -54,16 +54,16 @@ $calendar = new SchedulerCalendar();
     </div>
 
     <!-- Landing Content -->
-    <div class="flex flex-col w-screen h-screen max-w-content gap-5 *:w-full *:h-full my-8">
+    <div class="flex flex-col items-center w-full h-full min-h-fit gap-5 *:w-full *:h-full my-8">
         <!-- Filter -->
-        <div class="h-fit max-h-fit">
+        <div class="w-full max-w-content h-fit max-h-fit mx-10">
             <?php
             $filter->render();
             ?>
         </div>
 
         <!-- Content -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-7xl mx-auto max-h-[860px] h-full">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-content h-full min-h-fit mx-10">
             <?php for ($i = 0; $i < 6; $i++) : ?>
                 <div class="flex flex-col justify-between items-center p-5 gap-4 rounded-lg w-full h-[422px] shadow-md bg-orange-50">
                     <div class="flex flex-col justify-between items-center gap-[150px] rounded w-full h-60 bg-[url(https://picsum.photos/seed/picsum/1920/1080)] overflow-hidden">
@@ -119,7 +119,13 @@ $calendar = new SchedulerCalendar();
         </div>
 
         <!-- Suggest -->
-         <div class="flex w-full min-h-[600px] bg-white"></div>
+        <div class="flex w-full items-end min-h-[400px] max-h-[400px]">
+            <div class="w-full h-[200px] bg-white">
+                <div class="flex justify-end items-center"></div>
+
+            </div>
+
+        </div>
 
         <!-- Step -->
 

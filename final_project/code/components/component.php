@@ -5,7 +5,6 @@ interface ComponentProps {
     public function render();
 
 }
-
 abstract class Component implements ComponentProps {
     protected $data;
 

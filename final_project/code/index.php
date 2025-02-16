@@ -2,14 +2,17 @@
 
 namespace FinalProject;
 
-require_once(__DIR__ . '/php/environment.php');
+use FinalProject\Controller\MainController;
+
+// require_once(__DIR__ . '/php/environment.php');
 require_once(__DIR__ . '/controller/MainController.php');
 require_once(__DIR__ . '/model/MapModel.php');
 
-use FinalProject\Controller\MainController;
-
 $action = $_GET['action'] ?? 'index';
 $controller = new MainController();
+
+// print_r($action);
+// echo "</br>";
 
 ?>
 
@@ -29,6 +32,13 @@ $controller = new MainController();
             $controller->index();
 
             break;
+
+        case 'login':
+        case 'register':
+        case 'logout':
+            $controller->auth($action);
+            break;
+
         default:
             header("HTTP/1.0 404 Not Found");
             echo "Page not found";
