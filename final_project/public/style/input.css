@@ -32,19 +32,19 @@
 }
 
 @layer components {
-  .primary-btn {
-    @apply flex items-center font-semibold h-14 bg-primary border-[.15rem] text-white border-primary px-6 rounded-xl hover:bg-secondary justify-center;
+  .btn-primary {
+    @apply flex items-center font-semibold h-14 bg-primary border-[.15rem] text-white border-primary px-6 rounded-xl hover:bg-secondary justify-center no-underline !important;
   }
 
-  .primary-btn-outline {
-    @apply flex items-center font-semibold h-14 bg-none border-[.15rem] text-primary border-primary px-6 rounded-xl hover:bg-secondary outline-none focus:outline-none;
+  .btn-primary-outline {
+    @apply flex items-center font-semibold h-14 bg-none border-[.15rem] text-primary border-primary px-6 rounded-xl hover:bg-secondary outline-none focus:outline-none !important;
   }
 
   .card {
-    @apply flex w-full max-w-[450px] h-fit p-8 bg-white border shadow-xl rounded-xl;
+    @apply flex w-full max-w-[450px] h-fit p-8 bg-white border shadow-xl rounded-xl !important;
   }
 
   .input-field {
-    @apply w-full text-sm text-gray-800 border border-gray-300 pl-4 pr-10 py-3 rounded-lg;
+    @apply w-full text-sm text-gray-800 border border-gray-300 pl-4 pr-10 py-3 rounded-lg !important;
   }
 }
