@@ -2,11 +2,13 @@
 
 namespace FinalProject;
 
-use FinalProject\Controller\MainController;
-
 // require_once(__DIR__ . '/php/environment.php');
 require_once(__DIR__ . '/controller/MainController.php');
 require_once(__DIR__ . '/model/MapModel.php');
+require_once(__DIR__ . '/components/navbar.php');
+
+use FinalProject\Components\Navbar;
+use FinalProject\Controller\MainController;
 
 $action = $_GET['action'] ?? 'index';
 // action : Page
@@ -27,6 +29,10 @@ switch ($action) {
         $controller->auth($action);
         break;
 
+    case 'attendee':
+        $controller->attendee();
+        break;
+
     default:
         header("HTTP/1.0 404 Not Found");
         $controller->notFound();
@@ -34,6 +40,8 @@ switch ($action) {
 }
 
 $content = ob_get_clean();
+
+$navbar = new Navbar();
 
 ?>
 
@@ -49,6 +57,8 @@ $content = ob_get_clean();
 
 <body>
     <?php
+    $navbar->render();
+
     $content
     ?>
 </body>

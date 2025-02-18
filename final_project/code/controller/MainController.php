@@ -45,6 +45,11 @@ class MainController
         }
     }
 
+    public function attendee() {
+        require_once("./view/event/AttendeeView.php");
+
+    }
+
     public function notFound() {
         header("HTTP/1.0 404 Not Found");
         require_once("./view/NotFoundView.php");

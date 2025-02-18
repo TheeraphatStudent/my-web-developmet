@@ -16,7 +16,7 @@ class Navbar extends Component
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between py-[.75rem]">
                     <div class="flex items-center">
-                        <a href="index.php" class="text-white font-bold text-xl">
+                        <a href="../" class="text-white font-bold text-xl">
                             <img src="public/images/logo.png" alt="act gate" srcset="" width="70px" height="70px">
                         </a>
                     </div>

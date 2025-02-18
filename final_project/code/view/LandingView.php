@@ -2,11 +2,8 @@
 
 namespace FinalProject\Components;
 
-require_once(__DIR__ . '/../components/navbar.php');
 require_once(__DIR__ . '/../components/search.php');
 require_once(__DIR__ . '/../components/calendar/calendar.php');
-
-$navbar = new Navbar();
 
 $search = new Search();
 $filter = new Filter();
@@ -27,10 +24,6 @@ $calendar = new SchedulerCalendar();
 </head>
 
 <body class="flex flex-col justify-center items-center bg-primary relative gap-12">
-    <?php
-    $navbar->render();
-    ?>
-
     <!-- Cover Image -->
     <div class="relative lg:pt-[12rem] lg:pb-[8rem] pb-[4rem] pt-[8rem]">
         <div
