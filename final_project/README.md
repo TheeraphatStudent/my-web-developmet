@@ -12,6 +12,7 @@ User <-> View <-> Controller <-> Model
 - Render content
 - จัดการ Flow ที่ `MainController`
 - Logic
+- Request -> Response
 
 `# Model`  
 - เชื่อมต่อฐานข้อมูล
