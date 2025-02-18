@@ -1,5 +1,5 @@
 var map;
-var location = { lat: 0, lon: 0 };
+var location = { lat: 16.245587564752867, lon: 103.25024513607679 };
 
 class Init {
     constructor() {
@@ -8,7 +8,12 @@ class Init {
         map = new longdo.Map({
             placeholder: document.getElementById('map'),
             language: 'th',
-            zoom: 2
+            zoom: 15,
+            location: {
+                lon: location.lon,
+                lat: location.lat
+            },
+            // lastView: true
         });
 
         // Map V3

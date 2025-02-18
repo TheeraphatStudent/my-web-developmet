@@ -21,7 +21,6 @@ class MainController
 
     public function index()
     {
-        // $mapApiKey = $this->mapModel->getMapApiKey();
         require_once("./view/LandingView.php");
     }
 
@@ -46,6 +45,8 @@ class MainController
     }
 
     public function attendee() {
+        $mapApiKey = $this->mapModel->getMapApiKey();
+        echo ($mapApiKey);
         require_once("./view/event/AttendeeView.php");
 
     }

@@ -1,9 +1,13 @@
 <?php
 
-namespace FinalProject\Components;
+namespace FinalProject\View;
 
 require_once(__DIR__ . '/../components/search.php');
 require_once(__DIR__ . '/../components/calendar/calendar.php');
+
+use FinalProject\Components\Search;
+use FinalProject\Components\Filter;
+use FinalProject\Components\SchedulerCalendar;
 
 $search = new Search();
 $filter = new Filter();

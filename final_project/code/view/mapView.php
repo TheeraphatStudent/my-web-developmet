@@ -1,6 +1,9 @@
-<!-- <?php
+<?php
+
+namespace FinalProject\View;
+
 echo $mapApiKey
-?> -->
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,9 +34,7 @@ echo $mapApiKey
         });
     </script>
 
-    <!-- <link rel="stylesheet" href="../public/style/style.css">
-    <link rel="stylesheet" href="../public/style/override.css"> -->
-    <link rel="stylesheet" href="../public/style/main.css">
+    <link rel="stylesheet" href="public/style/main.css">
 </head>
 
 <body>

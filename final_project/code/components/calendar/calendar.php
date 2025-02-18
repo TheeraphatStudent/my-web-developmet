@@ -10,7 +10,7 @@ class SchedulerCalendar extends Component
     {
 
 ?>
-        <link rel="stylesheet" href="../../../public/style/main.css">
+        <link rel="stylesheet" href="public/style/main.css">
         <div class="">
             <div id="app" class="container mx-auto max-w-content">
                 <div class="flex lg:flex-row flex-col  gap-4">
