@@ -1,4 +1,4 @@
-CREATE TABLE Author (
+CREATE TABLE IF NOT EXITS Author (
   `id`          int AUTO_INCREMENT PRIMARY KEY,
   `authorId`    varchar(255) NOT NULL UNIQUE,
   `eventId`     varchar(255) NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE Author (
   `updated`     date
 );
 
-CREATE TABLE Attendance (
+CREATE TABLE IF NOT EXITS Attendance (
   `id`         int AUTO_INCREMENT PRIMARY KEY,
   `attId`      varchar(255) NOT NULL UNIQUE,
   `regId`      varchar(255) NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE Attendance (
   `created`    date
 );
 
-CREATE TABLE Registration (
+CREATE TABLE IF NOT EXITS Registration (
   `id`        int AUTO_INCREMENT PRIMARY KEY,
   `regId`     varchar(255) NOT NULL UNIQUE,
   `eventId`   varchar(255) NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE Registration (
   `created`   date
 );
 
-CREATE TABLE Event (
+CREATE TABLE IF NOT EXITS Event (
   `id`          int AUTO_INCREMENT PRIMARY KEY,
   `eventId`     varchar(255) NOT NULL UNIQUE,
   `organizeId`  varchar(255) NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE Event (
   `updated`     date
 );
 
-CREATE TABLE `User` (
+CREATE TABLE IF NOT EXITS `User` (
   `id`          int AUTO_INCREMENT PRIMARY KEY,
   `userId`      varchar(255) NOT NULL UNIQUE,
   `username`    varchar(100),

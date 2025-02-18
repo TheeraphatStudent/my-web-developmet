@@ -45,45 +45,9 @@ class MainController
         }
     }
 
-    // public function login()
-    // {
-    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //         $username = $_POST['username'] ?? '';
-    //         $password = $_POST['password'] ?? '';
-    //         if ($this->userModel->authenticate($username, $password)) {
-    //             $_SESSION['user'] = $username;
-    //             header('Location: index.php');
-    //             exit;
-    //         } else {
-    //             $error = 'Invalid username or password';
-    //         }
-    //     }
-    //     $this->renderView('LoginView', ['error' => $error ?? null]);
-    // }
+    public function notFound() {
+        header("HTTP/1.0 404 Not Found");
+        require_once("./view/NotFoundView.php");
 
-    // public function register()
-    // {
-    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //         $username = $_POST['username'] ?? '';
-    //         $password = $_POST['password'] ?? '';
-    //         $email = $_POST['email'] ?? '';
-    //         if ($this->userModel->register($username, $password, $email)) {
-    //             // Successful registration
-    //             $_SESSION['user'] = $username;
-    //             header('Location: index.php');
-    //             exit;
-    //         } else {
-    //             $error = 'Registration failed';
-    //         }
-    //     }
-
-    //     $this->renderView('RegisterView', ['error' => $error ?? null]);
-    // }
-
-    // public function logout()
-    // {
-    //     session_destroy();
-    //     header('Location: index.php');
-    //     exit;
-    // }
+    }
 }
