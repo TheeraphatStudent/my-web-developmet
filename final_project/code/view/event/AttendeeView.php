@@ -65,16 +65,12 @@
 
                         <!-- Buttons -->
                         <div class="flex flex-col justify-center items-center gap-2.5 h-auto lg:h-[118px] w-full">
-                            <div class="flex justify-center items-center rounded w-full lg:w-[325px] h-14 bg-teal-700 cursor-pointer">
-                                <a href="#" class="font-kanit text-base min-w-[47px] whitespace-nowrap text-orange-50 text-opacity-100 text-center leading-none font-normal">
-                                    เข้าร่วม
-                                </a>
-                            </div>
-                            <div class="flex justify-center items-center rounded border-teal-700 border-2 w-full lg:w-[325px] h-14 cursor-pointer">
-                                <a href="#" class="font-kanit text-base min-w-[34px] whitespace-nowrap text-teal-700 text-opacity-100 text-center leading-none font-normal">
-                                    สนใจ
-                                </a>
-                            </div>
+                            <a href="#" class="btn-primary w-full">
+                                <span>เข้าร่วม</span>
+                            </a>
+                            <a href="#" class="btn-primary-outline w-full group no-underline">
+                                <span class="group-hover:text-white">สนใจ</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -85,108 +81,81 @@
         </div>
 
         <!-- Detail -->
-        <div class="flex flex-col justify-start items-start gap-12 h-[580px]">
-            <div
-                class="flex flex-row justify-between items-start gap-12 w-[1200px] h-[310px]">
-                <div class="flex flex-col justify-start items-start gap-2.5 h-[310px]">
-                    <div
-                        class="font-kanit text-xl min-w-[550px] whitespace-nowrap text-orange-50 text-opacity-100 leading-none font-semibold">
+        <div class="flex flex-col justify-start items-start gap-14 lg:gap-36 w-full max-w-[1200px] mx-auto p-4">
+            <div class="flex flex-col lg:flex-row justify-between items-start gap-6 w-full *:max-w-none *:lg:max-w-[512px]">
+                <!-- Description -->
+                <div class="flex flex-col justify-start items-start gap-2.5 w-full lg:w-1/2">
+                    <div class="font-kanit text-xl text-orange-50 font-semibold">
                         คำอธิบาย
                     </div>
-                    <div
-                        class="font-kanit text-base w-[550px] text-orange-50 text-opacity-100 leading-none font-normal">
-                        &quot;Eat with Me: How to Eat for Health&quot;<br />มาร่วมงาน
-                        &quot;Eat with Me&quot; กับเรา! 🌿✨<br />งานที่จะพาคุณเรียนรู้เกี่ยวกับการรับประทานอาหารอย่างถูกต้อง
+                    <div class="font-kanit text-base text-orange-50 font-normal">
+                        "Eat with Me: How to Eat for Health"<br />มาร่วมงาน "Eat with Me" กับเรา! 🌿✨<br />งานที่จะพาคุณเรียนรู้เกี่ยวกับการรับประทานอาหารอย่างถูกต้อง
                         เพื่อสุขภาพที่ดีและสมดุล พบกับแนวทางการเลือกอาหารที่มีประโยชน์
                         เคล็ดลับการกินเพื่อสุขภาพ และไอเดียเมนูอร่อยที่ดีต่อร่างกาย<br /><br />📅
                         วันและเวลา: 12 มกราคาม 2568📍 สถานที่: Coworking space ท่าขอนยาง<br /><br />ร่วมสัมผัสประสบการณ์การกินอย่างมีสติ
                         และค้นพบวิธีดูแลสุขภาพผ่านอาหารที่อร่อยและมีคุณค่าทางโภชนาการ! 🥗🍎
                     </div>
                 </div>
-                <div class="flex flex-col justify-start items-start gap-2.5 h-[310px]">
-                    <div
-                        class="font-kanit text-xl min-w-[550px] whitespace-nowrap text-orange-50 text-opacity-100 leading-none font-normal">
+
+                <!-- Event Location -->
+                <div class="flex flex-col justify-start items-start gap-2.5 w-full lg:w-1/2">
+                    <div class="font-kanit text-xl text-orange-50 font-normal">
                         สถานที่จัดงาน
                     </div>
-                    <div
-                        class="flex justify-end items-end pb-4 pr-5 w-[550px] h-[260px] bg-ImageAsset1">
-                        <div
-                            class="flex flex-row justify-start items-center gap-2.5 pt-1 pr-2.5 pb-1 pl-2.5 rounded h-8 bg-neutral-400/50 min-w-[99px]">
-                            <div
-                                class="font-kanit text-base min-w-[49px] whitespace-nowrap underline text-neutral-800 text-opacity-100 leading-none font-normal">
+                    <div class="flex justify-end items-end pb-4 pr-5 w-full h-[260px] bg-ImageAsset1 bg-cover bg-center">
+                        <div class="flex flex-row justify-start items-center gap-2.5 pt-1 pr-2.5 pb-1 pl-2.5 rounded h-8 bg-neutral-400/50 min-w-[99px]">
+                            <div class="font-kanit text-base underline text-neutral-800 font-normal">
                                 <span class="underline">คัดลอก</span>
                             </div>
-                            <div
-                                class="flex flex-row justify-center items-center gap-2.5 rounded-[80px] h-5 bg-orange-50 overflow-hidden">
-                                <img
-                                    width="13.5px"
-                                    height="13.5px"
-                                    src="/assets/SvgAsset1.svg"
-                                    alt="Svg Asset 1" />
+                            <div class="flex flex-row justify-center items-center gap-2.5 rounded-[80px] h-5 bg-orange-50 overflow-hidden">
+                                <img width="13.5px" height="13.5px" src="/assets/SvgAsset1.svg" alt="Svg Asset 1" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div
-                class="flex flex-row justify-between items-center gap-12 w-[1200px] h-[83px]">
-                <div class="flex flex-col justify-start items-start gap-5 h-[83px]">
-                    <div
-                        class="font-kanit text-xl min-w-[550px] whitespace-nowrap text-orange-50 text-opacity-100 leading-none font-semibold">
+
+            <!-- Second Row: Time and Location -->
+            <div class="flex flex-col lg:flex-row justify-between items-start gap-6 w-full *:max-w-none *:lg:max-w-[512px]">
+                <!-- Time -->
+                <div class="flex flex-col justify-start items-start gap-2 w-full lg:w-1/2">
+                    <div class="font-kanit text-xl text-orange-50 font-semibold">
                         เวลา
                     </div>
-                    <div
-                        class="flex flex-row justify-start items-start gap-5 w-[550px] h-7">
-                        <div
-                            class="font-kanit text-base min-w-[64px] whitespace-nowrap text-orange-50 text-opacity-100 leading-none font-normal">
+                    <div class="flex flex-row justify-start items-start gap-5">
+                        <div class="font-kanit text-base text-orange-50 font-normal">
                             วันอาทิตย์
                         </div>
-                        <div
-                            class="font-kanit text-[18px] min-w-[66px] whitespace-nowrap text-amber-400 text-opacity-100 leading-none font-normal">
+                        <div class="font-kanit text-[18px] text-amber-400 font-normal">
                             9.00 PM
                         </div>
                     </div>
                 </div>
-                <div
-                    class="flex flex-col justify-start items-start gap-2 w-[550px] h-[83px]">
-                    <div
-                        class="font-kanit text-xl min-w-[550px] whitespace-nowrap text-orange-50 text-opacity-100 leading-none font-semibold">
+
+                <!-- Location -->
+                <div class="flex flex-col justify-start items-start gap-2 w-full lg:w-1/2">
+                    <div class="font-kanit text-xl text-orange-50 font-semibold">
                         มหาวิทยาลัยมหาสารคาม
                     </div>
-                    <div
-                        class="font-kanit text-base min-w-[480px] whitespace-nowrap text-orange-50 text-opacity-100 leading-none font-normal">
+                    <div class="font-kanit text-base text-orange-50 font-normal">
                         41 ตำบล ขามเรียง อำเภอกันทรวิชัย มหาสารคาม 44150
                     </div>
                 </div>
             </div>
-            <div
-                class="flex flex-col justify-start items-end gap-2.5 w-[1200px] h-[87px]">
-                <div class="flex flex-col justify-start items-start gap-5 h-20">
-                    <div
-                        class="font-kanit text-xl min-w-[550px] whitespace-nowrap text-orange-50 text-opacity-100 leading-none font-semibold">
-                        หัวข้อ
-                    </div>
-                    <div class="flex flex-row justify-start items-start gap-2.5 w-[550px]">
-                        <div
-                            class="flex justify-center items-center rounded w-[87px] h-8 bg-orange-50">
-                            <div
-                                class="font-kanit text-sm min-w-[67px] whitespace-nowrap text-teal-700 text-opacity-100 text-center leading-none font-normal">
-                                EatWithMe
-                            </div>
+
+            <!-- Tags -->
+            <div class="flex flex-col justify-start items-start lg:justify-end lg:items-end gap-2.5 w-full *:max-w-none *:lg:max-w-[512px]">
+                <div class="flex flex-col justify-start items-start gap-2 w-full">
+                    <span class="font-kanit text-xl text-orange-50 font-semibold">หัวข้อ</span>
+                    <div class="flex flex-row flex-wrap justify-start items-start gap-2.5">
+                        <div class="tags">
+                            <span>EatWithMe</span>
                         </div>
-                        <div
-                            class="flex justify-center items-center rounded w-[119px] h-8 bg-orange-50">
-                            <div
-                                class="font-kanit text-sm min-w-[99px] whitespace-nowrap text-teal-700 text-opacity-100 text-center leading-none font-normal">
-                                กินอย่างมีสุขภาพ
-                            </div>
+                        <div class="tags">
+                            <span>กินอย่างมีสุขภาพ</span>
                         </div>
-                        <div
-                            class="flex justify-center items-center rounded w-[136px] h-8 bg-orange-50">
-                            <div
-                                class="font-kanit text-sm min-w-[116px] whitespace-nowrap text-teal-700 text-opacity-100 text-center leading-none font-normal">
-                                สุขภาพดีเริ่มที่อาหาร
-                            </div>
+                        <div class="tags">
+                            <span>สุขภาพดีเริ่มที่อาหาร</span>
                         </div>
                     </div>
                 </div>

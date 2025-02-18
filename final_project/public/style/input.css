@@ -16,13 +16,11 @@
   }
 
   a {
-    @apply underline decoration-blue-800
-
+    @apply underline decoration-blue-800;
   }
 
   span {
-    @apply font-kanit
-
+    @apply font-kanit;
   }
 
   * {
@@ -37,7 +35,7 @@
   }
 
   .btn-primary-outline {
-    @apply flex items-center font-semibold h-14 bg-none border-[.15rem] text-primary border-primary px-6 rounded-xl hover:bg-secondary outline-none focus:outline-none !important;
+    @apply flex items-center font-semibold h-14 border-[.15rem] text-primary border-primary px-6 rounded-xl hover:bg-secondary justify-center no-underline !important;
   }
 
   .card {
@@ -46,5 +44,9 @@
 
   .input-field {
     @apply w-full text-sm text-gray-800 border border-gray-300 pl-4 pr-10 py-3 rounded-lg !important;
+  }
+
+  .tags {
+    @apply flex justify-center items-center rounded w-fit px-3 py-2 bg-white font-kanit text-sm text-primary font-normal;
   }
 }
