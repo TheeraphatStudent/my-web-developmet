@@ -1,12 +1,13 @@
 <?php
 
-namespace FinalProject\Components;
+namespace FinalProject\View;
 
-require_once(__DIR__ . '/../components/navbar.php');
 require_once(__DIR__ . '/../components/search.php');
 require_once(__DIR__ . '/../components/calendar/calendar.php');
 
-$navbar = new Navbar();
+use FinalProject\Components\Search;
+use FinalProject\Components\Filter;
+use FinalProject\Components\SchedulerCalendar;
 
 $search = new Search();
 $filter = new Filter();
@@ -22,14 +23,11 @@ $calendar = new SchedulerCalendar();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="../public/style/main.css">
+    <link rel="shortcut icon" type="image/x-icon" href="public/images/logo.png">
+    <link rel="stylesheet" href="public/style/main.css">
 </head>
 
 <body class="flex flex-col justify-center items-center bg-primary relative gap-12">
-    <?php
-    $navbar->render();
-    ?>
-
     <!-- Cover Image -->
     <div class="relative lg:pt-[12rem] lg:pb-[8rem] pb-[4rem] pt-[8rem]">
         <div
@@ -108,11 +106,11 @@ $calendar = new SchedulerCalendar();
                         </div>
                     </div>
                     <div class="flex flex-row justify-center items-center gap-2.5 w-full h-9">
-                        <div class="flex justify-center items-center rounded-lg w-44 h-8 shadow-sm bg-teal-700">
-                            <div class="font-kanit text-base text-center min-w-[155px] whitespace-nowrap text-orange-50 text-opacity-100 leading-none font-normal">
+                        <a href="../?action=attendee" class="btn-primary max-h-10 w-full max-w-[80%]">
+                            <span class="font-kanit text-base text-white">
                                 เข้าร่วม
-                            </div>
-                        </div>
+                            </span>
+                        </a>
                     </div>
                 </div>
             <?php endfor; ?>
