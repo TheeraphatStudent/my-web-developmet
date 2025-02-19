@@ -22,8 +22,6 @@ $map = new Map($mapApiKey);
 </head>
 
 <body class="bg-primary">
-    <!-- <?php $map->render() ?> -->
-
     <div
         class="flex flex-col justify-center items-center gap-12 pt-[200px] pr-10 pb-[200px] pl-10 w-full h-h-full">
         <div class="flex flex-col justify-start items-center gap-6 w-full shadow-sm p-4">
