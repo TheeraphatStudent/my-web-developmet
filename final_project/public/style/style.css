@@ -1060,6 +1060,14 @@ span {
   min-height: fit-content;
 }
 
+.min-h-\[\] {
+  min-height: ;
+}
+
+.min-h-\[310px\] {
+  min-height: 310px;
+}
+
 .w-11 {
   width: 2.75rem;
 }
@@ -1699,6 +1707,16 @@ span {
   padding-bottom: 180px;
 }
 
+.px-8 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.px-5 {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
 .pb-2\.5 {
   padding-bottom: 0.625rem;
 }
@@ -1753,6 +1771,10 @@ span {
 
 .pb-\[\] {
   padding-bottom: ;
+}
+
+.pt-\[120px\] {
+  padding-top: 120px;
 }
 
 .text-left {
@@ -2287,6 +2309,11 @@ span {
   .lg\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+
+  .lg\:px-16 {
+    padding-left: 4rem;
+    padding-right: 4rem;
   }
 
   .lg\:pb-\[8rem\] {

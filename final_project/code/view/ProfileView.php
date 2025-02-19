@@ -22,7 +22,7 @@ $calendar = new SchedulerCalendar();
     <title>Profile</title>
 </head>
 
-<body class="bg-primary w-screen h-fit flex flex-col justify-start items-center pt-[160px] mb-[160px] px-16 gap-16">
+<body class="bg-primary w-screen h-fit flex flex-col justify-start items-center pt-[120px] mb-[160px] px-5 lg:px-16 gap-16">
     <div class="inline-flex flex-col w-full h-fit max-w-content gap-10">
         <div class="flex w-full justify-between">
             <span class="text-2xl md:text-4xl font-semibold font-kanit text-white text-overflow">Profile</span>
