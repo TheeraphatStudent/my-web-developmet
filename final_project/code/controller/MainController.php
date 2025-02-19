@@ -10,6 +10,8 @@ use FinalProject\Model\UserModel;
 
 class MainController
 {
+    private const ACCEPT_EVENT = ['checked-in', 'attendee', 'create'];
+
     private $mapModel;
     private $userModel;
 
@@ -44,21 +46,43 @@ class MainController
         }
     }
 
-    public function attendee() {
+    public function attendee()
+    {
         $mapApiKey = $this->mapModel->getMapApiKey();
         echo ($mapApiKey);
         require_once("./view/event/AttendeeView.php");
-
     }
 
-    public function profile() {
+    public function event($action)
+    {
+        $target = explode('event.', $action);
+        $event = end($target);
+
+        if (in_array($event, self::ACCEPT_EVENT)) {
+            switch ($event) {
+                case 'checked-in':
+                    require_once("./view/event/CheckedInView.php");
+                    break;
+                case 'attendee':
+                    require_once("./view/event/AttendeeView.php");
+                    break;
+                case 'create':
+                    require_once("./view/event/CreateView.php");
+                    break;
+            }
+        } else {
+            $this->notFound();
+        }
+    }
+
+    public function profile()
+    {
         require_once("./view/profile/View.php");
-
     }
 
-    public function notFound() {
+    public function notFound()
+    {
         header("HTTP/1.0 404 Not Found");
         require_once("./view/NotFoundView.php");
-
     }
 }

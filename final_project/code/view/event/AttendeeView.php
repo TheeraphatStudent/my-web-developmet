@@ -22,10 +22,8 @@ $map = new Map($mapApiKey);
 </head>
 
 <body class="bg-primary">
-    <!-- <?php $map->render() ?> -->
-
     <div
-        class="flex flex-col justify-center items-center gap-12 pt-[200px] pr-10 pb-[200px] pl-10 w-full h-h-full">
+        class="flex flex-col justify-center items-center gap-12 pt-[200px] pr-10 pb-[200px] pl-10 w-full h-full">
         <div class="flex flex-col justify-start items-center gap-6 w-full shadow-sm p-4">
             <div class="relative flex flex-col lg:flex-row justify-between items-end lg:items-center py-6 px-6 lg:px-8 gap-6 lg:gap-10 w-full max-w-[1650px] h-auto lg:h-[700px] rounded-3xl bg-[url(https://picsum.photos/1920/1080)] bg-cover bg-center overflow-hidden">
                 <!-- Left Section -->

@@ -54,14 +54,14 @@ $calendar = new SchedulerCalendar();
     <!-- Landing Content -->
     <div class="flex flex-col items-center w-full h-full min-h-fit gap-5 *:w-full *:h-full my-8">
         <!-- Filter -->
-        <div class="w-full max-w-content h-fit max-h-fit mx-10">
+        <div class="w-full max-w-content h-fit max-h-fit mx-10 px-5 lg:px-16">
             <?php
             $filter->render();
             ?>
         </div>
 
         <!-- Content -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-content h-full min-h-fit mx-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-content h-full min-h-fit mx-10 px-5 lg:px-16">
             <?php for ($i = 0; $i < 6; $i++) : ?>
                 <div class="flex flex-col justify-between items-center p-5 gap-4 rounded-lg w-full h-[422px] shadow-md bg-orange-50">
                     <div class="flex flex-col justify-between items-center gap-[150px] rounded w-full h-60 bg-[url(https://picsum.photos/seed/picsum/1920/1080)] overflow-hidden">

@@ -19,6 +19,8 @@ use FinalProject\Controller\RequestController;
 
 $action = $_GET['action'] ?? 'index';
 
+// print_r($action);
+
 $request = null;
 $response = null;
 
@@ -48,6 +50,8 @@ switch ($action) {
         // $controller->request($type, $on, $id);
         break;
 
+    // ================= Page Content ================= 
+
     case 'index':
         $controller->index();
         break;
@@ -58,9 +62,11 @@ switch ($action) {
         $controller->auth($action);
         break;
 
-    case 'attendee':
-        $controller->attendee();
-        break;
+    case 'event.attendee':
+    case 'event.create':
+    case 'event.checked-in':
+        $controller->event($action);
+        break;    
 
     case 'profile':
         $controller->profile();
