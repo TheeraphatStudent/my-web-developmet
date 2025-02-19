@@ -58,8 +58,6 @@ class MainController
         $target = explode('event.', $action);
         $event = end($target);
 
-        $event = strtolower(trim($event));
-
         if (in_array($event, self::ACCEPT_EVENT)) {
             switch ($event) {
                 case 'checked-in':

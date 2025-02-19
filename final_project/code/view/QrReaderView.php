@@ -10,8 +10,6 @@
 <body>
     <h1>QR Code Scanner</h1>
     <video id="qr-video" width="100%" height="auto" autoplay></video>
-    <!-- <canvas id="qr-canvas"></canvas> -->
-    <!-- <div id="qr-result"></div> -->
 
     <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.min.js"></script>
     <script>
