@@ -40,7 +40,7 @@ class SchedulerCalendar extends Component
                     <!-- Events Side Panel -->
                     <div class="bg-white/40 rounded-lg shadow-lg p-6 w-full lg:max-w-[350px]">
                         <h2 class="text-xl font-bold mb-4 text-secondary">Month Events</h2>
-                        <div id="monthEvents" class="h-full max-h-[620px] overflow-y-auto space-y-4 pr-5"></div>
+                        <div id="monthEvents" class="h-full min-h-[310px] max-h-[620px] overflow-y-auto space-y-4 pr-5"></div>
                     </div>
                 </div>
 
@@ -56,7 +56,7 @@ class SchedulerCalendar extends Component
                     </div>
                 </div>
             </div>
-            <script type="module" src="../../../code/components/calendar/calendar.js"></script>
+            <script type="module" src="/code/components/calendar/calendar.js"></script>
         </div>
 <?php
 
