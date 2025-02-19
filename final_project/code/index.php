@@ -62,6 +62,10 @@ switch ($action) {
         $controller->attendee();
         break;
 
+    case 'profile':
+        $controller->profile();
+        break;
+
     default:
         header("HTTP/1.0 404 Not Found");
         $controller->notFound();
@@ -86,7 +90,9 @@ $navbar = new Navbar();
 
 <body>
     <?php
-    $navbar->render();
+    if (!in_array($action, ['login', 'register', 'logout'])) {
+        $navbar->render();
+    }
 
     $content
     ?>

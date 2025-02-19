@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="../public/style/main.css">
+    <link rel="stylesheet" href="public/style/main.css">
 
     <title>Not found ):</title>
 </head>
@@ -32,9 +32,8 @@
                 </div>
                 <a
                     href="../"
-                    class="btn-primary bg-light-green rounded-lg">
-                    <span
-                        class="font-inter px-6 py-4 text-3xl min-w-fit whitespace-nowrap text-primary text-opacity-100 leading-snug font-bold">
+                    class="btn-primary btn-white">
+                    <span class="text-2xl text-primary hover:text-white">
                         Back to Homepage
                     </span>
                 </a>
