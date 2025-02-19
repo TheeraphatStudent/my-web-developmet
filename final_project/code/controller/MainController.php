@@ -52,7 +52,7 @@ class MainController
     }
 
     public function profile() {
-        require_once("./view/ProfileView.php");
+        require_once("./view/profile/View.php");
 
     }
 
