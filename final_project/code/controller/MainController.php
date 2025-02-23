@@ -70,9 +70,20 @@ class MainController
         }
     }
 
-    public function request() {
-        
+    public function request(array $target, array $data)
+    {
+        print_r($target);
+        echo "<br>";
+        print_r($data);
+        $on = $target['on'];
 
+        $request = new RequestController();
+
+        switch ($on) {
+            case 'user':
+                $request->auth($target['form'], $data);
+                break;
+        }
     }
 
     public function profile()

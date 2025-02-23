@@ -20,7 +20,7 @@
     <div class="flex flex-col card gap-10 shadow-orange-500/40">
         <h3>สร้างบัญชีผู้ใช้</h3>
 
-        <form class="space-y-4" id="registerForm" action="#" method="post">
+        <form class="space-y-4" id="registerForm" action="../?action=request&on=user&form=register" method="post">
             <div>
                 <!-- <label class="text-gray-800 text-sm mb-2 block">Email</label> -->
                 <div class="relative flex items-center">
