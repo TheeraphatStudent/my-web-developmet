@@ -6,7 +6,6 @@ require_once(__DIR__ . '/AuthController.php');
 
 use FinalProject\Controller\AuthController;
 use FinalProject\Model\MapModel;
-use FinalProject\Model\UserModel;
 
 class MainController
 {
@@ -22,7 +21,7 @@ class MainController
     public function index()
     {
         // $mapApiKey = $this->mapModel->getMapApiKey();
-        require_once("./view/LandingViewL.php");
+        require_once("./view/LandingView.php");
     }
 
     public function auth($type = 'login')
