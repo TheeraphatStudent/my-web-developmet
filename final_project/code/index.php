@@ -43,15 +43,40 @@ $response = null;
 
 $controller = new MainController();
 
-// ob_start();
+
+// Action Request From Client
+
+// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//     $username = trim($_POST["username"]);
+//     $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+
+//     $stmt = $pdo->prepare("SELECT id FROM user WHERE username = ?");
+//     $stmt->execute([$username]);
+//     if ($stmt->rowCount() > 0) {
+//         echo "Username นี้ถูกใช้งานแล้ว!";
+//         exit;
+//     }
+
+//     $stmt = $pdo->prepare("INSERT INTO Users (username, password) VALUES (?, ?)");
+//     if ($stmt->execute([$username, $password])) {
+//     } else {
+//     }
+// }
+
+// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+// }
 
 switch ($action) {
     case 'request':
+        print_r($_SERVER['REQUEST_METHOD']);
+        // print_r($_POST);
         // localhost:3000/?action=request&method=post&on=auth&username=admin&password=admin&email=admin@example.com
-        // $controller->request($type, $on, $id);
+
+        $controller->request($_GET, $_POST);
         break;
 
-    // ================= Page Content ================= 
+        // ================= Page Content ================= 
 
     case 'index':
         $controller->index();
@@ -67,7 +92,7 @@ switch ($action) {
     case 'event.create':
     case 'event.checked-in':
         $controller->event($action);
-        break;    
+        break;
 
     case 'profile':
         $controller->profile();
@@ -78,6 +103,8 @@ switch ($action) {
         $controller->notFound();
         exit();
 }
+
+// Content
 
 $content = ob_get_clean();
 
