@@ -16,31 +16,67 @@
   }
 
   a {
-    @apply underline decoration-blue-800
-
+    @apply underline decoration-blue-800;
   }
 
   span {
-    @apply font-kanit
-
+    @apply font-kanit;
   }
 
   * {
-    transition: all 0.2s ease-in-out;
+    transition: all 0.125s ease-in-out;
     font-family: "Kanit", sans-serif !important;
   }
 }
 
 @layer components {
-  .primary-btn {
-    @apply flex items-center font-semibold h-14 bg-primary border-[.15rem] text-white border-primary px-6 rounded-xl hover:bg-secondary justify-center;
+  .btn-primary {
+    @apply flex items-center font-semibold h-14 bg-primary border-[.15rem] text-white border-primary px-6 rounded-xl hover:bg-secondary justify-center no-underline !important;
   }
 
-  .primary-btn-outline {
-    @apply flex items-center font-semibold h-14 bg-none border-[.15rem] text-primary border-primary px-6 rounded-xl hover:bg-secondary outline-none focus:outline-none;
+  .btn-white {
+    @apply flex items-center font-semibold h-14 bg-white border-[.15rem] text-black px-6 rounded-xl hover:bg-black hover:text-white justify-center no-underline !important;
+
+  }
+
+  .btn-secondary {
+    @apply flex items-center font-semibold h-14 bg-secondary border-[.15rem] text-white px-6 rounded-xl hover:bg-dark-primary border-none justify-center no-underline !important;
+
+  }
+
+  .btn-primary-outline {
+    @apply flex items-center font-semibold h-14 border-[.15rem] text-primary border-primary px-6 rounded-xl hover:bg-secondary hover:text-black/80 justify-center no-underline !important;
   }
 
   .card {
-    @apply flex w-full max-w-[450px] h-fit p-8 bg-white border shadow-xl rounded-xl;
+    @apply flex w-full max-w-[450px] h-fit p-8 bg-white border shadow-xl rounded-xl !important;
+  }
+
+  .input-field {
+    @apply w-full text-sm text-gray-800 border border-gray-300 pl-4 pr-10 py-3 rounded-lg !important;
+  }
+
+  .tags {
+    @apply flex justify-center items-center rounded w-fit px-3 py-2 bg-white font-kanit text-sm text-primary font-normal;
+  }
+
+  .text-overflow {
+    @apply whitespace-nowrap overflow-hidden text-ellipsis block
+  }
+
+  /* Form */
+
+  .form-title {
+    @apply font-kanit text-base font-medium whitespace-nowrap text-white text-opacity-100 leading-none;
+
+  }
+
+  .form-required {
+    @apply text-red text-opacity-100;
+
+  }
+
+  .form-input {
+    @apply flex justify-start items-center rounded w-full h-10 bg-white;
   }
 }

@@ -6,9 +6,12 @@ require_once(__DIR__ . '/AuthController.php');
 
 use FinalProject\Controller\AuthController;
 use FinalProject\Model\MapModel;
+use FinalProject\Model\UserModel;
 
 class MainController
 {
+    private const ACCEPT_EVENT = ['checked-in', 'attendee', 'create'];
+
     private $mapModel;
     private $userModel;
 
@@ -20,7 +23,6 @@ class MainController
 
     public function index()
     {
-        // $mapApiKey = $this->mapModel->getMapApiKey();
         require_once("./view/LandingView.php");
     }
 
@@ -44,45 +46,43 @@ class MainController
         }
     }
 
-    // public function login()
-    // {
-    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //         $username = $_POST['username'] ?? '';
-    //         $password = $_POST['password'] ?? '';
-    //         if ($this->userModel->authenticate($username, $password)) {
-    //             $_SESSION['user'] = $username;
-    //             header('Location: index.php');
-    //             exit;
-    //         } else {
-    //             $error = 'Invalid username or password';
-    //         }
-    //     }
-    //     $this->renderView('LoginView', ['error' => $error ?? null]);
-    // }
+    public function event($action)
+    {
+        $target = explode('event.', $action);
+        $event = end($target);
 
-    // public function register()
-    // {
-    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    //         $username = $_POST['username'] ?? '';
-    //         $password = $_POST['password'] ?? '';
-    //         $email = $_POST['email'] ?? '';
-    //         if ($this->userModel->register($username, $password, $email)) {
-    //             // Successful registration
-    //             $_SESSION['user'] = $username;
-    //             header('Location: index.php');
-    //             exit;
-    //         } else {
-    //             $error = 'Registration failed';
-    //         }
-    //     }
+        if (in_array($event, self::ACCEPT_EVENT)) {
+            $mapApiKey = $this->mapModel->getMapApiKey();
 
-    //     $this->renderView('RegisterView', ['error' => $error ?? null]);
-    // }
+            switch ($event) {
+                case 'checked-in':
+                    require_once("./view/event/CheckedInView.php");
+                    break;
+                case 'attendee':
+                    require_once("./view/event/AttendeeView.php");
+                    break;
+                case 'create':
+                    require_once("./view/event/CreateView.php");
+                    break;
+            }
+        } else {
+            $this->notFound();
+        }
+    }
 
-    // public function logout()
-    // {
-    //     session_destroy();
-    //     header('Location: index.php');
-    //     exit;
-    // }
+    public function request() {
+        
+
+    }
+
+    public function profile()
+    {
+        require_once("./view/profile/View.php");
+    }
+
+    public function notFound()
+    {
+        header("HTTP/1.0 404 Not Found");
+        require_once("./view/NotFoundView.php");
+    }
 }
