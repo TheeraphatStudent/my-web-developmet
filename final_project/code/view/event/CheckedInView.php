@@ -2,8 +2,8 @@
 
 namespace FinalProject\View\Event;
 
-require_once(__DIR__ . '/../../components/breadcrumb.php');
-require_once(__DIR__ . '/../../components/camera/camera.php');
+require_once('components/breadcrumb.php');
+require_once('components/camera/camera.php');
 
 use FinalProject\Components\Breadcrumb;
 use FinalProject\Components\QrCodeReader;

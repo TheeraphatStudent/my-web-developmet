@@ -47,6 +47,7 @@ $controller = new MainController();
 
 switch ($action) {
     case 'request':
+        // localhost:3000/?action=request&method=post&on=auth&username=admin&password=admin&email=admin@example.com
         // $controller->request($type, $on, $id);
         break;
 

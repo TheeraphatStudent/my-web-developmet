@@ -12,7 +12,7 @@ module.exports = {
       },
       colors: {
         primary: "#226E6A",
-        secondary: "#003C86",
+        secondary: "#0053BA",
         white: "#FBF8EE",
         black: "#232323",
         red: "#E24B4B",
@@ -20,13 +20,15 @@ module.exports = {
         green: "#1B8600",
         light: {
           green: "#BCFFAB",
+          secondary: "#ABCDFF",
+          red: "#FFC9C9"
         },
         dark: {
           primary: "#104B48",
-          red: "#702828",
+          red: "#AD2B2B",
           yellow: "#905A3C",
           green: "#43784B",
-          blue: "#7D97B7"
+          secondary: "#1D4577"
         },
         gray: {
           50: '#f9fafb',

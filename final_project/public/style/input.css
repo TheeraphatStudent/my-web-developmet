@@ -24,7 +24,7 @@
   }
 
   * {
-    transition: all 0.2s ease-in-out;
+    transition: all 0.125s ease-in-out;
     font-family: "Kanit", sans-serif !important;
   }
 }
@@ -62,5 +62,21 @@
 
   .text-overflow {
     @apply whitespace-nowrap overflow-hidden text-ellipsis block
+  }
+
+  /* Form */
+
+  .form-title {
+    @apply font-kanit text-base font-medium whitespace-nowrap text-white text-opacity-100 leading-none;
+
+  }
+
+  .form-required {
+    @apply text-red text-opacity-100;
+
+  }
+
+  .form-input {
+    @apply flex justify-start items-center rounded w-full h-10 bg-white;
   }
 }

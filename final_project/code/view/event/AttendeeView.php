@@ -2,7 +2,7 @@
 
 namespace FinalProject\View\Event;
 
-require_once(__DIR__ . '/../../components/map/map.php');
+require_once('components/map/map.php');
 
 use FinalProject\Components\Map;
 
