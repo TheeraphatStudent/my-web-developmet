@@ -46,19 +46,14 @@ class MainController
         }
     }
 
-    public function attendee()
-    {
-        $mapApiKey = $this->mapModel->getMapApiKey();
-        echo ($mapApiKey);
-        require_once("./view/event/AttendeeView.php");
-    }
-
     public function event($action)
     {
         $target = explode('event.', $action);
         $event = end($target);
 
         if (in_array($event, self::ACCEPT_EVENT)) {
+            $mapApiKey = $this->mapModel->getMapApiKey();
+
             switch ($event) {
                 case 'checked-in':
                     require_once("./view/event/CheckedInView.php");
@@ -73,6 +68,11 @@ class MainController
         } else {
             $this->notFound();
         }
+    }
+
+    public function request() {
+        
+
     }
 
     public function profile()

@@ -62,24 +62,31 @@ class Map extends Component
 
     }
 
-    private function fetchAddress($lat, $lon)
-    {
-        $url = `https://api.longdo.com/map/services/address?lon=$lon&lat=$lat&noelevation=1&key={$this->mapApiKey}`;
+    // private function fetchAddress($lat, $lon)
+    // {
+    //     $url = `https://api.longdo.com/map/services/address?lon=$lon&lat=$lat&noelevation=1&key={$this->mapApiKey}`;
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+    //     $ch = curl_init();
+    //     curl_setopt($ch, CURLOPT_URL, $url);
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    //     curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
 
-        $response = curl_exec($ch);
+    //     $response = curl_exec($ch);
 
-        if (curl_errno($ch)) {
-            error_log('Curl error: ' . curl_error($ch));
-            return false;
-        }
+    //     if (curl_errno($ch)) {
+    //         error_log('Curl error: ' . curl_error($ch));
+    //         return false;
+    //     }
 
-        curl_close($ch);
+    //     curl_close($ch);
 
-        return json_decode($response, true);
+    //     return json_decode($response, true);
+    // }
+}
+
+class MapSelector extends Component {
+    public function render() {
+
     }
+
 }
