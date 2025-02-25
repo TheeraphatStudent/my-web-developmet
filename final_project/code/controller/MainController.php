@@ -81,7 +81,8 @@ class MainController
 
         switch ($on) {
             case 'user':
-                $request->auth($target['form'], $data);
+                $res = $request->auth($target['form'], $data);
+                print_r($res);
                 break;
         }
     }

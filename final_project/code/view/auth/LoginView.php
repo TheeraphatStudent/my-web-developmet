@@ -1,5 +1,4 @@
 <?php
-
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +16,7 @@
     <div class="flex flex-col card gap-10 shadow-primary/40">
         <h3>ยินดีต้อนรับ</h3>
 
-        <form class="space-y-4" id="loginForm" action="action=request&on=user&form=login" method="post">
+        <form class="space-y-4" id="loginForm" action="../?action=request&on=user&form=login" method="post">
 
             <div>
                 <!-- <label class="text-gray-800 text-sm mb-2 block">ชื่อบัญชี</label> -->
