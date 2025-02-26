@@ -3,7 +3,7 @@
 namespace FinalProject\Model;
 
 use PDO;
-session_start();
+// session_start();
 
 class User
 {

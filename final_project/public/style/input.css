@@ -16,7 +16,7 @@
   }
 
   a {
-    @apply underline decoration-blue-800;
+    @apply underline decoration-white;
   }
 
   span {
@@ -77,6 +77,6 @@
   }
 
   .form-input {
-    @apply flex justify-start items-center rounded w-full h-10 bg-white;
+    @apply flex justify-start items-center rounded w-full h-10 bg-white px-2;
   }
 }

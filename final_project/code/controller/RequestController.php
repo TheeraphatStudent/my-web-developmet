@@ -4,10 +4,12 @@
 namespace FinalProject\Controller;
 
 require_once(__DIR__ . '/../model/InitModel.php');
-use Init;
-
 require_once(__DIR__ . '/../model/UserModel.php');
+require_once(__DIR__ . '/../utils/useEvent.php');
+
+use FinalProject\Model\Init;
 use FinalProject\Model\User;
+use FinalProject\Utils\Event;
 
 class RequestController
 {
@@ -19,7 +21,7 @@ class RequestController
         $this->user = new User($inti->getConnected());
     }
 
-    public function auth($form, array $data)
+    public function authHandler($form, array $data)
     {
         switch ($form) {
             case 'register':
@@ -30,7 +32,7 @@ class RequestController
                     echo '<script>window.location.href="../?action=register"</script>';
                     return ["status" => 301, "message" => "Username นี้ถูกใช้งานแล้ว!"];
                 }
-                $result = $this->user->register( $username, $password);
+                $result = $this->user->register($username, $password);
                 echo '<br>';
                 print_r($result);
                 echo '<br>';
@@ -56,6 +58,16 @@ class RequestController
                 break;
             default:
                 return ["status" => 404, "message" => "Invalid form type"];
+        }
+    }
+
+    public function eventHandler($form, array $data)
+    {
+        switch ($form) {
+            case 'create':
+                return ["status" => 200, 'data' => $data];
+
+                break;
         }
     }
 }

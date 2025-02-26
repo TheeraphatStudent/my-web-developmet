@@ -3,13 +3,17 @@
 namespace FinalProject\View\Event;
 
 require_once('components/map/map.php');
+require_once('components/texteditor/texteditor.php');
 
 use FinalProject\Components\Map;
+use FinalProject\Components\TextEditor;
 
 $map = new Map($mapApiKey);
+$textEditor = new TextEditor();
+
+// ===================== Data =====================
 
 $form_type = ['onsite', 'online', 'any'];
-// $users_mock = ['User1', "User2", "User3"];
 $users_mock = [
     [
         'id' => '1',
@@ -53,9 +57,9 @@ $authors = array_map(function ($type) {
 </head>
 
 <body class="bg-primary">
-    <div class="flex flex-col justify-center items-center gap-12 pt-[200px] pr-10 pb-[200px] pl-10 w-full h-full">
+    <div class="flex flex-col justify-center items-center gap-12 pt-[200px] pr-10 pb-[200px] pl-10 w-full h-fit">
         <!-- Form Content -->
-        <form action="#" class="flex flex-col w-full max-w-content h-fit gap-8">
+        <form action="../?action=request&on=event&form=create" class="flex flex-col w-full max-w-content h-fit gap-8" method="post">
             <h1 class="text-white font-semibold">Create Event</h1>
 
             <div class="flex flex-col md:flex-row justify-between items-start w-full gap-12 *:flex *:flex-col">
@@ -172,24 +176,6 @@ $authors = array_map(function ($type) {
 
                         </div>
                     </div>
-
-                    <div class="flex flex-row w-full justify-start items-start gap-5 ">
-                        <div class="flex flex-col w-full gap-2.5">
-                            <div class="d-flex flex-column w-100 gap-2 mb-2 align-items-center">
-                                <label for="profile_img" class="avatar-preview relative">
-                                    <img src="public/icons/upload.svg" alt="upload image"
-                                        class="uploaded-img-icon position-absolute" width="25" height="25">
-                                </label>
-                                <label class="underline avatar-preview"
-                                    style="cursor: pointer;" for="profile_img">Upload Profile</label>
-
-                                <input type="file" accept=".png, .jpg, .jpeg" name="profile_img" id="profile_img"
-                                    class="d-none" onchange="">
-                            </div>
-
-                        </div>
-                    </div>
-
                 </div>
 
                 <div class="justify-start items-start w-full">
@@ -205,10 +191,49 @@ $authors = array_map(function ($type) {
                     </div>
                 </div>
             </div>
+
+            <h1 class="text-white font-semibold">Event description</h1>
+
+            <div class="flex flex-col w-full justify-start items-start gap-5">
+                <!-- <canvas></canvas> -->
+                <div
+                    class="form-title">
+                    Cover&nbsp;
+                    <span class="form-required">*</span>
+                </div>
+                <label id="cover_label" for="cover_img" class="bg-cover flex relative flex-col items-center justify-center w-full h-[450px] gap-2.5 bg-black/55 p-4 group hover:cursor-pointer rounded-xl overflow-hidden">
+                    <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300"></div>
+
+                    <img id="upload_icon" src="public/icons/upload.svg" alt="upload image"
+                        class="uploaded-img-icon w-12 h-12 opacity-50 group-hover:opacity-100 transition-opacity duration-300 z-10 relative">
+                    <span id="upload_text" class="underline cursor-pointer font-medium text-base text-white group-hover:text-white z-10 relative transition-colors duration-300">
+                        Upload Profile
+                    </span>
+                    <input type="file" accept=".png, .jpg, .jpeg" id="cover_img" class="hidden">
+                    <input type="text" name="cover" id="coverImgField" class="hidden">
+
+                </label>
+            </div>
+            <div class="flex flex-col w-full justify-start items-start gap-5">
+                <!-- <canvas></canvas> -->
+                <div
+                    class="form-title">
+                    Description&nbsp;
+                    <span class="form-required">*</span>
+                </div>
+                <?php $textEditor->render() ?>
+            </div>
+
+            <div class="flex flex-col w-full justify-start items-start gap-5">
+                <button type="submit">Create Event</button>
+
+            </div>
+
         </form>
 
     </div>
 
+    <!-- Date Time -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('datetime-container');
@@ -249,6 +274,7 @@ $authors = array_map(function ($type) {
         });
     </script>
 
+    <!-- Multi Selected Option -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const multiSelect = document.getElementById('author-selected');
@@ -272,6 +298,43 @@ $authors = array_map(function ($type) {
                 console.log('Selected values:', selectedOptions);
             });
         });
+    </script>
+
+    <!-- Image input -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const coverInput = document.getElementById('cover_img');
+            const coverField = document.getElementById('coverImgField');
+
+            if (!coverInput) return;
+
+            coverInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+
+                // console.log(file);
+
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        // console.log(e.target.result);
+                        const value = e.target.result;
+
+                        const coverImg = document.getElementById('cover_label');
+
+                        if (coverImg) {
+                            coverImg.style.backgroundImage = `url('${value}')`;
+                            // console.log(`url('${value}')`)
+                            coverField.value = value;
+                            console.log(coverField.value)
+
+                        }
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            });
+        })
     </script>
 </body>
 

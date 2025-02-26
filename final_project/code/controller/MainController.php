@@ -3,22 +3,26 @@
 namespace FinalProject\Controller;
 
 require_once(__DIR__ . '/AuthController.php');
+require_once( __DIR__ . '/../utils/useEvent.php');
 
+// print_r( __DIR__ . '/../utils/useEvent.php');
+// echo '<br>';
+// print_r( __DIR__);
+
+// require_once(__DIR__ . 'utils/useEvent.php');
 use FinalProject\Controller\AuthController;
 use FinalProject\Model\MapModel;
-use FinalProject\Model\UserModel;
+use FinalProject\Utils\Event;
 
 class MainController
 {
-    private const ACCEPT_EVENT = ['checked-in', 'attendee', 'create'];
+    // private const ACCEPT_EVENT = ['checked-in', 'attendee', 'create'];
 
     private $mapModel;
-    private $userModel;
 
     public function __construct()
     {
         $this->mapModel = new MapModel();
-        // $this->userModel = new UserModel();
     }
 
     public function index()
@@ -51,7 +55,7 @@ class MainController
         $target = explode('event.', $action);
         $event = end($target);
 
-        if (in_array($event, self::ACCEPT_EVENT)) {
+        if (in_array($event, EVENT::ACCEPT_EVENT)) {
             $mapApiKey = $this->mapModel->getMapApiKey();
 
             switch ($event) {
@@ -72,16 +76,22 @@ class MainController
 
     public function request(array $target, array $data)
     {
-        print_r($target);
-        echo "<br>";
-        print_r($data);
-        $on = $target['on'];
+        // print_r($target);
+        // echo "<br>";
+        // print_r($data);
+        $onModel = $target['on'];
+        $formContent = $target['form'];
 
         $request = new RequestController();
 
-        switch ($on) {
+        switch ($onModel) {
             case 'user':
-                $res = $request->auth($target['form'], $data);
+                $res = $request->authHandler($formContent, $data);
+                print_r($res);
+                break;
+
+            case 'event':
+                $res = $request->eventHandler($formContent, $data);
                 print_r($res);
                 break;
         }

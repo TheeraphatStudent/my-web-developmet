@@ -19,7 +19,7 @@ use FinalProject\Controller\RequestController;
 
 $action = $_GET['action'] ?? 'index';
 
-// print_r($action);
+print_r($action);
 
 $request = null;
 $response = null;
@@ -67,12 +67,15 @@ $controller = new MainController();
 // } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 // }
 
+// $content = ob_clean();
+
 switch ($action) {
     case 'request':
-        print_r($_SERVER['REQUEST_METHOD']);
+        // print_r($_SERVER['REQUEST_METHOD']);
         // print_r($_POST);
         // localhost:3000/?action=request&method=post&on=auth&username=admin&password=admin&email=admin@example.com
 
+        // echo '<script>console.log("Request Work!")</script>';
         $controller->request($_GET, $_POST);
         break;
 

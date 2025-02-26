@@ -1,5 +1,9 @@
 <?php
 
+namespace FinalProject\Model;
+use PDO;
+use PDOException;
+
 class Init
 {
     private $connection;
