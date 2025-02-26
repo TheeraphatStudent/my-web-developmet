@@ -79,12 +79,15 @@ class MainController
 
         $request = new RequestController();
 
+        $res = NULL ;
         switch ($on) {
             case 'user':
                 $res = $request->auth($target['form'], $data);
                 print_r($res);
                 break;
         }
+        return $res;
+        
     }
 
     public function profile()

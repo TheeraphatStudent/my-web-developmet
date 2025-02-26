@@ -3,7 +3,6 @@
 namespace FinalProject\Model;
 
 use PDO;
-session_start();
 
 class User
 {
@@ -22,6 +21,15 @@ class User
         $stmt = $this->connection->prepare("SELECT * FROM User WHERE username = :username");
         $stmt->execute([':username' => $username]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    public function getUserByUserId($userId)
+    {
+        $stmt = $this->connection->prepare("SELECT * FROM User WHERE userId = :userId");
+        $stmt->execute([':userId' => $userId]);
+        if($stmt -> fetchColumn() > 0){
+            return true;
+        }
+        return false;
     }
 
     public function register($username, $password)
@@ -44,7 +52,7 @@ class User
             unset($user['username']);
             unset($user['password']);
             $userid = $user['userId'];
-            $_SESSION['userid'] = $userid;
+            $_SESSION['userId'] = $userid;
             return $userid;
         }
         // return $user;

@@ -5,7 +5,10 @@
 
 namespace FinalProject;
 
+session_start();
 const ALLOWED_REQUEST = ['type'];
+
+
 
 // require_once(__DIR__ . '/php/environment.php');
 require_once(__DIR__ . '/controller/MainController.php');
@@ -68,6 +71,7 @@ $controller = new MainController();
 // }
 
 switch ($action) {
+    
     case 'request':
         print_r($_SERVER['REQUEST_METHOD']);
         // print_r($_POST);
@@ -86,6 +90,7 @@ switch ($action) {
     case 'register':
     case 'logout':
         $controller->auth($action);
+        
         break;
 
     case 'event.attendee':
@@ -109,7 +114,13 @@ switch ($action) {
 $content = ob_get_clean();
 
 $navbar = new Navbar();
+print_r($_SESSION);
 
+if(isset($_SESSION['userId'])){
+    $controller->auth($action);
+    $response = $controller->request(["on" => "user", "form" => "verify"], ["userId" => $_SESSION['userId']]);
+    $navbar -> UpdateNavbar($response);
+}
 ?>
 
 <!DOCTYPE html>

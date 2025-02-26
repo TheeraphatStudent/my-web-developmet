@@ -2,12 +2,15 @@
 
 namespace FinalProject\Components;
 
+use FinalProject\Controller\AuthController;
+use FinalProject\Controller\RequestController;
+use LDAP\Result;
+
 require_once(__DIR__ . '/component.php');
 
 class Navbar extends Component
 {
     private $isLogin = false;
-
     public function render()
     {
         $activeLink = $this->data['activeLink'] ?? '';
@@ -53,5 +56,8 @@ class Navbar extends Component
             </div>
         </nav>
 <?php
+    }
+    public function UpdateNavbar(bool $login){
+        $this->isLogin = $login;
     }
 }
