@@ -8,6 +8,8 @@ require_once(__DIR__ . '/../model/UserModel.php');
 require_once(__DIR__ . '/../model/EventModel.php');
 require_once(__DIR__ . '/../model/MapModel.php');
 
+require_once(__DIR__ . '/../utils/useResponse.php');
+
 use FinalProject\Model\Init;
 use FinalProject\Model\User;
 use FinalProject\Model\Event;
@@ -72,7 +74,7 @@ class RequestController
         switch ($form) {
             case 'create':
                 $result = $this->event->createEvent($data);
-                return ["status" => 200, 'data' => $data];
+                return response(200, "Create event complete", $result);
 
         }
     }
@@ -81,7 +83,7 @@ class RequestController
         switch ($form) {
             case 'get_location';
                 $result = $this->map->getLocationByLatLon($data['lat'], $data['lon']);
-                return ["status" => 200, 'data' => $result];
+                return response(200, "Get location work", $result);
 
         }
 

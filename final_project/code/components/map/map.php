@@ -45,17 +45,21 @@ class Map extends Component
                     console.log(`${lat} | ${lon}`);
                     locationInput.value = `lat=${lat}&lon=${lon}`
 
-                    // $response = await fetch('../?action=request&on=map&form=get_location', {
-                    //     method: 'GET',
-                    //     headers: {
-                    //         'Application-type': 'application/json'
+                    const response = await fetch('../?action=request&on=map&form=get_location', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            lat,
+                            lon
+                        })
+                    }).then((res) => {
+                        return res.json();
 
-                    //     },
-                    //     body: JSON.stringify({
-                    //         lat,
-                    //         lon
-                    //     })
-                    // })
+                    })
+
+                    console.log(JSON.parse(response?.data))
 
                 });
             });

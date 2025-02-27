@@ -23,8 +23,15 @@ class Map
     public function getLocationByLatLon($lat, $lon)
     {
         $url = "https://api.longdo.com/map/services/address?lon=$lon&lat=$lat&noelevation=1&key={$this->getMapApiKey()}";
-        $response = file_get_contents($url);
+        
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        return json_decode($response);
+        $response = curl_exec($ch);
+        // print_r($response);
+
+        return [$response];
     }
 }

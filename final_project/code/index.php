@@ -1,4 +1,5 @@
 <?php
+
 namespace FinalProject;
 
 session_start();
@@ -23,7 +24,7 @@ use FinalProject\Controller\MainController;
 
 $action = $_GET['action'] ?? 'index';
 
-$request = null;
+$isRequest = false;
 $response = null;
 
 // action = [page], request
@@ -53,13 +54,22 @@ $_SESSION['mapApiKey'] = $env->getMapApiKey();
 switch ($action) {
     case 'request':
         // print_r($_SERVER['REQUEST_METHOD']);
-        print_r($_GET);
-        print_r($_POST);
+        // print_r($_GET);
+        // print_r($_POST);
         // localhost:3000/?action=request&method=post&on=auth&username=admin&password=admin&email=admin@example.com
 
-        // echo '<script>console.log("Request Work!")</script>';
-        $response = $controller->request($_GET, $_POST);
+        $isRequest = true;
 
+        $input = json_decode(file_get_contents("php://input"), true) ?? [];
+        $data = array_merge($_POST, $input);
+
+        $response = $controller->request($_GET, $data);
+
+        http_response_code($response['status']);
+        header("Content-Type: application/json");
+        unset($response['status']);
+
+        echo(json_encode($response));
         break;
 
         // ================= Page Content ================= 
@@ -90,39 +100,43 @@ switch ($action) {
         exit();
 }
 
-// Content
+// ===== Content =====
 
 $content = ob_get_clean();
 
 $navbar = new Navbar();
 
-// ===== Update Navbar =====
+// ===== Check User =====
 
 if (isset($_SESSION['userId'])) {
     $response = $controller->request(["on" => "user", "form" => "verify"], ["userId" => $_SESSION['userId']]);
-
+} else {
 }
 
+if (!$isRequest) {
 ?>
+    <!DOCTYPE html>
+    <html lang="en">
 
-<!DOCTYPE html>
-<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="shortcut icon" type="image/x-icon" href="public/images/logo.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Act gate</title>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <link rel="shortcut icon" type="image/x-icon" href="public/images/logo.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Act gate</title>
-</head>
+    <body>
+        <?php
+        if (!in_array($action, ['login', 'register', 'logout'])) {
+            $navbar->render();
+        }
 
-<body>
-    <?php
-    if (!in_array($action, ['login', 'register', 'logout'])) {
-        $navbar->render();
-    }
+        $content
+        ?>
+    </body>
 
-    $content
-    ?>
-</body>
+    </html>
+<?php
 
-</html>
+}
+?>

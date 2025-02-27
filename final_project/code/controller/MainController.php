@@ -2,7 +2,7 @@
 
 namespace FinalProject\Controller;
 
-require_once(__DIR__ . '/AuthController.php');
+require_once(__DIR__ . '/RequestController.php');
 require_once( __DIR__ . '/../utils/useEvent.php');
 
 // print_r( __DIR__ . '/../utils/useEvent.php');
@@ -10,8 +10,7 @@ require_once( __DIR__ . '/../utils/useEvent.php');
 // print_r( __DIR__);
 
 // require_once(__DIR__ . 'utils/useEvent.php');
-use FinalProject\Controller\AuthController;
-use FinalProject\Model\Map;
+use FinalProject\Controller\RequestController;
 use FinalProject\Utils\Event;
 
 class MainController
@@ -33,15 +32,13 @@ class MainController
     public function auth($type = 'login')
     {
 
-        $auth = new AuthController();
-
         switch ($type) {
             case 'login':
-                $auth->login();
+                require_once("./view/auth/LoginView.php");
                 break;
 
             case 'register':
-                $auth->register();
+                require_once("./view/auth/RegisterView.php");
                 break;
 
             case 'logout':
@@ -72,7 +69,7 @@ class MainController
         }
     }
 
-    public function request(array $target, array $data)
+    public function request(array $target, array $data = [])
     {
         // print_r($target);
         // echo "<br>";
@@ -86,12 +83,12 @@ class MainController
         switch ($onModel) {
             case 'user':
                 $res = $request->authHandler($formContent, $data);
-                print_r($res);
+                // print_r($res);
                 break;
 
             case 'event':
                 $res = $request->eventHandler($formContent, $data);
-                print_r($res);
+                // print_r($res);
                 break;
 
             case 'map':
