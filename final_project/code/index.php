@@ -9,8 +9,7 @@ header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
 const ALLOWED_REQUEST = ['type'];
-
-
+const ACCEPT_STATUS = [200, 302];
 
 // require_once(__DIR__ . '/php/environment.php');
 require_once(__DIR__ . '/controller/MainController.php');
@@ -54,7 +53,7 @@ $_SESSION['mapApiKey'] = $env->getMapApiKey();
 // print_r($_SESSION);
 
 switch ($action) {
-    
+
     case 'request':
         // print_r($_SERVER['REQUEST_METHOD']);
         // print_r($_GET);
@@ -67,13 +66,13 @@ switch ($action) {
         $data = array_merge($_POST, $input);
 
         $response = $controller->request($_GET, $data);
+        print_r($response);
 
         http_response_code($response['status']);
 
-        if ($response['status'] != 200) {
+        if (!in_array($response['status'], ACCEPT_STATUS)) {
             header('Location: ' . $response['redirect'] . '&status=' . $response['status']);
             exit;
-
         }
 
         header("Content-Type: application/json");
@@ -89,7 +88,7 @@ switch ($action) {
     case 'register':
     case 'logout':
         $controller->auth($action);
-        
+
         break;
 
     case 'event.attendee':
@@ -113,36 +112,33 @@ switch ($action) {
 $content = ob_get_clean();
 
 $navbar = new Navbar();
-print_r($_SESSION);
 
-if(isset($_SESSION['userId'])){
+if (isset($_SESSION['userId'])) {
     $controller->auth($action);
     $response = $controller->request(["on" => "user", "form" => "verify"], ["userId" => $_SESSION['userId']]);
-    $navbar -> UpdateNavbar($response);
+    $navbar->UpdateNavbar($response);
 }
 ?>
-    <!DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <link rel="shortcut icon" type="image/x-icon" href="public/images/logo.png">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Act gate</title>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/x-icon" href="public/images/logo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Act gate</title>
+</head>
 
-    <body>
-        <?php
-        if (!in_array($action, ['login', 'register', 'logout'])) {
-            $navbar->render();
-        }
+<body>
+    <?php
+    if (!in_array($action, ['login', 'register', 'logout'])) {
+        $navbar->render();
+    }
 
-        $content
-        ?>
-    </body>
+    $content
+    ?>
+</body>
 
-    </html>
+</html>
 <?php
-
-}
 ?>
