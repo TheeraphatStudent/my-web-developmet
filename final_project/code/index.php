@@ -10,6 +10,8 @@ header("Access-Control-Allow-Headers: Content-Type");
 
 const ALLOWED_REQUEST = ['type'];
 
+
+
 // require_once(__DIR__ . '/php/environment.php');
 require_once(__DIR__ . '/controller/MainController.php');
 
@@ -52,6 +54,7 @@ $_SESSION['mapApiKey'] = $env->getMapApiKey();
 // print_r($_SESSION);
 
 switch ($action) {
+    
     case 'request':
         // print_r($_SERVER['REQUEST_METHOD']);
         // print_r($_GET);
@@ -86,6 +89,7 @@ switch ($action) {
     case 'register':
     case 'logout':
         $controller->auth($action);
+        
         break;
 
     case 'event.attendee':
@@ -109,15 +113,13 @@ switch ($action) {
 $content = ob_get_clean();
 
 $navbar = new Navbar();
+print_r($_SESSION);
 
-// ===== Check User =====
-
-if (isset($_SESSION['userId'])) {
+if(isset($_SESSION['userId'])){
+    $controller->auth($action);
     $response = $controller->request(["on" => "user", "form" => "verify"], ["userId" => $_SESSION['userId']]);
-} else {
+    $navbar -> UpdateNavbar($response);
 }
-
-if (!$isRequest) {
 ?>
     <!DOCTYPE html>
     <html lang="en">

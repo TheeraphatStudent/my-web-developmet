@@ -95,8 +95,8 @@ class MainController
                 $res = $request->mapHandler($formContent, $data);
 
         }
-
         return $res;
+        
     }
 
     public function profile()
