@@ -6,7 +6,7 @@ use PDO;
 // session_start();
 
 class User
-{
+{   
     // Create account
     // verify password
 

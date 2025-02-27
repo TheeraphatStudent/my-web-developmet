@@ -113,6 +113,13 @@ $content = ob_get_clean();
 
 $navbar = new Navbar();
 
+// ===== Update Navbar =====
+
+if (isset($_SESSION['userId'])) {
+    $response = $controller->request(["on" => "user", "form" => "verify"], ["userId" => $_SESSION['userId']]);
+
+}
+
 ?>
 
 <!DOCTYPE html>
