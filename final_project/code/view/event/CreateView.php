@@ -8,7 +8,7 @@ require_once('components/texteditor/texteditor.php');
 use FinalProject\Components\Map;
 use FinalProject\Components\TextEditor;
 
-$map = new Map($mapApiKey);
+$map = new Map();
 $textEditor = new TextEditor();
 
 // ===================== Data =====================
@@ -187,7 +187,6 @@ $authors = array_map(function ($type) {
                         <?php
                         $map->render();
                         ?>
-                        <input type="hidden" name="location">
                     </div>
                 </div>
             </div>
@@ -224,9 +223,9 @@ $authors = array_map(function ($type) {
                 <?php $textEditor->render() ?>
             </div>
 
-            <div class="flex flex-col w-full justify-start items-start gap-5">
-                <button type="submit">Create Event</button>
-
+            <div class="flex w-full justify-start items-start gap-5">
+                <button type="button" class="w-1/3 btn-danger">Cancel</button>
+                <button type="submit" class="w-full btn-secondary">Create Event</button>
             </div>
 
         </form>

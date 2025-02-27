@@ -11,18 +11,18 @@ require_once( __DIR__ . '/../utils/useEvent.php');
 
 // require_once(__DIR__ . 'utils/useEvent.php');
 use FinalProject\Controller\AuthController;
-use FinalProject\Model\MapModel;
+use FinalProject\Model\Map;
 use FinalProject\Utils\Event;
 
 class MainController
 {
     // private const ACCEPT_EVENT = ['checked-in', 'attendee', 'create'];
 
-    private $mapModel;
+    // private $mapModel;
 
     public function __construct()
     {
-        $this->mapModel = new MapModel();
+        // $this->mapModel = new Map();
     }
 
     public function index()
@@ -56,8 +56,6 @@ class MainController
         $event = end($target);
 
         if (in_array($event, EVENT::ACCEPT_EVENT)) {
-            $mapApiKey = $this->mapModel->getMapApiKey();
-
             switch ($event) {
                 case 'checked-in':
                     require_once("./view/event/CheckedInView.php");
@@ -83,6 +81,7 @@ class MainController
         $formContent = $target['form'];
 
         $request = new RequestController();
+        $res = null;
 
         switch ($onModel) {
             case 'user':
@@ -94,7 +93,13 @@ class MainController
                 $res = $request->eventHandler($formContent, $data);
                 print_r($res);
                 break;
+
+            case 'map':
+                $res = $request->mapHandler($formContent, $data);
+
         }
+
+        return $res;
     }
 
     public function profile()

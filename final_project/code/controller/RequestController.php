@@ -6,21 +6,25 @@ namespace FinalProject\Controller;
 require_once(__DIR__ . '/../model/InitModel.php');
 require_once(__DIR__ . '/../model/UserModel.php');
 require_once(__DIR__ . '/../model/EventModel.php');
+require_once(__DIR__ . '/../model/MapModel.php');
 
 use FinalProject\Model\Init;
 use FinalProject\Model\User;
 use FinalProject\Model\Event;
+use FinalProject\Model\Map;
 
 class RequestController
 {
     private $user;
     private $event;
+    private $map;
 
     public function __construct()
     {
         $inti = new Init();
         $this->user = new User($inti->getConnected());
         $this->event = new Event($inti->getConnected());
+        $this->map = new Map();
     }
 
     public function authHandler($form, array $data)
@@ -68,10 +72,18 @@ class RequestController
         switch ($form) {
             case 'create':
                 $result = $this->event->createEvent($data);
-
                 return ["status" => 200, 'data' => $data];
 
-                break;
         }
+    }
+
+    public function mapHandler($form, array $data) {
+        switch ($form) {
+            case 'get_location';
+                $result = $this->map->getLocationByLatLon($data['lat'], $data['lon']);
+                return ["status" => 200, 'data' => $result];
+
+        }
+
     }
 }

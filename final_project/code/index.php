@@ -1,25 +1,27 @@
 <?php
-
-// validate user
-// ...
-
 namespace FinalProject;
+
+session_start();
+
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
 
 const ALLOWED_REQUEST = ['type'];
 
 // require_once(__DIR__ . '/php/environment.php');
 require_once(__DIR__ . '/controller/MainController.php');
-require_once(__DIR__ . '/controller/RequestController.php');
+
 require_once(__DIR__ . '/model/MapModel.php');
+require_once(__DIR__ . '/model/Environment.php');
+
 require_once(__DIR__ . '/components/navbar.php');
 
+use FinalProject\Model\Environment;
 use FinalProject\Components\Navbar;
 use FinalProject\Controller\MainController;
-use FinalProject\Controller\RequestController;
 
 $action = $_GET['action'] ?? 'index';
-
-print_r($action);
 
 $request = null;
 $response = null;
@@ -43,40 +45,21 @@ $response = null;
 
 $controller = new MainController();
 
+$env = new Environment();
+$_SESSION['mapApiKey'] = $env->getMapApiKey();
 
-// Action Request From Client
-
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//     $username = trim($_POST["username"]);
-//     $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
-
-//     $stmt = $pdo->prepare("SELECT id FROM user WHERE username = ?");
-//     $stmt->execute([$username]);
-//     if ($stmt->rowCount() > 0) {
-//         echo "Username นี้ถูกใช้งานแล้ว!";
-//         exit;
-//     }
-
-//     $stmt = $pdo->prepare("INSERT INTO Users (username, password) VALUES (?, ?)");
-//     if ($stmt->execute([$username, $password])) {
-//     } else {
-//     }
-// }
-
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-// } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-// }
-
-// $content = ob_clean();
+// print_r($_SESSION);
 
 switch ($action) {
     case 'request':
         // print_r($_SERVER['REQUEST_METHOD']);
-        // print_r($_POST);
+        print_r($_GET);
+        print_r($_POST);
         // localhost:3000/?action=request&method=post&on=auth&username=admin&password=admin&email=admin@example.com
 
         // echo '<script>console.log("Request Work!")</script>';
-        $controller->request($_GET, $_POST);
+        $response = $controller->request($_GET, $_POST);
+
         break;
 
         // ================= Page Content ================= 
