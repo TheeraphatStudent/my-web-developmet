@@ -66,7 +66,7 @@ switch ($action) {
         $data = array_merge($_POST, $input);
 
         $response = $controller->request($_GET, $data);
-        print_r($response);
+        // print_r($response);
 
         http_response_code($response['status']);
 
@@ -118,27 +118,31 @@ if (isset($_SESSION['userId'])) {
     $response = $controller->request(["on" => "user", "form" => "verify"], ["userId" => $_SESSION['userId']]);
     $navbar->UpdateNavbar($response);
 }
+
+
+if (!$isRequest) {
 ?>
-<!DOCTYPE html>
-<html lang="en">
+    <!DOCTYPE html>
+    <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <link rel="shortcut icon" type="image/x-icon" href="public/images/logo.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Act gate</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="shortcut icon" type="image/x-icon" href="public/images/logo.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Act gate</title>
+    </head>
 
-<body>
-    <?php
-    if (!in_array($action, ['login', 'register', 'logout'])) {
-        $navbar->render();
-    }
+    <body>
+        <?php
+        if (!in_array($action, ['login', 'register', 'logout'])) {
+            $navbar->render();
+        }
 
-    $content
-    ?>
-</body>
+        $content
+        ?>
+    </body>
 
-</html>
+    </html>
 <?php
-?>
+
+}

@@ -35,27 +35,30 @@ class RequestController
             case 'register':
                 $username = trim($data["username"]);
                 $password = $data["password"];
+                $email = $data['email'];
 
                 if ($this->user->getUserByUsername($username)) {
-                    echo '<script>window.location.href="../?action=register"</script>';
-                    return ["status" => 301, "message" => "Username นี้ถูกใช้งานแล้ว!"];
+                    // echo '<script>window.location.href="../?action=register"</script>';
+                    // return ["status" => 301, "message" => "Username นี้ถูกใช้งานแล้ว!"];
+                    return response(status: 301, message: "Username นี้ถูกใช้งานแล้ว!", redirect: '../?action=register');
                 }
-                $result = $this->user->register( $username, $password);
+
+                $result = $this->user->register($username, $password, $email);
 
                 if ($result) {
                     // echo '<script>window.location.href="../"</script>';
                     // return ["status" => 200, "message" => "ลงทะเบียนสำเร็จ!"];
                     return response(status: 200, message: "ลงทะเบียนสำเร็จ", data: $result, redirect: '../?action=login');
+                } else {
+                    // return ["status" => 401, "message" => "เกิดข้อผิดพลาดในการลงทะเบียน"];
+                    return response(status: 401, message: "เกิดข้อผิดพลาดในการลงทะเบียน", redirect: '../?action=login');
+
                 }
 
-                // return ["status" => 401, "message" => "เกิดข้อผิดพลาดในการลงทะเบียน"];
-                return response(status: 401, message: "เกิดข้อผิดพลาดในการลงทะเบียน", redirect: '../?action=login');
-
-                break;
             case "login":
                 $username = trim($data["username"]);
                 $password = $data["password"];
-                
+
                 $result = $this->user->login($username, $password);
                 if ($result) {
                     echo '<script>window.location.href="../"</script>';

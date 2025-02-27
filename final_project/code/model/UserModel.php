@@ -32,15 +32,17 @@ class User
         return false;
     }
 
-    public function register($username, $password)
+    public function register($username, $password, $email)
     {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $this->connection->prepare("INSERT INTO User (userId, username, password) VALUES (:userId, :username, :password)");
+        $stmt = $this->connection->prepare("INSERT INTO User (userId, username, password, email) VALUES (:userId, :username, :password, :email)");
         $stmt->execute([
-            ':userId' => bin2hex(random_bytes(64)),
+            ':userId' => bin2hex(random_bytes(32)),
             ':username' => $username,
-            ':password' => $hashedPassword
+            ':password' => $hashedPassword,
+            ':email' => $email,
         ]);
+
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         return $user;
     }
