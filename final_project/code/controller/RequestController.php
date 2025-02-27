@@ -74,7 +74,7 @@ class RequestController
         switch ($form) {
             case 'create':
                 $result = $this->event->createEvent($data);
-                return response(200, "Create event complete", $result);
+                return response(200, "Create event complete", $data);
 
         }
     }
