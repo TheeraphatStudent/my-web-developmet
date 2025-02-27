@@ -45,11 +45,13 @@ class RequestController
                 // print_r($result);
                 // echo '<br>';
                 if ($result) {
-                    echo '<script>window.location.href="../"</script>';
-                    return ["status" => 200, "message" => "ลงทะเบียนสำเร็จ!"];
-                } else {
-                    return ["status" => 401, "message" => "เกิดข้อผิดพลาดในการลงทะเบียน"];
+                    // echo '<script>window.location.href="../"</script>';
+                    // return ["status" => 200, "message" => "ลงทะเบียนสำเร็จ!"];
+                    return response(status: 200, message: "ลงทะเบียนสำเร็จ", data: $result, redirect: '../?action=login');
                 }
+
+                // return ["status" => 401, "message" => "เกิดข้อผิดพลาดในการลงทะเบียน"];
+                return response(status: 401, message: "เกิดข้อผิดพลาดในการลงทะเบียน", redirect: '../?action=login');
 
                 break;
             case "login":
@@ -59,13 +61,18 @@ class RequestController
                 $result = $this->user->login($username, $password);
                 if ($result) {
                     echo '<script>window.location.href="../"</script>';
-                    return ["status" => 200, "message" => "เข้าสู่ระบบสำเร็จ!", "data" => $result];
+                    // return ["status" => 200, "message" => "เข้าสู่ระบบสำเร็จ!", "data" => $result];
+
+                    $_SESSION['userId'] = $result['userId'];
+
+                    return response(status: 200, message: "เข้าสู่ระบบสำเร็จ!", redirect: '/');
                 } else {
-                    return ["status" => 401, "message" => "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง"];
+                    // return ["status" => 401, "message" => "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง"];
+                    return response(status: 401, message: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง!", redirect: '../?action=login');
                 }
                 break;
             default:
-                return ["status" => 404, "message" => "Invalid form type"];
+                return response(status: 404, message: "ไม่พบประเภทของแบบฟอร์ม");
         }
     }
 
@@ -74,18 +81,16 @@ class RequestController
         switch ($form) {
             case 'create':
                 $result = $this->event->createEvent($data);
-                return response(200, "Create event complete", $data);
-
+                return response(status: 200, message: "Create event complete", data: $data);
         }
     }
 
-    public function mapHandler($form, array $data) {
+    public function mapHandler($form, array $data)
+    {
         switch ($form) {
             case 'get_location';
                 $result = $this->map->getLocationByLatLon($data['lat'], $data['lon']);
-                return response(200, "Get location work", $result);
-
+                return response(status: 200, message: "Get location work", data: $result);
         }
-
     }
 }

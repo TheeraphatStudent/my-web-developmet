@@ -59,7 +59,7 @@ $authors = array_map(function ($type) {
 <body class="bg-primary">
     <div class="flex flex-col justify-center items-center gap-12 pt-[200px] pr-10 pb-[200px] pl-10 w-full h-fit">
         <!-- Form Content -->
-        <form action="../?action=request&on=event&form=create" class="flex flex-col w-full max-w-content h-fit gap-8" method="post">
+        <form id="form-content" action="../?action=request&on=event&form=create" class="flex flex-col w-full max-w-content h-fit gap-8" method="post">
             <h1 class="text-white font-semibold">Create Event</h1>
 
             <div class="flex flex-col md:flex-row justify-between items-start w-full gap-12 *:flex *:flex-col">
@@ -119,7 +119,7 @@ $authors = array_map(function ($type) {
                                 <span class="form-required">*</span>
                             </div>
                             <input
-                                class="form-input" name="link" type="number" placeholder="Enter link">
+                                class="form-input" name="link" type="text" placeholder="Enter link">
 
                         </div>
                     </div>
@@ -240,7 +240,7 @@ $authors = array_map(function ($type) {
 
                 </div>
 
-                <input type="hidden" name="more_pic" id="more-pic-field" value="[]">
+                <input type="hidden" name="more_pic[]" id="more-pic-field" value="[]">
             </div>
 
             <div class="flex flex-col w-full justify-start items-start gap-5">
@@ -267,13 +267,12 @@ $authors = array_map(function ($type) {
     <!-- Validate Form -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const form = document.querySelector('form');
+            const form = document.getElementById('form-content');
 
-            form.addEventListener('submit', function(e) {
-                Array.from(document.getElementsByName('start[]'));
-                Array.from(document.getElementsByName('end[]'));
+            form.addEventListener('submit', () => {
 
-            });
+            })
+
         });
     </script>
 
@@ -309,7 +308,7 @@ $authors = array_map(function ($type) {
 
                     lastField.classList.remove('show');
 
-                    lastField.addEventListener('transitionend', function handler() {
+                    lastField.addEventListener('transitionend', handler = () => {
                         container.removeChild(lastField);
                         lastField.removeEventListener('transitionend', handler);
                     });
@@ -391,13 +390,14 @@ $authors = array_map(function ($type) {
                     reader.onload = function(e) {
                         // console.log(e.target.result);
                         const value = e.target.result;
+                        const blobUrl = byte64toBlobUrl(value, 'image/jpeg', 512);
 
                         const coverImg = document.getElementById('cover_label');
 
                         if (coverImg) {
-                            coverImg.style.backgroundImage = `url('${value}')`;
+                            coverImg.style.backgroundImage = `url('${blobUrl}')`;
                             // console.log(`url('${value}')`)
-                            coverField.value = value;
+                            coverField.value = blobUrl;
                             // console.log(coverField.value)
 
                         }
@@ -406,6 +406,8 @@ $authors = array_map(function ($type) {
                     reader.readAsDataURL(file);
                 }
             });
+
+            // Multi Images
 
             const imageInput = document.getElementById('image-upload');
             const morePicInput = document.getElementById('more-pic-field');
@@ -430,7 +432,7 @@ $authors = array_map(function ($type) {
                             console.log(blobUrl);
 
                             uploadedImages.push(blobUrl);
-                            morePicInput.value = JSON.stringify(blobUrl);
+                            morePicInput.value = uploadedImages
 
                             const index = uploadedImages.length - 1;
                             createImagePreview(imageData, index);
@@ -442,6 +444,8 @@ $authors = array_map(function ($type) {
 
                 imageInput.value = '';
             });
+
+            console.log(uploadedImages);
 
             function createImagePreview(imageData, index) {
                 const imagePreviewWrapper = document.createElement('div');

@@ -1,10 +1,11 @@
 <?php
 
-function response(int $status = 500, string $message = "Something went wrong!", array $data = [])
+function response(int $status = 500, string $message = "Something went wrong!", array $data = [], string $redirect = "/")
 {
     return [
         'status' => $status,
         'message' => $message,
-        'data' => $data
+        'data' => $data,
+        'redirect' => $redirect
     ];
 };

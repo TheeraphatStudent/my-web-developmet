@@ -25,22 +25,23 @@ CREATE TABLE IF NOT EXITS Registration (
   `created`   date
 );
 
-CREATE TABLE IF NOT EXITS Event (
+CREATE TABLE IF NOT EXITS `Event` (
   `id`          int AUTO_INCREMENT PRIMARY KEY,
   `eventId`     varchar(255) NOT NULL UNIQUE,
   `organizeId`  varchar(255) NOT NULL,
   `cover`       varchar(255),
-  `title`       varchar(255),
+  `morePics`    varchar(255),
+  `title`       varchar(100),
   `description` text,
-  `venue`       varchar(255),
+  `venue`       varchar(20),
   `maximum`     json,
-  `type`        varchar(100),
-  `link`        varchar(255),
-  `start`       json,
-  `end`         json,
+  `type`        varchar(10),
+  `link`        varchar,
+  `start`       varchar,
+  `end`         varchar,
   `location`    json,
-  `created`     date,
-  `updated`     date
+  `created`     timestamp,
+  `updated`     timestamp
 );
 
 CREATE TABLE IF NOT EXITS `User` (

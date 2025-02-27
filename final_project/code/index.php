@@ -66,12 +66,16 @@ switch ($action) {
         $response = $controller->request($_GET, $data);
 
         http_response_code($response['status']);
+
+        if ($response['status'] != 200) {
+            header('Location: ' . $response['redirect'] . '&status=' . $response['status']);
+            exit;
+
+        }
+
         header("Content-Type: application/json");
-        unset($response['status']);
-
-        echo(json_encode($response));
-        break;
-
+        echo json_encode($response);
+        exit;
         // ================= Page Content ================= 
 
     case 'index':

@@ -6,7 +6,7 @@ use PDO;
 // session_start();
 
 class User
-{   
+{
     // Create account
     // verify password
 
@@ -31,22 +31,26 @@ class User
         $stmt->execute([
             ':userId' => bin2hex(random_bytes(64)),
             ':username' => $username,
-            ':password' => $hashedPassword]);
+            ':password' => $hashedPassword
+        ]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         return $user;
     }
-    public function login($username, $password){
+    public function login($username, $password)
+    {
         $stmt = $this->connection->prepare('SELECT * FROM User WHERE username = :username');
-        $stmt ->execute([':username' => $username]);
+        $stmt->execute([':username' => $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        // print_r($user);
-        if($user&&password_verify($password, $user['password'])){
-            unset($user['username']);
-            unset($user['password']);
-            $userid = $user['userId'];
-            $_SESSION['userid'] = $userid;
-            return $userid;
+
+        $result = null;
+
+        if ($user && password_verify($password, $user['password'])) {
+            $user = array_diff_key($user, array_flip(['username', 'password']));
+            $result = $user['userId'];
+
+            return $result;
         }
-        // return $user;
+
+        return $result;
     }
 }
