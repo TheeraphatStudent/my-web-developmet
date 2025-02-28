@@ -63,7 +63,9 @@ class MainController
                     require_once("./view/event/AttendeeView.php");
                     break;
                 case 'create':
-                    // require_once("./view/event/CreateView.php");
+                    require_once("./view/event/CreateView.php");
+                    break;
+                case 'create-test':
                     require_once("./view/event/test.CreateView.php");
                     break;
             }

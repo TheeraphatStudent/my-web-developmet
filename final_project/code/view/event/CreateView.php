@@ -65,6 +65,8 @@ $authors = array_map(function ($type) {
             class="flex flex-col w-full max-w-content h-fit gap-8"
             method="post"
             enctype="multipart/form-data">
+            <input type="hidden" name="test" value="test">
+
             <h1 class="text-white font-semibold">Create Event</h1>
 
             <div class="flex flex-col md:flex-row justify-between items-start w-full gap-12 *:flex *:flex-col">

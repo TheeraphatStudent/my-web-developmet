@@ -9,6 +9,7 @@ header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
 const ALLOWED_REQUEST = ['type'];
+const RENDER_NAVBAR = ['login', 'register', 'logout'];
 const ACCEPT_STATUS = [200, 302];
 
 // require_once(__DIR__ . '/php/environment.php');
@@ -84,6 +85,13 @@ switch ($action) {
         $input = json_decode(file_get_contents("php://input"), true) ?? [];
         $data = array_merge($_POST, $input);
 
+        if (isset($data['test'])) {
+            print_r($data);
+            echo '</br>';
+            print_r($_FILES);
+            return;
+        }
+
         $response = $controller->request($_GET, $data);
         // print_r($data);
         // print_r($_FILES);
@@ -106,7 +114,6 @@ switch ($action) {
             header('Content-Type: image/jpeg');
             echo $response['data']['image'];
             exit;
-
         }
 
         // header('Location: ' . $response['redirect']);
@@ -127,6 +134,7 @@ switch ($action) {
     case 'event.attendee':
     case 'event.create':
     case 'event.checked-in':
+    case 'event.create-test':
         $controller->event($action);
         break;
 
@@ -146,28 +154,30 @@ switch ($action) {
 $content = ob_get_clean();
 
 if (!$isRequest) {
-?>
-    <!DOCTYPE html>
-    <html lang="en">
+    ?>
+            <!DOCTYPE html>
+            <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <link rel="shortcut icon" type="image/x-icon" href="public/images/logo.png">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Act gate</title>
-    </head>
+            <head>
+                <meta charset="UTF-8">
+                <link rel="shortcut icon" type="image/x-icon" href="public/images/logo.png">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Act gate</title>
+            </head>
 
-    <body>
+            <body>
+                <?php
+                if (!in_array($action, RENDER_NAVBAR)) {
+                    $navbar->render();
+                }
+
+                $content
+                ?>
+            </body>
+
+            </html>
         <?php
-        if (!in_array($action, ['login', 'register', 'logout'])) {
-            $navbar->render();
-        }
 
-        $content
-        ?>
-    </body>
+};
 
-    </html>
-<?php
-
-}
+?>
