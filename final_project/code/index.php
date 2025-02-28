@@ -86,7 +86,7 @@ switch ($action) {
 
         $response = $controller->request($_GET, $data);
         // print_r($data);
-        print_r($_FILES);
+        // print_r($_FILES);
         // print_r($response);
 
         http_response_code($response['status'] ?? 404);
