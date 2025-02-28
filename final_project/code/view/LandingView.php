@@ -62,9 +62,12 @@ $calendar = new SchedulerCalendar();
 
         <!-- Content -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-content h-full min-h-fit mx-10 px-5 lg:px-16">
-            <?php for ($i = 0; $i < 6; $i++) : ?>
-                <div class="flex flex-col justify-between items-center p-5 gap-4 rounded-lg w-full h-[422px] shadow-md bg-orange-50">
-                    <div class="flex flex-col justify-between items-center gap-[150px] rounded w-full h-60 bg-[url(https://picsum.photos/seed/picsum/1920/1080)] overflow-hidden">
+            <?php foreach ($allEvents as $item) :
+                // $dataUrl = "data:image/png;base64," . base64_encode(file_get_contents($item['cover']));
+                // print_r($dataUrl);
+            ?>
+                <div class="flex flex-col justify-between items-center p-5 gap-4 rounded-lg w-full h-[420px] shadow-md bg-orange-50">
+                    <div class="flex flex-col justify-between items-center gap-[150px] rounded w-full h-60 overflow-hidden">
                         <!-- Tag -->
                         <div class="flex flex-row justify-start items-start gap-2.5 pt-2.5 pr-2.5 pb-2.5 pl-2.5 w-full h-11">
                             <div class="flex justify-center items-center rounded w-11 h-6 shadow-sm bg-orange-50">
@@ -90,30 +93,48 @@ $calendar = new SchedulerCalendar();
                     <div class="flex flex-col justify-start items-start gap-3 h-20 w-full">
                         <div class="flex flex-col justify-start items-start h-12 w-full">
                             <div class="flex flex-row justify-between items-center gap-2.5 w-full h-7">
-                                <div class="font-kanit text-lg whitespace-nowrap text-neutral-800 text-opacity-100 leading-none font-normal">
-                                    Eat with me!
+                                <div class="font-kanit text-lg whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
+                                    <?php echo htmlspecialchars_decode($item['title']) ?>
                                 </div>
-                                <div class="font-kanit text-lg text-right whitespace-nowrap text-neutral-800 text-opacity-100 leading-none font-normal">
-                                    80/-
+                                <div class="font-kanit text-lg text-right whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
+                                    <!-- 80/- -->
+                                    <?php echo htmlspecialchars_decode($item['maximum']) ?>
                                 </div>
                             </div>
-                            <div class="font-kanit text-xs w-full whitespace-nowrap text-teal-700 text-opacity-100 leading-none font-normal">
-                                Sunday, 12 January 2025&nbsp;
+                            <div class="font-kanit text-xs w-full whitespace-nowrap text-primary text-opacity-100 leading-none font-normal">
+                                <!-- Sunday, 12 January 2025&nbsp; -->
+                                <?php echo htmlspecialchars_decode($item['start']) ?>
                             </div>
                         </div>
-                        <div class="font-kanit text-xs w-full whitespace-nowrap text-neutral-400 text-opacity-100 leading-none font-normal">
-                            ทุกที่
+                        <div class="font-kanit text-sm w-full whitespace-nowrap text-gray-400 text-opacity-100 leading-none font-normal">
+                            <!-- ทุกที่ -->
+                            <?php echo htmlspecialchars_decode($item['type']) ?>
                         </div>
                     </div>
                     <div class="flex flex-row justify-center items-center gap-2.5 w-full h-9">
-                        <a href="../?action=event.attendee" class="btn-primary max-h-10 w-full max-w-[80%]">
+                        <a href="../?action=event.attendee&id=<?= $item['eventId'] ?>" class="btn-primary max-h-10 w-full max-w-[80%]">
                             <span class="font-kanit text-base text-white">
                                 เข้าร่วม
                             </span>
                         </a>
                     </div>
                 </div>
-            <?php endfor; ?>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', async () => {
+                        const response = await fetch('..?action=request&on=image&form=decode_image', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                image: `<?= $item['cover'] ?>`
+                            })
+                        })
+                    })
+                </script>
+
+            <?php endforeach; ?>
         </div>
 
         <!-- Suggest -->

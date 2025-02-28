@@ -2,6 +2,10 @@
 
 namespace FinalProject\Model;
 
+require_once(__DIR__ . '/../utils/useResponse.php');
+
+use FinalProject\Utils;
+
 use DateTime;
 use PDO;
 
@@ -19,49 +23,46 @@ class Event
     {
         // array: start, end, authors, more_pic
 
-        // print_r($data);
+        $uploadDir = '/var/www/html/uploads/images/';
+        $coverImage = null;
+        $morePics = [];
+
+        if (isset($_FILES['cover']) && $_FILES['cover']['error'] === UPLOAD_ERR_OK) {
+            $coverImage = uploadFile($_FILES['cover'], $uploadDir);
+        }
+
+        if (isset($_FILES['more_pic'])) {
+            $morePics = uploadMultipleFiles($_FILES['more_pic'], $uploadDir);
+        }
 
         $started = json_encode($data['start']);
         $ended = json_encode($data['end']);
-        // $authors = json_encode($data['authors']);
-        $more_pic = json_encode($data['more_pic']);
+        $more_pic = json_encode($morePics);
 
-        $latMatch = 0;
-        $lonMatch = 0;
+        $latMatch = [];
+        $lonMatch = [];
 
         preg_match('/lat=([^&]*)/', $data['location'], $latMatch);
         preg_match('/lon=([^&]*)/', $data['location'], $lonMatch);
 
         $location = json_encode([
-            'lat' => $latMatch[1],
-            'lon' => $lonMatch[1]
+            'lat' => $latMatch[1] ?? 0,
+            'lon' => $lonMatch[1] ?? 0
         ]);
 
         $statement = $this->connection->prepare(
             "INSERT INTO Event 
-            (`eventId`, `organizeId`, `cover`, `morePics`, `title`, `description`, `venue`, `maximum`, `type`, `link`, `start`, `end`, `location`, `created`, `updated`)
-            VALUES 
-            (:eventId, :organizeId, :cover, :morePics, :title, :description, :venue, :maximum, :type, :link, :start, :end, :location, :created, :updated)
-            "
+        (`eventId`, `organizeId`, `cover`, `morePics`, `title`, `description`, `venue`, `maximum`, `type`, `link`, `start`, `end`, `location`, `created`, `updated`)
+        VALUES 
+        (:eventId, :organizeId, :cover, :morePics, :title, :description, :venue, :maximum, :type, :link, :start, :end, :location, :created, :updated)"
         );
-
-        $statement->bindParam(':cover', $data['cover']);
-        $statement->bindParam(':morePics', $more_pic);
-        $statement->bindParam(':title', $data['title']);
-        $statement->bindParam(':description', $data['description']);
-        $statement->bindParam(':maximum', $data['maximum']);
-        $statement->bindParam(':type', $data['type']);
-        $statement->bindParam(':link', $data['link']);
-        $statement->bindParam(':start', $started);
-        $statement->bindParam(':end', $ended);
-        $statement->bindParam(':location', $location);
 
         $now = new DateTime();
 
         $statement->execute([
             ':eventId' => bin2hex(random_bytes(64)),
             ':organizeId' => $_SESSION['userId'],
-            ':cover' => $data['cover'],
+            ':cover' => $coverImage,
             ':morePics' => $more_pic,
             ':title' => $data['title'],
             ':description' => $data['description'],
@@ -81,5 +82,22 @@ class Event
         return [$result];
     }
 
-    // ...
+    public function getAllEvents()
+    {
+        $statement = $this->connection->prepare(
+            "SELECT * FROM Event
+            "
+        );
+
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        return [$result];
+    }
+
+    public function getEventById() {}
+
+    public function updateEventById() {}
+
+    public function deleteEventById() {}
 }
