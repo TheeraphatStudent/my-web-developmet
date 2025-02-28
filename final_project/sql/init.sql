@@ -1,49 +1,56 @@
-CREATE TABLE IF NOT EXITS Author (
+DROP TABLE Attendance;
+DROP TABLE Author;
+DROP TABLE Registration;
+DROP TABLE Event;
+DROP TABLE User;
+
+CREATE TABLE Author (
   `id`          int AUTO_INCREMENT PRIMARY KEY,
   `authorId`    varchar(255) NOT NULL UNIQUE,
   `eventId`     varchar(255) NOT NULL,
   `role`        varchar(100),
-  `created`     date,
-  `updated`     date
+  `created`     timestamp,
+  `updated`     timestamp
 );
 
-CREATE TABLE IF NOT EXITS Attendance (
+CREATE TABLE Attendance (
   `id`         int AUTO_INCREMENT PRIMARY KEY,
   `attId`      varchar(255) NOT NULL UNIQUE,
   `regId`      varchar(255) NOT NULL,
   `verifyBy`   varchar(255) NOT NULL,
-  `created`    date
+  `created`    timestamp
 );
 
-CREATE TABLE IF NOT EXITS Registration (
+CREATE TABLE Registration (
   `id`        int AUTO_INCREMENT PRIMARY KEY,
   `regId`     varchar(255) NOT NULL UNIQUE,
   `eventId`   varchar(255) NOT NULL,
   `userId`    varchar(255) NOT NULL,
   `status`    varchar(100),
-  `updated`   date,
-  `created`   date
+  `updated`   timestamp,
+  `created`   timestamp
 );
 
-CREATE TABLE IF NOT EXITS Event (
+CREATE TABLE `Event` (
   `id`          int AUTO_INCREMENT PRIMARY KEY,
   `eventId`     varchar(255) NOT NULL UNIQUE,
   `organizeId`  varchar(255) NOT NULL,
   `cover`       varchar(255),
-  `title`       varchar(255),
+  `morePics`    varchar(255),
+  `title`       varchar(100),
   `description` text,
-  `venue`       varchar(255),
+  `venue`       varchar(20),
   `maximum`     json,
-  `type`        varchar(100),
+  `type`        varchar(10),
   `link`        varchar(255),
-  `start`       json,
-  `end`         json,
+  `start`       varchar(255),
+  `end`         varchar(255),
   `location`    json,
-  `created`     date,
-  `updated`     date
+  `created`     timestamp,
+  `updated`     timestamp
 );
 
-CREATE TABLE IF NOT EXITS `User` (
+CREATE TABLE `User` (
   `id`          int AUTO_INCREMENT PRIMARY KEY,
   `userId`      varchar(255) NOT NULL UNIQUE,
   `username`    varchar(100),
@@ -54,8 +61,8 @@ CREATE TABLE IF NOT EXITS `User` (
   `education`   varchar(100),
   `telno`       varchar(50),
   `birth`       date,
-  `created`     date,
-  `updated`     date
+  `created`     timestamp,
+  `updated`     timestamp
 );
 
 ALTER TABLE `Attendance` ADD CONSTRAINT `Attendance_regId_fk` FOREIGN KEY (`regId`) REFERENCES `Registration` (`regId`);

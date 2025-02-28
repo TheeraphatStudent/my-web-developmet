@@ -6,7 +6,7 @@ require_once('components/map/map.php');
 
 use FinalProject\Components\Map;
 
-$map = new Map($mapApiKey);
+$map = new Map();
 
 ?>
 

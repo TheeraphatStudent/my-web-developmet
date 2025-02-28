@@ -1,82 +1,93 @@
+/* Import Kanit Font (Must be at the top before Tailwind) */
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&display=swap");
+
+/* Tailwind Directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
-
 @layer base {
+  /* Apply Kanit font globally */
+  * {
+    @apply font-kanit transition-all duration-100 ease-in-out;
+  }
+
+  /* Headings */
   h1 {
-    @apply text-2xl font-kanit;
+    @apply text-2xl;
   }
   h2 {
-    @apply text-xl font-kanit;
+    @apply text-xl;
   }
   h3 {
-    @apply text-lg font-kanit;
+    @apply text-lg;
   }
 
+  /* Links */
   a {
-    @apply underline decoration-blue-800;
+    @apply underline decoration-white transition-all hover:opacity-80;
   }
 
+  /* Text Elements */
   span {
     @apply font-kanit;
-  }
-
-  * {
-    transition: all 0.125s ease-in-out;
-    font-family: "Kanit", sans-serif !important;
   }
 }
 
 @layer components {
-  .btn-primary {
-    @apply flex items-center font-semibold h-14 bg-primary border-[.15rem] text-white border-primary px-6 rounded-xl hover:bg-secondary justify-center no-underline !important;
+  /* Buttons */
+  .btn {
+    @apply flex items-center justify-center font-semibold h-14 px-6 rounded-xl no-underline transition-all;
   }
 
-  .btn-white {
-    @apply flex items-center font-semibold h-14 bg-white border-[.15rem] text-black px-6 rounded-xl hover:bg-black hover:text-white justify-center no-underline !important;
-
+  .btn-primary {
+    @apply btn bg-primary text-white border-[.15rem] border-primary hover:bg-secondary;
   }
 
   .btn-secondary {
-    @apply flex items-center font-semibold h-14 bg-secondary border-[.15rem] text-white px-6 rounded-xl hover:bg-dark-primary border-none justify-center no-underline !important;
+    @apply btn bg-secondary text-white border-none hover:bg-dark-secondary;
+  }
 
+  .btn-white {
+    @apply btn bg-white text-black border-[.15rem] hover:bg-black hover:text-white;
+  }
+
+  .btn-danger {
+    @apply btn bg-red text-white border-none hover:bg-dark-red;
   }
 
   .btn-primary-outline {
-    @apply flex items-center font-semibold h-14 border-[.15rem] text-primary border-primary px-6 rounded-xl hover:bg-secondary hover:text-black/80 justify-center no-underline !important;
+    @apply btn text-primary border-[.15rem] border-primary hover:bg-secondary hover:text-black/80;
   }
 
+  /* Cards */
   .card {
-    @apply flex w-full max-w-[450px] h-fit p-8 bg-white border shadow-xl rounded-xl !important;
+    @apply flex w-full max-w-[450px] p-8 bg-white border shadow-xl rounded-xl;
   }
 
+  /* Input Fields */
   .input-field {
-    @apply w-full text-sm text-gray-800 border border-gray-300 pl-4 pr-10 py-3 rounded-lg !important;
+    @apply w-full text-sm text-gray-800 border border-gray-300 pl-4 pr-10 py-3 rounded-lg;
   }
 
+  /* Tags */
   .tags {
-    @apply flex justify-center items-center rounded w-fit px-3 py-2 bg-white font-kanit text-sm text-primary font-normal;
+    @apply flex justify-center items-center rounded px-3 py-2 bg-white text-primary text-sm font-normal;
   }
 
   .text-overflow {
-    @apply whitespace-nowrap overflow-hidden text-ellipsis block
+    @apply whitespace-nowrap overflow-hidden text-ellipsis block;
   }
 
-  /* Form */
-
   .form-title {
-    @apply font-kanit text-base font-medium whitespace-nowrap text-white text-opacity-100 leading-none;
-
+    @apply text-base font-medium text-white leading-none;
   }
 
   .form-required {
-    @apply text-red text-opacity-100;
-
+    @apply text-red;
   }
 
   .form-input {
-    @apply flex justify-start items-center rounded w-full h-10 bg-white;
+    @apply flex items-center w-full h-10 bg-white px-2 rounded;
   }
 }

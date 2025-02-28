@@ -1,30 +1,31 @@
 <?php
 
-// validate user
-// ...
-
 namespace FinalProject;
 
 session_start();
+
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+
 const ALLOWED_REQUEST = ['type'];
-
-
+const ACCEPT_STATUS = [200, 302];
 
 // require_once(__DIR__ . '/php/environment.php');
 require_once(__DIR__ . '/controller/MainController.php');
-require_once(__DIR__ . '/controller/RequestController.php');
+
 require_once(__DIR__ . '/model/MapModel.php');
+require_once(__DIR__ . '/model/Environment.php');
+
 require_once(__DIR__ . '/components/navbar.php');
 
+use FinalProject\Model\Environment;
 use FinalProject\Components\Navbar;
 use FinalProject\Controller\MainController;
-use FinalProject\Controller\RequestController;
 
 $action = $_GET['action'] ?? 'index';
 
-// print_r($action);
-
-$request = null;
+$isRequest = false;
 $response = null;
 
 // action = [page], request
@@ -46,40 +47,42 @@ $response = null;
 
 $controller = new MainController();
 
+$env = new Environment();
+$_SESSION['mapApiKey'] = $env->getMapApiKey();
 
-// Action Request From Client
-
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//     $username = trim($_POST["username"]);
-//     $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
-
-//     $stmt = $pdo->prepare("SELECT id FROM user WHERE username = ?");
-//     $stmt->execute([$username]);
-//     if ($stmt->rowCount() > 0) {
-//         echo "Username นี้ถูกใช้งานแล้ว!";
-//         exit;
-//     }
-
-//     $stmt = $pdo->prepare("INSERT INTO Users (username, password) VALUES (?, ?)");
-//     if ($stmt->execute([$username, $password])) {
-//     } else {
-//     }
-// }
-
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-// } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-// }
+// echo(print_r($_SESSION));
 
 switch ($action) {
-    
+
     case 'request':
-        print_r($_SERVER['REQUEST_METHOD']);
+        // print_r($_SERVER['REQUEST_METHOD']);
+        // print_r($_GET);
         // print_r($_POST);
         // localhost:3000/?action=request&method=post&on=auth&username=admin&password=admin&email=admin@example.com
 
-        $controller->request($_GET, $_POST);
-        break;
+        $isRequest = true;
 
+        $input = json_decode(file_get_contents("php://input"), true) ?? [];
+        $data = array_merge($_POST, $input);
+
+        $response = $controller->request($_GET, $data);
+        // print_r($response);
+
+        http_response_code($response['status']);
+
+        if (!in_array($response['status'], ACCEPT_STATUS)) {
+            header('Location: ' . $response['redirect'] . '&status=' . $response['status']);
+            exit;
+        }
+
+        if ($response['type'] == 'json') {
+            header("Content-Type: application/json");
+            echo json_encode($response);
+            exit;
+        }
+
+        header('Location: ' . $response['redirect']);
+        exit;
         // ================= Page Content ================= 
 
     case 'index':
@@ -90,7 +93,7 @@ switch ($action) {
     case 'register':
     case 'logout':
         $controller->auth($action);
-        
+
         break;
 
     case 'event.attendee':
@@ -106,41 +109,46 @@ switch ($action) {
     default:
         header("HTTP/1.0 404 Not Found");
         $controller->notFound();
-        exit();
+        // exit();
+        break;
 }
 
-// Content
+// ===== Content =====
 
 $content = ob_get_clean();
 
 $navbar = new Navbar();
-print_r($_SESSION);
 
-if(isset($_SESSION['userId'])){
+if (isset($_SESSION['userId'])) {
     $controller->auth($action);
     $response = $controller->request(["on" => "user", "form" => "verify"], ["userId" => $_SESSION['userId']]);
-    $navbar -> UpdateNavbar($response);
+    $navbar->UpdateNavbar($response['data']['isFound']);
 }
+
+
+if (!$isRequest) {
 ?>
+    <!DOCTYPE html>
+    <html lang="en">
 
-<!DOCTYPE html>
-<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="shortcut icon" type="image/x-icon" href="public/images/logo.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Act gate</title>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <link rel="shortcut icon" type="image/x-icon" href="public/images/logo.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Act gate</title>
-</head>
+    <body>
+        <?php
+        if (!in_array($action, ['login', 'register', 'logout'])) {
+            $navbar->render();
+        }
 
-<body>
-    <?php
-    if (!in_array($action, ['login', 'register', 'logout'])) {
-        $navbar->render();
-    }
+        $content
+        ?>
+    </body>
 
-    $content
-    ?>
-</body>
+    </html>
+<?php
 
-</html>
+}

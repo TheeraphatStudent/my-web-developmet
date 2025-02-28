@@ -43,7 +43,7 @@ $calendar = new SchedulerCalendar();
             <div
                 class="flex flex-row justify-center items-center gap-2.5 pt-2.5 pr-2.5 pb-2.5 pl-2.5 rounded-3xl h-60 bg-gradient-to-b from-[rgba(251,248,238,0)] from-0% to-[rgba(34,110,106,1)] to-100% min-w-[1650px]">
                 <div
-                    class="font-kanit lg:text-4xl text-2xl w-fit whitespace-nowrap text-teal-700 text-opacity-100 leading-none text-dark/primary">
+                    class="font-kanit lg:text-4xl text-2xl w-fit whitespace-nowrap text-white text-opacity-100 leading-none text-dark/primary">
                     Create events, invite, and connect easily!
                 </div>
             </div>
@@ -106,7 +106,7 @@ $calendar = new SchedulerCalendar();
                         </div>
                     </div>
                     <div class="flex flex-row justify-center items-center gap-2.5 w-full h-9">
-                        <a href="../?action=attendee" class="btn-primary max-h-10 w-full max-w-[80%]">
+                        <a href="../?action=event.attendee" class="btn-primary max-h-10 w-full max-w-[80%]">
                             <span class="font-kanit text-base text-white">
                                 เข้าร่วม
                             </span>

@@ -14,6 +14,8 @@ class Navbar extends Component
     public function render()
     {
         $activeLink = $this->data['activeLink'] ?? '';
+        
+
 ?>
         <nav class="fixed top-0 bg-white w-screen z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -57,7 +59,10 @@ class Navbar extends Component
         </nav>
 <?php
     }
-    public function UpdateNavbar(bool $login){
-        $this->isLogin = $login;
+
+    public function updateNavbar(bool $isLogin) {
+        $this->isLogin = $isLogin;
+
+
     }
 }

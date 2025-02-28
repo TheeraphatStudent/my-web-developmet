@@ -2,23 +2,26 @@
 
 namespace FinalProject\Controller;
 
-require_once(__DIR__ . '/AuthController.php');
+require_once(__DIR__ . '/RequestController.php');
+require_once( __DIR__ . '/../utils/useEvent.php');
 
-use FinalProject\Controller\AuthController;
-use FinalProject\Model\MapModel;
-use FinalProject\Model\UserModel;
+// print_r( __DIR__ . '/../utils/useEvent.php');
+// echo '<br>';
+// print_r( __DIR__);
+
+// require_once(__DIR__ . 'utils/useEvent.php');
+use FinalProject\Controller\RequestController;
+use FinalProject\Utils\Event;
 
 class MainController
 {
-    private const ACCEPT_EVENT = ['checked-in', 'attendee', 'create'];
+    // private const ACCEPT_EVENT = ['checked-in', 'attendee', 'create'];
 
-    private $mapModel;
-    private $userModel;
+    // private $mapModel;
 
     public function __construct()
     {
-        $this->mapModel = new MapModel();
-        // $this->userModel = new UserModel();
+        // $this->mapModel = new Map();
     }
 
     public function index()
@@ -29,15 +32,13 @@ class MainController
     public function auth($type = 'login')
     {
 
-        $auth = new AuthController();
-
         switch ($type) {
             case 'login':
-                $auth->login();
+                require_once("./view/auth/LoginView.php");
                 break;
 
             case 'register':
-                $auth->register();
+                require_once("./view/auth/RegisterView.php");
                 break;
 
             case 'logout':
@@ -51,9 +52,7 @@ class MainController
         $target = explode('event.', $action);
         $event = end($target);
 
-        if (in_array($event, self::ACCEPT_EVENT)) {
-            $mapApiKey = $this->mapModel->getMapApiKey();
-
+        if (in_array($event, EVENT::ACCEPT_EVENT)) {
             switch ($event) {
                 case 'checked-in':
                     require_once("./view/event/CheckedInView.php");
@@ -70,21 +69,31 @@ class MainController
         }
     }
 
-    public function request(array $target, array $data)
+    public function request(array $target, array $data = [])
     {
-        print_r($target);
-        echo "<br>";
-        print_r($data);
-        $on = $target['on'];
+        // print_r($target);
+        // echo "<br>";
+        // print_r($data);
+        $onModel = $target['on'];
+        $formContent = $target['form'];
 
         $request = new RequestController();
+        $res = null;
 
-        $res = NULL ;
-        switch ($on) {
+        switch ($onModel) {
             case 'user':
-                $res = $request->auth($target['form'], $data);
-                print_r($res);
+                $res = $request->authHandler($formContent, $data);
+                // print_r($res);
                 break;
+
+            case 'event':
+                $res = $request->eventHandler($formContent, $data);
+                // print_r($res);
+                break;
+
+            case 'map':
+                $res = $request->mapHandler($formContent, $data);
+
         }
         return $res;
         

@@ -98,28 +98,3 @@ option {
 }
 
 /* Upload */
-
-.uploaded-image {
-  cursor: pointer;
-  border-radius: 50%;
-}
-
-.avatar-preview:hover {
-  filter: brightness(80%);
-}
-
-.avatar-preview .uploaded-img-icon {
-  display: none;
-}
-
-.avatar-preview:hover .uploaded-img-icon {
-  display: block;
-}
-
-.uploaded-img-icon {
-  filter: invert(1) brightness(2) contrast(1);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
