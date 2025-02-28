@@ -61,22 +61,21 @@ class RequestController
 
                 $result = $this->user->login($username, $password);
                 if ($result) {
-                    echo '<script>window.location.href="../"</script>';
+                    // echo '<script>window.location.href="../"</script>';
                     // return ["status" => 200, "message" => "เข้าสู่ระบบสำเร็จ!", "data" => $result];
 
-                    $_SESSION['userId'] = $result['userId'];
+                    $_SESSION['userId'] = $result;
 
                     return response(status: 200, message: "เข้าสู่ระบบสำเร็จ!", redirect: '/');
                 } else {
                     // return ["status" => 401, "message" => "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง"];
                     return response(status: 401, message: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง!", redirect: '../?action=login');
                 }
-                break;
-            case "verify":
-                $user = $this->user->getUserByUserId($data["userId"]);
 
-                return $user;
-                break;
+            case "verify":
+                $isFound = $this->user->getUserByUserId($data["userId"]);
+                return response(status: 200, data: ["isFound" => $isFound]);
+
             default:
                 return response(status: 404, message: "ไม่พบประเภทของแบบฟอร์ม");
         }
@@ -96,7 +95,7 @@ class RequestController
         switch ($form) {
             case 'get_location';
                 $result = $this->map->getLocationByLatLon($data['lat'], $data['lon']);
-                return response(status: 200, message: "Get location work", data: $result);
+                return response(status: 200, message: "Get location work", data: $result, type: 'json');
         }
     }
 }

@@ -59,7 +59,10 @@ class Map extends Component
 
                     })
 
-                    console.log(JSON.parse(response?.data))
+                    const parseJson = JSON.parse(response?.data);
+                    console.log(parseJson)
+
+                    locationDisplay.innerText = parseJson?.aoi ?? '???';
 
                 });
             });

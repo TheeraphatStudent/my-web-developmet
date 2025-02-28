@@ -106,7 +106,7 @@ $calendar = new SchedulerCalendar();
                         </div>
                     </div>
                     <div class="flex flex-row justify-center items-center gap-2.5 w-full h-9">
-                        <a href="../?action=attendee" class="btn-primary max-h-10 w-full max-w-[80%]">
+                        <a href="../?action=event.attendee" class="btn-primary max-h-10 w-full max-w-[80%]">
                             <span class="font-kanit text-base text-white">
                                 เข้าร่วม
                             </span>

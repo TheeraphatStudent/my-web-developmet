@@ -3,6 +3,7 @@
 namespace FinalProject\Model;
 
 use DateTime;
+use PDO;
 
 class Event
 {
@@ -13,13 +14,16 @@ class Event
         $this->connection = $connection;
     }
 
+
     public function createEvent($data = [])
     {
         // array: start, end, authors, more_pic
 
+        // print_r($data);
+
         $started = json_encode($data['start']);
         $ended = json_encode($data['end']);
-        $authors = json_encode($data['authors']);
+        // $authors = json_encode($data['authors']);
         $more_pic = json_encode($data['more_pic']);
 
         $latMatch = 0;
@@ -33,28 +37,30 @@ class Event
             'lon' => $lonMatch[1]
         ]);
 
-
-        // print_r("Create Event Work!");
         $statement = $this->connection->prepare(
             "INSERT INTO Event 
             (`eventId`, `organizeId`, `cover`, `morePics`, `title`, `description`, `venue`, `maximum`, `type`, `link`, `start`, `end`, `location`, `created`, `updated`)
             VALUES 
-            (:eventId, :organizeId, :cover, :morePics, :title, :description, :venue, :maximum, :type, :like, :start, :end, :location, :created, :updated)
+            (:eventId, :organizeId, :cover, :morePics, :title, :description, :venue, :maximum, :type, :link, :start, :end, :location, :created, :updated)
             "
         );
 
-        $statement->bindParam($data['cover'], ':cover');
-        $statement->bindParam($more_pic, ':morePics');
-        $statement->bindParam($data['title'], ':title');
-        $statement->bindParam($data['description'], ':description');
-        $statement->bindParam($data['maximum'], ':maximum');
-        $statement->bindParam($data['type'], ':type');
-        $statement->bindParam($data['link'], ':link');
-        $statement->bindParam($started, ':start');
-        $statement->bindParam($ended, ':end');
-        $statement->bindParam($location, ':location');
+        $statement->bindParam(':cover', $data['cover']);
+        $statement->bindParam(':morePics', $more_pic);
+        $statement->bindParam(':title', $data['title']);
+        $statement->bindParam(':description', $data['description']);
+        $statement->bindParam(':maximum', $data['maximum']);
+        $statement->bindParam(':type', $data['type']);
+        $statement->bindParam(':link', $data['link']);
+        $statement->bindParam(':start', $started);
+        $statement->bindParam(':end', $ended);
+        $statement->bindParam(':location', $location);
+
+        $now = new DateTime();
 
         $statement->execute([
+            ':eventId' => bin2hex(random_bytes(64)),
+            ':organizeId' => $_SESSION['userId'],
             ':cover' => $data['cover'],
             ':morePics' => $more_pic,
             ':title' => $data['title'],
@@ -66,13 +72,14 @@ class Event
             ':start' => $started,
             ':end' => $ended,
             ':location' => $location,
-            ':created' => new DateTime(),
-            ':updated' => new DateTime()
+            ':created' => $now->format('Y-m-d H:i:s'),
+            ':updated' => $now->format('Y-m-d H:i:s')
         ]);
 
-        
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
 
-
-        return [];
+        return [$result];
     }
+
+    // ...
 }

@@ -50,7 +50,7 @@ $controller = new MainController();
 $env = new Environment();
 $_SESSION['mapApiKey'] = $env->getMapApiKey();
 
-// print_r($_SESSION);
+// echo(print_r($_SESSION));
 
 switch ($action) {
 
@@ -75,8 +75,13 @@ switch ($action) {
             exit;
         }
 
-        header("Content-Type: application/json");
-        echo json_encode($response);
+        if ($response['type'] == 'json') {
+            header("Content-Type: application/json");
+            echo json_encode($response);
+            exit;
+        }
+
+        header('Location: ' . $response['redirect']);
         exit;
         // ================= Page Content ================= 
 
@@ -104,7 +109,8 @@ switch ($action) {
     default:
         header("HTTP/1.0 404 Not Found");
         $controller->notFound();
-        exit();
+        // exit();
+        break;
 }
 
 // ===== Content =====
@@ -116,7 +122,7 @@ $navbar = new Navbar();
 if (isset($_SESSION['userId'])) {
     $controller->auth($action);
     $response = $controller->request(["on" => "user", "form" => "verify"], ["userId" => $_SESSION['userId']]);
-    $navbar->UpdateNavbar($response);
+    $navbar->UpdateNavbar($response['data']['isFound']);
 }
 
 

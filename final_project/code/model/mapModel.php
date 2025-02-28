@@ -23,6 +23,8 @@ class Map
     public function getLocationByLatLon($lat, $lon)
     {
         $url = "https://api.longdo.com/map/services/address?lon=$lon&lat=$lat&noelevation=1&key={$this->getMapApiKey()}";
+        // $url = "https://api.longdo.com/POIService/json/search?lon=$lon&lat=$lat&offset=0&limit=5&span=0.0002&dataset=poi-changed-today,poi-contrib,main2p,osm-points,overture2p&key={$this->getMapApiKey()}";
+        // https://api.longdo.com/POIService/json/search?lon=103.2462311&lat=16.2450046&offset=0&locale=th&limit=5&span=0.0002&dataset=poi-changed-today,poi-contrib,main2p,osm-points,overture2p&key=55072ff6dc986c8484ea0615c17bf149
         
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
