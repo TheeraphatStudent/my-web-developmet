@@ -375,83 +375,87 @@ $authors = array_map(function ($type) {
             // Cover Img
 
             const coverInput = document.getElementById('cover_img');
-            const coverField = document.getElementById('coverImgField');
+            // const coverField = document.getElementById('coverImgField');
 
             if (coverInput) {
                 coverInput.addEventListener('change', function(event) {
                     const file = event.target.files[0];
-    
+
                     // console.log(file);
-    
+
                     if (file) {
                         const reader = new FileReader();
-    
+
                         reader.onload = function(e) {
                             // console.log(e.target.result);
                             const value = e.target.result;
                             const blobUrl = byte64toBlobUrl(value, 'image/jpeg', 512);
-    
+
                             const coverImg = document.getElementById('cover_label');
-    
+
                             if (coverImg) {
                                 coverImg.style.backgroundImage = `url('${blobUrl}')`;
+                                coverInput.value = blobUrl;
                                 // console.log(`url('${value}')`)
-                                coverField.value = blobUrl;
+                                // coverField.value = blobUrl;
                                 // console.log(coverField.value)
-    
+
                             }
                         };
-    
+
                         reader.readAsDataURL(file);
                     }
                 });
             }
 
-
             // Multi Images
             const imageInput = document.getElementById('image-upload');
-            const morePicInput = document.getElementById('more-pic-field');
+            // const morePicInput = document.getElementById('more-pic-field');
 
             const addImageBtn = document.getElementById('add-image-btn');
             const container = document.getElementById('images-container');
 
-            let uploadedImages = [];
+            // let uploadedImages = [];
 
-            imageInput.addEventListener('change', function(e) {
-                const files = e.target.files;
+            if (imageInput) {
+                imageInput.addEventListener('change', function(e) {
+                    const files = e.target.files;
 
-                if (files && files.length > 0) {
-                    for (let i = 0; i < files.length; i++) {
-                        const file = files[i];
-                        const reader = new FileReader();
+                    if (files && files.length > 0) {
+                        for (let i = 0; i < files.length; i++) {
+                            const file = files[i];
+                            const reader = new FileReader();
 
-                        reader.onload = function(e) {
-                            const imageData = e.target.result;
-                            const blobUrl = byte64toBlobUrl(imageData, 'image/jpeg', 512);
+                            reader.onload = function(e) {
+                                const imageData = e.target.result;
+                                const blobUrl = byte64toBlobUrl(imageData, 'image/jpeg', 512);
 
-                            console.log(blobUrl);
+                                // uploadedImages.push(blobUrl);
+                                // morePicInput.value = uploadedImages
 
-                            uploadedImages.push(blobUrl);
-                            morePicInput.value = uploadedImages
+                                // const index = uploadedImages.length - 1;
+                                // createImagePreview(blobUrl, index);
+                                createImagePreview(blobUrl);
+                            };
 
-                            const index = uploadedImages.length - 1;
-                            createImagePreview(imageData, index);
-                        };
-
-                        reader.readAsDataURL(file);
+                            reader.readAsDataURL(file);
+                        }
                     }
-                }
 
-                imageInput.value = '';
-            });
+                    // imageInput.value = '';
+                });
 
-            function createImagePreview(imageData) {
+            }
+
+            function createImagePreview(blob) {
+                console.log(blob);
+
                 const imagePreviewWrapper = document.createElement('div');
                 imagePreviewWrapper.className = 'relative min-w-80 min-h-[180px] rounded-2xl overflow-hidden group bg-dark-primary';
 
                 const image = document.createElement('div');
                 image.className = 'w-full h-full bg-cover bg-center';
-                image.style.backgroundImage = `url('${imageData}')`;
+                image.style.backgroundImage = `url('${blob}')`;
 
                 const overlay = document.createElement('div');
                 overlay.className = 'absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300';
@@ -459,6 +463,22 @@ $authors = array_map(function ($type) {
                 const deleteButton = document.createElement('button');
                 const deleteIcon = document.createElement('img');
                 deleteIcon.src = 'public/icons/delete.svg';
+
+                const inputField = document.createElement('input');
+                inputField.type = 'file';
+                inputField.name = 'more_pic[]';
+                inputField.className = 'hidden';
+
+                fetch(blob)
+                    .then(res => res.blob())
+                    .then(blobFile => {
+                        const file = new File([blobFile], "image.jpg", {
+                            type: blobFile.type
+                        });
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+                        inputField.files = dataTransfer.files;
+                    });
 
                 deleteButton.type = 'button';
                 deleteButton.className = 'absolute top-2 right-2 bg-light-red text-white rounded-full w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300';
@@ -471,6 +491,7 @@ $authors = array_map(function ($type) {
                 imagePreviewWrapper.appendChild(image);
                 imagePreviewWrapper.appendChild(overlay);
                 imagePreviewWrapper.appendChild(deleteButton);
+                imagePreviewWrapper.appendChild(inputField);
 
                 container.appendChild(imagePreviewWrapper);
             }
