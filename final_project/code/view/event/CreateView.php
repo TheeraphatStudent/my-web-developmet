@@ -380,43 +380,70 @@ $authors = array_map(function ($type) {
             if (coverInput) {
                 coverInput.addEventListener('change', function(event) {
                     const file = event.target.files[0];
+    
+                    // console.log(file);
+    
                     if (file) {
                         const reader = new FileReader();
+    
                         reader.onload = function(e) {
-                            const blobUrl = byte64toBlobUrl(e.target.result, 'image/jpeg', 512);
-                            if (coverLabel) {
-                                coverLabel.style.backgroundImage = `url('${blobUrl}')`;
+                            // console.log(e.target.result);
+                            const value = e.target.result;
+                            const blobUrl = byte64toBlobUrl(value, 'image/jpeg', 512);
+    
+                            const coverImg = document.getElementById('cover_label');
+    
+                            if (coverImg) {
+                                coverImg.style.backgroundImage = `url('${blobUrl}')`;
+                                // console.log(`url('${value}')`)
+                                coverField.value = blobUrl;
+                                // console.log(coverField.value)
+    
                             }
                         };
+    
                         reader.readAsDataURL(file);
                     }
                 });
             }
 
-            // Multi Images
 
+            // Multi Images
             const imageInput = document.getElementById('image-upload');
             const morePicInput = document.getElementById('more-pic-field');
 
             const addImageBtn = document.getElementById('add-image-btn');
             const container = document.getElementById('images-container');
 
-            if (imageInput) {
-                imageInput.addEventListener('change', function(e) {
-                    const files = e.target.files;
-                    if (files && files.length > 0) {
-                        for (let i = 0; i < files.length; i++) {
-                            const file = files[i];
-                            const reader = new FileReader();
-                            reader.onload = function(e) {
-                                const blobUrl = byte64toBlobUrl(e.target.result, 'image/jpeg', 512);
-                                createImagePreview(blobUrl);
-                            };
-                            reader.readAsDataURL(file);
-                        }
+            let uploadedImages = [];
+
+            imageInput.addEventListener('change', function(e) {
+                const files = e.target.files;
+
+                if (files && files.length > 0) {
+                    for (let i = 0; i < files.length; i++) {
+                        const file = files[i];
+                        const reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            const imageData = e.target.result;
+                            const blobUrl = byte64toBlobUrl(imageData, 'image/jpeg', 512);
+
+                            console.log(blobUrl);
+
+                            uploadedImages.push(blobUrl);
+                            morePicInput.value = uploadedImages
+
+                            const index = uploadedImages.length - 1;
+                            createImagePreview(imageData, index);
+                        };
+
+                        reader.readAsDataURL(file);
                     }
-                });
-            }
+                }
+
+                imageInput.value = '';
+            });
 
             function createImagePreview(imageData) {
                 const imagePreviewWrapper = document.createElement('div');
