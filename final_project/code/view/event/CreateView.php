@@ -59,7 +59,12 @@ $authors = array_map(function ($type) {
 <body class="bg-primary">
     <div class="flex flex-col justify-center items-center gap-12 pt-[200px] pr-10 pb-[200px] pl-10 w-full h-fit">
         <!-- Form Content -->
-        <form id="form-content" action="../?action=request&on=event&form=create" class="flex flex-col w-full max-w-content h-fit gap-8" method="post">
+        <form
+            id="form-content"
+            action="../?action=request&on=event&form=create"
+            class="flex flex-col w-full max-w-content h-fit gap-8"
+            method="post"
+            enctype="multipart/form-data">
             <h1 class="text-white font-semibold">Create Event</h1>
 
             <div class="flex flex-col md:flex-row justify-between items-start w-full gap-12 *:flex *:flex-col">
@@ -194,9 +199,7 @@ $authors = array_map(function ($type) {
             <h1 class="text-white font-semibold">Event description</h1>
 
             <div class="flex flex-col w-full justify-start items-start gap-5">
-                <!-- <canvas></canvas> -->
-                <div
-                    class="form-title">
+                <div class="form-title">
                     Cover&nbsp;
                     <span class="form-required">*</span>
                 </div>
@@ -208,9 +211,7 @@ $authors = array_map(function ($type) {
                     <span id="upload_text" class="underline cursor-pointer font-medium text-base text-white group-hover:text-white z-10 relative transition-colors duration-300">
                         Upload Cover
                     </span>
-                    <input type="file" accept=".png, .jpg, .jpeg" id="cover_img" class="hidden">
-                    <input type="text" name="cover" id="coverImgField" class="hidden">
-
+                    <input type="file" accept=".png, .jpg, .jpeg" id="cover_img" name="cover" class="hidden">
                 </label>
             </div>
 
@@ -234,13 +235,10 @@ $authors = array_map(function ($type) {
                                     Add Image
                                 </div>
                             </div>
-                            <input type="file" id="image-upload" accept=".png, .jpg, .jpeg" class="hidden" multiple>
+                            <input type="file" id="image-upload" name="more_pic[]" accept=".png, .jpg, .jpeg" class="hidden" multiple>
                         </label>
                     </div>
-
                 </div>
-
-                <input type="hidden" name="more_pic[]" id="more-pic-field" value="[]">
             </div>
 
             <div class="flex flex-col w-full justify-start items-start gap-5">
@@ -349,7 +347,6 @@ $authors = array_map(function ($type) {
             const byte64toBlobUrl = (b64Data, contentType = 'image/jpeg', sliceSize = 256) => {
                 try {
                     const base64String = b64Data.split(',')[1] ?? b64Data;
-
                     const byteCharacters = window.atob(base64String);
                     const byteArrays = [];
 
@@ -373,39 +370,26 @@ $authors = array_map(function ($type) {
                 }
             };
 
+            // Cover Img
 
             const coverInput = document.getElementById('cover_img');
             const coverField = document.getElementById('coverImgField');
 
-            if (!coverInput) return;
-
-            coverInput.addEventListener('change', function(event) {
-                const file = event.target.files[0];
-
-                // console.log(file);
-
-                if (file) {
-                    const reader = new FileReader();
-
-                    reader.onload = function(e) {
-                        // console.log(e.target.result);
-                        const value = e.target.result;
-                        const blobUrl = byte64toBlobUrl(value, 'image/jpeg', 512);
-
-                        const coverImg = document.getElementById('cover_label');
-
-                        if (coverImg) {
-                            coverImg.style.backgroundImage = `url('${blobUrl}')`;
-                            // console.log(`url('${value}')`)
-                            coverField.value = blobUrl;
-                            // console.log(coverField.value)
-
-                        }
-                    };
-
-                    reader.readAsDataURL(file);
-                }
-            });
+            if (coverInput) {
+                coverInput.addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const blobUrl = byte64toBlobUrl(e.target.result, 'image/jpeg', 512);
+                            if (coverLabel) {
+                                coverLabel.style.backgroundImage = `url('${blobUrl}')`;
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
 
             // Multi Images
 
@@ -415,52 +399,34 @@ $authors = array_map(function ($type) {
             const addImageBtn = document.getElementById('add-image-btn');
             const container = document.getElementById('images-container');
 
-            let uploadedImages = [];
-
-            imageInput.addEventListener('change', function(e) {
-                const files = e.target.files;
-
-                if (files && files.length > 0) {
-                    for (let i = 0; i < files.length; i++) {
-                        const file = files[i];
-                        const reader = new FileReader();
-
-                        reader.onload = function(e) {
-                            const imageData = e.target.result;
-                            const blobUrl = byte64toBlobUrl(imageData, 'image/jpeg', 512);
-
-                            console.log(blobUrl);
-
-                            uploadedImages.push(blobUrl);
-                            morePicInput.value = uploadedImages
-
-                            const index = uploadedImages.length - 1;
-                            createImagePreview(imageData, index);
-                        };
-
-                        reader.readAsDataURL(file);
+            if (imageInput) {
+                imageInput.addEventListener('change', function(e) {
+                    const files = e.target.files;
+                    if (files && files.length > 0) {
+                        for (let i = 0; i < files.length; i++) {
+                            const file = files[i];
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                const blobUrl = byte64toBlobUrl(e.target.result, 'image/jpeg', 512);
+                                createImagePreview(blobUrl);
+                            };
+                            reader.readAsDataURL(file);
+                        }
                     }
-                }
+                });
+            }
 
-                imageInput.value = '';
-            });
-
-            console.log(uploadedImages);
-
-            function createImagePreview(imageData, index) {
+            function createImagePreview(imageData) {
                 const imagePreviewWrapper = document.createElement('div');
                 imagePreviewWrapper.className = 'relative min-w-80 min-h-[180px] rounded-2xl overflow-hidden group bg-dark-primary';
-                imagePreviewWrapper.dataset.index = index;
 
                 const image = document.createElement('div');
                 image.className = 'w-full h-full bg-cover bg-center';
                 image.style.backgroundImage = `url('${imageData}')`;
 
-                // overlay hover
                 const overlay = document.createElement('div');
                 overlay.className = 'absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300';
 
-                // delete button
                 const deleteButton = document.createElement('button');
                 const deleteIcon = document.createElement('img');
                 deleteIcon.src = 'public/icons/delete.svg';
@@ -470,16 +436,14 @@ $authors = array_map(function ($type) {
                 deleteButton.appendChild(deleteIcon);
 
                 deleteButton.onclick = function() {
-                    removeImage(index);
+                    imagePreviewWrapper.remove();
                 };
 
                 imagePreviewWrapper.appendChild(image);
                 imagePreviewWrapper.appendChild(overlay);
                 imagePreviewWrapper.appendChild(deleteButton);
 
-                // container.insertBefore(imagePreviewWrapper, addImageBtn);
                 container.appendChild(imagePreviewWrapper);
-                // console.log(container)
             }
 
             function removeImage(index) {

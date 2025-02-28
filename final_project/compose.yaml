@@ -17,6 +17,8 @@ services:
       - "3000:80"
     volumes:
       - .:/var/www/html/
+      # Image Volume
+      - images:/var/www/html/public/images/uploads/
     depends_on:
       - database
     networks:
@@ -95,3 +97,4 @@ networks:
 volumes:
   sqldb:
   backups:
+  images:

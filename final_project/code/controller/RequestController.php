@@ -52,7 +52,6 @@ class RequestController
                 } else {
                     // return ["status" => 401, "message" => "เกิดข้อผิดพลาดในการลงทะเบียน"];
                     return response(status: 401, message: "เกิดข้อผิดพลาดในการลงทะเบียน", redirect: '../?action=login');
-
                 }
 
             case "login":
@@ -86,7 +85,7 @@ class RequestController
         switch ($form) {
             case 'create':
                 $result = $this->event->createEvent($data);
-                return response(status: 200, message: "Create event complete", data: $data);
+                return response(status: 200, message: "Create event complete", data: $result);
         }
     }
 
@@ -96,6 +95,15 @@ class RequestController
             case 'get_location';
                 $result = $this->map->getLocationByLatLon($data['lat'], $data['lon']);
                 return response(status: 200, message: "Get location work", data: $result, type: 'json');
+        }
+    }
+
+    public function imageHandler($form, array $data)
+    {
+        switch ($form) {
+            case 'decode_image':
+                $image = base64_encode($data['image']);
+                return response(status: 200, message: "Decode Image Work", data: ["image" => $image], type: 'image');
         }
     }
 }

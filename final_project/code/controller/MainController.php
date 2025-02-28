@@ -5,19 +5,16 @@ namespace FinalProject\Controller;
 require_once(__DIR__ . '/RequestController.php');
 require_once( __DIR__ . '/../utils/useEvent.php');
 
-// print_r( __DIR__ . '/../utils/useEvent.php');
-// echo '<br>';
-// print_r( __DIR__);
+require_once(__DIR__ . '/../model/EventModel.php');
 
-// require_once(__DIR__ . 'utils/useEvent.php');
+use FinalProject\Model\Init;
 use FinalProject\Controller\RequestController;
-use FinalProject\Utils\Event;
+use FinalProject\Model\Event;
+use FinalProject\Utils\Event as EventUtils;
 
 class MainController
 {
-    // private const ACCEPT_EVENT = ['checked-in', 'attendee', 'create'];
 
-    // private $mapModel;
 
     public function __construct()
     {
@@ -26,6 +23,11 @@ class MainController
 
     public function index()
     {
+        $inti = new Init();
+        $event = new Event($inti->getConnected());
+
+        $allEvents = $event->getAllEvents();
+
         require_once("./view/LandingView.php");
     }
 
@@ -52,7 +54,7 @@ class MainController
         $target = explode('event.', $action);
         $event = end($target);
 
-        if (in_array($event, EVENT::ACCEPT_EVENT)) {
+        if (in_array($event, EventUtils::ACCEPT_EVENT)) {
             switch ($event) {
                 case 'checked-in':
                     require_once("./view/event/CheckedInView.php");
@@ -93,6 +95,9 @@ class MainController
 
             case 'map':
                 $res = $request->mapHandler($formContent, $data);
+
+            case 'image':
+                $res = $request->imageHandler($formContent, $data);
 
         }
         return $res;

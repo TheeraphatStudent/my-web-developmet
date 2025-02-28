@@ -14,11 +14,13 @@ const ACCEPT_STATUS = [200, 302];
 // require_once(__DIR__ . '/php/environment.php');
 require_once(__DIR__ . '/controller/MainController.php');
 
-require_once(__DIR__ . '/model/MapModel.php');
+// require_once(__DIR__ . '/model/MapModel.php');
+require_once(__DIR__ . '/model/EventModel.php');
 require_once(__DIR__ . '/model/Environment.php');
 
 require_once(__DIR__ . '/components/navbar.php');
 
+use FinalProject\Model\Event;
 use FinalProject\Model\Environment;
 use FinalProject\Components\Navbar;
 use FinalProject\Controller\MainController;
@@ -26,6 +28,7 @@ use FinalProject\Controller\MainController;
 $action = $_GET['action'] ?? 'index';
 
 $isRequest = false;
+$isLogin = false;
 $response = null;
 
 // action = [page], request
@@ -52,6 +55,22 @@ $_SESSION['mapApiKey'] = $env->getMapApiKey();
 
 // echo(print_r($_SESSION));
 
+// ********* Component ************
+
+$navbar = new Navbar();
+
+if (isset($_SESSION['userId'])) {
+    $controller->auth($action);
+
+    $response = $controller->request(["on" => "user", "form" => "verify"], ["userId" => $_SESSION['userId']]);
+    $navbar->UpdateNavbar($response['data']['isFound']);
+} else {
+    // Alert
+
+}
+
+// print_r($_FILES);
+
 switch ($action) {
 
     case 'request':
@@ -66,9 +85,11 @@ switch ($action) {
         $data = array_merge($_POST, $input);
 
         $response = $controller->request($_GET, $data);
+        // print_r($data);
+        print_r($_FILES);
         // print_r($response);
 
-        http_response_code($response['status']);
+        http_response_code($response['status'] ?? 404);
 
         if (!in_array($response['status'], ACCEPT_STATUS)) {
             header('Location: ' . $response['redirect'] . '&status=' . $response['status']);
@@ -81,7 +102,14 @@ switch ($action) {
             exit;
         }
 
-        header('Location: ' . $response['redirect']);
+        if ($response['type'] == 'image') {
+            header('Content-Type: image/jpeg');
+            echo $response['data']['image'];
+            exit;
+
+        }
+
+        // header('Location: ' . $response['redirect']);
         exit;
         // ================= Page Content ================= 
 
@@ -116,15 +144,6 @@ switch ($action) {
 // ===== Content =====
 
 $content = ob_get_clean();
-
-$navbar = new Navbar();
-
-if (isset($_SESSION['userId'])) {
-    $controller->auth($action);
-    $response = $controller->request(["on" => "user", "form" => "verify"], ["userId" => $_SESSION['userId']]);
-    $navbar->UpdateNavbar($response['data']['isFound']);
-}
-
 
 if (!$isRequest) {
 ?>
