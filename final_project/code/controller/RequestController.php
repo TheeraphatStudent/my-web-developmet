@@ -97,13 +97,4 @@ class RequestController
                 return response(status: 200, message: "Get location work", data: $result, type: 'json');
         }
     }
-
-    public function imageHandler($form, array $data)
-    {
-        switch ($form) {
-            case 'decode_image':
-                $image = base64_encode($data['image']);
-                return response(status: 200, message: "Decode Image Work", data: ["image" => $image], type: 'image');
-        }
-    }
 }

@@ -85,12 +85,12 @@ switch ($action) {
         $input = json_decode(file_get_contents("php://input"), true) ?? [];
         $data = array_merge($_POST, $input);
 
-        if (isset($data['test'])) {
-            print_r($data);
-            echo '</br>';
-            print_r($_FILES);
-            return;
-        }
+        // if (isset($data['test'])) {
+        //     print_r($data);
+        //     echo '</br>';
+        //     print_r($_FILES);
+        //     return;
+        // }
 
         $response = $controller->request($_GET, $data);
         // print_r($data);

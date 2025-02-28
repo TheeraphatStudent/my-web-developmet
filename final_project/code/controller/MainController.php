@@ -98,10 +98,6 @@ class MainController
             case 'map':
                 $res = $request->mapHandler($formContent, $data);
                 break;
-
-            case 'image':
-                $res = $request->imageHandler($formContent, $data);
-                break;
         }
 
         // print_r($res);

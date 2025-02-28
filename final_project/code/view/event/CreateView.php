@@ -65,7 +65,7 @@ $authors = array_map(function ($type) {
             class="flex flex-col w-full max-w-content h-fit gap-8"
             method="post"
             enctype="multipart/form-data">
-            <input type="hidden" name="test" value="test">
+            <!-- <input type="hidden" name="test" value="test"> -->
 
             <h1 class="text-white font-semibold">Create Event</h1>
 
@@ -78,7 +78,7 @@ $authors = array_map(function ($type) {
                             Title&nbsp;
                             <span class="form-required">*</span>
                         </div>
-                        <input
+                        <input required
                             class="form-input" name="title" placeholder="Enter event title">
                     </div>
                     <div class="flex flex-row w-full justify-start items-start gap-5 ">
@@ -88,7 +88,7 @@ $authors = array_map(function ($type) {
                                 Venue&nbsp;
                                 <span class="form-required">*</span>
                             </div>
-                            <input
+                            <input required
                                 class="form-input" type="text" name="venue" placeholder="Enter venue">
 
                         </div>
@@ -98,7 +98,7 @@ $authors = array_map(function ($type) {
                                 Maximum&nbsp;
                                 <span class="form-required">*</span>
                             </div>
-                            <input
+                            <input required
                                 class="form-input" type="text" name="maximum" placeholder="Enter maximum">
 
                         </div>
@@ -139,7 +139,7 @@ $authors = array_map(function ($type) {
                                         Start&nbsp;
                                         <span class="form-required">*</span>
                                     </div>
-                                    <input class="form-input" type="datetime-local" name="start[]" placeholder="Enter started time">
+                                    <input required class="form-input" type="datetime-local" name="start[]" placeholder="Enter started time">
                                 </div>
                                 <div class="flex flex-col w-1/2 gap-2.5">
                                     <div class="form-title">
@@ -147,7 +147,7 @@ $authors = array_map(function ($type) {
                                         <span class="form-required">*</span>
                                     </div>
                                     <div class="flex w-full gap-2.5">
-                                        <input class="form-input w-full" type="datetime-local" name="end[]" placeholder="Enter ended time">
+                                        <input required class="form-input w-full" type="datetime-local" name="end[]" placeholder="Enter ended time">
                                     </div>
                                 </div>
                             </div>
@@ -186,7 +186,7 @@ $authors = array_map(function ($type) {
                 </div>
 
                 <div class="justify-start items-start w-full">
-                    <div class="flex flex-col w-full justify-start items-start gap-2.5">
+                    <div class="flex flex-col w-full justify-start items-start gap-5">
                         <div
                             class="form-title">
                             Location&nbsp;
@@ -213,7 +213,7 @@ $authors = array_map(function ($type) {
                     <span id="upload_text" class="underline cursor-pointer font-medium text-base text-white group-hover:text-white z-10 relative transition-colors duration-300">
                         Upload Cover
                     </span>
-                    <input type="file" accept=".png, .jpg, .jpeg" id="cover_img" name="cover" class="hidden">
+                    <input required type="file" accept=".png, .jpg, .jpeg" id="cover_img" name="cover" class="hidden">
                 </label>
             </div>
 

@@ -106,7 +106,7 @@ class Filter extends Component
         <div class="w-full flex justify-between *:font-kanit">
             <div>
                 <span class="text-4xl font-bold text-white">อีเวนท์</span>
-                <span class="text-4xl font-bold text-secondary">ล่าสุด</span>
+                <span class="text-4xl font-bold text-dark-secondary">ล่าสุด</span>
             </div>
             <div class="flex gap-5">
                 <select id="date-select">
