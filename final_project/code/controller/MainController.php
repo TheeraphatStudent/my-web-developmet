@@ -76,9 +76,8 @@ class MainController
                     require_once("./view/event/test.CreateView.php");
                     break;
                 case 'edit':
-                    $id = $_GET['id'];
-
-                    $eventObj = $eventModel->getEventById($id);
+                    $eventId = $_GET['id'];
+                    $eventObj = $eventModel->getEventById($eventId);
 
                     require_once("./view/event/edit.php");
                     break;
