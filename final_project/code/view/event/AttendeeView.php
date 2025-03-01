@@ -8,6 +8,7 @@ use FinalProject\Components\Map;
 
 $map = new Map();
 
+// print_r(json_decode($eventObj['morePics'], true));
 ?>
 
 <!DOCTYPE html>
@@ -23,9 +24,11 @@ $map = new Map();
 
 <body class="bg-primary">
     <div
-        class="flex flex-col justify-center items-center gap-12 pt-[200px] pr-10 pb-[200px] pl-10 w-full h-full">
+        class="flex flex-col justify-center items-center gap-12 py-[200px] pr-10 pl-10 w-full h-full">
         <div class="flex flex-col justify-start items-center gap-6 w-full shadow-sm p-4">
-            <div class="relative flex flex-col lg:flex-row justify-between items-end lg:items-center py-6 px-6 lg:px-8 gap-6 lg:gap-10 w-full max-w-[1650px] h-auto lg:h-[700px] rounded-3xl bg-[url(https://picsum.photos/1920/1080)] bg-cover bg-center overflow-hidden">
+            <div
+                class="relative flex flex-col lg:flex-row justify-between items-end lg:items-center py-6 px-6 lg:px-8 gap-6 lg:gap-10 w-full max-w-[1650px] h-auto lg:h-[700px] rounded-3xl bg-cover bg-center overflow-hidden"
+                style="background-image: url('public/images/uploads/<?= $eventObj['cover'] ?>');">
                 <!-- Left Section -->
                 <div class="flex flex-col justify-start items-start h-auto lg:h-[623px] w-full lg:w-auto z-10">
                     <!-- Back Button -->
@@ -39,7 +42,7 @@ $map = new Map();
                     <!-- Content -->
                     <div class="flex flex-col justify-start items-start gap-2.5 mt-8 lg:mt-[91px] h-auto lg:h-[400px] w-full lg:w-[440px]">
                         <div class="font-kanit text-2xl lg:text-3xl min-w-full lg:min-w-[440px] whitespace-nowrap text-white text-opacity-100 leading-none font-medium">
-                            Eat with me!
+                            <?= $eventObj['title'] ?>
                         </div>
                         <div class="font-kanit text-sm lg:text-base w-full lg:w-[440px] text-white text-opacity-100 leading-none font-normal">
                             "Eat with Me: How to Eat for Health"<br />มาร่วมงาน "Eat with Me" กับเรา! 🌿✨<br />งานที่จะพาคุณเรียนรู้เกี่ยวกับการรับประทานอาหารอย่างถูกต้อง เพื่อสุขภาพที่ดีและสมดุล พบกับแนวทางการเลือกอาหารที่มีประโยชน์ เคล็ดลับการกินเพื่อสุขภาพ และไอเดียเมนูอร่อยที่ดีต่อร่างกาย<br /><br />📅 วันและเวลา: 12 มกราคาม 2568📍 สถานที่: Coworking space ท่าขอนยาง<br /><br />ร่วมสัมผัสประสบการณ์การกินอย่างมีสติ และค้นพบวิธีดูแลสุขภาพผ่านอาหารที่อร่อยและมีคุณค่าทางโภชนาการ! 🥗🍎
@@ -57,7 +60,7 @@ $map = new Map();
 
                 <!-- Right Section -->
                 <div class="flex w-full lg:w-fit h-full items-end z-10">
-                    <div class="flex flex-col justify-start items-start gap-8 p-4 lg:p-8 rounded-2xl w-full lg:w-[385px] h-auto lg:h-[284px] shadow-md bg-white">
+                    <div class="flex flex-col justify-start items-start gap-8 p-4 lg:p-8 rounded-2xl w-full lg:w-[385px] h-fit max-h-1/2 shadow-md bg-white">
                         <div class="flex flex-col justify-start items-start gap-2.5 w-full lg:w-[325px] h-auto lg:h-[73px]">
                             <div class="font-kanit text-lg lg:text-xl min-w-full lg:min-w-[325px] whitespace-nowrap text-neutral-800 text-opacity-100 leading-none font-normal">
                                 เวลาจัดงาน
@@ -70,13 +73,13 @@ $map = new Map();
                         </div>
 
                         <!-- Buttons -->
-                        <div class="flex flex-col justify-center items-center gap-2.5 h-auto lg:h-[118px] w-full">
+                        <div class="flex flex-col justify-end gap-2.5 h-full w-full">
                             <a href="#" class="btn-primary w-full">
                                 <span>เข้าร่วม</span>
                             </a>
-                            <a href="#" class="btn-primary-outline w-full group no-underline">
+                            <!-- <a href="#" class="btn-primary-outline w-full group no-underline">
                                 <span class="group-hover:text-white">สนใจ</span>
-                            </a>
+                            </a> -->
                         </div>
                     </div>
                 </div>
@@ -87,7 +90,15 @@ $map = new Map();
         </div>
 
         <!-- Detail -->
-        <div class="flex flex-col justify-start items-start gap-14 lg:gap-36 w-full max-w-[1200px] mx-auto p-4" id="detail-section">
+        <div class="flex flex-col justify-start items-start gap-14 lg:gap-36 w-full max-w-[1200px] h-fit p-4" id="detail-section">
+            <div class="flex w-full max-w-content h-full overflow-auto gap-8" id="imageContainer">
+                <?php foreach (json_decode($eventObj['morePics'], true) as $item) : ?>
+                    <div class="flex bg-dark-primary h-[180px] min-w-[320px] bg-cover bg-center rounded-lg"
+                        style="background-image: url('public/images/uploads/<?= htmlspecialchars($item) ?>');">
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
             <div class="flex flex-col lg:flex-row justify-between items-start gap-6 w-full *:max-w-none *:lg:max-w-[512px]">
                 <!-- Description -->
                 <div class="flex flex-col justify-start items-start gap-2.5 w-full lg:w-1/2">
@@ -180,6 +191,13 @@ $map = new Map();
                 behavior: 'smooth'
             });
         }
+
+        const container = document.getElementById("imageContainer");
+
+        container.addEventListener("wheel", function(event) {
+            event.preventDefault();
+            container.scrollLeft += event.deltaY;
+        });
     </script>
 
 </body>
