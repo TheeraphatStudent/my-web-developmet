@@ -69,10 +69,10 @@ $calendar = new SchedulerCalendar();
                 ?>
                     <div class="flex flex-col justify-between items-center p-4 gap-4 rounded-lg w-full h-[420px] shadow-md bg-white">
                         <div
-                            class="flex flex-col justify-between items-center gap-[150px] rounded w-full h-60 overflow-hidden bg-dark-primary/50"
-                            style="background-image: url(<?= $item['cover'] ?>);">
+                            class="flex flex-col justify-between items-center bg-center gap-[150px] rounded w-full h-60 overflow-hidden bg-dark-primary/50 border-dashed border-gray-400 border-2"
+                            style="background-image: url(public/images/uploads/<?= $item['cover'] ?>);">
                             <!-- Tag -->
-                            <div class="flex flex-row justify-start items-start gap-2.5 pt-2.5 pr-2.5 pb-2.5 pl-2.5 w-full h-11">
+                            <div class="flex flex-row justify-start items-start gap-2.5 pt-2.5 pr-2.5 pb-2.5 pl-2.5 w-full h-fit bg-gradient-to-b from-dark-primary/50 via-dark-primary/25 to-transparent">
                                 <div class="flex justify-center items-center rounded w-11 h-6 shadow-sm bg-white">
                                     <div class="font-kanit text-[10px] min-w-[23px] whitespace-nowrap text-teal-700 text-opacity-100 text-center leading-none font-normal">
                                         FREE

@@ -29,12 +29,12 @@ $map = new Map();
                 <!-- Left Section -->
                 <div class="flex flex-col justify-start items-start h-auto lg:h-[623px] w-full lg:w-auto z-10">
                     <!-- Back Button -->
-                    <div class="flex flex-row justify-center items-center gap-2 py-2 px-4 rounded-lg h-11 shadow-sm bg-orange-50 min-w-[119px]">
+                    <a href="../" class="flex flex-row justify-center items-center gap-2 py-2 px-4 rounded-lg h-11 shadow-sm bg-orange-50 min-w-[119px]">
                         <img width="16px" height="16px" src="public/icons/drop.svg" alt="Back" class="transform rotate-90" />
-                        <div class="font-kanit text-lg min-w-[72px] whitespace-nowrap text-teal-700 text-opacity-100 text-center leading-none font-light">
+                        <span class="font-kanit text-lg min-w-[72px] whitespace-nowrap text-teal-700 text-opacity-100 text-center leading-none font-light">
                             ย้อนกลับ
-                        </div>
-                    </div>
+                        </span>
+                    </a>
 
                     <!-- Content -->
                     <div class="flex flex-col justify-start items-start gap-2.5 mt-8 lg:mt-[91px] h-auto lg:h-[400px] w-full lg:w-[440px]">
@@ -47,12 +47,12 @@ $map = new Map();
                     </div>
 
                     <!-- Map Link -->
-                    <a href="#" class="mt-8 lg:mt-14 flex justify-start items-center gap-2 w-auto lg:w-[150px] h-7">
+                    <button type="button" onclick="scrollToView();" class="mt-8 lg:mt-14 flex justify-start items-center gap-2 w-auto lg:w-[150px] h-7">
                         <img width="19.3px" height="20px" src="public/icons/pin.svg" alt="Map pin" />
                         <div class="font-kanit text-base lg:text-[18px] min-w-[120px] whitespace-nowrap text-white text-opacity-100 leading-none font-normal">
                             ดูแผนที่
                         </div>
-                    </a>
+                    </button>
                 </div>
 
                 <!-- Right Section -->
@@ -87,7 +87,7 @@ $map = new Map();
         </div>
 
         <!-- Detail -->
-        <div class="flex flex-col justify-start items-start gap-14 lg:gap-36 w-full max-w-[1200px] mx-auto p-4">
+        <div class="flex flex-col justify-start items-start gap-14 lg:gap-36 w-full max-w-[1200px] mx-auto p-4" id="detail-section">
             <div class="flex flex-col lg:flex-row justify-between items-start gap-6 w-full *:max-w-none *:lg:max-w-[512px]">
                 <!-- Description -->
                 <div class="flex flex-col justify-start items-start gap-2.5 w-full lg:w-1/2">
@@ -170,6 +170,17 @@ $map = new Map();
             </div>
         </div>
     </div>
+
+    <script>
+        function scrollToView() {
+            const mapSection = document.getElementById('detail-section');
+            const navbarHeight = document.getElementById('navbar').offsetHeight;
+            window.scrollTo({
+                top: mapSection.offsetTop - navbarHeight,
+                behavior: 'smooth'
+            });
+        }
+    </script>
 
 </body>
 

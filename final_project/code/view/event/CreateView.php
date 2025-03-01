@@ -409,7 +409,7 @@ $authors = array_map(function ($type) {
 
                             if (coverImg) {
                                 coverImg.style.backgroundImage = `url('${blobUrl}')`;
-                                coverInput.files = await fetchBlobFile(blobUrl, file.name);
+                                coverInput.files = await fetchBlobFile(blobUrl, `cover-${file.name}`);
                                 // console.log(`url('${value}')`)
                                 // coverField.value = blobUrl;
                                 // console.log(coverField.value)
@@ -449,7 +449,7 @@ $authors = array_map(function ($type) {
 
                                 // const index = uploadedImages.length - 1;
                                 // createImagePreview(blobUrl, index);
-                                createImagePreview(blobUrl, file.name);
+                                createImagePreview(blobUrl, `more-${file.name}`);
                             };
 
                             reader.readAsDataURL(file);
