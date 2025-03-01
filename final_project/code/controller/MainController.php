@@ -43,10 +43,6 @@ class MainController
             case 'register':
                 require_once("./view/auth/RegisterView.php");
                 break;
-
-            case 'logout':
-                // $auth->logout();
-                break;
         }
     }
 

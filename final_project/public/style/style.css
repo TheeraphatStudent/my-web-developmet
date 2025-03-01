@@ -995,6 +995,10 @@ span{
   margin-top: 2rem;
 }
 
+.ml-4{
+  margin-left: 1rem;
+}
+
 .block{
   display: block;
 }
@@ -1318,6 +1322,10 @@ span{
 
 .w-\[320px\]{
   width: 320px;
+}
+
+.w-14{
+  width: 3.5rem;
 }
 
 .min-w-80{
@@ -1715,6 +1723,10 @@ span{
   border-top-width: 1px;
 }
 
+.border-l-2{
+  border-left-width: 2px;
+}
+
 .border-solid{
   border-style: solid;
 }
@@ -1751,6 +1763,11 @@ span{
 .border-white{
   --tw-border-opacity: 1;
   border-color: rgb(251 248 238 / var(--tw-border-opacity, 1));
+}
+
+.border-dark-primary{
+  --tw-border-opacity: 1;
+  border-color: rgb(16 75 72 / var(--tw-border-opacity, 1));
 }
 
 .bg-black{
@@ -1876,6 +1893,11 @@ span{
   background-color: rgb(255 193 69 / 0.4);
 }
 
+.bg-neutral-800{
+  --tw-bg-opacity: 1;
+  background-color: rgb(38 38 38 / var(--tw-bg-opacity, 1));
+}
+
 .bg-opacity-50{
   --tw-bg-opacity: 0.5;
 }
@@ -1886,6 +1908,10 @@ span{
 
 .bg-gradient-to-b{
   background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
+}
+
+.bg-\[url\(https\:\/\/picsum\.photos\/1920\/1080\)\]{
+  background-image: url(https://picsum.photos/1920/1080);
 }
 
 .from-\[rgba\(251\2c 248\2c 238\2c 0\)\]{
@@ -2705,6 +2731,10 @@ span{
 
   .lg\:h-\[80vh\]{
     height: 80vh;
+  }
+
+  .lg\:h-\[118px\]{
+    height: 118px;
   }
 
   .lg\:w-1\/2{

@@ -14,7 +14,7 @@ class Navbar extends Component
     public function render()
     {
         $activeLink = $this->data['activeLink'] ?? '';
-        
+
 
 ?>
         <nav class="fixed top-0 bg-white w-screen z-50" id="navbar">
@@ -22,30 +22,30 @@ class Navbar extends Component
                 <div class="flex items-center justify-between py-[.75rem]">
                     <div class="flex items-center">
                         <a href="../" class="text-white font-bold text-xl">
-                            <img src="public/images/logo.png" alt="act gate" srcset="" width="70px" height="70px">
+                            <img src="public/images/logo.png" alt="act gate" width="70px" height="70px">
                         </a>
                     </div>
 
                     <!-- Actions -->
                     <div class="md:block hidden">
-                        <div class="flex items-baseline space-x-4">
-                            <?php echo
-                            $this->isLogin
-                                ?
-                                "
-                            <a href='../?' class='text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium'>Profile</a>
-                            <a href='../?action=event.manage' class='text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium'>Event view</a>
-                            <a href='../?action=event.create' class='text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium'>Create event</a>
-                            " :
-                                "
-                            <a href='..?action=register' class='group btn-primary signin-btn w-[160px]'>
-                                <span class='group-hover:text-white'>สร้างบัญชี</span>
-                            </a>
-                            <a href='..?action=login' class='group btn-primary-outline login-btn'>
-                                <span class='group-hover:text-white'>เข้าสู่ระบบ</span>
-                            </a>
-                            ";
-                            ?>
+                        <div class="flex h-full gap-4 items-baseline *:text-black">
+                            <?php if ($this->isLogin) : ?>
+                                <a href='../?action=event.create' class= hover:text-gray-600 rounded-md text-sm font-medium'>Create event</a>
+                                <a href='../?action=event.manage' class= hover:text-gray-600 rounded-md text-sm font-medium'>Event view</a>
+                                <div class="border-l-2 border-dark-primary">
+                                    <a href='../?' class='ml-4 hover:text-gray-600 rounded-md text-sm font-medium'>
+                                        Profile
+                                    </a>
+                                    <a href='../?' class='ml-4 hover:text-gray-600 rounded-md text-sm font-medium'>Logout</a>
+                                </div>
+                            <?php else : ?>
+                                <a href='..?action=register' class='group btn-primary signin-btn w-[160px]'>
+                                    <span class='group-hover:text-white'>สร้างบัญชี</span>
+                                </a>
+                                <a href='..?action=login' class='group btn-primary-outline login-btn'>
+                                    <span class='group-hover:text-white'>เข้าสู่ระบบ</span>
+                                </a>
+                            <?php endif; ?>
 
                         </div>
                     </div>
@@ -62,9 +62,8 @@ class Navbar extends Component
 <?php
     }
 
-    public function updateNavbar(bool $isLogin) {
+    public function updateNavbar(bool $isLogin)
+    {
         $this->isLogin = $isLogin;
-
-
     }
 }

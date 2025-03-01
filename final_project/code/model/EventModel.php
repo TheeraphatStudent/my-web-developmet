@@ -86,7 +86,7 @@ class Event
 
         $statement->execute([
             ':eventId' => $eventId,
-            ':organizeId' => $_SESSION['userId'],
+            ':organizeId' => $_SESSION['user']['userId'],
             ':cover' => $coverImage,
             ':morePics' => $more_pic,
             ':title' => $data['title'],
@@ -170,7 +170,7 @@ class Event
         // Execute the SQL statement
         $sql->execute([
             ':eventId' => $data['eventId'],
-            ':organizeId' => $_SESSION['userId'],
+            ':organizeId' => $_SESSION['user']['userId'],
             // ':cover' => $coverImage,
             // ':morePics' => $more_pic,
             ':title' => $data['title'],
