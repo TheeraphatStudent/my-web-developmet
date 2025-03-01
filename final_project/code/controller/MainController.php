@@ -15,17 +15,18 @@ use FinalProject\Utils\Event as EventUtils;
 class MainController
 {
 
+    private $connection;
 
     public function __construct()
     {
-        // $this->mapModel = new Map();
+        $inti = new Init();
+        $this->connection = $inti->getConnected();
     }
 
     public function index()
     {
-        $inti = new Init();
-        $event = new Event($inti->getConnected());
-
+        
+        $event = new Event($this->connection);
         $allEvents = $event->getAllEvents();
 
         require_once("./view/LandingView.php");
@@ -54,6 +55,9 @@ class MainController
         $target = explode('event.', $action);
         $event = end($target);
 
+        $eventModel = new Event($this->connection);
+        $allEvents = $eventModel->getAllEvents();
+
         if (in_array($event, EventUtils::ACCEPT_EVENT)) {
             switch ($event) {
                 case 'checked-in':
@@ -64,6 +68,9 @@ class MainController
                     break;
                 case 'create':
                     require_once("./view/event/CreateView.php");
+                    break;
+                case 'manage':
+                    require_once("./view/event/ManageView.php");
                     break;
                 case 'create-test':
                     require_once("./view/event/test.CreateView.php");
