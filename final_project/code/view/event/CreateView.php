@@ -45,9 +45,6 @@ $authors = array_map(function ($type) {
 
 ?>
 
-<!DOCTYPE html>
-<html lang="th">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,7 +54,7 @@ $authors = array_map(function ($type) {
 </head>
 
 <body class="bg-primary">
-    <div class="flex flex-col justify-center items-center gap-12 pt-[200px] pr-10 pb-[200px] pl-10 w-full h-fit">
+    <div class="flex flex-col justify-center items-center gap-12 pt-[200px] px-10 pb-[200px] w-full h-fit">
         <!-- Form Content -->
         <form
             id="form-content"
