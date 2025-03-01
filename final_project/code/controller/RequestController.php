@@ -6,7 +6,7 @@ namespace FinalProject\Controller;
 require_once(__DIR__ . '/../model/InitModel.php');
 require_once(__DIR__ . '/../model/UserModel.php');
 require_once(__DIR__ . '/../model/EventModel.php');
-require_once(__DIR__ . '/../model/MapModel.php');
+require_once(__DIR__ . '/../model/mapModel.php');
 
 require_once(__DIR__ . '/../utils/useResponse.php');
 

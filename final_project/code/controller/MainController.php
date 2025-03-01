@@ -45,7 +45,7 @@ class MainController
                 break;
 
             case 'logout':
-                $auth->logout();
+                // $auth->logout();
                 break;
         }
     }
@@ -74,6 +74,13 @@ class MainController
                     break;
                 case 'create-test':
                     require_once("./view/event/test.CreateView.php");
+                    break;
+                case 'edit':
+                    $id = $_GET['id'];
+
+                    $eventObj = $eventModel->getEventById($id);
+
+                    require_once("./view/event/edit.php");
                     break;
             }
         } else {
@@ -119,6 +126,6 @@ class MainController
     public function notFound()
     {
         header("HTTP/1.0 404 Not Found");
-        require_once("./view/NotFoundView.php");
+        require_once("./view/NotfoundView.php");
     }
 }

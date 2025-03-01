@@ -17,7 +17,7 @@ require_once(__DIR__ . '/controller/MainController.php');
 
 // require_once(__DIR__ . '/model/MapModel.php');
 require_once(__DIR__ . '/model/EventModel.php');
-require_once(__DIR__ . '/model/Environment.php');
+require_once(__DIR__ . '/model/environment.php');
 
 require_once(__DIR__ . '/components/navbar.php');
 
@@ -27,6 +27,8 @@ use FinalProject\Components\Navbar;
 use FinalProject\Controller\MainController;
 
 $action = $_GET['action'] ?? 'index';
+
+print_r($action);
 
 $isRequest = false;
 $isLogin = false;
@@ -137,6 +139,7 @@ switch ($action) {
     case 'event.create':
     case 'event.checked-in':
     case 'event.manage':
+    case 'event.edit':
     case 'event.create-test':
         $controller->event($action);
         break;

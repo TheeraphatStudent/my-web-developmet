@@ -2,7 +2,7 @@
 
 namespace FinalProject\Model;
 
-require_once(__DIR__ . '/Environment.php');
+require_once(__DIR__ . '/environment.php');
 
 use FinalProject\Model\Environment;
 

@@ -11,6 +11,8 @@ use FinalProject\Components\TextEditor;
 $map = new Map();
 $textEditor = new TextEditor();
 
+
+
 // ===================== Data =====================
 
 $form_type = ['onsite', 'online', 'any'];
@@ -51,6 +53,9 @@ $authors = array_map(function ($type) {
 
     <link rel="stylesheet" href="public/style/main.css">
     <title>Create event</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
 </head>
 
 <body class="bg-primary">
@@ -66,6 +71,8 @@ $authors = array_map(function ($type) {
 
             <h1 class="text-white font-semibold">Create Event</h1>
 
+            <?php print_r ($eventObj) ?>
+
             <div class="flex flex-col md:flex-row justify-between items-start w-full gap-12 *:flex *:flex-col">
 
                 <div class="justify-start items-start w-full gap-5">
@@ -75,8 +82,8 @@ $authors = array_map(function ($type) {
                             Title&nbsp;
                             <span class="form-required">*</span>
                         </div>
-                        <input required
-                            class="form-input" name="title" placeholder="Enter event title">
+                        <input required 
+                            class="form-input" name="title" placeholder="Enter event title" value="<?php echo htmlspecialchars($eventObj['title']) ?>">
                     </div>
                     <div class="flex flex-row w-full justify-start items-start gap-5 ">
                         <div class="flex flex-col w-full gap-2.5">
@@ -86,7 +93,7 @@ $authors = array_map(function ($type) {
                                 <span class="form-required">*</span>
                             </div>
                             <input required
-                                class="form-input" type="text" name="venue" placeholder="Enter venue">
+                                class="form-input" type="text" name="venue" placeholder="Enter venue" value="<?php echo htmlspecialchars($eventObj['venue']) ?>">
 
                         </div>
                         <div class="flex flex-col w-full gap-2.5">
@@ -96,7 +103,7 @@ $authors = array_map(function ($type) {
                                 <span class="form-required">*</span>
                             </div>
                             <input required
-                                class="form-input" type="text" name="maximum" placeholder="Enter maximum">
+                                class="form-input" type="text" name="maximum" placeholder="Enter maximum" value="<?php echo htmlspecialchars($eventObj['maximum']) ?>">
 
                         </div>
                     </div>
@@ -106,7 +113,7 @@ $authors = array_map(function ($type) {
                             <div
                                 class="form-title">
                                 Type&nbsp;
-                                <span class="form-required">*</span>
+                                <span class="form-required" >*</span>
                             </div>
                             <!-- <input class="form-input" type="" name="venue" placeholder="Enter venue"> -->
                             <select name="type" class="form-input">
@@ -123,7 +130,7 @@ $authors = array_map(function ($type) {
                                 <span class="form-required">*</span>
                             </div>
                             <input
-                                class="form-input" name="link" type="text" placeholder="Enter link">
+                                class="form-input" name="link" type="text" placeholder="Enter link"value="<?php echo htmlspecialchars($eventObj['link']) ?>">
 
                         </div>
                     </div>
@@ -135,8 +142,8 @@ $authors = array_map(function ($type) {
                                     <div class="form-title">
                                         Start&nbsp;
                                         <span class="form-required">*</span>
-                                    </div>
-                                    <input class="form-input" type="datetime-local" name="start[]" placeholder="Enter started time">
+                                           </div>
+                                    <input class="form-input" type="datetime-local" name="start[]" placeholder="Enter started time" >
                                 </div>
                                 <div class="flex flex-col w-1/2 gap-2.5">
                                     <div class="form-title">

@@ -1,6 +1,11 @@
+<?php
+$_GET['id'];
+?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="public/style/main.css">
 
     <style>
@@ -55,7 +60,12 @@
                                 <td class="py-3 px-4 text-sm">03/15/2025</td>
                                 <td class="py-3 px-4 text-center">
                                     <div class="flex justify-center space-x-2">
-                                        <button class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
+                                        <a href="../?action=event.edit&id=<?= $item['eventId'] ?>" class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                                            </svg>
+                                        </a>
+                                        <!-- <button class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                                             </svg>
@@ -69,12 +79,7 @@
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                                             </svg>
-                                        </button>
-                                        <button class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
-                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
-                                            </svg>
-                                        </button>
+                                        </button> -->
                                     </div>
                                 </td>
                             </tr>
