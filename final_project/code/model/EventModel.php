@@ -4,6 +4,7 @@ namespace FinalProject\Model;
 
 require_once(__DIR__ . '/../utils/useResponse.php');
 require_once(__DIR__ . '/../utils/useImages.php');
+require_once(__DIR__ . '/../utils/useRandomize.php');
 
 use FinalProject\Utils;
 
@@ -28,7 +29,7 @@ class Event
         $coverImage = null;
         $morePics = [];
 
-        print_r($_FILES);
+        // print_r($_FILES);
 
         if (isset($_FILES['cover']) && $_FILES['cover']['error'] === UPLOAD_ERR_OK) {
             $coverImage = uploadFile($_FILES['cover'], $uploadDir);
@@ -66,8 +67,25 @@ class Event
 
         $now = new DateTime();
 
+        // Create Id -> AG
+        // 25 : year
+        // T : First character in Fname
+        // 00000: Count
+
+        $lastCols = $this->connection->prepare(
+            "SELECT id FROM Event ORDER BY id DESC LIMIT 1"
+        );
+
+        $lastCols->execute();
+        $getCols = $lastCols->fetchColumn();
+
+        $newValue = ($getCols !== false) ? intval($getCols) + 1 : 1;
+        $formattedValue = str_pad($newValue, 7, "0", STR_PAD_LEFT);
+
+        $eventId = "AG-" . $now->format('Y') . $formattedValue . uniqid("_event-" . getRandomId(8));
+
         $statement->execute([
-            ':eventId' => bin2hex(random_bytes(64)),
+            ':eventId' => $eventId,
             ':organizeId' => $_SESSION['userId'],
             ':cover' => $coverImage,
             ':morePics' => $more_pic,
@@ -101,25 +119,27 @@ class Event
         return $result;
     }
 
-    public function getEventById($id) {
+    public function getEventById($id)
+    {
 
         $sql = $this->connection->prepare(
             "SELECT * FROM Event WHERE eventid = :eventid"
         );
 
         $sql->execute([
-            ':eventid'=>$id
+            ':eventid' => $id
         ]);
 
         $result = $sql->fetch(PDO::FETCH_ASSOC);
         return $result;
     }
 
-    public function updateEventById($data = []) {
+    public function updateEventById($data = [])
+    {
         print_r($_SESSION);
         echo "<br>";
         print_r($data);
-    
+
         // Prepare the SQL statement
         $sql = $this->connection->prepare(
             "UPDATE Event 
@@ -133,10 +153,10 @@ class Event
                 updated = :updated 
             WHERE eventId = :eventId AND organizeId = :organizeId"
         );
-    
+
         // Get the current timestamp
         $now = new DateTime();
-    
+
         // Bind the parameters
         $sql->bindParam(':eventId', $data['eventId']);
         $sql->bindParam(':organizeId', $_SESSION['userId']);
@@ -146,7 +166,7 @@ class Event
         $sql->bindParam(':maximum', $data['maximum']);
         $sql->bindParam(':type', $data['type']);
         $sql->bindParam(':link', $data['link']);
-    
+
         // Execute the SQL statement
         $sql->execute([
             ':eventId' => $data['eventId'],
@@ -172,7 +192,7 @@ class Event
             return ["No rows updated, check the eventId or organizeId"];
         }
     }
-    
+
 
     public function deleteEventById() {}
 }

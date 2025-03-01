@@ -28,8 +28,6 @@ use FinalProject\Controller\MainController;
 
 $action = $_GET['action'] ?? 'index';
 
-print_r($action);
-
 $isRequest = false;
 $isLogin = false;
 $response = null;
@@ -99,7 +97,7 @@ switch ($action) {
         $response = $controller->request($_GET, $data);
         // print_r($data);
         // print_r($_FILES);
-        print_r($response);
+        // print_r($response);
 
         http_response_code($response['status'] ?? 404);
 
@@ -120,7 +118,7 @@ switch ($action) {
             exit;
         }
 
-        // header('Location: ' . $response['redirect']);
+        header('Location: ' . $response['redirect']);
         exit;
         // ================= Page Content ================= 
 

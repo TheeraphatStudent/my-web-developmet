@@ -69,7 +69,7 @@ $calendar = new SchedulerCalendar();
                 ?>
                     <div class="flex flex-col justify-between items-center p-4 gap-4 rounded-lg w-full h-[420px] shadow-md bg-white">
                         <div
-                            class="flex flex-col justify-between items-center bg-center gap-[150px] rounded w-full h-60 overflow-hidden bg-dark-primary/50 border-dashed border-gray-400 border-2"
+                            class="flex flex-col justify-between items-center bg-center bg-cover gap-[150px] rounded w-full h-60 overflow-hidden bg-dark-primary/50 border-dashed border-gray-400 border-2"
                             style="background-image: url(public/images/uploads/<?= $item['cover'] ?>);">
                             <!-- Tag -->
                             <div class="flex flex-row justify-start items-start gap-2.5 pt-2.5 pr-2.5 pb-2.5 pl-2.5 w-full h-fit bg-gradient-to-b from-dark-primary/50 via-dark-primary/25 to-transparent">
@@ -86,11 +86,11 @@ $calendar = new SchedulerCalendar();
                             </div>
 
                             <!-- Star -->
-                            <div class="flex flex-row justify-end items-center gap-2.5 pt-2.5 pr-2.5 pb-2.5 pl-2.5 w-full h-11">
+                            <!-- <div class="flex flex-row justify-end items-center gap-2.5 pt-2.5 pr-2.5 pb-2.5 pl-2.5 w-full h-11">
                                 <div class="flex flex-row justify-center items-center gap-2.5 rounded-[50px] h-7 border-white border-t border-b border-l border-r border-dashed border overflow-hidden">
                                     <img src="/assets/ImageAsset10.png" alt="Image Asset 10" width="20px" height="20px" />
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
 
                         <div class="flex flex-col justify-start items-start gap-3 h-20 w-full">

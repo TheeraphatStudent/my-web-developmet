@@ -210,7 +210,7 @@ $authors = array_map(function ($type) {
                     <span id="upload_text" class="underline cursor-pointer font-medium text-base text-white group-hover:text-white z-10 relative transition-colors duration-300">
                         Upload Cover
                     </span>
-                    <input required type="file" accept=".png, .jpg, .jpeg" id="cover_img" name="cover" class="hidden">
+                    <input required type="file" accept=".jpg, .jpeg, .webp" id="cover_img" name="cover" class="hidden">
                 </label>
             </div>
 

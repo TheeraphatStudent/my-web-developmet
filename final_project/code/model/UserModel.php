@@ -2,6 +2,8 @@
 
 namespace FinalProject\Model;
 
+require_once(__DIR__ . '/../utils/useRandomize.php');
+
 use PDO;
 
 class User
@@ -26,7 +28,7 @@ class User
     {
         $stmt = $this->connection->prepare("SELECT * FROM User WHERE userId = :userId");
         $stmt->execute([':userId' => $userId]);
-        if($stmt -> fetchColumn() > 0){
+        if ($stmt->fetchColumn() > 0) {
             return true;
         }
         return false;
@@ -36,8 +38,21 @@ class User
     {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $this->connection->prepare("INSERT INTO User (userId, username, password, email) VALUES (:userId, :username, :password, :email)");
+
+        $lastCols = $this->connection->prepare(
+            "SELECT id FROM User ORDER BY id DESC LIMIT 1"
+        );
+
+        $lastCols->execute();
+        $getCols = $lastCols->fetchColumn();
+
+        $newValue = ($getCols !== false) ? intval($getCols) + 1 : 1;
+        $formattedValue = str_pad($newValue, 7, "0", STR_PAD_LEFT);
+
+        $userId = "AGU-". $formattedValue . uniqid("_user-" . getRandomId(8));
+
         $stmt->execute([
-            ':userId' => bin2hex(random_bytes(32)),
+            ':userId' => $userId,
             ':username' => $username,
             ':password' => $hashedPassword,
             ':email' => $email,

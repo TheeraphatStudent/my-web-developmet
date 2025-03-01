@@ -16,7 +16,7 @@ class Map extends Component
     {
         echo ('
         <div id="map" class="flex w-full h-[350px] rounded-2xl relative"></div>
-        <div id="location_display" class="w-full min-h-10 mt-4 p-2 bg-gray-100 rounded"></div>
+        <textarea id="location_display" class="w-full min-h-10 mt-4 p-2 bg-gray-100 rounded"></textarea>
         <input type="text" name="location" id="location_input" class="hidden">
         ');
         $this->renderScript();
@@ -42,7 +42,7 @@ class Map extends Component
                         lat,
                         lon
                     } = event.detail;
-                    console.log(`${lat} | ${lon}`);
+                    // console.log(`${lat} | ${lon}`);
                     locationInput.value = `lat=${lat}&lon=${lon}`
 
                     const response = await fetch('../?action=request&on=map&form=get_location', {
