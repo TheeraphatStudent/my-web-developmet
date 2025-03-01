@@ -237,7 +237,7 @@ $authors = array_map(function ($type) {
                                     Add Image
                                 </div>
                             </div>
-                            <input type="file" id="image-upload" name="more_pic[]" accept=".png, .jpg, .jpeg" class="hidden" multiple>
+                            <input type="file" id="image-uploads" accept=".png, .jpg, .jpeg" class="hidden" multiple>
                         </label>
                     </div>
                 </div>
@@ -270,6 +270,7 @@ $authors = array_map(function ($type) {
             const form = document.getElementById('form-content');
 
             form.addEventListener('submit', () => {
+                
 
             })
 
@@ -372,6 +373,19 @@ $authors = array_map(function ($type) {
                 }
             };
 
+            const fetchBlobFile = async (blobUrl, fileName) => {
+                const response = await fetch(blobUrl);
+                const blobFile = await response.blob();
+
+                const file = new File([blobFile], `${fileName}`, {
+                    type: blobFile.type
+                });
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+
+                return dataTransfer.files;
+            };
+
             // Cover Img
 
             const coverInput = document.getElementById('cover_img');
@@ -386,7 +400,7 @@ $authors = array_map(function ($type) {
                     if (file) {
                         const reader = new FileReader();
 
-                        reader.onload = function(e) {
+                        reader.onload = async function(e) {
                             // console.log(e.target.result);
                             const value = e.target.result;
                             const blobUrl = byte64toBlobUrl(value, 'image/jpeg', 512);
@@ -395,7 +409,7 @@ $authors = array_map(function ($type) {
 
                             if (coverImg) {
                                 coverImg.style.backgroundImage = `url('${blobUrl}')`;
-                                coverInput.value = blobUrl;
+                                coverInput.files = await fetchBlobFile(blobUrl, file.name);
                                 // console.log(`url('${value}')`)
                                 // coverField.value = blobUrl;
                                 // console.log(coverField.value)
@@ -409,7 +423,7 @@ $authors = array_map(function ($type) {
             }
 
             // Multi Images
-            const imageInput = document.getElementById('image-upload');
+            const imageInput = document.getElementById('image-uploads');
             // const morePicInput = document.getElementById('more-pic-field');
 
             const addImageBtn = document.getElementById('add-image-btn');
@@ -435,7 +449,7 @@ $authors = array_map(function ($type) {
 
                                 // const index = uploadedImages.length - 1;
                                 // createImagePreview(blobUrl, index);
-                                createImagePreview(blobUrl);
+                                createImagePreview(blobUrl, file.name);
                             };
 
                             reader.readAsDataURL(file);
@@ -447,8 +461,8 @@ $authors = array_map(function ($type) {
 
             }
 
-            function createImagePreview(blob) {
-                console.log(blob);
+            async function createImagePreview(blob, fileName) {
+                // console.log(blob);
 
                 const imagePreviewWrapper = document.createElement('div');
                 imagePreviewWrapper.className = 'relative min-w-80 min-h-[180px] rounded-2xl overflow-hidden group bg-dark-primary';
@@ -469,16 +483,8 @@ $authors = array_map(function ($type) {
                 inputField.name = 'more_pic[]';
                 inputField.className = 'hidden';
 
-                fetch(blob)
-                    .then(res => res.blob())
-                    .then(blobFile => {
-                        const file = new File([blobFile], "image.jpg", {
-                            type: blobFile.type
-                        });
-                        const dataTransfer = new DataTransfer();
-                        dataTransfer.items.add(file);
-                        inputField.files = dataTransfer.files;
-                    });
+                inputField.files = await fetchBlobFile(blob, fileName);
+                // inputField.value = fileName;
 
                 deleteButton.type = 'button';
                 deleteButton.className = 'absolute top-2 right-2 bg-light-red text-white rounded-full w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300';

@@ -28,10 +28,11 @@ class Event
         $coverImage = null;
         $morePics = [];
 
-        // print_r($_FILES);
+        print_r($_FILES);
 
         if (isset($_FILES['cover']) && $_FILES['cover']['error'] === UPLOAD_ERR_OK) {
             $coverImage = uploadFile($_FILES['cover'], $uploadDir);
+            unset($_FILES['cover']);
         }
 
         if (isset($_FILES['more_pic'])) {
