@@ -115,7 +115,64 @@ class Event
         return $result;
     }
 
-    public function updateEventById() {}
+    public function updateEventById($data = []) {
+        print_r($_SESSION);
+        echo "<br>";
+        print_r($data);
+    
+        // Prepare the SQL statement
+        $sql = $this->connection->prepare(
+            "UPDATE Event 
+            SET 
+                title = :title, 
+                description = :description, 
+                venue = :venue, 
+                maximum = :maximum, 
+                type = :type, 
+                link = :link, 
+                updated = :updated 
+            WHERE eventId = :eventId AND organizeId = :organizeId"
+        );
+    
+        // Get the current timestamp
+        $now = new DateTime();
+    
+        // Bind the parameters
+        $sql->bindParam(':eventId', $data['eventId']);
+        $sql->bindParam(':organizeId', $_SESSION['userId']);
+        $sql->bindParam(':title', $data['title']);
+        $sql->bindParam(':description', $data['description']);
+        $sql->bindParam(':venue', $data['venue']);
+        $sql->bindParam(':maximum', $data['maximum']);
+        $sql->bindParam(':type', $data['type']);
+        $sql->bindParam(':link', $data['link']);
+    
+        // Execute the SQL statement
+        $sql->execute([
+            ':eventId' => $data['eventId'],
+            ':organizeId' => $_SESSION['userId'],
+            // ':cover' => $coverImage,
+            // ':morePics' => $more_pic,
+            ':title' => $data['title'],
+            ':description' => $data['description'],
+            ':venue' => $data['venue'],
+            ':maximum' => $data['maximum'],
+            ':type' => $data['type'],
+            ':link' => $data['link'],
+            // ':start' => $started,
+            // ':end' => $ended,
+            // ':location' => $location,
+            ':updated' => $now->format('Y-m-d H:i:s')
+        ]);
+        // Check if any rows were affected (i.e., the update was successful)
+        $rowCount = $sql->rowCount();
+        if ($rowCount > 0) {
+            return ["It worked, $rowCount rows updated"];
+        } else {
+            return ["No rows updated, check the eventId or organizeId"];
+        }
+    }
+    
 
     public function deleteEventById() {}
 }
