@@ -28,6 +28,8 @@ use FinalProject\Controller\MainController;
 
 $action = $_GET['action'] ?? 'index';
 
+print_r($action);
+
 $isRequest = false;
 $isLogin = false;
 $response = null;
@@ -137,6 +139,7 @@ switch ($action) {
     case 'event.create':
     case 'event.checked-in':
     case 'event.manage':
+    case 'event.edit':
     case 'event.create-test':
         $controller->event($action);
         break;

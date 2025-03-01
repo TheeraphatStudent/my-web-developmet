@@ -33,8 +33,9 @@ class Navbar extends Component
                             $this->isLogin
                                 ?
                                 "
-                            <a href='#' class='text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium'>Profile</a>
-                            <a href='../?event.manage' class='text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium'>Event view</a>
+                            <a href='../?' class='text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium'>Profile</a>
+                            <a href='../?action=event.manage' class='text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium'>Event view</a>
+                            <a href='../?action=event.create' class='text-gray-800 hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium'>Create event</a>
                             " :
                                 "
                             <a href='..?action=register' class='group btn-primary signin-btn w-[160px]'>

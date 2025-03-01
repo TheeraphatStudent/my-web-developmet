@@ -75,6 +75,13 @@ class MainController
                 case 'create-test':
                     require_once("./view/event/test.CreateView.php");
                     break;
+                case 'edit':
+                    $id = $_GET['id'];
+
+                    $eventObj = $eventModel->getEventById($id);
+
+                    require_once("./view/event/edit.php");
+                    break;
             }
         } else {
             $this->notFound();

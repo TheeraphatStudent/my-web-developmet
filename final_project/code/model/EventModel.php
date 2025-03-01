@@ -101,7 +101,19 @@ class Event
         return $result;
     }
 
-    public function getEventById() {}
+    public function getEventById($id) {
+
+        $sql = $this->connection->prepare(
+            "SELECT * FROM Event WHERE eventid = :eventid"
+        );
+
+        $sql->execute([
+            ':eventid'=>$id
+        ]);
+
+        $result = $sql->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    }
 
     public function updateEventById() {}
 
