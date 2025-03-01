@@ -41,7 +41,7 @@ class TextEditor extends Component
             </div>
 
             <div class="flex flex-col md:flex-row w-full border border-white rounded-md overflow-hidden *:w-full *:md:w-1/2 *:min-h-[200px]">
-                <textarea id="markdown-input" class="p-3 bg-white whitespace-pre border-r focus:outline-none" oninput="updatePreview()" placeholder="ระบุรายละเอียดของงานที่นี่..."></textarea>
+                <textarea required id="markdown-input" class="p-3 bg-white whitespace-pre border-r focus:outline-none" oninput="updatePreview()" placeholder="ระบุรายละเอียดของงานที่นี่..."></textarea>
                 <input class="hidden" type="text" name="description" id="desc-input">
                 <div id="markdown-preview" class="p-3 bg-primary overflow-auto text-white"></div>
             </div>

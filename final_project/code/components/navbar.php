@@ -17,7 +17,7 @@ class Navbar extends Component
         
 
 ?>
-        <nav class="fixed top-0 bg-white w-screen z-50">
+        <nav class="fixed top-0 bg-white w-screen z-50" id="navbar">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between py-[.75rem]">
                     <div class="flex items-center">

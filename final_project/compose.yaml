@@ -18,7 +18,8 @@ services:
     volumes:
       - .:/var/www/html/
       # Image Volume
-      - images:/var/www/html/public/images/uploads/
+      # - images:/var/www/html/public/images/uploads/
+      - ./public/images/uploads:/var/www/html/public/images/uploads/
     depends_on:
       - database
     networks:

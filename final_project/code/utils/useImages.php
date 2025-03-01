@@ -4,13 +4,17 @@
 
 function uploadFile($file, $uploadDir)
 {
-    print_r("Upload file work!");
+    if (!empty($file)) {
+        $fileName = uniqid() . '_' . basename($file['name']);
+        $targetPath = rtrim($uploadDir, '/') . '/' . $fileName;
 
-    $fileName = uniqid() . '_' . basename($file['name']);
-    $targetPath = $uploadDir . $fileName;
+        // echo '<br>';
+        // print_r($file);
+        // echo '<br>';
 
-    if (move_uploaded_file($file['tmp_name'], $targetPath)) {
-        return $fileName;
+        if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+            return $fileName;
+        }
     }
 
     return null;
@@ -19,6 +23,10 @@ function uploadFile($file, $uploadDir)
 function uploadMultipleFiles($files, $uploadDir)
 {
     $uploadedFiles = [];
+
+    // echo 'upload multiple file work';
+    // print_r($files);
+    // echo '';
 
     foreach ($files['name'] as $key => $name) {
         $file = [
@@ -30,9 +38,7 @@ function uploadMultipleFiles($files, $uploadDir)
         ];
 
         $uploadedFile = uploadFile($file, $uploadDir);
-        if ($uploadedFile) {
-            $uploadedFiles[] = $uploadedFile;
-        }
+        $uploadedFiles[] = $uploadedFile;
     }
 
     return $uploadedFiles;

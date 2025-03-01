@@ -16,8 +16,8 @@ class Map extends Component
     {
         echo ('
         <div id="map" class="flex w-full h-[350px] rounded-2xl relative"></div>
-        <div id="location_display" class="mt-4 p-2 bg-gray-100 rounded"></div>
-        <input type="text" name="location" id="location_input" class="hidden">
+        <div id="location_display" class="w-full min-h-10 mt-4 p-2 bg-gray-100 rounded"></div>
+        <input required type="text" name="location" id="location_input" class="hidden">
         ');
         $this->renderScript();
     }
@@ -62,7 +62,7 @@ class Map extends Component
                     const parseJson = JSON.parse(response?.data);
                     console.log(parseJson)
 
-                    locationDisplay.innerText = parseJson?.aoi ?? '???';
+                    locationDisplay.innerText = `${parseJson?.aoi}, ${parseJson?.subdistrict}, ${parseJson?.district}, ${parseJson?.province}, ${parseJson?.postcode}` ?? '???';
 
                 });
             });

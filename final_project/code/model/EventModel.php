@@ -3,6 +3,7 @@
 namespace FinalProject\Model;
 
 require_once(__DIR__ . '/../utils/useResponse.php');
+require_once(__DIR__ . '/../utils/useImages.php');
 
 use FinalProject\Utils;
 
@@ -23,17 +24,23 @@ class Event
     {
         // array: start, end, authors, more_pic
 
-        $uploadDir = '/var/www/html/uploads/images/';
+        $uploadDir = '/var/www/html/public/images/uploads/';
         $coverImage = null;
         $morePics = [];
 
+        print_r($_FILES);
+
         if (isset($_FILES['cover']) && $_FILES['cover']['error'] === UPLOAD_ERR_OK) {
             $coverImage = uploadFile($_FILES['cover'], $uploadDir);
+            unset($_FILES['cover']);
         }
 
         if (isset($_FILES['more_pic'])) {
             $morePics = uploadMultipleFiles($_FILES['more_pic'], $uploadDir);
         }
+
+        // print_r($coverImage);
+        // print_r($morePics);
 
         $started = json_encode($data['start']);
         $ended = json_encode($data['end']);
@@ -85,14 +92,13 @@ class Event
     public function getAllEvents()
     {
         $statement = $this->connection->prepare(
-            "SELECT * FROM Event
-            "
+            "SELECT * FROM Event WHERE 1"
         );
 
         $statement->execute();
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        return [$result];
+        return $result;
     }
 
     public function getEventById() {}

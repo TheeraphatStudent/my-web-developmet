@@ -1,0 +1,22 @@
+==================================================
+
+* more_pic = 1
+
+Array ( 
+    [cover] => Array ( [name] => cover.jpg [full_path] => cover.jpg [type] => image/jpeg [tmp_name] => /tmp/phpBRmmB4 [error] => 0 [size] => 12120 ) 
+    [more_pic] => Array ( 
+        [name] => Array ( [0] => 6721801.jpg ) [full_path] => Array ( [0] => 6721801.jpg ) [type] => Array ( [0] => image/jpeg ) [tmp_name] => Array ( [0] => /tmp/phpMJyGeW ) [error] => Array ( [0] => 0 ) [size] => Array ( [0] => 769859 ) 
+    ) 
+)
+
+==================================================
+
+* more_pic > 1
+
+Array ( 
+    [cover] => Array ( [name] => cover.jpg [full_path] => cover.jpg [type] => image/jpeg [tmp_name] => /tmp/phpUGD33d [error] => 0 [size] => 12120 ) 
+    [more_pic] => Array ( 
+        [name] => 
+            Array ( [0] => 6721801.jpg [1] => 9413412.jpg ) [full_path] => Array ( [0] => 6721801.jpg [1] => 9413412.jpg ) [type] => Array ( [0] => image/jpeg [1] => image/jpeg ) [tmp_name] => 
+            Array ( [0] => /tmp/phpnXtr2M [1] => /tmp/php9GLR7p ) [error] => Array ( [0] => 0 [1] => 0 ) [size] => Array ( [0] => 769859 [1] => 551083 ) ) )
+

@@ -65,6 +65,8 @@ $authors = array_map(function ($type) {
             class="flex flex-col w-full max-w-content h-fit gap-8"
             method="post"
             enctype="multipart/form-data">
+            <!-- <input type="hidden" name="test" value="test"> -->
+
             <h1 class="text-white font-semibold">Create Event</h1>
 
             <div class="flex flex-col md:flex-row justify-between items-start w-full gap-12 *:flex *:flex-col">
@@ -76,7 +78,7 @@ $authors = array_map(function ($type) {
                             Title&nbsp;
                             <span class="form-required">*</span>
                         </div>
-                        <input
+                        <input required
                             class="form-input" name="title" placeholder="Enter event title">
                     </div>
                     <div class="flex flex-row w-full justify-start items-start gap-5 ">
@@ -86,7 +88,7 @@ $authors = array_map(function ($type) {
                                 Venue&nbsp;
                                 <span class="form-required">*</span>
                             </div>
-                            <input
+                            <input required
                                 class="form-input" type="text" name="venue" placeholder="Enter venue">
 
                         </div>
@@ -96,7 +98,7 @@ $authors = array_map(function ($type) {
                                 Maximum&nbsp;
                                 <span class="form-required">*</span>
                             </div>
-                            <input
+                            <input required
                                 class="form-input" type="text" name="maximum" placeholder="Enter maximum">
 
                         </div>
@@ -137,7 +139,7 @@ $authors = array_map(function ($type) {
                                         Start&nbsp;
                                         <span class="form-required">*</span>
                                     </div>
-                                    <input class="form-input" type="datetime-local" name="start[]" placeholder="Enter started time">
+                                    <input required class="form-input" type="datetime-local" name="start[]" placeholder="Enter started time">
                                 </div>
                                 <div class="flex flex-col w-1/2 gap-2.5">
                                     <div class="form-title">
@@ -145,7 +147,7 @@ $authors = array_map(function ($type) {
                                         <span class="form-required">*</span>
                                     </div>
                                     <div class="flex w-full gap-2.5">
-                                        <input class="form-input w-full" type="datetime-local" name="end[]" placeholder="Enter ended time">
+                                        <input required class="form-input w-full" type="datetime-local" name="end[]" placeholder="Enter ended time">
                                     </div>
                                 </div>
                             </div>
@@ -184,7 +186,7 @@ $authors = array_map(function ($type) {
                 </div>
 
                 <div class="justify-start items-start w-full">
-                    <div class="flex flex-col w-full justify-start items-start gap-2.5">
+                    <div class="flex flex-col w-full justify-start items-start gap-5">
                         <div
                             class="form-title">
                             Location&nbsp;
@@ -211,7 +213,7 @@ $authors = array_map(function ($type) {
                     <span id="upload_text" class="underline cursor-pointer font-medium text-base text-white group-hover:text-white z-10 relative transition-colors duration-300">
                         Upload Cover
                     </span>
-                    <input type="file" accept=".png, .jpg, .jpeg" id="cover_img" name="cover" class="hidden">
+                    <input required type="file" accept=".png, .jpg, .jpeg" id="cover_img" name="cover" class="hidden">
                 </label>
             </div>
 
@@ -235,7 +237,7 @@ $authors = array_map(function ($type) {
                                     Add Image
                                 </div>
                             </div>
-                            <input type="file" id="image-upload" name="more_pic[]" accept=".png, .jpg, .jpeg" class="hidden" multiple>
+                            <input type="file" id="image-uploads" accept=".png, .jpg, .jpeg" class="hidden" multiple>
                         </label>
                     </div>
                 </div>
@@ -268,6 +270,7 @@ $authors = array_map(function ($type) {
             const form = document.getElementById('form-content');
 
             form.addEventListener('submit', () => {
+                
 
             })
 
@@ -370,59 +373,103 @@ $authors = array_map(function ($type) {
                 }
             };
 
+            const fetchBlobFile = async (blobUrl, fileName) => {
+                const response = await fetch(blobUrl);
+                const blobFile = await response.blob();
+
+                const file = new File([blobFile], `${fileName}`, {
+                    type: blobFile.type
+                });
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+
+                return dataTransfer.files;
+            };
+
             // Cover Img
 
             const coverInput = document.getElementById('cover_img');
-            const coverField = document.getElementById('coverImgField');
+            // const coverField = document.getElementById('coverImgField');
 
             if (coverInput) {
                 coverInput.addEventListener('change', function(event) {
                     const file = event.target.files[0];
+
+                    // console.log(file);
+
                     if (file) {
                         const reader = new FileReader();
-                        reader.onload = function(e) {
-                            const blobUrl = byte64toBlobUrl(e.target.result, 'image/jpeg', 512);
-                            if (coverLabel) {
-                                coverLabel.style.backgroundImage = `url('${blobUrl}')`;
+
+                        reader.onload = async function(e) {
+                            // console.log(e.target.result);
+                            const value = e.target.result;
+                            const blobUrl = byte64toBlobUrl(value, 'image/jpeg', 512);
+
+                            const coverImg = document.getElementById('cover_label');
+
+                            if (coverImg) {
+                                coverImg.style.backgroundImage = `url('${blobUrl}')`;
+                                coverInput.files = await fetchBlobFile(blobUrl, `cover-${file.name}`);
+                                // console.log(`url('${value}')`)
+                                // coverField.value = blobUrl;
+                                // console.log(coverField.value)
+
                             }
                         };
+
                         reader.readAsDataURL(file);
                     }
                 });
             }
 
             // Multi Images
-
-            const imageInput = document.getElementById('image-upload');
-            const morePicInput = document.getElementById('more-pic-field');
+            const imageInput = document.getElementById('image-uploads');
+            // const morePicInput = document.getElementById('more-pic-field');
 
             const addImageBtn = document.getElementById('add-image-btn');
             const container = document.getElementById('images-container');
 
+            // let uploadedImages = [];
+
             if (imageInput) {
                 imageInput.addEventListener('change', function(e) {
                     const files = e.target.files;
+
                     if (files && files.length > 0) {
                         for (let i = 0; i < files.length; i++) {
                             const file = files[i];
                             const reader = new FileReader();
+
                             reader.onload = function(e) {
-                                const blobUrl = byte64toBlobUrl(e.target.result, 'image/jpeg', 512);
-                                createImagePreview(blobUrl);
+                                const imageData = e.target.result;
+                                const blobUrl = byte64toBlobUrl(imageData, 'image/jpeg', 512);
+
+                                // uploadedImages.push(blobUrl);
+                                // morePicInput.value = uploadedImages
+
+                                // const index = uploadedImages.length - 1;
+                                // createImagePreview(blobUrl, index);
+                                createImagePreview(blobUrl, `more-${file.name}`);
                             };
+
                             reader.readAsDataURL(file);
                         }
                     }
+
+                    // imageInput.value = '';
                 });
+
             }
 
-            function createImagePreview(imageData) {
+            async function createImagePreview(blob, fileName) {
+                // console.log(blob);
+
                 const imagePreviewWrapper = document.createElement('div');
                 imagePreviewWrapper.className = 'relative min-w-80 min-h-[180px] rounded-2xl overflow-hidden group bg-dark-primary';
 
                 const image = document.createElement('div');
                 image.className = 'w-full h-full bg-cover bg-center';
-                image.style.backgroundImage = `url('${imageData}')`;
+                image.style.backgroundImage = `url('${blob}')`;
 
                 const overlay = document.createElement('div');
                 overlay.className = 'absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300';
@@ -430,6 +477,14 @@ $authors = array_map(function ($type) {
                 const deleteButton = document.createElement('button');
                 const deleteIcon = document.createElement('img');
                 deleteIcon.src = 'public/icons/delete.svg';
+
+                const inputField = document.createElement('input');
+                inputField.type = 'file';
+                inputField.name = 'more_pic[]';
+                inputField.className = 'hidden';
+
+                inputField.files = await fetchBlobFile(blob, fileName);
+                // inputField.value = fileName;
 
                 deleteButton.type = 'button';
                 deleteButton.className = 'absolute top-2 right-2 bg-light-red text-white rounded-full w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300';
@@ -442,6 +497,7 @@ $authors = array_map(function ($type) {
                 imagePreviewWrapper.appendChild(image);
                 imagePreviewWrapper.appendChild(overlay);
                 imagePreviewWrapper.appendChild(deleteButton);
+                imagePreviewWrapper.appendChild(inputField);
 
                 container.appendChild(imagePreviewWrapper);
             }

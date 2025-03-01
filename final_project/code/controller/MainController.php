@@ -3,7 +3,7 @@
 namespace FinalProject\Controller;
 
 require_once(__DIR__ . '/RequestController.php');
-require_once( __DIR__ . '/../utils/useEvent.php');
+require_once(__DIR__ . '/../utils/useEvent.php');
 
 require_once(__DIR__ . '/../model/EventModel.php');
 
@@ -65,6 +65,9 @@ class MainController
                 case 'create':
                     require_once("./view/event/CreateView.php");
                     break;
+                case 'create-test':
+                    require_once("./view/event/test.CreateView.php");
+                    break;
             }
         } else {
             $this->notFound();
@@ -76,6 +79,7 @@ class MainController
         // print_r($target);
         // echo "<br>";
         // print_r($data);
+
         $onModel = $target['on'];
         $formContent = $target['form'];
 
@@ -85,23 +89,19 @@ class MainController
         switch ($onModel) {
             case 'user':
                 $res = $request->authHandler($formContent, $data);
-                // print_r($res);
                 break;
 
             case 'event':
                 $res = $request->eventHandler($formContent, $data);
-                // print_r($res);
                 break;
 
             case 'map':
                 $res = $request->mapHandler($formContent, $data);
-
-            case 'image':
-                $res = $request->imageHandler($formContent, $data);
-
+                break;
         }
+
+        // print_r($res);
         return $res;
-        
     }
 
     public function profile()
