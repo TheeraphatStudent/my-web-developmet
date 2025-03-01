@@ -17,7 +17,7 @@ require_once(__DIR__ . '/controller/MainController.php');
 
 // require_once(__DIR__ . '/model/MapModel.php');
 require_once(__DIR__ . '/model/EventModel.php');
-require_once(__DIR__ . '/model/Environment.php');
+require_once(__DIR__ . '/model/environment.php');
 
 require_once(__DIR__ . '/components/navbar.php');
 
@@ -134,6 +134,7 @@ switch ($action) {
     case 'event.attendee':
     case 'event.create':
     case 'event.checked-in':
+    case 'event.manage': 
     case 'event.create-test':
         $controller->event($action);
         break;

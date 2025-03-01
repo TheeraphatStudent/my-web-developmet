@@ -139,7 +139,7 @@ $authors = array_map(function ($type) {
                                         Start&nbsp;
                                         <span class="form-required">*</span>
                                     </div>
-                                    <input required class="form-input" type="datetime-local" name="start[]" placeholder="Enter started time">
+                                    <input class="form-input" type="datetime-local" name="start[]" placeholder="Enter started time">
                                 </div>
                                 <div class="flex flex-col w-1/2 gap-2.5">
                                     <div class="form-title">
@@ -147,7 +147,7 @@ $authors = array_map(function ($type) {
                                         <span class="form-required">*</span>
                                     </div>
                                     <div class="flex w-full gap-2.5">
-                                        <input required class="form-input w-full" type="datetime-local" name="end[]" placeholder="Enter ended time">
+                                        <input class="form-input w-full" type="datetime-local" name="end[]" placeholder="Enter ended time">
                                     </div>
                                 </div>
                             </div>

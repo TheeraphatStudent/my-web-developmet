@@ -44,7 +44,7 @@ class MainController
                 break;
 
             case 'logout':
-                $auth->logout();
+                // $auth->logout();
                 break;
         }
     }
@@ -112,6 +112,6 @@ class MainController
     public function notFound()
     {
         header("HTTP/1.0 404 Not Found");
-        require_once("./view/NotFoundView.php");
+        require_once("./view/NotfoundView.php");
     }
 }
