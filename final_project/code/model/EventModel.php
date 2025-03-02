@@ -152,7 +152,6 @@ class Event
         echo "<br>";
         print_r($data);
 
-        // Prepare the SQL statement
         $sql = $this->connection->prepare(
             "UPDATE Event 
             SET 
@@ -166,7 +165,6 @@ class Event
             WHERE eventId = :eventId AND organizeId = :organizeId"
         );
 
-        // Get the current timestamp
         $now = new DateTime();
 
         // Bind the parameters
@@ -179,7 +177,6 @@ class Event
         $sql->bindParam(':type', $data['type']);
         $sql->bindParam(':link', $data['link']);
 
-        // Execute the SQL statement
         $sql->execute([
             ':eventId' => $data['eventId'],
             ':organizeId' => $_SESSION['user']['userId'],
@@ -196,7 +193,7 @@ class Event
             // ':location' => $location,
             ':updated' => $now->format('Y-m-d H:i:s')
         ]);
-        // Check if any rows were affected (i.e., the update was successful)
+
         $rowCount = $sql->rowCount();
         if ($rowCount > 0) {
             return ["It worked, $rowCount rows updated"];
@@ -205,6 +202,25 @@ class Event
         }
     }
 
+    public function searchEvent($title, $location, $date) {
+
+        $title = "";
+        $location = "";
+        $date = (new DateTime())->format('Y-m-d H:i:s');
+
+        // SQL
+
+        // bind
+
+        // execute
+
+        // fetch
+
+        // return
+
+        return ["On model work!"];
+
+    }
 
     public function deleteEventById() {}
 }

@@ -9,7 +9,6 @@ class Search extends Component
     public function render()
     {
 ?>
-            <!-- action="../?action=event" method="post" -->
         <form
             action="../?action=request&on=event&form=search" method="post"
             class="bg-secondary flex flex-col lg:flex-row p-6 rounded-lg shadow-lg gap-5" >
@@ -18,10 +17,10 @@ class Search extends Component
                 <div class="flex flex-col justify-start items-start gap-2.5 h-[70px] w-full">
                     กำลังมองหา
                     <input type="text" placeholder="เลือกอีเวทน์" id="looking" name="looking"
-                        class="font-kanit text-base min-w-[290px] whitespace-nowrap text-orange-50 text-opacity-100 leading-none font-normal">
+                        class="font-kanit text-base min-w-[290px] whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
                     </input>
                     <!-- <div
-                        class="flex justify-between items-center pr-2.5 pl-2.5 gap-48 rounded border-orange-50 border-t border-b border-l border-r border-solid border w-full lg:w-72 h-9 bg-orange-50"> 
+                        class="flex justify-between items-center pr-2.5 pl-2.5 gap-48 rounded border-black border-t border-b border-l border-r border-solid border w-full lg:w-72 h-9 bg-black"> 
                         <div
                             class="font-kanit text-xs min-w-[57px] whitespace-nowrap text-neutral-400 text-opacity-100 leading-none font-normal">
                             เลือกอีเวทน์
@@ -39,11 +38,11 @@ class Search extends Component
                 <!-- Field -->
                 <div class="flex flex-col justify-start items-start gap-2.5 h-[70px] w-full">
                     สถาณที่
-                    <input type="text" placeholder="เลือกสถานที่"
-                        class="font-kanit text-base min-w-[290px] whitespace-nowrap text-orange-50 text-opacity-100 leading-none font-normal">
+                    <input type="text" placeholder="เลือกสถานที่" name="location"
+                        class="font-kanit text-base min-w-[290px] whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
                     </input>
                     <!-- <div
-                        class="flex justify-between items-center pr-2.5 pl-2.5 gap-[152px] rounded w-full lg:w-72 h-9 bg-orange-50">
+                        class="flex justify-between items-center pr-2.5 pl-2.5 gap-[152px] rounded w-full lg:w-72 h-9 bg-black">
                         <div
                             class="font-kanit text-xs min-w-[98px] whitespace-nowrap text-neutral-400 text-opacity-100 leading-none font-normal">
                             เลือกสถาณที่จัดงาน
@@ -62,11 +61,11 @@ class Search extends Component
                 <!-- Field -->
                 <div class="flex flex-col justify-start items-start gap-2.5 h-[70px] w-full">
                     ช่วงเวลา
-                    <input type="text" placeholder="เลือกช่วงเวลา"
-                        class="font-kanit text-base min-w-[290px] whitespace-nowrap text-orange-50 text-opacity-100 leading-none font-normal">
+                    <input type="text" placeholder="เลือกช่วงเวลา" name="date"
+                        class="font-kanit text-base min-w-[290px] whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
                     </input>
                     <!-- <div
-                        class="flex justify-between items-center pr-2.5 pl-2.5 gap-44 rounded border-orange-50 border-t border-b border-l border-r border-solid border w-full lg:w-72 h-9 bg-orange-50">
+                        class="flex justify-between items-center pr-2.5 pl-2.5 gap-44 rounded border-black border-t border-b border-l border-r border-solid border w-full lg:w-72 h-9 bg-black">
                         <div
                             class="font-kanit text-xs min-w-[67px] whitespace-nowrap text-neutral-400 text-opacity-100 leading-none font-normal">
                             เลือกช่วงเวลา

@@ -98,11 +98,12 @@ switch ($action) {
         // print_r($response);
 
         http_response_code($response['status'] ?? 404);
-        print_r($response);
 
-        if (!in_array($response['status'], ACCEPT_STATUS)) {
+        if (isset($response['status']) && !in_array($response['status'], ACCEPT_STATUS)) {
             header('Location: ' . $response['redirect'] . '&status=' . $response['status']);
             exit;
+        } else {
+            print_r($response);
         }
 
         if ($response['type'] == 'json') {
@@ -144,7 +145,7 @@ switch ($action) {
     case 'profile':
         $controller->profile();
         break;
-    
+
     case 'event':
         $controller->event($action);
         break;
@@ -184,26 +185,26 @@ if (!$isRequest) {
 
     <?php
     if (!$isLogin && !in_array($action, NOT_RENDER_NAVBAR)) {
-    ?> 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                title: 'คุณยังไม่ได้เข้าสู่ระบบ',
-                text: 'หากต้องการสร้างหรือเข้าร่วมกิจกรรม\nต้องเข้าสู่ระบบก่อน',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'เข้าสู่ระบบตอนนี้',
-                cancelButtonText: 'ขอสำรวจก่อน'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    setTimeout(() => {
-                        window.location.assign('../?action=login');
-                    }, 100);
-                }
+    ?>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'คุณยังไม่ได้เข้าสู่ระบบ',
+                    text: 'หากต้องการสร้างหรือเข้าร่วมกิจกรรม\nต้องเข้าสู่ระบบก่อน',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'เข้าสู่ระบบตอนนี้',
+                    cancelButtonText: 'ขอสำรวจก่อน'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        setTimeout(() => {
+                            window.location.assign('../?action=login');
+                        }, 100);
+                    }
+                });
             });
-        });
-    </script>
+        </script>
     <?php
     }
     ?>
