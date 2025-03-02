@@ -56,8 +56,8 @@ $authors = array_map(function ($type) {
 
     <link rel="stylesheet" href="public/style/main.css">
     <title>Edit event</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script> -->
 
 </head>
 

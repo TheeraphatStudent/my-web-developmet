@@ -13,7 +13,6 @@ class TextEditor extends Component
     public function render()
     {
 ?>
-
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,9 +56,6 @@ class TextEditor extends Component
 
                 // const htmlString = '<p>Hello World</p><p>Hello Human</p>';
                 // <\/[^>]+>
-
-                <?php echo (addslashes($this->dest)) ?>;
-                <?php echo (($this->dest)) ?>;
 
                 const text = `<?= addslashes($this->dest) ?>`
                     .replace(/<\/[^>]+>/gi, '\n\n')
