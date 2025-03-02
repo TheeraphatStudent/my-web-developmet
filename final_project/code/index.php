@@ -149,6 +149,10 @@ switch ($action) {
     case 'event':
         $controller->event($action);
         break;
+        
+    case 'mail':
+        $controller->mail();
+        break;
 
     default:
         error_log("Invalid action: $action");

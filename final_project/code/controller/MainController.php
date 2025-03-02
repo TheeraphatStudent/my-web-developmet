@@ -124,6 +124,10 @@ class MainController
     {
         require_once("./view/profile/View.php");
     }
+    public function mail()
+    {
+        require_once("./view/mail/view.php");
+    }
 
     public function notFound()
     {
