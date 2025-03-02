@@ -17,7 +17,7 @@ $lon = floatval($value['lon']);
 $map->setDefaultLocation($lat, $lon);
 
 $textEditor = new TextEditor();
-$textEditor->updatetextarea($eventObj['description']);
+$textEditor->updatetextarea(description: $eventObj['description'], isEdit: true);
 
 // echo $eventObj['description'];
 

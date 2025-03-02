@@ -3,12 +3,15 @@
 namespace FinalProject\View\Event;
 
 require_once('components/map/map.php');
+require_once('components/texteditor/texteditor.php');
 
 use FinalProject\Components\Map;
+use FinalProject\Components\TextEditor;
 
 $map = new Map();
 
-// print_r(json_decode($eventObj['morePics'], true));
+$textEditor = new TextEditor();
+$textEditor->updatetextarea(description: $eventObj['description'], isEdit: false);
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +33,7 @@ $map = new Map();
                 class="relative flex flex-col lg:flex-row justify-between items-end lg:items-center py-6 px-6 lg:px-8 gap-6 lg:gap-10 w-full max-w-[1650px] h-auto lg:h-[700px] rounded-3xl bg-cover bg-center overflow-hidden"
                 style="background-image: url('public/images/uploads/<?= $eventObj['cover'] ?>');">
                 <!-- Left Section -->
-                <div class="flex flex-col justify-start items-start h-auto lg:h-[623px] w-full lg:w-auto z-10">
+                <div class="flex flex-col justify-start items-start h-auto lg:h-[620px] w-full lg:w-auto z-10">
                     <!-- Back Button -->
                     <a href="../" class="flex flex-row justify-center items-center gap-2 py-2 px-4 rounded-lg h-11 shadow-sm bg-orange-50 min-w-[119px]">
                         <img width="16px" height="16px" src="public/icons/drop.svg" alt="Back" class="transform rotate-90" />
@@ -40,13 +43,16 @@ $map = new Map();
                     </a>
 
                     <!-- Content -->
-                    <div class="flex flex-col justify-start items-start gap-2.5 mt-8 lg:mt-[91px] h-auto lg:h-[400px] w-full lg:w-[440px]">
+                    <div class="flex flex-col justify-start items-start gap-2.5 mt-8 lg:mt-[91px] h-full max-h-[400px] w-full lg:w-[440px]">
                         <div class="font-kanit text-2xl lg:text-3xl min-w-full lg:min-w-[440px] whitespace-nowrap text-white text-opacity-100 leading-none font-medium">
                             <?= $eventObj['title'] ?>
                         </div>
-                        <div class="font-kanit text-sm lg:text-base w-full lg:w-[440px] text-white text-opacity-100 leading-none font-normal">
+                        <!-- <div class="font-kanit text-sm lg:text-base w-full lg:w-[440px] text-white text-opacity-100 leading-none font-normal">
                             "Eat with Me: How to Eat for Health"<br />มาร่วมงาน "Eat with Me" กับเรา! 🌿✨<br />งานที่จะพาคุณเรียนรู้เกี่ยวกับการรับประทานอาหารอย่างถูกต้อง เพื่อสุขภาพที่ดีและสมดุล พบกับแนวทางการเลือกอาหารที่มีประโยชน์ เคล็ดลับการกินเพื่อสุขภาพ และไอเดียเมนูอร่อยที่ดีต่อร่างกาย<br /><br />📅 วันและเวลา: 12 มกราคาม 2568📍 สถานที่: Coworking space ท่าขอนยาง<br /><br />ร่วมสัมผัสประสบการณ์การกินอย่างมีสติ และค้นพบวิธีดูแลสุขภาพผ่านอาหารที่อร่อยและมีคุณค่าทางโภชนาการ! 🥗🍎
-                        </div>
+                        </div> -->
+                        <?php
+                        $textEditor->render();
+                        ?>
                     </div>
 
                     <!-- Map Link -->
@@ -105,13 +111,9 @@ $map = new Map();
                     <div class="font-kanit text-xl text-white font-semibold">
                         คำอธิบาย
                     </div>
-                    <div class="font-kanit text-base text-white font-normal">
-                        "Eat with Me: How to Eat for Health" มาร่วมงาน "Eat with Me" กับเรา! 🌿✨ งานที่จะพาคุณเรียนรู้เกี่ยวกับการรับประทานอาหารอย่างถูกต้อง
-                        เพื่อสุขภาพที่ดีและสมดุล พบกับแนวทางการเลือกอาหารที่มีประโยชน์
-                        เคล็ดลับการกินเพื่อสุขภาพ และไอเดียเมนูอร่อยที่ดีต่อร่างกาย
-                        📅 วันและเวลา: 12 มกราคาม 2568📍 สถานที่: Coworking space ท่าขอนยาง
-                        ร่วมสัมผัสประสบการณ์การกินอย่างมีสติ และค้นพบวิธีดูแลสุขภาพผ่านอาหารที่อร่อยและมีคุณค่าทางโภชนาการ! 🥗🍎
-                    </div>
+                    <?php
+                    $textEditor->render();
+                    ?>
                 </div>
 
                 <!-- Event Location -->

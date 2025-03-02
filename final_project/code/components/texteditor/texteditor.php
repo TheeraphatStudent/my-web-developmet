@@ -9,6 +9,7 @@ require_once(__DIR__ . '/../component.php');
 class TextEditor extends Component
 {
     private $dest = '';
+    private $isEdit = true;
 
     public function render()
     {
@@ -26,37 +27,40 @@ class TextEditor extends Component
             </style>
         </head>
 
-        <div class="w-full h-fit bg-dark-primary p-4 rounded-lg shadow-md">
-            <div class="flex flex-wrap gap-2 mb-4 *:px-4 *:h-8 *:bg-white *:text-black *:text-sm *:font-medium *:rounded-sm">
-                <button type="button" class="hover:bg-primary" onclick="insertMarkdown('**', '**')">
-                    <img src="public/icons/bold.svg" class="w-4 h-4" alt="">
-                </button>
-                <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('*', '*')">
-                    <img src="public/icons/italic.svg" class="w-4 h-4" alt="">
-                </button>
-                <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('# ', '')">
-                    <img src="public/icons/heading.svg" class="w-4 h-4" alt="">
-                </button>
-                <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('- ', '')">
-                    <img src="public/icons/list.svg" class="w-4 h-4" alt="">
-                </button>
-                <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('<br>', '')">
-                    <img src="public/icons/newline.svg" class="w-4 h-4" alt="">
-                </button>
-                <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('- [', ']()')">
-                    <img src="public/icons/url.svg" class="w-4 h-4" alt="">
-                </button>
-                <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('![image](', ')')">
-                    <img src="public/icons/img.svg" class="w-4 h-4" alt="">
-                </button>
-            </div>
+        <div class="w-full h-fit overflow-auto <?= (!($this->isEdit) ? 'bg-transparent' : 'bg-dark-primary p-4 shadow-md rounded-lg') ?>">
+            <?php if ($this->isEdit): ?>
+                <div class="flex flex-wrap gap-2 mb-4 *:px-4 *:h-8 *:bg-white *:text-black *:text-sm *:font-medium *:rounded-sm" id="markdown-toolbar">
+                    <button type="button" class="hover:bg-primary" onclick="insertMarkdown('**', '**')">
+                        <img src="public/icons/bold.svg" class="w-4 h-4" alt="">
+                    </button>
+                    <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('*', '*')">
+                        <img src="public/icons/italic.svg" class="w-4 h-4" alt="">
+                    </button>
+                    <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('# ', '')">
+                        <img src="public/icons/heading.svg" class="w-4 h-4" alt="">
+                    </button>
+                    <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('- ', '')">
+                        <img src="public/icons/list.svg" class="w-4 h-4" alt="">
+                    </button>
+                    <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('<br>', '')">
+                        <img src="public/icons/newline.svg" class="w-4 h-4" alt="">
+                    </button>
+                    <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('- [', ']()')">
+                        <img src="public/icons/url.svg" class="w-4 h-4" alt="">
+                    </button>
+                    <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('![image](', ')')">
+                        <img src="public/icons/img.svg" class="w-4 h-4" alt="">
+                    </button>
+                </div>
+            <?php endif; ?>
 
-            <div class="flex flex-col md:flex-row w-full h-full border border-white rounded-md overflow-hidden *:w-full *:md:w-1/2 *:min-h-[200px]">
-                <textarea value="Hello" required id="markdown-input" class="p-3 bg-white whitespace-pre border-r focus:outline-none" oninput="updatePreview()" placeholder="ระบุรายละเอียดของงานที่นี่..."></textarea>
+            <div class="flex flex-col md:flex-row w-full h-full border <?= (!($this->isEdit) ? 'border-none' : 'border-white') ?> rounded-md" id="lessScroll">
+                <textarea required id="markdown-input" class="p-3 w-full bg-white whitespace-pre border-r focus:outline-none <?= (!($this->isEdit) ? 'hidden' : '') ?>" oninput="updatePreview()" placeholder="ระบุรายละเอียดของงานที่นี่..." style="min-height: 350px;"></textarea>
                 <input class="hidden" type="text" name="description" id="desc-input">
-                <div id="markdown-preview" class="p-3 bg-primary overflow-auto text-white"></div>
+                <div id="markdown-preview" class="p-3 w-full <?= ($this->isEdit ? 'bg-primary md:h-full' : 'bg-transparent') ?> overflow-auto text-white"></div>
             </div>
         </div>
+
         <script>
             document.addEventListener('DOMContentLoaded', updatePreview);
             const textarea = document.getElementById('markdown-input');
@@ -134,8 +138,9 @@ class TextEditor extends Component
 
     }
 
-    public function updatetextarea($description)
+    public function updatetextarea(string $description = "", bool $isEdit = true)
     {
         $this->dest = $description;
+        $this->isEdit = $isEdit;
     }
 }
