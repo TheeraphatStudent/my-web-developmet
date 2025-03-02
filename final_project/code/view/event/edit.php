@@ -76,7 +76,7 @@ $authors = array_map(function ($type) {
             method="post"
             enctype="multipart/form-data">
             <!-- <input type="hidden" name="test" value="test"> -->
-            <input type="text" name="eventId" value="<?= $eventId ?>">
+            <input type="text" name="eventId" class="hidden" value="<?= $eventId ?>">
 
             <h1 class="text-white font-semibold">Edit Event</h1>
 
@@ -181,7 +181,7 @@ $authors = array_map(function ($type) {
                         </button>
                     </div>
 
-                    <div class="flex flex-row w-full justify-start items-start gap-5 ">
+                    <!-- <div class="flex flex-row w-full justify-start items-start gap-5 ">
                         <div class="flex flex-col w-full gap-2.5">
                             <div
                                 class="form-title">
@@ -195,7 +195,7 @@ $authors = array_map(function ($type) {
                             </select>
 
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="justify-start items-start w-full">
