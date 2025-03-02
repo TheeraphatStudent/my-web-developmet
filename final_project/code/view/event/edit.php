@@ -12,6 +12,10 @@ use FinalProject\Components\TextEditor;
 $map = new Map();
 $textEditor = new TextEditor();
 
+$textEditor->updatetextarea(($eventObj['description']));
+
+// echo $eventObj['description'];
+
 // ===================== Data =====================
 
 $form_type = ['onsite', 'online', 'any'];

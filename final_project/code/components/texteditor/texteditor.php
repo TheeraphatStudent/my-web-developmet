@@ -8,7 +8,7 @@ require_once(__DIR__ . '/../component.php');
 
 class TextEditor extends Component
 {
-    private $dest;
+    private $dest = '';
 
     public function render()
     {
@@ -53,15 +53,20 @@ class TextEditor extends Component
 
             function updatePreview() {
                 const textarea = document.getElementById('markdown-input');
+                // textarea.value = <?= $this->dest ?>;
 
-                const htmlString = '<p>Hello World</p><p>Hello Human</p>';
+                // const htmlString = '<p>Hello World</p><p>Hello Human</p>';
                 // <\/[^>]+>
-                const text = htmlString
+
+                <?php echo (addslashes($this->dest)) ?>;
+                <?php echo (($this->dest)) ?>;
+
+                const text = `<?= addslashes($this->dest) ?>`
                     .replace(/<\/[^>]+>/gi, '\n\n')
                     .replace(/<br\s*\/?>/gi, '\n')
                     .replace(/<[^>]+>/g, '');
 
-                // textarea.defaultValue = text.trim();
+                textarea.defaultValue = text.trim();
 
                 const previewElement = document.getElementById('markdown-preview');
 
@@ -109,8 +114,8 @@ class TextEditor extends Component
 
     }
 
-    public function updatetextarea($description){
+    public function updatetextarea($description)
+    {
         $this->dest = $description;
-
     }
 }
