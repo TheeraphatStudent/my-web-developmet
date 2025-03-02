@@ -90,7 +90,7 @@ $map = new Map();
         </div>
 
         <!-- Detail -->
-        <div class="flex flex-col justify-start items-start gap-14 lg:gap-36 w-full max-w-[1200px] h-fit p-4" id="detail-section">
+        <div class="flex flex-col justify-start items-start gap-12 lg:gap-24 w-full max-w-[1200px] h-fit p-4" id="detail-section">
             <div class="flex w-full max-w-content h-full overflow-auto gap-8" id="imageContainer">
                 <?php foreach (json_decode($eventObj['morePics'], true) as $item) : ?>
                     <div class="flex bg-dark-primary h-[180px] min-w-[320px] bg-cover bg-center rounded-lg"

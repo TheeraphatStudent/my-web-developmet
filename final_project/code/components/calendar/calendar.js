@@ -78,7 +78,7 @@ const events = {
 };
 
 const renderCalendar = () => {
-    console.log("Render Calendar Work!")
+    // console.log("Render Calendar Work!")
 
     const calendar = document.getElementById('calendar');
     const currentMonthElement = document.getElementById('currentMonth');
@@ -104,25 +104,27 @@ const renderCalendar = () => {
     }
 
     const monthEvents = [];
+    const now = new Date();
 
     for (let day = 1; day <= lastDay.getDate(); day++) {
         const dateCell = document.createElement('div');
         const dateString = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
 
-        dateCell.className = 'calendar-day bg-white rounded p-2 border cursor-pointer hover:bg-gray-50';
+        dateCell.className = `calendar-day bg-white rounded p-2 border cursor-pointer hover:bg-gray-100 hover:scale-105 ${now.getDate() == day && 'shadow-xl'}`;
+        dateCell.style.boxShadow = "box-shadow: 0 0 15px 15px rgba(34, 110, 106, 0.8);"
         dateCell.innerHTML = `
-          <div class="font-semibold">${day}</div>
+          <div class="font-semibold ${now.getDate() == day && 'bg-primary text-white rounded-full w-fit h-fit px-2 '}">${day}</div>
           <div class="flex flex-wrap mt-1" id="events-${dateString}"></div>
         `;
 
         const eventsContainer = dateCell.querySelector(`#events-${dateString} `);
         eventsContainer.classList = 'flex flex-wrap w-full max-w-[80px] md:max-w-[60px] sm:max-w-[40px] h-[clamp(40px,15vw,60px)] gap-1';
 
-        // Show icon on calendar
+        // icon in calendar
         if (events[dateString]) {
 
             events[dateString].forEach((event, index) => {
-                console.log(`Event Notify: ${event.title} at ${event.time} on ${day} ${monthYearString} Month`);
+                // console.log(`Event Notify: ${event.title} at ${event.time} on ${day} ${monthYearString} Month`);
 
                 const eventDot = document.createElement('div');
                 eventDot.className = 'w-2 h-2 rounded-full bg-secondary m-0.5';

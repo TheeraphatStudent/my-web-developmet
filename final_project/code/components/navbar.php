@@ -33,7 +33,7 @@ class Navbar extends Component
                                 <a href='../?action=event.create' class= hover:text-gray-600 rounded-md text-sm font-medium'>Create event</a>
                                 <a href='../?action=event.manage' class= hover:text-gray-600 rounded-md text-sm font-medium'>Event view</a>
                                 <div class="border-l-2 border-dark-primary">
-                                    <a href='../?' class='ml-4 hover:text-gray-600 rounded-md text-sm font-medium'>
+                                    <a href='../?action=profile' class='ml-4 hover:text-gray-600 rounded-md text-sm font-medium'>
                                         Profile
                                     </a>
                                     <a href='../?' class='ml-4 hover:text-gray-600 rounded-md text-sm font-medium'>Logout</a>
