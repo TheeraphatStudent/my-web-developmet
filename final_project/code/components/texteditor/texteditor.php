@@ -10,6 +10,13 @@ class TextEditor extends Component
 {
     private $dest = '';
     private $isEdit = true;
+    private $editorId = '';
+
+    public function __construct($editorId = null)
+    {
+        // Generate a unique ID for this editor instance if not provided
+        $this->editorId = $editorId ?: 'editor-' . uniqid();
+    }
 
     public function render()
     {
@@ -27,112 +34,219 @@ class TextEditor extends Component
             </style>
         </head>
 
-        <div class="w-full h-fit overflow-auto <?= (!($this->isEdit) ? 'bg-transparent' : 'bg-dark-primary p-4 shadow-md rounded-lg') ?>">
+        <div class="text-editor-component w-full h-fit overflow-auto <?= (!($this->isEdit) ? 'bg-transparent' : 'bg-dark-primary p-4 shadow-md rounded-lg') ?>" data-editor-id="<?= $this->editorId ?>">
             <?php if ($this->isEdit): ?>
-                <div class="flex flex-wrap gap-2 mb-4 *:px-4 *:h-8 *:bg-white *:text-black *:text-sm *:font-medium *:rounded-sm" id="markdown-toolbar">
-                    <button type="button" class="hover:bg-primary" onclick="insertMarkdown('**', '**')">
+                <div class="editor-toolbar flex flex-wrap gap-2 mb-4 *:px-4 *:h-8 *:bg-white *:text-black *:text-sm *:font-medium *:rounded-sm">
+                    <button type="button" class="hover:bg-primary" onclick="TextEditorManager.insertMarkdown('<?= $this->editorId ?>', '**', '**')">
                         <img src="public/icons/bold.svg" class="w-4 h-4" alt="">
                     </button>
-                    <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('*', '*')">
+                    <button type="button" class="hover:bg-primary hover:text-white" onclick="TextEditorManager.insertMarkdown('<?= $this->editorId ?>', '*', '*')">
                         <img src="public/icons/italic.svg" class="w-4 h-4" alt="">
                     </button>
-                    <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('# ', '')">
+                    <button type="button" class="hover:bg-primary hover:text-white" onclick="TextEditorManager.insertMarkdown('<?= $this->editorId ?>', '# ', '')">
                         <img src="public/icons/heading.svg" class="w-4 h-4" alt="">
                     </button>
-                    <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('- ', '')">
+                    <button type="button" class="hover:bg-primary hover:text-white" onclick="TextEditorManager.insertMarkdown('<?= $this->editorId ?>', '- ', '')">
                         <img src="public/icons/list.svg" class="w-4 h-4" alt="">
                     </button>
-                    <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('<br>', '')">
+                    <button type="button" class="hover:bg-primary hover:text-white" onclick="TextEditorManager.insertMarkdown('<?= $this->editorId ?>', '<br>', '')">
                         <img src="public/icons/newline.svg" class="w-4 h-4" alt="">
                     </button>
-                    <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('- [', ']()')">
+                    <button type="button" class="hover:bg-primary hover:text-white" onclick="TextEditorManager.insertMarkdown('<?= $this->editorId ?>', '[', ']()')">
                         <img src="public/icons/url.svg" class="w-4 h-4" alt="">
                     </button>
-                    <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('![image](', ')')">
+                    <button type="button" class="hover:bg-primary hover:text-white" onclick="TextEditorManager.insertMarkdown('<?= $this->editorId ?>', '![image](', ')')">
                         <img src="public/icons/img.svg" class="w-4 h-4" alt="">
+                    </button>
+                    <button type="button" class="hover:bg-primary hover:text-white" onclick="TextEditorManager.selectAllContent('<?= $this->editorId ?>')">
+                        <img src="public/icons/select-all.svg" class="w-4 h-4" alt="Select All">
                     </button>
                 </div>
             <?php endif; ?>
 
-            <div class="flex flex-col md:flex-row w-full h-full border <?= (!($this->isEdit) ? 'border-none' : 'border-white') ?> rounded-md" id="lessScroll">
-                <textarea required id="markdown-input" class="p-3 w-full bg-white whitespace-pre border-r focus:outline-none <?= (!($this->isEdit) ? 'hidden' : '') ?>" oninput="updatePreview()" placeholder="ระบุรายละเอียดของงานที่นี่..." style="min-height: 350px;"></textarea>
-                <input class="hidden" type="text" name="description" id="desc-input">
-                <div id="markdown-preview" class="p-3 w-full <?= ($this->isEdit ? 'bg-primary md:h-full' : 'bg-transparent') ?> overflow-auto text-white"></div>
+            <div class="editor-container flex flex-col md:flex-row w-full h-full border <?= (!($this->isEdit) ? 'border-none' : 'border-white') ?> rounded-md">
+                <textarea required class="editor-input p-3 w-full bg-white whitespace-pre border-r focus:outline-none <?= (!($this->isEdit) ? 'hidden' : '') ?>"
+                    oninput="TextEditorManager.updatePreview('<?= $this->editorId ?>')"
+                    placeholder="ระบุรายละเอียดของงานที่นี่..."
+                    style="min-height: 350px;"
+                    data-editor-id="<?= $this->editorId ?>"></textarea>
+
+                <input class="editor-hidden-input hidden" name="description" type="text" name="description-<?= $this->editorId ?>" data-editor-id="<?= $this->editorId ?>">
+                <div class="editor-preview p-3 w-full <?= ($this->isEdit ? 'bg-primary md:h-full' : 'bg-transparent') ?> overflow-auto text-white" data-editor-id="<?= $this->editorId ?>"></div>
             </div>
         </div>
 
         <script>
-            document.addEventListener('DOMContentLoaded', updatePreview);
-            const textarea = document.getElementById('markdown-input');
+            // Define TextEditorManager if it doesn't exist yet
+            if (typeof TextEditorManager === 'undefined') {
+                window.TextEditorManager = {
+                    editors: {},
 
-            textarea.addEventListener('keypress', (e) => {
-                console.log(e)
+                    // Initialize an editor instance
+                    initEditor: function(editorId, initialContent = '') {
+                        const container = document.querySelector(`.text-editor-component[data-editor-id="${editorId}"]`);
+                        if (!container) return;
 
-            })
+                        const editor = {
+                            container: container,
+                            input: container.querySelector('.editor-input'),
+                            preview: container.querySelector('.editor-preview'),
+                            hiddenInput: container.querySelector('.editor-hidden-input')
+                        };
 
-            function updatePreview() {
-                // textarea.value = <?= $this->dest ?>;
+                        this.editors[editorId] = editor;
 
-                // const htmlString = '<p>Hello World</p><p>Hello Human</p>';
-                // <\/[^>]+>
+                        // Set initial content if available
+                        if (initialContent) {
+                            editor.input.value = this.convertHtmlToMarkdown(initialContent);
+                            this.updatePreview(editorId);
+                        }
 
-                console.log(`<?= addslashes($this->dest) ?>`)
+                        // Set up preview click events
+                        this.setupPreviewEvents(editorId);
+                    },
 
-                const text = `<?= addslashes($this->dest) ?>`
-                    .replace(/<br\s*\/?>/gi, '\n')
-                    .replace(/<h1[^>]*>(.*?)<\/h1>/gi, '# $1\n')
-                    .replace(/<(?:em|i)[^>]*>(.*?)<\/(?:em|i)>/gi, '*$1*\n')
-                    .replace(/<\/?p>/gi, '')
-                    .replace(/<a\s+href="(.*?)">(.*?)<\/a>/gi, '[$2]($1)')
-                    .replace(/<li>(.*?)<\/li>/gi, '- $1\n')
-                    .replace(/<\/?ul>/gi, '')
-                    .replace(/<img\s+src="(.*?)"\s+alt="(.*?)"\s*\/?>/gi, '![$2]($1)')
+                    // Update preview for a specific editor
+                    updatePreview: function(editorId) {
+                        const editor = this.editors[editorId];
+                        if (!editor) return;
 
-                console.log(text);
+                        const markdownText = editor.input.value;
+                        const htmlContent = marked.parse(markdownText);
 
-                textarea.defaultValue = text.trim();
+                        editor.preview.innerHTML = htmlContent;
+                        editor.hiddenInput.value = htmlContent.trim();
+                    },
 
-                const previewElement = document.getElementById('markdown-preview');
+                    insertMarkdown: function(editorId, prefix, suffix) {
+                        const editor = this.editors[editorId];
+                        if (!editor) return;
 
-                // marked : ajax libs
-                const markdownPrase = marked.parse(textarea.value);
-                document.getElementById('desc-input').value = markdownPrase.trim();
+                        const textarea = editor.input;
+                        const start = textarea.selectionStart;
+                        const end = textarea.selectionEnd;
+                        const selectedText = textarea.value.substring(start, end);
 
-                previewElement.innerHTML = markdownPrase;
+                        textarea.value =
+                            textarea.value.substring(0, start) +
+                            prefix + selectedText + suffix +
+                            textarea.value.substring(end);
 
-                // console.log(markdownPrase)
+                        this.updatePreview(editorId);
+
+                        textarea.focus();
+
+                        if (start === end) {
+                            textarea.selectionStart = start + prefix.length;
+                            textarea.selectionEnd = start + prefix.length;
+                        } else {
+                            textarea.selectionStart = start + prefix.length;
+                            textarea.selectionEnd = start + prefix.length + selectedText.length;
+                        }
+                    },
+
+                    selectAllContent: function(editorId) {
+                        const editor = this.editors[editorId];
+                        if (!editor) return;
+
+                        editor.input.focus();
+                        editor.input.select();
+                    },
+
+                    setupPreviewEvents: function(editorId) {
+                        const editor = this.editors[editorId];
+                        if (!editor) return;
+
+                        editor.preview.addEventListener('click', (e) => {
+                            const target = e.target;
+
+                            if (target.tagName === 'P') {
+                                this.prepareToInsertMarkdownSpecify(editorId, target.textContent);
+                            } else if (target.tagName === 'LI') {
+                                this.prepareToInsertMarkdownSpecify(editorId, '- ' + target.textContent);
+                            } else if (target.tagName === 'H1') {
+                                this.prepareToInsertMarkdownSpecify(editorId, '# ' + target.textContent);
+                            } else if (target.tagName === 'EM' || target.tagName === 'I') {
+                                this.prepareToInsertMarkdownSpecify(editorId, '*' + target.textContent + '*');
+                            } else if (target.tagName === 'STRONG' || target.tagName === 'B') {
+                                this.prepareToInsertMarkdownSpecify(editorId, '**' + target.textContent + '**');
+                            } else if (target.tagName === 'A') {
+                                const href = target.getAttribute('href');
+                                this.prepareToInsertMarkdownSpecify(editorId, '[' + target.textContent + '](' + href + ')');
+                            } else if (target.tagName === 'IMG') {
+                                const src = target.getAttribute('src');
+                                const alt = target.getAttribute('alt');
+                                this.prepareToInsertMarkdownSpecify(editorId, '![' + alt + '](' + src + ')');
+                            }
+                        });
+
+                        const allElements = editor.preview.querySelectorAll('*');
+                        allElements.forEach(function(el) {
+                            el.style.cursor = 'pointer';
+                        });
+                    },
+
+                    prepareToInsertMarkdownSpecify: function(editorId, searchText) {
+                        const editor = this.editors[editorId];
+                        if (!editor) return;
+
+                        const content = editor.input.value;
+
+                        const index = content.indexOf(searchText);
+                        if (index !== -1) {
+                            editor.input.focus();
+                            editor.input.setSelectionRange(index, index + searchText.length);
+                        }
+                    },
+
+                    convertHtmlToMarkdown: function(html) {
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = html.trim();
+
+                        let markdown = '';
+                        this.handleProcess(tempDiv, markdown);
+
+                        let result = this.applyMarkdownReplacements(tempDiv.innerHTML);
+                        return result;
+                    },
+
+                    handleProcess: function(parentNode) {},
+
+                    applyMarkdownReplacements: function(html) {
+                        return html
+                            .replace(/<br\s*\/?>/gi, '\n')
+                            .replace(/<h1[^>]*>(.*?)<\/h1>/gi, '# $1\n')
+                            .replace(/<(?:em|i)[^>]*>(.*?)<\/(?:em|i)>/gi, '*$1*\n')
+                            .replace(/<\/?p>/gi, '')
+                            .replace(/<a\s+href="(.*?)">(.*?)<\/a>/gi, '[$2]($1)')
+                            .replace(/<li>(.*?)<\/li>/gi, '- $1\n')
+                            .replace(/<\/?ul>/gi, '')
+                            .replace(/<img\s+src="(.*?)"\s+alt="(.*?)"\s*\/?>/gi, '![$2]($1)')
+                            .trim();
+                    },
+
+                    getAllContent: function(editorId) {
+                        const editor = this.editors[editorId];
+                        if (!editor) return null;
+
+                        return {
+                            markdown: editor.input.value,
+                            html: editor.preview.innerHTML
+                        };
+                    },
+
+                    queryElements: function(editorId, selector) {
+                        const editor = this.editors[editorId];
+                        if (!editor) return [];
+
+                        return Array.from(editor.preview.querySelectorAll(selector));
+                    }
+                };
             }
 
-            function insertMarkdown(prefix, suffix) {
-                // console.log(prefix)
-                // console.log(suffix)
-
-                const textarea = document.getElementById('markdown-input');
-                const start = textarea.selectionStart;
-                const end = textarea.selectionEnd;
-                const selectedText = textarea.value.substring(start, end);
-
-                // console.log(start)
-                // console.log(end)
-                // console.log(textarea.value);
-
-                textarea.value =
-                    textarea.value.substring(0, start) +
-                    prefix + selectedText + suffix +
-                    textarea.value.substring(end);
-
-                updatePreview();
-
-                textarea.focus();
-
-                if (start === end) {
-                    textarea.selectionStart = start + prefix.length;
-                    textarea.selectionEnd = start + prefix.length;
-                } else {
-                    textarea.selectionStart = end + prefix.length + suffix.length;
-                    textarea.selectionEnd = end + prefix.length + suffix.length;
-                }
-            }
+            document.addEventListener('DOMContentLoaded', function() {
+                TextEditorManager.initEditor('<?= $this->editorId ?>', `<?= addslashes($this->dest) ?>`);
+            });
         </script>
 <?php
 

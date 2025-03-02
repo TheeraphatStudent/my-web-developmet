@@ -102,8 +102,6 @@ switch ($action) {
         if (isset($response['status']) && !in_array($response['status'], ACCEPT_STATUS)) {
             header('Location: ' . $response['redirect'] . '&status=' . $response['status']);
             exit;
-        } else {
-            print_r($response);
         }
 
         if ($response['type'] == 'json') {

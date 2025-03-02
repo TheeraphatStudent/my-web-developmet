@@ -12,6 +12,9 @@ $map = new Map();
 
 $textEditor = new TextEditor();
 $textEditor->updatetextarea(description: $eventObj['description'], isEdit: false);
+
+$textEditorDescription = new TextEditor();
+$textEditorDescription->updatetextarea(description: $eventObj['description'], isEdit: false);
 ?>
 
 <!DOCTYPE html>
@@ -112,7 +115,7 @@ $textEditor->updatetextarea(description: $eventObj['description'], isEdit: false
                         คำอธิบาย
                     </div>
                     <?php
-                    $textEditor->render();
+                    $textEditorDescription->render();
                     ?>
                 </div>
 
