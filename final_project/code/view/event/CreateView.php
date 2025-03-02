@@ -253,7 +253,7 @@ $authors = array_map(function ($type) {
 
             <div class="flex w-full justify-start items-start gap-5">
                 <button type="button" class="w-1/3 btn-danger">Cancel</button>
-                <button type="submit" class="w-full btn-secondary">Create Event</button>
+                <button type="button" id="form-submit" class="w-full btn-secondary">Create Event</button>
             </div>
 
         </form>
@@ -263,15 +263,42 @@ $authors = array_map(function ($type) {
     <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 
     <!-- Validate Form -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('form-content');
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("form-content");
+            const submitBtn = document.getElementById("form-submit");
 
-            form.addEventListener('submit', () => {
+            submitBtn.addEventListener("click", () => {
+                const inputs = form.querySelectorAll("input[required], textarea[required], select[required]");
+                let isValid = true;
+                let firstInvalidField = null;
 
+                inputs.forEach(input => {
+                    if (input.value.trim() === "") {
+                        isValid = false;
+                        if (!firstInvalidField) firstInvalidField = input;
+                    }
+                });
 
-            })
+                if (!isValid) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "เกิดข้อผิดพลาด",
+                        text: "กรุณาตรวจเช็คข้อมูลให้เรียบร้อยก่อนส่ง",
+                    });
+                    firstInvalidField.focus();
+                    return;
+                }
 
+                Swal.fire({
+                    icon: "success",
+                    title: "สำเร็จ",
+                    text: "สร้างกิจกรรมเสร็จสิ้น!",
+                }).then(() => {
+                    form.submit();
+                });
+            });
         });
     </script>
 
