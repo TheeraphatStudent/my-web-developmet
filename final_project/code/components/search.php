@@ -9,18 +9,19 @@ class Search extends Component
     public function render()
     {
 ?>
+            <!-- action="../?action=event" method="post" -->
         <form
-            action="#"
-            class="bg-secondary flex flex-col lg:flex-row p-6 rounded-lg shadow-lg gap-5">
+            action="../?action=request&on=event&form=search" method="post"
+            class="bg-secondary flex flex-col lg:flex-row p-6 rounded-lg shadow-lg gap-5" >
             <div class="flex flex-col lg:flex-row gap-5">
                 <!-- Field -->
                 <div class="flex flex-col justify-start items-start gap-2.5 h-[70px] w-full">
-                    <div
+                    กำลังมองหา
+                    <input type="text" placeholder="เลือกอีเวทน์" id="looking" name="looking"
                         class="font-kanit text-base min-w-[290px] whitespace-nowrap text-orange-50 text-opacity-100 leading-none font-normal">
-                        กำลังมองหา
-                    </div>
-                    <div
-                        class="flex justify-between items-center pr-2.5 pl-2.5 gap-48 rounded border-orange-50 border-t border-b border-l border-r border-solid border w-full lg:w-72 h-9 bg-orange-50">
+                    </input>
+                    <!-- <div
+                        class="flex justify-between items-center pr-2.5 pl-2.5 gap-48 rounded border-orange-50 border-t border-b border-l border-r border-solid border w-full lg:w-72 h-9 bg-orange-50"> 
                         <div
                             class="font-kanit text-xs min-w-[57px] whitespace-nowrap text-neutral-400 text-opacity-100 leading-none font-normal">
                             เลือกอีเวทน์
@@ -31,17 +32,17 @@ class Search extends Component
                                 height="8px"
                                 src="../../public/icons/drop.svg"
                                 alt="drop" />
-                        </div>
-                    </div>
+                        </div> 
+                    </div> -->
                 </div>
 
                 <!-- Field -->
                 <div class="flex flex-col justify-start items-start gap-2.5 h-[70px] w-full">
-                    <div
+                    สถาณที่
+                    <input type="text" placeholder="เลือกสถานที่"
                         class="font-kanit text-base min-w-[290px] whitespace-nowrap text-orange-50 text-opacity-100 leading-none font-normal">
-                        สถาณที่
-                    </div>
-                    <div
+                    </input>
+                    <!-- <div
                         class="flex justify-between items-center pr-2.5 pl-2.5 gap-[152px] rounded w-full lg:w-72 h-9 bg-orange-50">
                         <div
                             class="font-kanit text-xs min-w-[98px] whitespace-nowrap text-neutral-400 text-opacity-100 leading-none font-normal">
@@ -55,16 +56,16 @@ class Search extends Component
                                 src="../../public/icons/map.svg"
                                 alt="map" />
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- Field -->
                 <div class="flex flex-col justify-start items-start gap-2.5 h-[70px] w-full">
-                    <div
+                    ช่วงเวลา
+                    <input type="text" placeholder="เลือกช่วงเวลา"
                         class="font-kanit text-base min-w-[290px] whitespace-nowrap text-orange-50 text-opacity-100 leading-none font-normal">
-                        ช่วงเวลา
-                    </div>
-                    <div
+                    </input>
+                    <!-- <div
                         class="flex justify-between items-center pr-2.5 pl-2.5 gap-44 rounded border-orange-50 border-t border-b border-l border-r border-solid border w-full lg:w-72 h-9 bg-orange-50">
                         <div
                             class="font-kanit text-xs min-w-[67px] whitespace-nowrap text-neutral-400 text-opacity-100 leading-none font-normal">
@@ -75,7 +76,7 @@ class Search extends Component
                             height="24px"
                             src="../../public/icons/date.svg"
                             alt="date" />
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
@@ -117,7 +118,7 @@ class Filter extends Component
                 <select id="type-select">
                     <option value="any">ทั้งหมด</option>
                     <option value="online">ออนไลน์</option>
-                    <option value="onsite">อนนไซต์</option>
+                    <option value="onsite">ออนไซต์</option>
                 </select>
             </div>
 

@@ -28,7 +28,7 @@ use FinalProject\Controller\MainController;
 
 $action = $_GET['action'] ?? 'index';
 
-print_r($action);
+// print_r($action);
 
 $isRequest = false;
 $isLogin = false;
@@ -103,10 +103,10 @@ switch ($action) {
 
         http_response_code($response['status'] ?? 404);
 
-        if (!in_array($response['status'], ACCEPT_STATUS)) {
-            header('Location: ' . $response['redirect'] . '&status=' . $response['status']);
-            exit;
-        }
+        // if (!in_array($response['status'], ACCEPT_STATUS)) {
+        //     header('Location: ' . $response['redirect'] . '&status=' . $response['status']);
+        //     exit;
+        // }
 
         if ($response['type'] == 'json') {
             header("Content-Type: application/json");
@@ -146,6 +146,10 @@ switch ($action) {
 
     case 'profile':
         $controller->profile();
+        break;
+    
+    case 'event':
+        $controller->event($action);
         break;
 
     default:

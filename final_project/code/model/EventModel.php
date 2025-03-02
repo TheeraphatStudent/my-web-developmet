@@ -115,6 +115,18 @@ class Event
         return $result;
     }
 
+    public function nameEvent($data){
+        $sql = $this->connection->prepare(
+            "select * from Event where title% = :title"
+        );
+        $test = $_POST['title'];
+        print_r($test);
+        $sql->execute(['title'=>$data]);
+
+        $result = $sql->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
     public function updateEventById() {}
 
     public function deleteEventById() {}
