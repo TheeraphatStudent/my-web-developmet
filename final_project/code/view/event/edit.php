@@ -52,7 +52,7 @@ $authors = array_map(function ($type) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="public/style/main.css">
-    <title>Create event</title>
+    <title>Edit event</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -63,15 +63,16 @@ $authors = array_map(function ($type) {
         <!-- Form Content -->
         <form
             id="form-content"
-            action="../?action=request&on=event&form=create"
+            action="../?action=request&on=event&form=update"
             class="flex flex-col w-full max-w-content h-fit gap-8"
             method="post"
             enctype="multipart/form-data">
             <!-- <input type="hidden" name="test" value="test"> -->
+            <input type="text" name="eventId" value="<?= $eventId ?>">
 
-            <h1 class="text-white font-semibold">Create Event</h1>
+            <h1 class="text-white font-semibold">Edit Event</h1>
 
-            <?php print_r ($eventObj) ?>
+            <!-- <?php print_r ($eventObj) ?> -->
 
             <div class="flex flex-col md:flex-row justify-between items-start w-full gap-12 *:flex *:flex-col">
 
@@ -259,7 +260,7 @@ $authors = array_map(function ($type) {
 
             <div class="flex w-full justify-start items-start gap-5">
                 <button type="button" class="w-1/3 btn-danger">Cancel</button>
-                <button type="submit" class="w-full btn-secondary">Create Event</button>
+                <button type="submit" class="w-full btn-secondary">Done Edit</button>
             </div>
 
         </form>

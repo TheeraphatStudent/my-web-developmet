@@ -83,7 +83,7 @@ class Search extends Component
             <!-- Search -->
             <button
                 type="submit"
-                class="flex flex-row justify-center items-center gap-2.5 p-2.5 rounded w-[70px] h-[70px] bg-neutral-800">
+                class="flex flex-row justify-center items-center gap-2.5 p-2.5 rounded w-[70px] h-[70px] bg-black">
                 <div
                     class="flex justify-center items-center rounded-[80px] w-7 h-7 overflow-hidden">
                     <img

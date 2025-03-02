@@ -4,6 +4,7 @@ namespace FinalProject\Model;
 
 require_once(__DIR__ . '/../utils/useResponse.php');
 require_once(__DIR__ . '/../utils/useImages.php');
+require_once(__DIR__ . '/../utils/useRandomize.php');
 
 use FinalProject\Utils;
 
@@ -28,7 +29,7 @@ class Event
         $coverImage = null;
         $morePics = [];
 
-        print_r($_FILES);
+        // print_r($_FILES);
 
         if (isset($_FILES['cover']) && $_FILES['cover']['error'] === UPLOAD_ERR_OK) {
             $coverImage = uploadFile($_FILES['cover'], $uploadDir);
@@ -66,9 +67,26 @@ class Event
 
         $now = new DateTime();
 
+        // Create Id -> AG
+        // 25 : year
+        // T : First character in Fname
+        // 00000: Count
+
+        $lastCols = $this->connection->prepare(
+            "SELECT id FROM Event ORDER BY id DESC LIMIT 1"
+        );
+
+        $lastCols->execute();
+        $getCols = $lastCols->fetchColumn();
+
+        $newValue = ($getCols !== false) ? intval($getCols) + 1 : 1;
+        $formattedValue = str_pad($newValue, 7, "0", STR_PAD_LEFT);
+
+        $eventId = "AG-" . $now->format('Y') . $formattedValue . uniqid("_event-" . getRandomId(8));
+
         $statement->execute([
-            ':eventId' => bin2hex(random_bytes(64)),
-            ':organizeId' => $_SESSION['userId'],
+            ':eventId' => $eventId,
+            ':organizeId' => $_SESSION['user']['userId'],
             ':cover' => $coverImage,
             ':morePics' => $more_pic,
             ':title' => $data['title'],
@@ -101,14 +119,15 @@ class Event
         return $result;
     }
 
-    public function getEventById($id) {
+    public function getEventById($id)
+    {
 
         $sql = $this->connection->prepare(
             "SELECT * FROM Event WHERE eventid = :eventid"
         );
 
         $sql->execute([
-            ':eventid'=>$id
+            ':eventid' => $id
         ]);
 
         $result = $sql->fetch(PDO::FETCH_ASSOC);
@@ -127,7 +146,65 @@ class Event
         return $result;
     }
 
-    public function updateEventById() {}
+    public function updateEventById($data = [])
+    {
+        print_r($_SESSION);
+        echo "<br>";
+        print_r($data);
+
+        // Prepare the SQL statement
+        $sql = $this->connection->prepare(
+            "UPDATE Event 
+            SET 
+                title = :title, 
+                description = :description, 
+                venue = :venue, 
+                maximum = :maximum, 
+                type = :type, 
+                link = :link, 
+                updated = :updated 
+            WHERE eventId = :eventId AND organizeId = :organizeId"
+        );
+
+        // Get the current timestamp
+        $now = new DateTime();
+
+        // Bind the parameters
+        $sql->bindParam(':eventId', $data['eventId']);
+        $sql->bindParam(':organizeId', $_SESSION['userId']);
+        $sql->bindParam(':title', $data['title']);
+        $sql->bindParam(':description', $data['description']);
+        $sql->bindParam(':venue', $data['venue']);
+        $sql->bindParam(':maximum', $data['maximum']);
+        $sql->bindParam(':type', $data['type']);
+        $sql->bindParam(':link', $data['link']);
+
+        // Execute the SQL statement
+        $sql->execute([
+            ':eventId' => $data['eventId'],
+            ':organizeId' => $_SESSION['user']['userId'],
+            // ':cover' => $coverImage,
+            // ':morePics' => $more_pic,
+            ':title' => $data['title'],
+            ':description' => $data['description'],
+            ':venue' => $data['venue'],
+            ':maximum' => $data['maximum'],
+            ':type' => $data['type'],
+            ':link' => $data['link'],
+            // ':start' => $started,
+            // ':end' => $ended,
+            // ':location' => $location,
+            ':updated' => $now->format('Y-m-d H:i:s')
+        ]);
+        // Check if any rows were affected (i.e., the update was successful)
+        $rowCount = $sql->rowCount();
+        if ($rowCount > 0) {
+            return ["It worked, $rowCount rows updated"];
+        } else {
+            return ["No rows updated, check the eventId or organizeId"];
+        }
+    }
+
 
     public function deleteEventById() {}
 }

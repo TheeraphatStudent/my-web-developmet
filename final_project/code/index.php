@@ -9,7 +9,7 @@ header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
 const ALLOWED_REQUEST = ['type'];
-const RENDER_NAVBAR = ['login', 'register', 'logout'];
+const NOT_RENDER_NAVBAR = ['login', 'register', 'logout'];
 const ACCEPT_STATUS = [200, 302];
 
 // require_once(__DIR__ . '/php/environment.php');
@@ -27,8 +27,6 @@ use FinalProject\Components\Navbar;
 use FinalProject\Controller\MainController;
 
 $action = $_GET['action'] ?? 'index';
-
-// print_r($action);
 
 $isRequest = false;
 $isLogin = false;
@@ -58,20 +56,18 @@ $_SESSION['mapApiKey'] = $env->getMapApiKey();
 
 // echo(print_r($_SESSION));
 
-// print_r($action);
-
 // ********* Component ************
 
 $navbar = new Navbar();
 
-if (isset($_SESSION['userId'])) {
+if (isset($_SESSION['user']) && isset($_SESSION['user']['userId'])) {
     $controller->auth($action);
 
-    $response = $controller->request(["on" => "user", "form" => "verify"], ["userId" => $_SESSION['userId']]);
-    $navbar->UpdateNavbar($response['data']['isFound']);
-} else {
-    // Alert
+    $response = $controller->request(["on" => "user", "form" => "verify"], ["userId" => $_SESSION['user']['userId']]);
 
+    $navbar->UpdateNavbar($response['data']['isFound']);
+
+    $isLogin = true;
 }
 
 // print_r($_FILES);
@@ -90,10 +86,10 @@ switch ($action) {
         $data = array_merge($_POST, $input);
 
         // if (isset($data['test'])) {
-        //     print_r($data);
-        //     echo '</br>';
-        //     print_r($_FILES);
-        //     return;
+        // print_r($data);
+        // echo '</br>';
+        // print_r($_FILES);
+        // return;
         // }
 
         $response = $controller->request($_GET, $data);
@@ -120,9 +116,9 @@ switch ($action) {
             exit;
         }
 
-        // header('Location: ' . $response['redirect']);
+        header('Location: ' . $response['redirect']);
         exit;
-        // ================= Page Content ================= 
+        // ================= Page Content =================
 
     case 'index':
         $controller->index();
@@ -156,7 +152,6 @@ switch ($action) {
         error_log("Invalid action: $action");
         header("HTTP/1.0 404 Not Found");
         $controller->notFound();
-        // exit();
         break;
 }
 
@@ -178,7 +173,7 @@ if (!$isRequest) {
 
     <body>
         <?php
-        if (!in_array($action, RENDER_NAVBAR)) {
+        if (!in_array($action, NOT_RENDER_NAVBAR)) {
             $navbar->render();
         }
 
@@ -186,9 +181,32 @@ if (!$isRequest) {
         ?>
     </body>
 
+    <?php
+    if (!$isLogin && !in_array($action, NOT_RENDER_NAVBAR)) {
+    ?> 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'คุณยังไม่ได้เข้าสู่ระบบ',
+                text: 'หากต้องการสร้างหรือเข้าร่วมกิจกรรม\nต้องเข้าสู่ระบบก่อน',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'เข้าสู่ระบบตอนนี้',
+                cancelButtonText: 'ขอสำรวจก่อน'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    setTimeout(() => {
+                        window.location.assign('../?action=login');
+                    }, 100);
+                }
+            });
+        });
+    </script>
+    <?php
+    }
+    ?>
+
     </html>
 <?php
-
-};
-
-?>
+}

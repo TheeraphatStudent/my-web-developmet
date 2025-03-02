@@ -1,11 +1,8 @@
-<?php
-$_GET['id'];
-?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script> -->
     <link rel="stylesheet" href="public/style/main.css">
 
     <style>
@@ -29,8 +26,8 @@ $_GET['id'];
     </style>
 </head>
 
-<body class="flex flex-col justify-center items-center bg-primary">
-    <div class="w-full gap-14 max-w-content py-[200px] px-10 lg:px-0">
+<body class="flex flex-col justify-start items-center bg-primary">
+    <div class="flex flex-col w-full gap-14 max-w-content py-[200px] px-10 lg:px-0">
         <h1 class="text-2xl font-bold mb-4 text-left text-white">Welcome' [NAME]</h1>
 
         <div class="bg-white rounded-lg shadow-lg overflow-hidden">

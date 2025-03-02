@@ -25,7 +25,7 @@ class MainController
 
     public function index()
     {
-        
+
         $event = new Event($this->connection);
         $allEvents = $event->getAllEvents();
 
@@ -43,10 +43,6 @@ class MainController
             case 'register':
                 require_once("./view/auth/RegisterView.php");
                 break;
-
-            case 'logout':
-                // $auth->logout();
-                break;
         }
     }
 
@@ -56,7 +52,11 @@ class MainController
         $event = end($target);
 
         $eventModel = new Event($this->connection);
-        $allEvents = $eventModel->getAllEvents();
+
+        if (isset($_GET['id'])) {
+            $eventId = $_GET['id'];
+            $eventObj = $eventModel->getEventById($eventId);
+        }
 
         if (in_array($event, EventUtils::ACCEPT_EVENT)) {
             switch ($event) {
@@ -70,15 +70,17 @@ class MainController
                     require_once("./view/event/CreateView.php");
                     break;
                 case 'manage':
+                    // ต้องแก้เป็น by id
+                    $allEvents = $eventModel->getAllEvents();
+
                     require_once("./view/event/ManageView.php");
                     break;
                 case 'create-test':
                     require_once("./view/event/test.CreateView.php");
                     break;
                 case 'edit':
-                    $id = $_GET['id'];
-
-                    $eventObj = $eventModel->getEventById($id);
+                    // $eventId = $_GET['id'];
+                    // $eventObj = $eventModel->getEventById($eventId);
 
                     require_once("./view/event/edit.php");
                     break;

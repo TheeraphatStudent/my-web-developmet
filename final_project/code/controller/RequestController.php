@@ -63,7 +63,11 @@ class RequestController
                     // echo '<script>window.location.href="../"</script>';
                     // return ["status" => 200, "message" => "เข้าสู่ระบบสำเร็จ!", "data" => $result];
 
-                    $_SESSION['userId'] = $result;
+                    $_SESSION['user'] = [
+                        "userId" => $result,
+                        "username" => $username
+                    ];
+
 
                     return response(status: 200, message: "เข้าสู่ระบบสำเร็จ!", redirect: '/');
                 } else {
@@ -74,9 +78,6 @@ class RequestController
             case "verify":
                 $isFound = $this->user->getUserByUserId($data["userId"]);
                 return response(status: 200, data: ["isFound" => $isFound]);
-
-            default:
-                return response(status: 404, message: "ไม่พบประเภทของแบบฟอร์ม");
         }
     }
 
@@ -89,6 +90,9 @@ class RequestController
             case 'seach':
                 // $result = $this->event->nameEvent($data);
                 return response(status: 200, data: ["work"]);
+            case 'update':
+                $result = $this->event->updateEventById($data);
+                return response(status: 200, message: "Edit event complete", data: $result);
         }
     }
 
