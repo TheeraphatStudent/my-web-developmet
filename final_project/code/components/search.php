@@ -10,7 +10,8 @@ class Search extends Component
     {
 ?>
         <form
-            action="../?action=request&on=event&form=search" method="post"
+            action="../?action=request&on=event&form=search"
+            method="post"
             class="bg-secondary flex flex-col items-center lg:flex-row p-4 rounded-lg shadow-lg gap-5 w-full">
             <div class="flex flex-col h-fit lg:flex-row gap-5">
                 <!-- Field -->
@@ -33,10 +34,10 @@ class Search extends Component
                 <div class="flex flex-col justify-start items-start gap-2.5 h-fit w-full">
                     ช่วงเวลา
                     <div class="flex gap-5">
-                        <input type="datetime-local" placeholder="เลือกช่วงเวลา" name="dateStart"
+                        <input type="datetime-local" placeholder="เลือกช่วงเวลา" name="dateStarted"
                             class="font-kanit text-base w-[215px] h-10 input-field whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
                         </input>
-                        <input type="datetime-local" placeholder="เลือกช่วงเวลา" name="dateEnd"
+                        <input type="datetime-local" placeholder="เลือกช่วงเวลา" name="dateEnded"
                             class="font-kanit text-base w-[215px] h-10 input-field whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
                         </input>
                     </div>

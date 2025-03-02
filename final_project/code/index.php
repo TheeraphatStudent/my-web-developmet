@@ -70,8 +70,6 @@ if (isset($_SESSION['user']) && isset($_SESSION['user']['userId'])) {
     $isLogin = true;
 }
 
-// print_r($_FILES);
-
 switch ($action) {
 
     case 'request':
@@ -84,6 +82,12 @@ switch ($action) {
 
         $input = json_decode(file_get_contents("php://input"), true) ?? [];
         $data = array_merge($_POST, $input);
+
+        if (!isset($_GET['action']) || !isset($_GET['on'])) {
+            http_response_code(400);
+            echo json_encode(["error" => "Invalid request parameters."]);
+            exit;
+        }
 
         // if (isset($data['test'])) {
         // print_r($data);
@@ -150,7 +154,13 @@ switch ($action) {
 
     default:
         error_log("Invalid action: $action");
-        header("HTTP/1.0 404 Not Found");
+        http_response_code(404);
+
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            echo json_encode(["error" => "Action not found"]);
+            exit;
+        }
+
         $controller->notFound();
         break;
 }

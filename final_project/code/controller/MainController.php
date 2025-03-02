@@ -25,9 +25,14 @@ class MainController
 
     public function index()
     {
-
         $event = new Event($this->connection);
-        $allEvents = $event->getAllEvents();
+
+        if (!isset($_SESSION['search']['value'])) {
+            $allEvents =  $event->getAllEvents();
+        } else {
+            $allEvents = $_SESSION['search']['value'];
+            unset($_SESSION['search']);
+        }
 
         require_once("./view/LandingView.php");
     }
@@ -130,7 +135,13 @@ class MainController
                 break;
         }
 
-        // print_r($res);
+        if ($res['type'] == 'search') {
+            $_SESSION['search'] = [
+                "onSearch" => true,
+                "value" => $res['data']['data']
+            ];
+        }
+
         return $res;
     }
 

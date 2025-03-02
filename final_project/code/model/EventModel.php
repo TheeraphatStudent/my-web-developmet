@@ -206,22 +206,18 @@ class Event
     public function searchEvent($title, $dateStart, $dateEnd)
     {
         try {
-            // Get input values from GET request or function parameters
-            $title = $_GET['title'] ?? $title;
-            $dateStart = $_GET['date_start'] ?? $dateStart;
-            $dateEnd = $_GET['date_end'] ?? $dateEnd;
+            $title = $title;
+            $dateStart = $dateStart;
+            $dateEnd = $dateEnd;
 
-            // Base query
             $query = "SELECT * FROM Event WHERE 1=1";
             $params = [];
 
-            // Search by title
             if (!empty($title)) {
                 $query .= " AND title LIKE :title";
                 $params[':title'] = "%$title%";
             }
 
-            // Search by date range (checking multiple values in JSON array)
             if (!empty($dateStart) && !empty($dateEnd)) {
                 $query .= " AND (
                 JSON_UNQUOTE(JSON_EXTRACT(started, '$[0]')) BETWEEN :dateStart AND :dateEnd
@@ -231,16 +227,14 @@ class Event
                 $params[':dateEnd'] = $dateEnd;
             }
 
-            // Prepare and execute query
             $stmt = $this->connection->prepare($query);
             $stmt->execute($params);
 
-            // Fetch results
             $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            return $events;
+            return ["data" => $events];
         } catch (PDOException $e) {
-            return ['error' => $e->getMessage()];
+            return ['error' => $e->getMessage(), 'data' => []];
         }
     }
 

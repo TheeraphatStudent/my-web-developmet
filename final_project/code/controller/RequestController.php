@@ -97,8 +97,8 @@ class RequestController
                 return response(status: 200, message: "Edit event complete", data: $result);
             case 'search':
                 // location, title, date (start)
-                $result = $this->event->searchEvent(title: $data['looking'], dateStart: $data['dateStart'], dateEnd: $data['dateEnd']);
-                return response(status: 200, message: "Search Work", data: $result);
+                $result = $this->event->searchEvent(title: $data['looking'], dateStart: $data['dateStarted'], dateEnd: $data['dateEnded']);
+                return response(status: 200, message: "Search Work", data: $result, type: 'search');
             case 'register':
                 $result = $this->reg->registerEvent(userId: $data['userId'], eventId: $data['eventId']);
                 return response(status: 200, message: "Register Work", data: $result);
