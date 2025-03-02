@@ -98,6 +98,7 @@ switch ($action) {
         // print_r($response);
 
         http_response_code($response['status'] ?? 404);
+        print_r($response);
 
         if (!in_array($response['status'], ACCEPT_STATUS)) {
             header('Location: ' . $response['redirect'] . '&status=' . $response['status']);
@@ -142,6 +143,10 @@ switch ($action) {
 
     case 'profile':
         $controller->profile();
+        break;
+    
+    case 'event':
+        $controller->event($action);
         break;
 
     default:
