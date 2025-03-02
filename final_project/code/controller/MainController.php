@@ -84,6 +84,15 @@ class MainController
 
                     require_once("./view/event/edit.php");
                     break;
+
+                case 'event':
+                    $title = $_POST['looking'];
+                    $sql = $this->connection->prepare(
+                        "select * from Event where $title% = :title"
+                    );
+                    $sql -> execute();
+                    // print_r($sql);
+                    break;
             }
         } else {
             $this->notFound();
