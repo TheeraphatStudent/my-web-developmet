@@ -608,9 +608,17 @@ span{
   width: 100%;
 }
 
+.\!container{
+  width: 100% !important;
+}
+
 @media (min-width: 640px){
   .container{
     max-width: 640px;
+  }
+
+  .\!container{
+    max-width: 640px !important;
   }
 }
 
@@ -618,11 +626,19 @@ span{
   .container{
     max-width: 768px;
   }
+
+  .\!container{
+    max-width: 768px !important;
+  }
 }
 
 @media (min-width: 1024px){
   .container{
     max-width: 1024px;
+  }
+
+  .\!container{
+    max-width: 1024px !important;
   }
 }
 
@@ -630,11 +646,19 @@ span{
   .container{
     max-width: 1280px;
   }
+
+  .\!container{
+    max-width: 1280px !important;
+  }
 }
 
 @media (min-width: 1536px){
   .container{
     max-width: 1536px;
+  }
+
+  .\!container{
+    max-width: 1536px !important;
   }
 }
 
@@ -1161,6 +1185,10 @@ span{
   height: 100vh;
 }
 
+.h-1\/2{
+  height: 50%;
+}
+
 .max-h-10{
   max-height: 2.5rem;
 }
@@ -1190,8 +1218,20 @@ span{
   max-height: fit-content;
 }
 
-.min-h-10{
-  min-height: 2.5rem;
+.max-h-\[620\]{
+  max-height: 620;
+}
+
+.max-h-\[\]{
+  max-height: ;
+}
+
+.max-h-\[400\]{
+  max-height: 400;
+}
+
+.min-h-\[128px\]{
+  min-height: 128px;
 }
 
 .min-h-\[180px\]{
@@ -1392,6 +1432,10 @@ span{
   max-width: 1650px;
 }
 
+.max-w-\[170px\]{
+  max-width: 170px;
+}
+
 .max-w-\[500px\]{
   max-width: 500px;
 }
@@ -1410,10 +1454,6 @@ span{
 
 .max-w-md{
   max-width: 28rem;
-}
-
-.max-w-\[170px\]{
-  max-width: 170px;
 }
 
 .flex-1{
@@ -1569,10 +1609,6 @@ span{
   gap: 72px;
 }
 
-.gap-11{
-  gap: 2.75rem;
-}
-
 .space-x-1 > :not([hidden]) ~ :not([hidden]){
   --tw-space-x-reverse: 0;
   margin-right: calc(0.25rem * var(--tw-space-x-reverse));
@@ -1695,10 +1731,6 @@ span{
   border-width: 3px;
 }
 
-.border-4{
-  border-width: 4px;
-}
-
 .border-b{
   border-bottom-width: 1px;
 }
@@ -1727,6 +1759,10 @@ span{
   border-style: dashed;
 }
 
+.border-none{
+  border-style: none;
+}
+
 .border-black{
   --tw-border-opacity: 1;
   border-color: rgb(35 35 35 / var(--tw-border-opacity, 1));
@@ -1752,19 +1788,9 @@ span{
   border-color: rgb(156 163 175 / var(--tw-border-opacity, 1));
 }
 
-.border-orange-50{
-  --tw-border-opacity: 1;
-  border-color: rgb(255 247 237 / var(--tw-border-opacity, 1));
-}
-
 .border-white{
   --tw-border-opacity: 1;
   border-color: rgb(251 248 238 / var(--tw-border-opacity, 1));
-}
-
-.border-primary{
-  --tw-border-opacity: 1;
-  border-color: rgb(34 110 106 / var(--tw-border-opacity, 1));
 }
 
 .bg-black{
@@ -1877,6 +1903,10 @@ span{
   background-color: rgb(0 83 186 / var(--tw-bg-opacity, 1));
 }
 
+.bg-transparent{
+  background-color: transparent;
+}
+
 .bg-white{
   --tw-bg-opacity: 1;
   background-color: rgb(251 248 238 / var(--tw-bg-opacity, 1));
@@ -1888,6 +1918,22 @@ span{
 
 .bg-yellow\/40{
   background-color: rgb(255 193 69 / 0.4);
+}
+
+.bg-gray-400\/40{
+  background-color: rgb(156 163 175 / 0.4);
+}
+
+.bg-dark-primary\/40{
+  background-color: rgb(16 75 72 / 0.4);
+}
+
+.bg-dark-primary\/5{
+  background-color: rgb(16 75 72 / 0.05);
+}
+
+.bg-dark-primary\/10{
+  background-color: rgb(16 75 72 / 0.1);
 }
 
 .bg-opacity-50{
@@ -2357,6 +2403,12 @@ span{
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.shadow{
+  --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
 .shadow-orange-500\/40{
   --tw-shadow-color: rgb(249 115 22 / 0.4);
   --tw-shadow: var(--tw-shadow-colored);
@@ -2665,6 +2717,14 @@ span{
     height: 70vh;
   }
 
+  .md\:h-full{
+    height: 100%;
+  }
+
+  .md\:w-1\/2{
+    width: 50%;
+  }
+
   .md\:w-48{
     width: 12rem;
   }
@@ -2727,6 +2787,14 @@ span{
 
   .lg\:h-\[80vh\]{
     height: 80vh;
+  }
+
+  .lg\:h-\[62px\]{
+    height: 62px;
+  }
+
+  .lg\:h-\[620px\]{
+    height: 620px;
   }
 
   .lg\:w-1\/2{
@@ -2796,10 +2864,6 @@ span{
 
   .lg\:gap-10{
     gap: 2.5rem;
-  }
-
-  .lg\:gap-36{
-    gap: 9rem;
   }
 
   .lg\:gap-24{
