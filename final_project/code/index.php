@@ -98,11 +98,12 @@ switch ($action) {
         // print_r($response);
 
         http_response_code($response['status'] ?? 404);
+        print_r($response);
 
-        // if (!in_array($response['status'], ACCEPT_STATUS)) {
-        //     header('Location: ' . $response['redirect'] . '&status=' . $response['status']);
-        //     exit;
-        // }
+        if (!in_array($response['status'], ACCEPT_STATUS)) {
+            header('Location: ' . $response['redirect'] . '&status=' . $response['status']);
+            exit;
+        }
 
         if ($response['type'] == 'json') {
             header("Content-Type: application/json");

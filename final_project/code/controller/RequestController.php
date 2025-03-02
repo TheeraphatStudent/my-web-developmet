@@ -87,9 +87,6 @@ class RequestController
             case 'create':
                 $result = $this->event->createEvent($data);
                 return response(status: 200, message: "Create event complete", data: $result);
-            case 'seach':
-                // $result = $this->event->nameEvent($data);
-                return response(status: 200, data: ["work"]);
             case 'update':
                 $result = $this->event->updateEventById($data);
                 return response(status: 200, message: "Edit event complete", data: $result);
