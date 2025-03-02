@@ -4,6 +4,7 @@ namespace FinalProject\View\Event;
 
 require_once('components/map/map.php');
 require_once('components/texteditor/texteditor.php');
+require_once('utils/useImages.php');
 
 use FinalProject\Components\Map;
 use FinalProject\Components\TextEditor;
@@ -267,7 +268,7 @@ $authors = array_map(function ($type) {
             const form = document.getElementById('form-content');
 
             form.addEventListener('submit', () => {
-                
+
 
             })
 
@@ -344,44 +345,7 @@ $authors = array_map(function ($type) {
     <!-- Image input -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const byte64toBlobUrl = (b64Data, contentType = 'image/jpeg', sliceSize = 256) => {
-                try {
-                    const base64String = b64Data.split(',')[1] ?? b64Data;
-                    const byteCharacters = window.atob(base64String);
-                    const byteArrays = [];
-
-                    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-                        const slice = byteCharacters.slice(offset, offset + sliceSize);
-                        const byteNumbers = new Uint8Array(slice.length);
-
-                        for (let i = 0; i < slice.length; i++) {
-                            byteNumbers[i] = slice.charCodeAt(i);
-                        }
-
-                        byteArrays.push(byteNumbers);
-                    }
-
-                    const blob = new Blob(byteArrays, {
-                        type: contentType
-                    });
-                    return URL.createObjectURL(blob);
-                } catch (error) {
-                    return null;
-                }
-            };
-
-            const fetchBlobFile = async (blobUrl, fileName) => {
-                const response = await fetch(blobUrl);
-                const blobFile = await response.blob();
-
-                const file = new File([blobFile], `${fileName}`, {
-                    type: blobFile.type
-                });
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(file);
-
-                return dataTransfer.files;
-            };
+            <?php echo (fetchBlobFunc()) ?>
 
             // Cover Img
 

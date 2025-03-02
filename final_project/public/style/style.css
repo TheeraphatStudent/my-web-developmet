@@ -1412,6 +1412,10 @@ span{
   max-width: 28rem;
 }
 
+.max-w-\[170px\]{
+  max-width: 170px;
+}
+
 .flex-1{
   flex: 1 1 0%;
 }
@@ -2442,6 +2446,12 @@ span{
 
 .\*\:overflow-hidden > *{
   overflow: hidden;
+}
+
+.\*\:truncate > *{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .\*\:rounded-sm > *{
