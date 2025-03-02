@@ -10,9 +10,14 @@ use FinalProject\Components\Map;
 use FinalProject\Components\TextEditor;
 
 $map = new Map();
-$textEditor = new TextEditor();
 
-$textEditor->updatetextarea(($eventObj['description']));
+$value = json_decode($eventObj['location'], true);
+$lat = floatval($value['lat']);
+$lon = floatval($value['lon']);
+$map->setDefaultLocation($lat, $lon);
+
+$textEditor = new TextEditor();
+$textEditor->updatetextarea($eventObj['description']);
 
 // echo $eventObj['description'];
 

@@ -22,8 +22,8 @@ class Map
 
     public function getLocationByLatLon($lat, $lon)
     {
-        // $url = "https://api.longdo.com/map/services/address?lon=$lon&lat=$lat&noelevation=1&key={$this->getMapApiKey()}";
-        $url = "https://api.longdo.com/map/services/address?lon=103.25040979332823&lat=16.24499013782018&noelevation=1&key=55072ff6dc986c8484ea0615c17bf149";
+        $url = "https://api.longdo.com/map/services/address?lon=$lon&lat=$lat&noelevation=1&key={$this->getMapApiKey()}";
+        // $url = "https://api.longdo.com/map/services/address?lon=103.25040979332823&lat=16.24499013782018&noelevation=1&key=55072ff6dc986c8484ea0615c17bf149";
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);

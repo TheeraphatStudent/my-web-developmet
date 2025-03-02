@@ -1,20 +1,40 @@
-var map;
 var location = { lat: 16.245587564752867, lon: 103.25024513607679 };
 
 class Init {
-    constructor() {
+    constructor(lat, lon) {
         console.log("Init Work!")
+        console.log(`Lat: ${typeof lat} | ${lat}`)
+        console.log(`Lon: ${typeof lon} | ${lon}`)
 
-        map = new longdo.Map({
+        var map = new longdo.Map({
             placeholder: document.getElementById('map'),
             language: 'th',
             zoom: 15,
             location: {
                 lon: location.lon,
                 lat: location.lat
-            },
+                // lon: lon ?? location.lon,
+                // lat: lat ?? location.lat
+                // lon: lon,
+                // lat: lat
+            }
+            // marker: {
+            //     lon: lon ?? location.lon,
+            //     lat: lat ?? location.lat
+            // }
             // lastView: true
         });
+
+        // ==========================
+
+        // var marker = new longdo.Marker(
+        //     { lon: lon, lat: lat },
+        //     { weight: longdo.OverlayWeight.Top }
+        // );
+
+        // map.Overlays.add(marker);
+
+        // ==========================
 
         // Map V3
         // map.Ui.DPad.visible(false);
@@ -26,6 +46,12 @@ class Init {
         // Map V1
         // map.Ui.DPad.visible(false);
         // map.Ui.Mouse.enableInertia(false);
+
+        // map.Event.bind(longdo.EventName.Ready, function () {
+        //     map.Event.bind('beforeResize', function () {
+                
+        //     });
+        // });
 
         map.Event.bind('click', function (pointer) {
             console.group("================ Clicked on map ================");
@@ -40,12 +66,12 @@ class Init {
 
             location = { lat: lat, lon: lon };
 
-            console.log(location.lat);
-            console.log(location.lon);
-            console.log(`Lat: ${lat} | Lon: ${lon} `);
+            // console.log(location.lat);
+            // console.log(location.lon);
+            // console.log(`Lat: ${lat} | Lon: ${lon} `);
 
             var target = new longdo.Marker({ lon: lon, lat: lat }, {
-                draggable: true,
+                // draggable: true,
                 weight: longdo.OverlayWeight.Top,
             });
 
