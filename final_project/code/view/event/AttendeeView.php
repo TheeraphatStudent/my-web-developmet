@@ -9,6 +9,7 @@ use FinalProject\Components\Map;
 use FinalProject\Components\TextEditor;
 
 $map = new Map();
+$map->setDefaultLocation($lat, $lon);
 
 $textEditor = new TextEditor();
 $textEditor->updatetextarea(description: $eventObj['description'], isEdit: false);
@@ -17,20 +18,9 @@ $textEditorDescription = new TextEditor();
 $textEditorDescription->updatetextarea(description: $eventObj['description'], isEdit: false);
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="public/style/main.css">
-    <title>Eat With Me</title>
-</head>
-
 <body class="bg-primary">
     <div
-        class="flex flex-col justify-center items-center gap-12 py-[200px] pr-10 pl-10 w-full h-full">
+        class="flex flex-col justify-center items-center gap-12 py-[200px] pr-10 pl-10 w-full h-fit">
         <div class="flex flex-col justify-start items-center gap-6 w-full shadow-sm p-4">
             <div
                 class="relative flex flex-col lg:flex-row justify-between items-end lg:items-center py-6 px-6 lg:px-8 gap-6 lg:gap-10 w-full max-w-[1650px] h-auto lg:h-[700px] rounded-3xl bg-cover bg-center overflow-hidden"
@@ -83,9 +73,14 @@ $textEditorDescription->updatetextarea(description: $eventObj['description'], is
 
                         <!-- Buttons -->
                         <div class="flex flex-col justify-end gap-2.5 h-full w-full">
-                            <a href="#" class="btn-primary w-full">
-                                <span>เข้าร่วม</span>
-                            </a>
+                            <form action="../?action=request&on=event&form=register" method="post">
+                                <input type="hidden" name="eventId" value="<?= $eventObj['eventId'] ?>">
+                                <input type="hidden" name="userId" value="<?= $_SESSION['user']['userId'] ?>">
+
+                                <button type="submit" class="btn-primary w-full">
+                                    <span>เข้าร่วม</span>
+                                </button>
+                            </form>
                             <!-- <a href="#" class="btn-primary-outline w-full group no-underline">
                                 <span class="group-hover:text-white">สนใจ</span>
                             </a> -->
@@ -139,51 +134,6 @@ $textEditorDescription->updatetextarea(description: $eventObj['description'], is
                 </div>
             </div>
 
-            <!-- Second Row: Time and Location -->
-            <div class="flex flex-col lg:flex-row justify-between items-start gap-6 w-full *:max-w-none *:lg:max-w-[512px]">
-                <!-- Time -->
-                <div class="flex flex-col justify-start items-start gap-2 w-full lg:w-1/2">
-                    <div class="font-kanit text-xl text-white font-semibold">
-                        เวลา
-                    </div>
-                    <div class="flex flex-row justify-start items-start gap-5">
-                        <div class="font-kanit text-base text-white font-normal">
-                            วันอาทิตย์
-                        </div>
-                        <div class="font-kanit text-[18px] text-amber-400 font-normal">
-                            9.00 PM
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Location -->
-                <div class="flex flex-col justify-start items-start gap-2 w-full lg:w-1/2">
-                    <div class="font-kanit text-xl text-white font-semibold">
-                        มหาวิทยาลัยมหาสารคาม
-                    </div>
-                    <div class="font-kanit text-base text-white font-normal">
-                        41 ตำบล ขามเรียง อำเภอกันทรวิชัย มหาสารคาม 44150
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tags -->
-            <div class="flex flex-col justify-start items-start lg:justify-end lg:items-end gap-2.5 w-full *:max-w-none *:lg:max-w-[512px]">
-                <div class="flex flex-col justify-start items-start gap-2 w-full">
-                    <span class="font-kanit text-xl text-white font-semibold">หัวข้อ</span>
-                    <div class="flex flex-row flex-wrap justify-start items-start gap-2.5">
-                        <div class="tags">
-                            <span>EatWithMe</span>
-                        </div>
-                        <div class="tags">
-                            <span>กินอย่างมีสุขภาพ</span>
-                        </div>
-                        <div class="tags">
-                            <span>สุขภาพดีเริ่มที่อาหาร</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -206,5 +156,3 @@ $textEditorDescription->updatetextarea(description: $eventObj['description'], is
     </script>
 
 </body>
-
-</html>

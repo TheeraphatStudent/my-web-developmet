@@ -11,80 +11,44 @@ class Search extends Component
 ?>
         <form
             action="../?action=request&on=event&form=search" method="post"
-            class="bg-secondary flex flex-col lg:flex-row p-6 rounded-lg shadow-lg gap-5" >
-            <div class="flex flex-col lg:flex-row gap-5">
+            class="bg-secondary flex flex-col items-center lg:flex-row p-4 rounded-lg shadow-lg gap-5 w-full">
+            <div class="flex flex-col h-fit lg:flex-row gap-5">
                 <!-- Field -->
-                <div class="flex flex-col justify-start items-start gap-2.5 h-[70px] w-full">
+                <div class="flex flex-col justify-start items-start gap-2.5 h-fit w-full">
                     กำลังมองหา
                     <input type="text" placeholder="เลือกอีเวทน์" id="looking" name="looking"
-                        class="font-kanit text-base min-w-[290px] whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
+                        class="font-kanit text-base min-w-[290px] h-10 input-field whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
                     </input>
-                    <!-- <div
-                        class="flex justify-between items-center pr-2.5 pl-2.5 gap-48 rounded border-black border-t border-b border-l border-r border-solid border w-full lg:w-72 h-9 bg-black"> 
-                        <div
-                            class="font-kanit text-xs min-w-[57px] whitespace-nowrap text-neutral-400 text-opacity-100 leading-none font-normal">
-                            เลือกอีเวทน์
-                        </div>
-                        <div class="flex flex-col justify-center items-center w-6 h-6">
-                            <img
-                                width="14px"
-                                height="8px"
-                                src="../../public/icons/drop.svg"
-                                alt="drop" />
-                        </div> 
-                    </div> -->
                 </div>
 
                 <!-- Field -->
-                <div class="flex flex-col justify-start items-start gap-2.5 h-[70px] w-full">
+                <!-- <div class="flex flex-col justify-start items-start gap-2.5 h-fit w-full">
                     สถาณที่
                     <input type="text" placeholder="เลือกสถานที่" name="location"
                         class="font-kanit text-base min-w-[290px] whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
                     </input>
-                    <!-- <div
-                        class="flex justify-between items-center pr-2.5 pl-2.5 gap-[152px] rounded w-full lg:w-72 h-9 bg-black">
-                        <div
-                            class="font-kanit text-xs min-w-[98px] whitespace-nowrap text-neutral-400 text-opacity-100 leading-none font-normal">
-                            เลือกสถาณที่จัดงาน
-                        </div>
-                        <div
-                            class="flex flex-col justify-center items-center rounded-[80px] h-5 overflow-hidden">
-                            <img
-                                width="20px"
-                                height="18.5px"
-                                src="../../public/icons/map.svg"
-                                alt="map" />
-                        </div>
-                    </div> -->
-                </div>
+                </div> -->
 
                 <!-- Field -->
-                <div class="flex flex-col justify-start items-start gap-2.5 h-[70px] w-full">
+                <div class="flex flex-col justify-start items-start gap-2.5 h-fit w-full">
                     ช่วงเวลา
-                    <input type="text" placeholder="เลือกช่วงเวลา" name="date"
-                        class="font-kanit text-base min-w-[290px] whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
-                    </input>
-                    <!-- <div
-                        class="flex justify-between items-center pr-2.5 pl-2.5 gap-44 rounded border-black border-t border-b border-l border-r border-solid border w-full lg:w-72 h-9 bg-black">
-                        <div
-                            class="font-kanit text-xs min-w-[67px] whitespace-nowrap text-neutral-400 text-opacity-100 leading-none font-normal">
-                            เลือกช่วงเวลา
-                        </div>
-                        <img
-                            width="24px"
-                            height="24px"
-                            src="../../public/icons/date.svg"
-                            alt="date" />
-                    </div> -->
+                    <div class="flex gap-5">
+                        <input type="datetime-local" placeholder="เลือกช่วงเวลา" name="dateStart"
+                            class="font-kanit text-base w-[215px] h-10 input-field whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
+                        </input>
+                        <input type="datetime-local" placeholder="เลือกช่วงเวลา" name="dateEnd"
+                            class="font-kanit text-base w-[215px] h-10 input-field whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
+                        </input>
+                    </div>
                 </div>
             </div>
 
             <!-- Search -->
             <button
                 type="submit"
-                class="flex flex-row justify-center items-center gap-2.5 p-2.5 rounded w-[70px] h-[70px] bg-black">
+                class="flex flex-row justify-center items-center gap-2.5 p-2.5 rounded w-full lg:w-[60px] h-full max-h-[60px] bg-black hover:bg-black/80 active:bg-black/70">
                 <div
-                    class="flex justify-center items-center rounded-[80px] w-7 h-7 overflow-hidden">
+                    class="flex justify-center items-center rounded-2xl w-7 h-7 overflow-hidden">
                     <img
                         width="24px"
                         height="24px"

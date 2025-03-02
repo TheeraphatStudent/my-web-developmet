@@ -33,7 +33,7 @@ $calendar = new SchedulerCalendar();
         <div
             class="flex flex-col justify-end items-center w-[clamp(350px,85vw,1650px)] min-w-[400px] h-[clamp(300px,40vw,700px)] rounded-3xl bg-[url(/public/images/banner.jpg)] bg-center bg-cover overflow-hidden">
             <!-- Search -->
-            <div class="absolute lg:bottom-[3.5rem]">
+            <div class="absolute lg:bottom-[3.5rem] w-fit">
                 <?php
                 $search->render();
                 ?>

@@ -56,6 +56,20 @@ class MainController
         if (isset($_GET['id'])) {
             $eventId = $_GET['id'];
             $eventObj = $eventModel->getEventById($eventId);
+?>
+
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+                <link rel="stylesheet" href="public/style/main.css">
+                <title><?= $eventObj['title'] ?></title>
+            </head>
+<?php
+
+            $value = json_decode($eventObj['location'], true);
+            $lat = floatval($value['lat']);
+            $lon = floatval($value['lon']);
         }
 
         if (in_array($event, EventUtils::ACCEPT_EVENT)) {

@@ -6,6 +6,7 @@ namespace FinalProject\Controller;
 require_once(__DIR__ . '/../model/InitModel.php');
 require_once(__DIR__ . '/../model/UserModel.php');
 require_once(__DIR__ . '/../model/EventModel.php');
+require_once(__DIR__ . '/../model/RegistrationModel.php');
 require_once(__DIR__ . '/../model/mapModel.php');
 
 require_once(__DIR__ . '/../utils/useResponse.php');
@@ -13,12 +14,14 @@ require_once(__DIR__ . '/../utils/useResponse.php');
 use FinalProject\Model\Init;
 use FinalProject\Model\User;
 use FinalProject\Model\Event;
+use FinalProject\Model\Registration;
 use FinalProject\Model\Map;
 
 class RequestController
 {
     private $user;
     private $event;
+    private $reg;
     private $map;
 
     public function __construct()
@@ -26,6 +29,8 @@ class RequestController
         $inti = new Init();
         $this->user = new User($inti->getConnected());
         $this->event = new Event($inti->getConnected());
+        $this->reg = new Registration($inti->getConnected());
+
         $this->map = new Map();
     }
 
@@ -92,8 +97,11 @@ class RequestController
                 return response(status: 200, message: "Edit event complete", data: $result);
             case 'search':
                 // location, title, date (start)
-                $result = $this->event->searchEvent(title: $data['looking'], location: $data['location'], date: $data['date']);
+                $result = $this->event->searchEvent(title: $data['looking'], dateStart: $data['dateStart'], dateEnd: $data['dateEnd']);
                 return response(status: 200, message: "Search Work", data: $result);
+            case 'register':
+                $result = $this->reg->registerEvent(userId: $data['userId'], eventId: $data['eventId']);
+                return response(status: 200, message: "Register Work", data: $result);
 
             default:
                 return response(status: 404, message: "Something went wrong!");

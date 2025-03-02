@@ -67,7 +67,7 @@
 
   /* Input Fields */
   .input-field {
-    @apply w-full text-sm text-gray-800 border border-gray-300 pl-4 pr-10 py-3 rounded-lg;
+    @apply w-full text-sm text-black border border-white pl-4 pr-2 py-3 rounded-lg;
   }
 
   /* Tags */
@@ -85,9 +85,5 @@
 
   .form-required {
     @apply text-red;
-  }
-
-  .form-input {
-    @apply flex items-center w-full h-10 bg-white px-2 rounded;
   }
 }

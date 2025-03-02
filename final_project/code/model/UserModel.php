@@ -5,6 +5,7 @@ namespace FinalProject\Model;
 require_once(__DIR__ . '/../utils/useRandomize.php');
 
 use PDO;
+use DateTime;
 
 class User
 {
@@ -37,7 +38,7 @@ class User
     public function register($username, $password, $email)
     {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $this->connection->prepare("INSERT INTO User (userId, username, password, email) VALUES (:userId, :username, :password, :email)");
+        $stmt = $this->connection->prepare("INSERT INTO User (userId, username, password, email, created, updated) VALUES (:userId, :username, :password, :email, :created, :updated)");
 
         $lastCols = $this->connection->prepare(
             "SELECT id FROM User ORDER BY id DESC LIMIT 1"
@@ -49,13 +50,17 @@ class User
         $newValue = ($getCols !== false) ? intval($getCols) + 1 : 1;
         $formattedValue = str_pad($newValue, 7, "0", STR_PAD_LEFT);
 
-        $userId = "AGU-". $formattedValue . uniqid("_user-" . getRandomId(8));
+        $userId = "AGU-" . $formattedValue . uniqid("_user-" . getRandomId(8));
+
+        $now = new DateTime();
 
         $stmt->execute([
             ':userId' => $userId,
             ':username' => $username,
             ':password' => $hashedPassword,
             ':email' => $email,
+            ':created' => $now->format('Y-m-d H:i:s'),
+            ':updated' => $now->format('Y-m-d H:i:s')
         ]);
 
         $user = $stmt->fetch(PDO::FETCH_ASSOC);

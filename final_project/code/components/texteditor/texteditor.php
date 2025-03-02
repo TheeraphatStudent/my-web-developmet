@@ -77,12 +77,10 @@ class TextEditor extends Component
         </div>
 
         <script>
-            // Define TextEditorManager if it doesn't exist yet
             if (typeof TextEditorManager === 'undefined') {
                 window.TextEditorManager = {
                     editors: {},
 
-                    // Initialize an editor instance
                     initEditor: function(editorId, initialContent = '') {
                         const container = document.querySelector(`.text-editor-component[data-editor-id="${editorId}"]`);
                         if (!container) return;
@@ -96,17 +94,14 @@ class TextEditor extends Component
 
                         this.editors[editorId] = editor;
 
-                        // Set initial content if available
                         if (initialContent) {
                             editor.input.value = this.convertHtmlToMarkdown(initialContent);
                             this.updatePreview(editorId);
                         }
 
-                        // Set up preview click events
                         this.setupPreviewEvents(editorId);
                     },
 
-                    // Update preview for a specific editor
                     updatePreview: function(editorId) {
                         const editor = this.editors[editorId];
                         if (!editor) return;

@@ -77,7 +77,7 @@ $authors = array_map(function ($type) {
                             <span class="form-required">*</span>
                         </div>
                         <input required
-                            class="form-input" name="title" placeholder="Enter event title">
+                            class="input-field" name="title" placeholder="Enter event title" maxlength="100">
                     </div>
                     <div class="flex flex-row w-full justify-start items-start gap-5 ">
                         <div class="flex flex-col w-full gap-2.5">
@@ -87,7 +87,7 @@ $authors = array_map(function ($type) {
                                 <span class="form-required">*</span>
                             </div>
                             <input required
-                                class="form-input" type="text" name="venue" placeholder="Enter venue">
+                                class="input-field" type="number" name="venue" placeholder="Enter venue">
 
                         </div>
                         <div class="flex flex-col w-full gap-2.5">
@@ -97,7 +97,7 @@ $authors = array_map(function ($type) {
                                 <span class="form-required">*</span>
                             </div>
                             <input required
-                                class="form-input" type="text" name="maximum" placeholder="Enter maximum">
+                                class="input-field" type="number" name="maximum" placeholder="Enter maximum">
 
                         </div>
                     </div>
@@ -109,8 +109,8 @@ $authors = array_map(function ($type) {
                                 Type&nbsp;
                                 <span class="form-required">*</span>
                             </div>
-                            <!-- <input class="form-input" type="" name="venue" placeholder="Enter venue"> -->
-                            <select name="type" class="form-input">
+                            <!-- <input class="input-field" type="" name="venue" placeholder="Enter venue"> -->
+                            <select name="type" class="input-field">
                                 <?php foreach ($formOptions as $option): ?>
                                     <option value="<?= $option['value'] ?>"><?= $option['label'] ?></option>
                                 <?php endforeach; ?>
@@ -124,7 +124,7 @@ $authors = array_map(function ($type) {
                                 <span class="form-required">*</span>
                             </div>
                             <input
-                                class="form-input" name="link" type="text" placeholder="Enter link">
+                                class="input-field" name="link" type="text" placeholder="Enter link">
 
                         </div>
                     </div>
@@ -137,7 +137,7 @@ $authors = array_map(function ($type) {
                                         Start&nbsp;
                                         <span class="form-required">*</span>
                                     </div>
-                                    <input class="form-input" type="datetime-local" name="start[]" placeholder="Enter started time">
+                                    <input class="input-field" type="datetime-local" name="start[]" placeholder="Enter started time">
                                 </div>
                                 <div class="flex flex-col w-1/2 gap-2.5">
                                     <div class="form-title">
@@ -145,7 +145,7 @@ $authors = array_map(function ($type) {
                                         <span class="form-required">*</span>
                                     </div>
                                     <div class="flex w-full gap-2.5">
-                                        <input class="form-input w-full" type="datetime-local" name="end[]" placeholder="Enter ended time">
+                                        <input class="input-field w-full" type="datetime-local" name="end[]" placeholder="Enter ended time">
                                     </div>
                                 </div>
                             </div>
@@ -173,7 +173,7 @@ $authors = array_map(function ($type) {
                                 Authors&nbsp;
                                 <span class="form-required">*</span>
                             </div>
-                            <select name="authors[]" class="form-input h-32" multiple id="author-selected">
+                            <select name="authors[]" class="input-field h-32" multiple id="author-selected">
                                 <?php foreach ($authors as $option): ?>
                                     <option value="<?= $option['value'] ?>"><?= $option['label'] ?></option>
                                 <?php endforeach; ?>
@@ -314,10 +314,10 @@ $authors = array_map(function ($type) {
                 newDateTimeSet.className = 'flex flex-row w-full justify-start items-start gap-5 added-field';
                 newDateTimeSet.innerHTML = `
                 <div class="flex flex-col w-full">
-                    <input class="form-input start-field" type="datetime-local" name="start[]" placeholder="Enter started time">
+                    <input class="input-field start-field" type="datetime-local" name="start[]" placeholder="Enter started time">
                 </div>
                 <div class="flex flex-col w-full">
-                    <input class="form-input end-field" type="datetime-local" name="end[]" placeholder="Enter ended time">
+                    <input class="input-field end-field" type="datetime-local" name="end[]" placeholder="Enter ended time">
                 </div>
             `;
 
