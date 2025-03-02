@@ -56,7 +56,7 @@ class SchedulerCalendar extends Component
                     </div>
                 </div>
             </div>
-            <script type="module" src="/code/components/calendar/calendar.js"></script>
+            <script type="module" src="./components/calendar/calendar.js"></script>
         </div>
 <?php
 

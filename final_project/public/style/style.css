@@ -979,6 +979,10 @@ span{
   margin-left: 0.75rem;
 }
 
+.ml-4{
+  margin-left: 1rem;
+}
+
 .mt-1{
   margin-top: 0.25rem;
 }
@@ -993,10 +997,6 @@ span{
 
 .mt-8{
   margin-top: 2rem;
-}
-
-.ml-4{
-  margin-left: 1rem;
 }
 
 .block{
@@ -1092,6 +1092,10 @@ span{
   height: 150px;
 }
 
+.h-\[180px\]{
+  height: 180px;
+}
+
 .h-\[18px\]{
   height: 18px;
 }
@@ -1157,20 +1161,12 @@ span{
   height: 100vh;
 }
 
-.h-\[180px\]{
-  height: 180px;
-}
-
 .max-h-10{
   max-height: 2.5rem;
 }
 
 .max-h-16{
   max-height: 4rem;
-}
-
-.max-h-\[180px\]{
-  max-height: 180px;
 }
 
 .max-h-\[400px\]{
@@ -1320,14 +1316,6 @@ span{
   width: 100vw;
 }
 
-.w-\[320px\]{
-  width: 320px;
-}
-
-.w-14{
-  width: 3.5rem;
-}
-
 .min-w-80{
   min-width: 20rem;
 }
@@ -1354,6 +1342,10 @@ span{
 
 .min-w-\[290px\]{
   min-width: 290px;
+}
+
+.min-w-\[320px\]{
+  min-width: 320px;
 }
 
 .min-w-\[400px\]{
@@ -1384,14 +1376,6 @@ span{
   min-width: 100%;
 }
 
-.min-w-\[320px\]{
-  min-width: 320px;
-}
-
-.min-w-\[320x\]{
-  min-width: 320x;
-}
-
 .max-w-7xl{
   max-width: 80rem;
 }
@@ -1406,10 +1390,6 @@ span{
 
 .max-w-\[1650px\]{
   max-width: 1650px;
-}
-
-.max-w-\[320px\]{
-  max-width: 320px;
 }
 
 .max-w-\[500px\]{
@@ -1430,6 +1410,10 @@ span{
 
 .max-w-md{
   max-width: 28rem;
+}
+
+.max-w-\[170px\]{
+  max-width: 170px;
 }
 
 .flex-1{
@@ -1585,6 +1569,10 @@ span{
   gap: 72px;
 }
 
+.gap-11{
+  gap: 2.75rem;
+}
+
 .space-x-1 > :not([hidden]) ~ :not([hidden]){
   --tw-space-x-reverse: 0;
   margin-right: calc(0.25rem * var(--tw-space-x-reverse));
@@ -1707,6 +1695,10 @@ span{
   border-width: 3px;
 }
 
+.border-4{
+  border-width: 4px;
+}
+
 .border-b{
   border-bottom-width: 1px;
 }
@@ -1715,16 +1707,16 @@ span{
   border-left-width: 1px;
 }
 
+.border-l-2{
+  border-left-width: 2px;
+}
+
 .border-r{
   border-right-width: 1px;
 }
 
 .border-t{
   border-top-width: 1px;
-}
-
-.border-l-2{
-  border-left-width: 2px;
 }
 
 .border-solid{
@@ -1738,6 +1730,11 @@ span{
 .border-black{
   --tw-border-opacity: 1;
   border-color: rgb(35 35 35 / var(--tw-border-opacity, 1));
+}
+
+.border-dark-primary{
+  --tw-border-opacity: 1;
+  border-color: rgb(16 75 72 / var(--tw-border-opacity, 1));
 }
 
 .border-gray-200{
@@ -1765,9 +1762,9 @@ span{
   border-color: rgb(251 248 238 / var(--tw-border-opacity, 1));
 }
 
-.border-dark-primary{
+.border-primary{
   --tw-border-opacity: 1;
-  border-color: rgb(16 75 72 / var(--tw-border-opacity, 1));
+  border-color: rgb(34 110 106 / var(--tw-border-opacity, 1));
 }
 
 .bg-black{
@@ -1893,11 +1890,6 @@ span{
   background-color: rgb(255 193 69 / 0.4);
 }
 
-.bg-neutral-800{
-  --tw-bg-opacity: 1;
-  background-color: rgb(38 38 38 / var(--tw-bg-opacity, 1));
-}
-
 .bg-opacity-50{
   --tw-bg-opacity: 0.5;
 }
@@ -1908,10 +1900,6 @@ span{
 
 .bg-gradient-to-b{
   background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
-}
-
-.bg-\[url\(https\:\/\/picsum\.photos\/1920\/1080\)\]{
-  background-image: url(https://picsum.photos/1920/1080);
 }
 
 .from-\[rgba\(251\2c 248\2c 238\2c 0\)\]{
@@ -2460,6 +2448,12 @@ span{
   overflow: hidden;
 }
 
+.\*\:truncate > *{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .\*\:rounded-sm > *{
   border-radius: 0.125rem;
 }
@@ -2495,6 +2489,12 @@ span{
 .\*\:text-black > *{
   --tw-text-opacity: 1;
   color: rgb(35 35 35 / var(--tw-text-opacity, 1));
+}
+
+.hover\:scale-105:hover{
+  --tw-scale-x: 1.05;
+  --tw-scale-y: 1.05;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .hover\:cursor-pointer:hover{
@@ -2709,10 +2709,6 @@ span{
     margin-top: 91px;
   }
 
-  .lg\:h-\[284px\]{
-    height: 284px;
-  }
-
   .lg\:h-\[400px\]{
     height: 400px;
   }
@@ -2731,10 +2727,6 @@ span{
 
   .lg\:h-\[80vh\]{
     height: 80vh;
-  }
-
-  .lg\:h-\[118px\]{
-    height: 118px;
   }
 
   .lg\:w-1\/2{
@@ -2808,6 +2800,10 @@ span{
 
   .lg\:gap-36{
     gap: 9rem;
+  }
+
+  .lg\:gap-24{
+    gap: 6rem;
   }
 
   .lg\:p-8{

@@ -8,7 +8,7 @@ require_once(__DIR__ . '/../component.php');
 
 class TextEditor extends Component
 {
-    private $dest;
+    private $dest = '';
 
     public function render()
     {
@@ -18,6 +18,12 @@ class TextEditor extends Component
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+
+            <style>
+                ul {
+                    list-style: inside !important;
+                }
+            </style>
         </head>
 
         <div class="w-full h-fit bg-dark-primary p-4 rounded-lg shadow-md">
@@ -25,7 +31,7 @@ class TextEditor extends Component
                 <button type="button" class="hover:bg-primary" onclick="insertMarkdown('**', '**')">
                     <img src="public/icons/bold.svg" class="w-4 h-4" alt="">
                 </button>
-                <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('', '*')">
+                <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('*', '*')">
                     <img src="public/icons/italic.svg" class="w-4 h-4" alt="">
                 </button>
                 <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('# ', '')">
@@ -33,6 +39,9 @@ class TextEditor extends Component
                 </button>
                 <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('- ', '')">
                     <img src="public/icons/list.svg" class="w-4 h-4" alt="">
+                </button>
+                <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('<br>', '')">
+                    <img src="public/icons/newline.svg" class="w-4 h-4" alt="">
                 </button>
                 <button type="button" class="hover:bg-primary hover:text-white" onclick="insertMarkdown('- [', ']()')">
                     <img src="public/icons/url.svg" class="w-4 h-4" alt="">
@@ -42,7 +51,7 @@ class TextEditor extends Component
                 </button>
             </div>
 
-            <div class="flex flex-col md:flex-row w-full border border-white rounded-md overflow-hidden *:w-full *:md:w-1/2 *:min-h-[200px]">
+            <div class="flex flex-col md:flex-row w-full h-full border border-white rounded-md overflow-hidden *:w-full *:md:w-1/2 *:min-h-[200px]">
                 <textarea value="Hello" required id="markdown-input" class="p-3 bg-white whitespace-pre border-r focus:outline-none" oninput="updatePreview()" placeholder="ระบุรายละเอียดของงานที่นี่..."></textarea>
                 <input class="hidden" type="text" name="description" id="desc-input">
                 <div id="markdown-preview" class="p-3 bg-primary overflow-auto text-white"></div>
@@ -50,18 +59,34 @@ class TextEditor extends Component
         </div>
         <script>
             document.addEventListener('DOMContentLoaded', updatePreview);
+            const textarea = document.getElementById('markdown-input');
+
+            textarea.addEventListener('keypress', (e) => {
+                console.log(e)
+
+            })
 
             function updatePreview() {
-                const textarea = document.getElementById('markdown-input');
+                // textarea.value = <?= $this->dest ?>;
 
-                const htmlString = '<p>Hello World</p><p>Hello Human</p>';
+                // const htmlString = '<p>Hello World</p><p>Hello Human</p>';
                 // <\/[^>]+>
-                const text = htmlString
-                    .replace(/<\/[^>]+>/gi, '\n\n')
-                    .replace(/<br\s*\/?>/gi, '\n')
-                    .replace(/<[^>]+>/g, '');
 
-                // textarea.defaultValue = text.trim();
+                console.log(`<?= addslashes($this->dest) ?>`)
+
+                const text = `<?= addslashes($this->dest) ?>`
+                    .replace(/<br\s*\/?>/gi, '\n')
+                    .replace(/<h1[^>]*>(.*?)<\/h1>/gi, '# $1\n')
+                    .replace(/<(?:em|i)[^>]*>(.*?)<\/(?:em|i)>/gi, '*$1*\n')
+                    .replace(/<\/?p>/gi, '')
+                    .replace(/<a\s+href="(.*?)">(.*?)<\/a>/gi, '[$2]($1)')
+                    .replace(/<li>(.*?)<\/li>/gi, '- $1\n')
+                    .replace(/<\/?ul>/gi, '')
+                    .replace(/<img\s+src="(.*?)"\s+alt="(.*?)"\s*\/?>/gi, '![$2]($1)')
+
+                console.log(text);
+
+                textarea.defaultValue = text.trim();
 
                 const previewElement = document.getElementById('markdown-preview');
 
@@ -109,8 +134,8 @@ class TextEditor extends Component
 
     }
 
-    public function updatetextarea($description){
+    public function updatetextarea($description)
+    {
         $this->dest = $description;
-
     }
 }

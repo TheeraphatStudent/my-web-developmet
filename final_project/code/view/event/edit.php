@@ -4,14 +4,22 @@ namespace FinalProject\View\Event;
 
 require_once('components/map/map.php');
 require_once('components/texteditor/texteditor.php');
+require_once('utils/useImages.php');
 
 use FinalProject\Components\Map;
 use FinalProject\Components\TextEditor;
 
 $map = new Map();
+
+$value = json_decode($eventObj['location'], true);
+$lat = floatval($value['lat']);
+$lon = floatval($value['lon']);
+$map->setDefaultLocation($lat, $lon);
+
 $textEditor = new TextEditor();
+$textEditor->updatetextarea($eventObj['description']);
 
-
+// echo $eventObj['description'];
 
 // ===================== Data =====================
 
@@ -53,9 +61,9 @@ $authors = array_map(function ($type) {
 
     <link rel="stylesheet" href="public/style/main.css">
     <title>Edit event</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script> -->
+
 </head>
 
 <body class="bg-primary">
@@ -68,11 +76,11 @@ $authors = array_map(function ($type) {
             method="post"
             enctype="multipart/form-data">
             <!-- <input type="hidden" name="test" value="test"> -->
-            <input type="text" name="eventId" value="<?= $eventId ?>">
+            <input type="text" name="eventId" class="hidden" value="<?= $eventId ?>">
 
             <h1 class="text-white font-semibold">Edit Event</h1>
 
-            <!-- <?php print_r ($eventObj) ?> -->
+            <!-- <?php print_r($eventObj) ?> -->
 
             <div class="flex flex-col md:flex-row justify-between items-start w-full gap-12 *:flex *:flex-col">
 
@@ -83,7 +91,7 @@ $authors = array_map(function ($type) {
                             Title&nbsp;
                             <span class="form-required">*</span>
                         </div>
-                        <input required 
+                        <input required
                             class="form-input" name="title" placeholder="Enter event title" value="<?php echo htmlspecialchars($eventObj['title']) ?>">
                     </div>
                     <div class="flex flex-row w-full justify-start items-start gap-5 ">
@@ -114,7 +122,7 @@ $authors = array_map(function ($type) {
                             <div
                                 class="form-title">
                                 Type&nbsp;
-                                <span class="form-required" >*</span>
+                                <span class="form-required">*</span>
                             </div>
                             <!-- <input class="form-input" type="" name="venue" placeholder="Enter venue"> -->
                             <select name="type" class="form-input">
@@ -131,7 +139,7 @@ $authors = array_map(function ($type) {
                                 <span class="form-required">*</span>
                             </div>
                             <input
-                                class="form-input" name="link" type="text" placeholder="Enter link"value="<?php echo htmlspecialchars($eventObj['link']) ?>">
+                                class="form-input" name="link" type="text" placeholder="Enter link" value="<?php echo htmlspecialchars($eventObj['link']) ?>">
 
                         </div>
                     </div>
@@ -143,8 +151,8 @@ $authors = array_map(function ($type) {
                                     <div class="form-title">
                                         Start&nbsp;
                                         <span class="form-required">*</span>
-                                           </div>
-                                    <input class="form-input" type="datetime-local" name="start[]" placeholder="Enter started time" >
+                                    </div>
+                                    <input class="form-input" type="datetime-local" name="start[]" placeholder="Enter started time">
                                 </div>
                                 <div class="flex flex-col w-1/2 gap-2.5">
                                     <div class="form-title">
@@ -173,7 +181,7 @@ $authors = array_map(function ($type) {
                         </button>
                     </div>
 
-                    <div class="flex flex-row w-full justify-start items-start gap-5 ">
+                    <!-- <div class="flex flex-row w-full justify-start items-start gap-5 ">
                         <div class="flex flex-col w-full gap-2.5">
                             <div
                                 class="form-title">
@@ -187,7 +195,7 @@ $authors = array_map(function ($type) {
                             </select>
 
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="justify-start items-start w-full">
@@ -275,7 +283,6 @@ $authors = array_map(function ($type) {
             const form = document.getElementById('form-content');
 
             form.addEventListener('submit', () => {
-                
 
             })
 
@@ -286,11 +293,12 @@ $authors = array_map(function ($type) {
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('datetime-container');
+
             const addButton = document.getElementById('add-datetime');
             const delButton = document.getElementById('deleted-datetime');
 
+            const newDateTimeSet = document.createElement('div');
             addButton.addEventListener('click', () => {
-                const newDateTimeSet = document.createElement('div');
                 newDateTimeSet.className = 'flex flex-row w-full justify-start items-start gap-5 added-field';
                 newDateTimeSet.innerHTML = `
                 <div class="flex flex-col w-full">
@@ -351,53 +359,47 @@ $authors = array_map(function ($type) {
 
     <!-- Image input -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const byte64toBlobUrl = (b64Data, contentType = 'image/jpeg', sliceSize = 256) => {
+        document.addEventListener('DOMContentLoaded', async () => {
+            <?php echo (fetchBlobFunc()) ?>
+            const getFileInputFromUrl = async (fileUrl) => {
+                // console.log('Get File Input Work');
+
                 try {
-                    const base64String = b64Data.split(',')[1] ?? b64Data;
-                    const byteCharacters = window.atob(base64String);
-                    const byteArrays = [];
-
-                    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-                        const slice = byteCharacters.slice(offset, offset + sliceSize);
-                        const byteNumbers = new Uint8Array(slice.length);
-
-                        for (let i = 0; i < slice.length; i++) {
-                            byteNumbers[i] = slice.charCodeAt(i);
-                        }
-
-                        byteArrays.push(byteNumbers);
-                    }
-
-                    const blob = new Blob(byteArrays, {
-                        type: contentType
+                    const response = await fetch(fileUrl);
+                    const blob = await response.blob();
+                    const file = new File([blob], fileUrl.split("/").pop(), {
+                        type: blob.type
                     });
-                    return URL.createObjectURL(blob);
+
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+
+                    return dataTransfer.files;
                 } catch (error) {
+                    console.error('Error fetching default file: ', error);
                     return null;
                 }
             };
 
-            const fetchBlobFile = async (blobUrl, fileName) => {
-                const response = await fetch(blobUrl);
-                const blobFile = await response.blob();
-
-                const file = new File([blobFile], `${fileName}`, {
-                    type: blobFile.type
-                });
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(file);
-
-                return dataTransfer.files;
-            };
-
             // Cover Img
+
+            const defaultImageUrl = "public/images/uploads/";
+            const coverPath = `${defaultImageUrl}<?= $eventObj['cover'] ?>`;
 
             const coverInput = document.getElementById('cover_img');
             // const coverField = document.getElementById('coverImgField');
+            const coverPreview = document.getElementById('cover_label');
+            // console.log(`${defaultImageUrl}<?= $eventObj['cover'] ?>`);
+
+            if (coverPreview) {
+                coverPreview.style.backgroundImage = `url(${coverPath})`;
+
+            }
 
             if (coverInput) {
-                coverInput.addEventListener('change', function(event) {
+                coverInput.files = await getFileInputFromUrl(coverPath);
+
+                coverInput.addEventListener('change', async function(event) {
                     const file = event.target.files[0];
 
                     // console.log(file);
@@ -437,6 +439,12 @@ $authors = array_map(function ($type) {
             // let uploadedImages = [];
 
             if (imageInput) {
+                <?php if (!empty(json_decode($eventObj['morePics'], true))) : ?>
+                    <?php foreach (json_decode($eventObj['morePics'], true) as $item) : ?>
+                        createImagePreviewByUrl(`${defaultImageUrl}<?= htmlspecialchars($item) ?>`);
+                    <?php endforeach; ?>
+                <?php endif; ?>
+
                 imageInput.addEventListener('change', function(e) {
                     const files = e.target.files;
 
@@ -450,9 +458,9 @@ $authors = array_map(function ($type) {
                                 const blobUrl = byte64toBlobUrl(imageData, 'image/jpeg', 512);
 
                                 // uploadedImages.push(blobUrl);
-                                // morePicInput.value = uploadedImages
+                                // morePicInput.value=uploadedImages
 
-                                // const index = uploadedImages.length - 1;
+                                // const index=uploadedImages.length - 1;
                                 // createImagePreview(blobUrl, index);
                                 createImagePreview(blobUrl, `more-${file.name}`);
                             };
@@ -461,54 +469,58 @@ $authors = array_map(function ($type) {
                         }
                     }
 
-                    // imageInput.value = '';
+                    // imageInput.value='' ;
                 });
 
             }
 
-            async function createImagePreview(blob, fileName) {
-                // console.log(blob);
-
-                const imagePreviewWrapper = document.createElement('div');
-                imagePreviewWrapper.className = 'relative min-w-80 min-h-[180px] rounded-2xl overflow-hidden group bg-dark-primary';
-
-                const image = document.createElement('div');
-                image.className = 'w-full h-full bg-cover bg-center';
-                image.style.backgroundImage = `url('${blob}')`;
-
-                const overlay = document.createElement('div');
-                overlay.className = 'absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300';
-
-                const deleteButton = document.createElement('button');
-                const deleteIcon = document.createElement('img');
-                deleteIcon.src = 'public/icons/delete.svg';
-
-                const inputField = document.createElement('input');
-                inputField.type = 'file';
-                inputField.name = 'more_pic[]';
-                inputField.className = 'hidden';
-
-                inputField.files = await fetchBlobFile(blob, fileName);
-                // inputField.value = fileName;
-
-                deleteButton.type = 'button';
-                deleteButton.className = 'absolute top-2 right-2 bg-light-red text-white rounded-full w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300';
-                deleteButton.appendChild(deleteIcon);
-
-                deleteButton.onclick = function() {
-                    imagePreviewWrapper.remove();
-                };
-
-                imagePreviewWrapper.appendChild(image);
-                imagePreviewWrapper.appendChild(overlay);
-                imagePreviewWrapper.appendChild(deleteButton);
-                imagePreviewWrapper.appendChild(inputField);
-
+            async function createImagePreviewByUrl(url) {
+                const fileInput = await getFileInputFromUrl(url);
+                const imagePreviewWrapper = createImagePreviewWrapper(url, fileInput);
                 container.appendChild(imagePreviewWrapper);
             }
 
+            async function createImagePreview(blob, fileName) {
+                const fileInput = await fetchBlobFile(blob, fileName);
+                const imagePreviewWrapper = createImagePreviewWrapper(blob, fileInput);
+                container.appendChild(imagePreviewWrapper);
+            }
+
+            function createImagePreviewWrapper(imageUrl, fileInput) {
+                const wrapper = document.createElement("div");
+                wrapper.className = "relative min-w-80 min-h-[180px] rounded-2xl overflow-hidden group bg-dark-primary";
+
+                const image = document.createElement("div");
+                image.className = "w-full h-full bg-cover bg-center";
+                image.style.backgroundImage = `url('${imageUrl}')`;
+
+                const overlay = document.createElement("div");
+                overlay.className = "absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300";
+
+                const deleteButton = document.createElement("button");
+                deleteButton.type = "button";
+                deleteButton.className = "absolute top-2 right-2 bg-light-red text-white rounded-full w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300";
+
+                const deleteIcon = document.createElement("img");
+                deleteIcon.src = "public/icons/delete.svg";
+                deleteButton.appendChild(deleteIcon);
+
+                deleteButton.onclick = () => wrapper.remove();
+
+                const inputField = document.createElement("input");
+                inputField.type = "file";
+                inputField.name = "more_pic[]";
+                inputField.className = "hidden";
+                inputField.files = fileInput;
+
+                wrapper.append(image, overlay, deleteButton, inputField);
+
+                return wrapper;
+            }
+
+
             function removeImage(index) {
-                const elementToRemove = document.querySelector(`[data-index="${index}"]`);
+                const elementToRemove = document.querySelector(`[data-index="${index}" ]`);
 
                 if (elementToRemove) {
                     elementToRemove.remove();

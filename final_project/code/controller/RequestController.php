@@ -90,6 +90,13 @@ class RequestController
             case 'update':
                 $result = $this->event->updateEventById($data);
                 return response(status: 200, message: "Edit event complete", data: $result);
+            case 'search':
+                // location, title, date (start)
+                $result = $this->event->searchEvent(title: $data['looking'], location: $data['location'], date: $data['date']);
+                return response(status: 200, message: "Search Work", data: $result);
+
+            default:
+                return response(status: 404, message: "Something went wrong!");
         }
     }
 
