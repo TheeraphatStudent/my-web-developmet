@@ -19,6 +19,8 @@ $calendar = new SchedulerCalendar();
 
     <link rel="stylesheet" href="public/style/main.css">
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Profile</title>
 </head>
 
@@ -29,11 +31,14 @@ $calendar = new SchedulerCalendar();
             <button type="button" class="btn-secondary w-24 md:w-48 text-xl">Edit</button>
         </div>
 
-        <div class="flex flex-col md:flex-row gap-10 bg-white/40 w-full h-28 min-h-fit rounded-xl p-8">
+
+            <div class="flex flex-col md:flex-row gap-10 bg-white/40 w-full h-28 min-h-fit rounded-xl p-8">
             <div class="flex justify-center items-center overflow-hidden w-[150px] h-[150px] bg-black rounded-full border-[3px] border-black">
                 <!-- <img class="w-full h-full object-cover" src="public/images/banner.jpg" alt="Profile" srcset=""> -->
                 <span class="text-3xl text-white">?</span>
             </div>
+
+            
 
             <div class="flex flex-col justify-around w-full max-w-[500px] gap-3 overflow-hidden">
                 <span class="text-2xl md:text-4xl font-semibold font-kanit text-secondary/80 text-overflow">Theeraphat Chueanokkhum</span>
@@ -41,6 +46,17 @@ $calendar = new SchedulerCalendar();
             </div>
         </div>
     </div>
+
+    <div style="display: flex;gap: 10;justify-content: center;flex-direction: row;">
+    <div class="flex flex-row md:flex-col gap-10 bg-white/40 w-20 h-28 min-h-fit rounded-xl p-8">
+<h1>Num of join Event : </h1>        
+</div>
+        <div class="flex flex-row md:flex-col gap-10 bg-white/40 w-20 h-28 min-h-fit rounded-xl p-8">
+        <h1>Num of create Event : </h1>      
+    </div>
+    </div>
+
+        
 
     <div class="inline-flex flex-col w-full h-fit max-w-content gap-10">
         <div class="flex w-full justify-between">

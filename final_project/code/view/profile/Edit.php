@@ -33,6 +33,7 @@ $calendar = new SchedulerCalendar();
             <div class="overflow-hidden w-[150px] h-[150px] bg-black rounded-full border-[3px] border-black">
                 <img class="w-full h-full object-cover" src="public/images/banner.jpg" alt="Profile" srcset="">
             </div>
+            
 
             <div class="flex flex-col justify-around w-full max-w-[500px] gap-3 overflow-hidden">
                 <span class="text-2xl md:text-4xl font-semibold font-kanit text-secondary/80 text-overflow">Theeraphat Chueanokkhum</span>
