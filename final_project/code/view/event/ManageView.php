@@ -41,12 +41,13 @@
                             <th class="text-left">Status</th> -->
                             <th class="text-left">Maximum</th>
                             <th class="text-left">Attendees</th>
+                            <th class="text-left">Created</th>
                             <th class="text-left">Started</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-white">
-                        <?php foreach ($allEvents as $item): ?>
+                        <?php foreach (array_reverse($allEvents) as $item): ?>
                             <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">
                                 <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['eventId'] ?></td>
                                 <td class="py-3 px-4 text-sm font-medium max-w-[150px]"><?= $item['title'] ?></td>
@@ -55,6 +56,7 @@
                                 <td class="py-3 px-4 text-center"><?= $item['maximum'] ?></td>
                                 <td class="py-3 px-4 text-center">0</td>
                                 <td class="py-3 px-4 text-sm"><?= isset($item['start']) ? str_replace("T", " ", json_decode($item['start'], true)[0]) : "-"; ?></td>
+                                <td class="py-3 px-4 text-sm"><?= $item['created'] ?></td>
                                 <td class="py-3 px-4 text-center">
                                     <div class="flex justify-center space-x-2">
                                         <a href="../?action=event.edit&id=<?= $item['eventId'] ?>" class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
