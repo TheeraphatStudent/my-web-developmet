@@ -134,18 +134,6 @@ class Event
         return $result;
     }
 
-    public function nameEvent($data){
-        $sql = $this->connection->prepare(
-            "select * from Event where title% = :title"
-        );
-        $test = $_POST['title'];
-        print_r($test);
-        $sql->execute(['title'=>$data]);
-
-        $result = $sql->fetch(PDO::FETCH_ASSOC);
-        return $result;
-    }
-
     public function updateEventById($data = [])
     {
         print_r($_SESSION);
@@ -205,20 +193,29 @@ class Event
     public function searchEvent($title, $location, $date) {
 
         $title = "";
-        $location = "";
         $date = (new DateTime())->format('Y-m-d H:i:s');
+        $location = json_encode([
+            'lat' => $latMatch[1] ?? 0,
+            'lon' => $lonMatch[1] ?? 0
+        ]);
 
         // SQL
-
+        $sql = $this->connection->prepare("
+        select title, location, start 
+        from Event 
+        where   title = :title
+                location = :location
+                start = :date");
         // bind
-
+        $sql->bindParam(':title', $title);
+        $sql->bindParam(':location', $location);
+        $sql->bindParam(':start', $date);
         // execute
-
+        $sql -> execute([':title', $title,':location', $location, ':start', $date]);
         // fetch
-
+        $result = $sql->fetch(PDO::FETCH_ASSOC);
         // return
-
-        return ["On model work!"];
+        return $result;
 
     }
 
