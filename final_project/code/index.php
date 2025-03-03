@@ -64,6 +64,8 @@ if (isset($_SESSION['user']) && isset($_SESSION['user']['userId'])) {
     $controller->auth($action);
 
     $response = $controller->request(["on" => "user", "form" => "verify"], ["userId" => $_SESSION['user']['userId']]);
+    // print_r($_SESSION['user']);
+    print_r($response);
 
     $navbar->UpdateNavbar($response['data']['isFound']);
 

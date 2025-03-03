@@ -5,7 +5,8 @@ namespace FinalProject\Controller;
 require_once(__DIR__ . '/RequestController.php');
 require_once(__DIR__ . '/../utils/useEvent.php');
 
-require_once(__DIR__ . '/../model');
+require_once(__DIR__ . '/../model/EventModel.php');
+require_once(__DIR__ . '/../model/RegistrationModel.php');
 
 use FinalProject\Controller\RequestController;
 

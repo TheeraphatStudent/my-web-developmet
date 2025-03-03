@@ -35,16 +35,21 @@ class User
 
     public function getUserByUserId($userId)
     {
-        $stmt = $this->connection->prepare("SELECT u.username, u.userId, u.email, u.name, u.gender, u.education, u.telno, u.birth FROM User u WHERE u.userId = :userId");
+        $stmt = $this->connection->prepare("
+        SELECT u.username, u.userId, u.email, u.name, u.gender, u.education, u.telno, u.birth 
+        FROM User u 
+        WHERE u.userId = :userId
+    ");
         $stmt->execute([':userId' => $userId]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($stmt->fetchColumn() > 0) {
+        if ($user) {
             return ["isFound" => true, "user" => $user];
         }
 
         return ["isFound" => false, "user" => []];
     }
+
 
     public function register($username, $password, $email)
     {

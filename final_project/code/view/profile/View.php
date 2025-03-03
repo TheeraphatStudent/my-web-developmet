@@ -43,11 +43,11 @@ $calendar = new SchedulerCalendar();
                     <div class="flex w-full gap-4 mt-2 *:bg-dark-primary/40">
                         <div class="flex flex-col w-full rounded-lg py-2 px-4 text-center">
                             <span class="text-sm text-white">อีเวนท์ที่สร้าง</span>
-                            <p class="text-xl font-bold text-white">12</p>
+                            <p class="text-xl font-bold text-white"><?= $userObj['totalOrganize'] ?? "0" ?></p>
                         </div>
                         <div class="flex flex-col w-full rounded-lg py-2 px-4 text-center">
                             <span class="text-sm text-white">อีเวนท์ที่เข้าร่วม</span>
-                            <p class="text-xl font-bold text-white">5</p>
+                            <p class="text-xl font-bold text-white"><?= $userObj['totalAttendee'] ?? "0" ?></p>
                         </div>
                     </div>
                 </div>
@@ -59,23 +59,23 @@ $calendar = new SchedulerCalendar();
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
                     <div class="flex flex-col">
                         <span class="text-sm text-gray-600">Name</span>
-                        <span class="font-medium">Theeraphat Chueanokkhum</span>
+                        <span class="font-medium"><?= $userObj['name'] ?? "-" ?></span>
                     </div>
                     <div class="flex flex-col">
                         <span class="text-sm text-gray-600">Gender</span>
-                        <span class="font-medium">Male</span>
+                        <span class="font-medium"><?= $userObj['gender'] ?? "-" ?></span>
                     </div>
                     <div class="flex flex-col">
                         <span class="text-sm text-gray-600">Birthday</span>
-                        <span class="font-medium">January 15, 1995</span>
+                        <span class="font-medium"><?= $userObj['birth'] ?? "-" ?></span>
                     </div>
                     <div class="flex flex-col">
                         <span class="text-sm text-gray-600">Telephone</span>
-                        <span class="font-medium">+66 89 123 4567</span>
+                        <span class="font-medium"><?= $userObj['telno'] ?? "-" ?></span>
                     </div>
                     <div class="flex flex-col">
                         <span class="text-sm text-gray-600">Education</span>
-                        <span class="font-medium">Bachelor of Engineering, AGU University</span>
+                        <span class="font-medium"><?= $userObj['education'] ?? "-" ?></span>
                     </div>
                 </div>
             </div>
@@ -86,15 +86,15 @@ $calendar = new SchedulerCalendar();
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
                     <div class="flex flex-col">
                         <span class="text-sm text-gray-600">เข้าร่วมเมื่อ</span>
-                        <span class="font-medium">March 2023</span>
+                        <span class="font-medium"><?= $userObj['created'] ?? "-" ?></span>
                     </div>
-                    <div class="flex flex-col">
+                    <!-- <div class="flex flex-col">
                         <span class="text-sm text-gray-600">Status</span>
                         <span class="font-medium flex items-center">
                             <span class="inline-block w-2 h-2 rounded-full bg-green-500 mr-2"></span>
                             Active
                         </span>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

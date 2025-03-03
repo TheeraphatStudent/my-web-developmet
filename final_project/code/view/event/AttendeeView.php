@@ -73,7 +73,7 @@ $maxDateDisplay = count($startDates);
                 <!-- Right Section -->
                 <div class="flex w-full lg:w-fit h-full items-end z-10">
                     <div class="flex flex-col justify-start items-start gap-8 p-4 lg:p-8 rounded-2xl w-full lg:w-[385px] h-fit max-h-1/2 shadow-md bg-white">
-                        <div class="flex flex-col justify-start items-start gap-2.5 w-full lg:w-[325px] h-auto lg:h-[73px]">
+                        <div class="flex flex-col justify-start items-start gap-2.5 w-full lg:w-[325px] h-fit">
                             <div class="font-kanit text-lg lg:text-xl min-w-full lg:min-w-[325px] whitespace-nowrap text-neutral-800 text-opacity-100 leading-none font-normal">
                                 เวลาจัดงาน
                             </div>

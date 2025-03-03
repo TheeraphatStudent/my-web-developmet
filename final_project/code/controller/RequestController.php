@@ -86,8 +86,8 @@ class RequestController
                 }
 
             case "verify":
-                $isFound = $this->user->getUserByUserId($data["userId"]);
-                return response(status: 200, data: ["isFound" => $isFound['isFound']]);
+                $isFound = $this->user->getUserByUserId($data["userId"])['isFound'];
+                return response(status: 200, data: ["isFound" => $isFound]);
         }
     }
 
