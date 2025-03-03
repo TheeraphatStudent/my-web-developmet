@@ -53,6 +53,11 @@ class MainController
             case 'register':
                 require_once("./view/auth/RegisterView.php");
                 break;
+
+            case 'logout':
+                unset($_SESSION['user']);
+                echo '<script>window.location.href = "../";</script>';
+                exit;
         }
     }
 
@@ -91,7 +96,6 @@ class MainController
                 case 'attendee':
                     if (isset($_GET['id'])) {
                         $regObj = $regModel->getRegisterById(userId: $_SESSION['user']['userId'], eventId: $_GET['id']);
-
                     }
 
                     // print_r($regObj);
@@ -165,11 +169,11 @@ class MainController
         return $res;
     }
 
-    public function logout() {
-        unset($_SESSION['user']);
-        echo ('<script> window.reload </script>');
+    // public function logout() {
+    //     unset($_SESSION['user']);
+    //     echo ('<script> window.reload </script>');
 
-    }
+    // }
 
     public function profile()
     {

@@ -6,7 +6,7 @@ DROP TABLE User;
 
 CREATE TABLE Author (
   `id`          int AUTO_INCREMENT PRIMARY KEY,
-  `authorId`    varchar(255) NOT NULL UNIQUE,
+  `authorId`    varchar(255) NOT NULL,
   `eventId`     varchar(255) NOT NULL,
   `role`        varchar(100),
   `created`     timestamp,
@@ -15,7 +15,7 @@ CREATE TABLE Author (
 
 CREATE TABLE Attendance (
   `id`         int AUTO_INCREMENT PRIMARY KEY,
-  `attId`      varchar(255) NOT NULL UNIQUE,
+  `attId`      varchar(255) NOT NULL,
   `regId`      varchar(255) NOT NULL,
   `verifyBy`   varchar(255) NOT NULL,
   `created`    timestamp
