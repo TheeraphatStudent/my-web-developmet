@@ -165,7 +165,16 @@ $calendar = new SchedulerCalendar();
         </div>
     </div>
 
-    <div class="inline-flex flex-col w-full h-fit max-w-content gap-4">
+    <!-- <div style="display: flex;gap: 10;justify-content: center;flex-direction: row;">
+        <div class="flex flex-row md:flex-col gap-10 bg-white/40 w-20 h-28 min-h-fit rounded-xl p-8">
+            <h1>Num of join Event : </h1>
+        </div>
+        <div class="flex flex-row md:flex-col gap-10 bg-white/40 w-20 h-28 min-h-fit rounded-xl p-8">
+            <h1>Num of create Event : </h1>
+        </div>
+    </div> -->
+
+    <div class="inline-flex flex-col w-full h-fit max-w-content gap-10">
         <div class="flex w-full justify-between">
             <span class="text-2xl md:text-4xl font-semibold font-kanit text-white text-overflow">อีเวนท์เดือนนี้</span>
         </div>
