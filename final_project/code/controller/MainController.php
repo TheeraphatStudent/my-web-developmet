@@ -10,6 +10,7 @@ require_once(__DIR__ . '/../model/EventModel.php');
 use FinalProject\Model\Init;
 use FinalProject\Controller\RequestController;
 use FinalProject\Model\Event;
+use FinalProject\Model\Registration;
 use FinalProject\Utils\Event as EventUtils;
 
 class MainController
@@ -57,6 +58,7 @@ class MainController
         $event = end($target);
 
         $eventModel = new Event($this->connection);
+        $regModel = new Registration($this->connection);
 
         if (isset($_GET['id'])) {
             $eventId = $_GET['id'];
@@ -83,6 +85,13 @@ class MainController
                     require_once("./view/event/CheckedInView.php");
                     break;
                 case 'attendee':
+                    if (isset($_GET['id'])) {
+                        $regObj = $regModel->getRegisterById(userId: $_SESSION['user']['userId'], eventId: $_GET['id']);
+
+                    }
+
+                    // print_r($regObj);
+
                     require_once("./view/event/AttendeeView.php");
                     break;
                 case 'create':
@@ -90,7 +99,7 @@ class MainController
                     break;
                 case 'manage':
                     // ต้องแก้เป็น by id
-                    $allEvents = $eventModel->getAllEvents();
+                    $allEvents = $eventModel->getAllEventsById($_SESSION['user']['userId']);
 
                     require_once("./view/event/ManageView.php");
                     break;

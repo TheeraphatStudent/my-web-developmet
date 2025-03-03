@@ -132,6 +132,17 @@ class Event
         return $result;
     }
 
+    public function getAllEventsById($userId)
+    {
+        $statement = $this->connection->prepare("CALL GetAllEventsByUserId(:userId)");
+        $statement->bindParam(':userId', $userId);
+
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result;
+    }
+
     public function getEventById($id)
     {
 
@@ -237,8 +248,6 @@ class Event
             return ['error' => $e->getMessage(), 'data' => []];
         }
     }
-
-
 
     public function getRegistrationEventByUserId() {}
 

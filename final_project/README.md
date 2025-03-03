@@ -107,3 +107,9 @@ docker build -t web-final_act-gate -f .\DockerFile . ;& docker tag web-final_act
 ```
 docker run --net=host -it -e NGROK_AUTHTOKEN=2rOqB5GAbOGqPqCf245sIl96WJp_3wQSDz2Lz9FvQ2Y4F6bc2 ngrok/ngrok:latest http 3000
 ```
+
+# SVG Icon
+
+`
+https://www.svgrepo.com/svg/126764/pie-chart?edit=true
+`

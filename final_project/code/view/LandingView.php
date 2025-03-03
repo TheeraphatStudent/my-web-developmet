@@ -73,16 +73,17 @@ $calendar = new SchedulerCalendar();
                             style="background-image: url(public/images/uploads/<?= $item['cover'] ?>);">
                             <!-- Tag -->
                             <div class="flex flex-row justify-start items-start gap-2.5 pt-2.5 pr-2.5 pb-2.5 pl-2.5 w-full h-fit bg-gradient-to-b from-dark-primary/50 via-dark-primary/25 to-transparent">
-                                <div class="flex justify-center items-center rounded w-11 h-6 shadow-sm bg-white">
+                                <!-- <?php ?> -->
+                                <!-- <div class="flex justify-center items-center rounded w-11 h-6 shadow-sm bg-white">
                                     <div class="font-kanit text-[10px] min-w-[23px] whitespace-nowrap text-teal-700 text-opacity-100 text-center leading-none font-normal">
                                         FREE
                                     </div>
-                                </div>
-                                <div class="flex justify-center items-center rounded w-[67px] h-6 shadow-sm bg-blue-300">
+                                </div> -->
+                                <!-- <div class="flex justify-center items-center rounded w-[67px] h-6 shadow-sm bg-blue-300">
                                     <div class="font-kanit text-[10px] text-center min-w-[47px] whitespace-nowrap text-blue-900 text-opacity-100 leading-none font-normal">
                                         ONLINE
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
 
                             <!-- Star -->
@@ -104,9 +105,22 @@ $calendar = new SchedulerCalendar();
                                         <?php echo htmlspecialchars_decode($item['maximum'] ?? "-") ?>
                                     </div>
                                 </div>
-                                <div class="font-kanit text-xs w-full whitespace-nowrap text-primary text-opacity-100 leading-none font-normal">
-                                    <!-- Sunday, 12 January 2025&nbsp; -->
-                                    <?php echo htmlspecialchars_decode($item['start'] ?? "-") ?>
+                                <?php
+                                $dates = json_decode($item['start'], true) ?? [];
+                                $formattedDates = array_map(function ($date) {
+                                    return date("l, j F Y", strtotime($date));
+                                }, $dates);
+
+                                $maxDateDisplay = 1;
+                                ?>
+
+                                <div class="flex flex-col font-kanit text-xs w-full whitespace-nowrap text-primary text-opacity-100 leading-none font-normal">
+                                    <?php foreach (array_slice($formattedDates, 0, $maxDateDisplay) as $date): ?>
+                                        <span><?= htmlspecialchars($date) ?></span>
+                                    <?php endforeach; ?>
+                                    <?php if (count($formattedDates) > $maxDateDisplay): ?>
+                                        <span>...</span>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="font-kanit text-sm w-full whitespace-nowrap text-gray-400 text-opacity-100 leading-none font-normal">
@@ -117,14 +131,14 @@ $calendar = new SchedulerCalendar();
                         <div class="flex flex-row justify-center items-center gap-2.5 w-full h-9">
                             <a href="../?action=event.attendee&id=<?= $item['eventId'] ?>" class="btn-primary max-h-10 w-full max-w-[80%]">
                                 <span class="font-kanit text-base text-white">
-                                    เข้าร่วม
+                                    ดูกิจกรรม
                                 </span>
                             </a>
                         </div>
                     </div>
                 <?php endforeach; ?>
             <?php else : ?>
-                
+
 
             <?php endif ?>
         </div>

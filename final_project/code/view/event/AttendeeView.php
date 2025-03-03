@@ -3,10 +3,12 @@
 namespace FinalProject\View\Event;
 
 require_once('components/map/map.php');
+require_once('utils/useRegister.php');
 require_once('components/texteditor/texteditor.php');
 
 use FinalProject\Components\Map;
 use FinalProject\Components\TextEditor;
+use FinalProject\Utils\Register;
 
 $map = new Map();
 $map->setDefaultLocation($lat, $lon);
@@ -73,13 +75,38 @@ $textEditorDescription->updatetextarea(description: $eventObj['description'], is
 
                         <!-- Buttons -->
                         <div class="flex flex-col justify-end gap-2.5 h-full w-full">
-                            <form action="../?action=request&on=event&form=register" method="post">
-                                <input type="hidden" name="eventId" value="<?= $eventObj['eventId'] ?>">
-                                <input type="hidden" name="userId" value="<?= $_SESSION['user']['userId'] ?>">
+                            <form action="../?action=request&on=event&form=register" method="post" class="flex flex-col gap-2.5">
+                                <input type="hidden" name="eventId" value="<?= htmlspecialchars($eventObj['eventId']) ?>">
+                                <input type="hidden" name="userId" value="<?= htmlspecialchars($_SESSION['user']['userId']) ?>">
 
-                                <button type="submit" class="btn-primary w-full">
-                                    <span>เข้าร่วม</span>
-                                </button>
+                                <?php
+                                $buttons = [
+                                    'accept' => [
+                                        ['class' => 'btn-primary w-full', 'label' => 'แสดงบัตร', 'id' => 'acceptEvent'],
+                                        ['class' => 'btn-primary-outline w-full', 'label' => 'ดาวน์โหลดบัตร', 'id' => 'downloadTicket']
+                                    ],
+                                    'pending' => [
+                                        ['class' => 'btn-warring w-full', 'label' => 'รออนุมัติ', 'id' => 'pendingEvent']
+                                    ],
+                                    'reject' => [
+                                        ['class' => 'btn-danger w-full', 'label' => 'ดูเหตุผล', 'id' => 'rejectEvent']
+                                    ],
+                                    'default' => [
+                                        ['class' => 'btn-primary w-full', 'label' => 'เข้าร่วม', 'id' => 'registerEvent']
+                                    ]
+                                ];
+
+                                // print_r($regObj);
+
+                                $status = $regObj['data']['status'] ?? 'default';
+                                $status = in_array($status, Register::REGISTER_STATUS) ? $status : 'default';
+
+                                foreach ($buttons[$status] as $button) {
+                                    echo "<button type='button' class='{$button['class']}' id='{$button['id']}'><span>{$button['label']}</span></button>";
+                                }
+
+                                unset($regObj['data']);
+                                ?>
                             </form>
                             <!-- <a href="#" class="btn-primary-outline w-full group no-underline">
                                 <span class="group-hover:text-white">สนใจ</span>
@@ -134,10 +161,81 @@ $textEditorDescription->updatetextarea(description: $eventObj['description'], is
                 </div>
             </div>
 
+            <div class="flex flex-col justify-start items-start gap-2.5 w-full h-full lg:w-1/2 relative">
+                <div class="font-kanit text-xl text-white font-normal">
+                    เวลา
+                </div>
+                <?php
+                $startDates = json_decode($eventObj['start'], true) ?? [];
+                $endDates = json_decode($eventObj['end'], true) ?? [];
+
+                $formattedDates = array_map(function ($date) {
+                    return date("l, j F Y", strtotime($date));
+                }, $startDates);
+
+                $maxDateDisplay = count($startDates);
+                ?>
+
+                <div class="flex flex-col font-kanit text-base w-full h-full gap-2 whitespace-nowrap text-white text-opacity-100 leading-none font-normal">
+                    <?php foreach (array_slice($formattedDates, 0, $maxDateDisplay) as $date): ?>
+                        <span><?= htmlspecialchars($date) ?></span>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
+        const status = <?= $_GET['status'] ?>
+
+        const url = new URL(window.location.href);
+        url.searchParams.delete("status");
+        window.history.replaceState({}, document.title, url.toString());
+
+        switch (status) {
+            case 409:
+                Swal.fire({
+                    title: "เกิดข้อผิดพลาด",
+                    text: "คุณเป็นผู้สร้างกิจกรรม, คุณมีสิทธิ์เข้าร่วมอยู่แล้ว",
+                    icon: "error",
+                    timerProgressBar: true,
+                    timer: 3500,
+                    confirmButtonText: "ปิด"
+                });
+                break;
+
+            default:
+                break;
+        }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const registerButton = document.getElementById("registerEvent");
+            const rejectButton = document.getElementById("rejectEvent");
+            const form = document.querySelector("form");
+
+            if (registerButton) {
+                registerButton.addEventListener("click", function() {
+                    form.submit();
+                });
+            }
+
+            if (rejectButton) {
+                rejectButton.addEventListener("click", function() {
+                    Swal.fire({
+                        title: "การเข้าร่วมถูกปฏิเสธ",
+                        text: "เหตุผล: <?= htmlspecialchars($regObj['reject_reason'] ?? 'ไม่ระบุ, ติดต่อผู้สร้างกิจกรรม') ?>",
+                        icon: "error",
+                        confirmButtonText: "ปิด"
+                    });
+                });
+            }
+        });
+
         function scrollToView() {
             const mapSection = document.getElementById('detail-section');
             const navbarHeight = document.getElementById('navbar').offsetHeight;

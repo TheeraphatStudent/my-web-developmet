@@ -716,6 +716,32 @@ span{
   background-color: rgb(29 69 119 / var(--tw-bg-opacity, 1));
 }
 
+.btn-warring{
+  display: flex;
+  height: 3.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  font-weight: 600;
+  text-decoration-line: none;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  border-width: .15rem;
+  --tw-border-opacity: 1;
+  border-color: rgb(255 193 69 / var(--tw-border-opacity, 1));
+  background-color: rgb(255 193 69 / 0.8);
+  --tw-text-opacity: 1;
+  color: rgb(251 248 238 / var(--tw-text-opacity, 1));
+}
+
+.btn-warring:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 233 190 / var(--tw-bg-opacity, 1));
+}
+
 .btn-white{
   display: flex;
   height: 3.5rem;
@@ -1155,6 +1181,10 @@ span{
   height: 100vh;
 }
 
+.h-\[56px\]{
+  height: 56px;
+}
+
 .max-h-10{
   max-height: 2.5rem;
 }
@@ -1312,6 +1342,10 @@ span{
 
 .w-screen{
   width: 100vw;
+}
+
+.w-\[56px\]{
+  width: 56px;
 }
 
 .min-w-80{
@@ -1541,6 +1575,10 @@ span{
 
 .gap-\[72px\]{
   gap: 72px;
+}
+
+.gap-0\.5{
+  gap: 0.125rem;
 }
 
 .space-x-1 > :not([hidden]) ~ :not([hidden]){
@@ -1844,6 +1882,16 @@ span{
 
 .bg-yellow\/40{
   background-color: rgb(255 193 69 / 0.4);
+}
+
+.bg-gray-300{
+  --tw-bg-opacity: 1;
+  background-color: rgb(209 213 219 / var(--tw-bg-opacity, 1));
+}
+
+.bg-red{
+  --tw-bg-opacity: 1;
+  background-color: rgb(226 75 75 / var(--tw-bg-opacity, 1));
 }
 
 .bg-opacity-50{
@@ -2499,6 +2547,16 @@ span{
   background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
 }
 
+.hover\:bg-light-secondary:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(171 205 255 / var(--tw-bg-opacity, 1));
+}
+
+.hover\:bg-light-yellow:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 233 190 / var(--tw-bg-opacity, 1));
+}
+
 .hover\:bg-orange-700:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(194 65 12 / var(--tw-bg-opacity, 1));
@@ -2808,6 +2866,11 @@ span{
 @media (min-width: 1280px){
   .xl\:flex-row{
     flex-direction: row;
+  }
+
+  .xl\:px-0{
+    padding-left: 0px;
+    padding-right: 0px;
   }
 }
 

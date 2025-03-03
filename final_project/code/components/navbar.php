@@ -30,13 +30,19 @@ class Navbar extends Component
                     <div class="md:block hidden">
                         <div class="flex h-full gap-4 items-baseline *:text-black">
                             <?php if ($this->isLogin) : ?>
-                                <a href='../?action=event.create' class= hover:text-gray-600 rounded-md text-sm font-medium'>Create event</a>
-                                <a href='../?action=event.manage' class= hover:text-gray-600 rounded-md text-sm font-medium'>Event view</a>
-                                <div class="border-l-2 border-dark-primary">
-                                    <a href='../?action=profile' class='ml-4 hover:text-gray-600 rounded-md text-sm font-medium'>
-                                        Profile
+                                <a href='../?action=event.create' class='hover:text-gray-600 text-xs rounded-md font-medium'>Create event</a>
+                                <a href='../?action=event.manage' class='hover:text-gray-600 text-xs rounded-md font-medium'>Manage event</a>
+                                <div class="flex gap-2 items-center border-l-2 border-dark-primary">
+                                    <a href="../?action=profile" class="ml-4 hover:text-gray-600 text-sm font-medium flex items-center no-underline">
+                                        <div class="w-[56px] h-[56px] flex items-center justify-center rounded-full bg-primary text-white text-xl font-bold">
+                                            <?= htmlspecialchars(strtoupper(substr($_SESSION['user']['username'], 0, 1))) ?>
+                                        </div>
                                     </a>
-                                    <a href='../?' class='ml-4 hover:text-gray-600 rounded-md text-sm font-medium'>Logout</a>
+                                    <!-- <a href="../?action=profile" class="hover:text-gray-600 text-sm font-medium flex items-center no-underline">
+                                        <div class="w-[56px] h-[56px] flex items-center justify-center rounded-full bg-red text-white text-xl font-bold">
+                                            <img src="public/icons/exit.svg" alt="logout" width="24" height="24">
+                                        </div>
+                                    </a> -->
                                 </div>
                             <?php else : ?>
                                 <a href='..?action=register' class='group btn-primary signin-btn w-[160px]'>
