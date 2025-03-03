@@ -117,4 +117,28 @@ class Registration
 
         return $result;
     }
+
+    public function updateAcceptUserRegById($userId, $eventId, $regId)
+    {
+        try {
+            $stmt = $this->connection->prepare("UPDATE Registration 
+                    SET status = 'accepted', updated = NOW()
+                    WHERE userId = :userId AND eventId = :eventId AND regId = :regId AND status = 'pending'");
+            $stmt->bindParam(':userId', $userId);
+            $stmt->bindParam(':eventId', $eventId);
+            $stmt->bindParam(':regId', $regId);
+
+            $stmt->execute();
+
+            return [
+                "status" => ($stmt->rowCount() > 0) ? 200 : 401,
+                "isUpdate" => true
+            ];
+        } catch (PDOException $e) {
+            [
+                "status" => 500,
+                "isUpdate" => false
+            ];
+        }
+    }
 }

@@ -123,7 +123,7 @@ class MainController
                     $eventId = $_GET['id'];
                     $allUserReg = $regModel->getUserRegisterByEventAndUserId(userId: $_SESSION['user']['userId'], eventId: $eventId);
 
-                    print_r($allUserReg);
+                    // print_r($allUserReg);
 
                     require_once("./view/event/statistic.php");
                     break;
@@ -154,12 +154,16 @@ class MainController
                 $res = $request->eventHandler($formContent, $data);
                 break;
 
+            case 'reg':
+                $res = $request->registerHandler($formContent, $data);
+                break;
+
             case 'map':
                 $res = $request->mapHandler($formContent, $data);
                 break;
         }
 
-        if ($res['type'] == 'search') {
+        if (isset($res['type']) && ($res['type'] == 'search')) {
             $_SESSION['search'] = [
                 "onSearch" => true,
                 "value" => $res['data']['data']

@@ -160,9 +160,9 @@ class Event
 
     public function updateEventById($data = [])
     {
-        print_r($_SESSION);
-        echo "<br>";
-        print_r($data);
+        // print_r($_SESSION);
+        // echo "<br>";
+        // print_r($data);
 
         $sql = $this->connection->prepare(
             "UPDATE Event 

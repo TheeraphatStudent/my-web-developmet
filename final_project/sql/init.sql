@@ -65,8 +65,8 @@ CREATE TABLE `User` (
   `updated`     timestamp
 );
 
-ALTER TABLE `Attendance` ADD CONSTRAINT `Attendance_regId_fk` FOREIGN KEY (`regId`) REFERENCES `Registration` (`regId`) ON DELETE CASCADE;
-ALTER TABLE `Attendance` ADD CONSTRAINT `Attendance_verifyBy_fk` FOREIGN KEY (`verifyBy`) REFERENCES `Author` (`authorId`) ON DELETE CASCADE;
+-- ALTER TABLE `Attendance` ADD CONSTRAINT `Attendance_regId_fk` FOREIGN KEY (`regId`) REFERENCES `Registration` (`regId`) ON DELETE CASCADE;
+-- ALTER TABLE `Attendance` ADD CONSTRAINT `Attendance_verifyBy_fk` FOREIGN KEY (`verifyBy`) REFERENCES `Author` (`authorId`) ON DELETE CASCADE;
 ALTER TABLE `Author` ADD CONSTRAINT `Author_eventId_fk` FOREIGN KEY (`eventId`) REFERENCES `Event` (`eventId`) ON DELETE CASCADE;
 ALTER TABLE `Author` ADD CONSTRAINT `Author_stafId_fk` FOREIGN KEY (`authorId`) REFERENCES `User` (`userId`) ON DELETE CASCADE;
 ALTER TABLE `Event` ADD CONSTRAINT `Event_organizeId_fk` FOREIGN KEY (`organizeId`) REFERENCES `User` (`userId`) ON DELETE CASCADE;

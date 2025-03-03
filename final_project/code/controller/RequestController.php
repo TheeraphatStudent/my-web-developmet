@@ -120,6 +120,18 @@ class RequestController
         }
     }
 
+    public function registerHandler($form, array $data)
+    {
+        switch ($form) {
+            case 'update':
+                $result = $this->reg->updateAcceptUserRegById(userId: $data['userId'], eventId: $data['eventId'], regId: $data['regId']);
+                return response(status: 200, message: "Edit event complete", data: $result, redirect: '../?action=event.statistic&id=' . $data['eventId']);
+
+            default:
+                return response(status: 404, message: "Something went wrong!");
+        }
+    }
+
     public function mapHandler($form, array $data)
     {
         switch ($form) {

@@ -50,6 +50,9 @@
                                             </form>
                                             <form action="..?action=request&on=reg&form=update" method="post">
                                                 <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
+                                                <input type="hidden" name="regId" value="<?= $item['regId'] ?>">
+                                                <input type="hidden" name="eventId" value="<?= $_GET['id'] ?>">
+
                                                 <button class="p-1.5 rounded-full text-primary hover:bg-light-green">
                                                     <img src="public/icons/accept.png" alt="accept">
                                                 </button>
