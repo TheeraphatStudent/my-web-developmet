@@ -85,3 +85,41 @@ BEGIN
     AND e.eventId = 'AG-20250000001_event-da2a60c465e8b17b67c4c366aef51'
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE `CountAllEventCreatedByUserId`(
+    IN `getUserId` VARCHAR(255)
+)
+BEGIN
+    SELECT COUNT(*)
+    FROM Registration r
+    JOIN Event e ON r.eventId = e.eventId
+    JOIN User u ON r.userId = u.userId
+    WHERE e.organizeId = getUserId;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE DEFINER=`final-activity`@`%` PROCEDURE `GetUserEventDetails`(
+    IN getUserId VARCHAR(255) CHARSET utf8mb4
+)
+BEGIN
+    SELECT 
+        u.userId,
+        u.name,
+        u.birth,
+        u.email,
+        u.gender,
+        u.education,
+        u.telno,
+
+        (SELECT COUNT(*) FROM Event e WHERE e.organizeId = u.userId) AS totalOrganize,
+
+        (SELECT COUNT(*) FROM Registration r WHERE r.userId = u.userId) AS totalAttendee
+
+    FROM User u
+    WHERE u.userId = getUserId;
+END$$
+
+DELIMITER ;

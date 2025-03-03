@@ -252,7 +252,7 @@ $authors = array_map(function ($type) {
             </div>
 
             <div class="flex w-full justify-start items-start gap-5">
-                <button type="button" id="form-cancel" class="w-1/3 btn-danger">Cancel</button>
+                <a href="../" id="form-cancel" class="w-1/3 btn-danger">Cancel</a>
                 <button type="button" id="form-submit" class="w-full btn-secondary">Create Event</button>
             </div>
 
@@ -268,7 +268,6 @@ $authors = array_map(function ($type) {
         document.addEventListener("DOMContentLoaded", () => {
             const form = document.getElementById("form-content");
 
-            const cancelBtn = document.getElementById("form-cancel");
             const submitBtn = document.getElementById("form-submit");
 
             submitBtn.addEventListener("click", () => {

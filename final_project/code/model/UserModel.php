@@ -25,14 +25,25 @@ class User
         $stmt->execute([':username' => $username]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function getUserByEmail($email)
+    {
+        $stmt = $this->connection->prepare("SELECT userId FROM User WHERE email = :email");
+        $stmt->execute([':email' => $email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function getUserByUserId($userId)
     {
-        $stmt = $this->connection->prepare("SELECT * FROM User WHERE userId = :userId");
+        $stmt = $this->connection->prepare("SELECT u.username, u.userId, u.email, u.name, u.gender, u.education, u.telno, u.birth FROM User u WHERE u.userId = :userId");
         $stmt->execute([':userId' => $userId]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
         if ($stmt->fetchColumn() > 0) {
-            return true;
+            return ["isFound" => true, "user" => $user];
         }
-        return false;
+
+        return ["isFound" => false, "user" => []];
     }
 
     public function register($username, $password, $email)
@@ -80,6 +91,17 @@ class User
 
             return $result;
         }
+
+        return $result;
+    }
+
+    public function getUserEventDetail($userId)
+    {
+        $state = $this->connection->prepare('CALL GetUserEventDetails(:userId)');
+        $state->bindParam(':userId', $userId);
+
+        $state->execute();
+        $result = $state->fetchAll(PDO::FETCH_ASSOC);
 
         return $result;
     }

@@ -55,12 +55,12 @@
                                     <td class="py-3 px-4 text-sm"><?= isset($item['start']) ? str_replace("T", " ", json_decode($item['start'], true)[0]) : "-"; ?></td>
                                     <td class="py-3 px-4 text-center">
                                         <div class="flex justify-center space-x-2">
-                                            <a href="../?action=event.edit&id=<?= $item['eventId'] ?>" class="p-1 rounded-full text-secondary hover:bg-light-secondary">
+                                            <a href="../?action=event.edit&id=<?= $item['eventId'] ?>" class="p-1.5 rounded-full text-secondary hover:bg-light-secondary">
                                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                                                 </svg>
                                             </a>
-                                            <a href="../?action=event.statistic&id=<?= $item['eventId'] ?>" class="p-1 rounded-full hover:bg-light-yellow">
+                                            <a href="../?action=event.statistic&id=<?= $item['eventId'] ?>" class="p-1.5 rounded-full hover:bg-light-yellow">
                                                 <svg height="20px" width="20px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 57.924 57.924" xml:space="preserve" fill="#F4B028" stroke="#F4B028" stroke-width="0.0005792400000000001">
                                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.23169599999999999"></g>

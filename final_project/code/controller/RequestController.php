@@ -42,10 +42,15 @@ class RequestController
                 $password = $data["password"];
                 $email = $data['email'];
 
-                if ($this->user->getUserByUsername($username)) {
+                // if ($this->user->getUserByUsername($username)) {
+                //     // echo '<script>window.location.href="../?action=register"</script>';
+                //     // return ["status" => 301, "message" => "Username นี้ถูกใช้งานแล้ว!"];
+                //     return response(status: 301, message: "Username นี้ถูกใช้งานแล้ว!", redirect: '../?action=register');
+                // }
+                if ($this->user->getUserByEmail($email)) {
                     // echo '<script>window.location.href="../?action=register"</script>';
                     // return ["status" => 301, "message" => "Username นี้ถูกใช้งานแล้ว!"];
-                    return response(status: 301, message: "Username นี้ถูกใช้งานแล้ว!", redirect: '../?action=register');
+                    return response(status: 301, message: "Email นี้ถูกใช้งานแล้ว!", redirect: '../?action=register');
                 }
 
                 $result = $this->user->register($username, $password, $email);
@@ -82,7 +87,7 @@ class RequestController
 
             case "verify":
                 $isFound = $this->user->getUserByUserId($data["userId"]);
-                return response(status: 200, data: ["isFound" => $isFound]);
+                return response(status: 200, data: ["isFound" => $isFound['isFound']]);
         }
     }
 

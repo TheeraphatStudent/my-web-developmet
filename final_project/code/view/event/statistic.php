@@ -30,15 +30,30 @@
                                 <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">
                                     <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['userId'] ?? "-" ?></td>
                                     <td class="py-3 px-4 text-sm font-medium max-w-[150px]"><?= $item['name'] ?? "-" ?></td>
-                                    <td class="py-3 px-4 text-center"><?= $item['birth'] ?? "-" ?></td>
-                                    <td class="py-3 px-4 text-center"><?= $item['attendee'] ?? "-" ?></td>
+                                    <td class="py-3 px-4 text-left">
+                                        <?= !empty($item['birth']) ? (new DateTime())->diff(new DateTime($item['birth']))->y : "-" ?>
+                                    </td>
+                                    <td class="py-3 px-4 text-sm font-medium max-w-[150px]"><?= $item['status'] ?? "-" ?></td>
+
                                     <td class="py-3 px-4 text-center">
-                                        <div class="flex justify-center space-x-2">
-                                            <a href="../?action=event.edit&id=<?= $item['eventId'] ?>" class="p-1 rounded-full text-secondary hover:bg-light-secondary">
+                                        <div class="flex justify-center items-center space-x-2 *:mb-0">
+                                            <!-- <a href="../?action=event.edit&id=<?= $item['eventId'] ?>" class="p-1 rounded-full text-secondary hover:bg-light-secondary">
                                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793z"></path>
                                                 </svg>
-                                            </a>
+                                            </a> -->
+                                            <form action="..?action=request&on=reg&form=remove" method="post">
+                                                <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
+                                                <button class="p-1.5 rounded-full text-red hover:bg-light-red">
+                                                    <img src="public/icons/reject.png" alt="reject">
+                                                </button>
+                                            </form>
+                                            <form action="..?action=request&on=reg&form=update" method="post">
+                                                <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
+                                                <button class="p-1.5 rounded-full text-primary hover:bg-light-green">
+                                                    <img src="public/icons/accept.png" alt="accept">
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>

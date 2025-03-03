@@ -22,7 +22,7 @@ $calendar = new SchedulerCalendar();
         <div class="flex w-full justify-between items-center">
             <span class="text-2xl md:text-4xl font-semibold font-kanit text-white text-overflow">Profile</span>
             <div>
-                <button type="button" class="underline decoration-red text-white hover:text-red/60 md:btn-danger md:w-40">Logout</button>
+                <a href="../?action=logout" class="underline decoration-red text-white hover:text-red/60 md:btn-danger md:w-40">Logout</a>
             </div>
         </div>
 
@@ -34,7 +34,7 @@ $calendar = new SchedulerCalendar();
 
                 <div class="flex flex-col justify-center w-full gap-3 overflow-hidden">
                     <div class="flex flex-col md:flex-row justify-between items-center">
-                        <span class="text-xl md:text-3xl font-semibold font-kanit text-dark-secondary text-overflow"><?= $_SESSION['user']['username'] ?></span>
+                        <span class="text-xl md:text-3xl font-semibold font-kanit text-dark-secondary text-overflow"><?= $userObj['username'] ?? "-" ?></span>
                         <div>
                             <button type="button" class="text-base md:underline decoration-secondary text-white hover:text-secondary/60 md:btn-secondary md:w-40" id="editProfileBtn">Edit</button>
                         </div>
@@ -58,7 +58,7 @@ $calendar = new SchedulerCalendar();
                 <h3 class="text-xl md:text-2xl font-semibold font-kanit text-secondary/80 mb-4">ข้อมูลส่วนตัว</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
                     <div class="flex flex-col">
-                        <span class="text-sm text-gray-600">Full Name</span>
+                        <span class="text-sm text-gray-600">Name</span>
                         <span class="font-medium">Theeraphat Chueanokkhum</span>
                     </div>
                     <div class="flex flex-col">
@@ -112,7 +112,6 @@ $calendar = new SchedulerCalendar();
             </div>
 
             <form id="editProfileForm" class="space-y-6" action="#">
-                <!-- Profile Picture Section -->
                 <div class="flex flex-col items-center gap-3">
                     <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-white relative group">
                         <img id="previewImage" class="object-cover w-full h-full" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ" alt="Profile picture">
@@ -125,7 +124,6 @@ $calendar = new SchedulerCalendar();
                     <input type="file" id="profileImage" name="profileImage" accept="image/*" class="hidden">
                 </div>
 
-                <!-- Personal Information Fields -->
                 <div class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="space-y-2">
@@ -159,7 +157,6 @@ $calendar = new SchedulerCalendar();
                     </div>
                 </div>
 
-                <!-- Form Buttons -->
                 <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
                     <button type="button" id="cancelEditBtn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">ยกเลิก</button>
                     <button type="submit" id="confirmEditBtn" class="px-4 py-2 bg-dark-secondary text-white rounded-lg hover:bg-secondary">บันทึก</button>

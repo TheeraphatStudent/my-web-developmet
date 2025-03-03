@@ -5,12 +5,15 @@ namespace FinalProject\Controller;
 require_once(__DIR__ . '/RequestController.php');
 require_once(__DIR__ . '/../utils/useEvent.php');
 
-require_once(__DIR__ . '/../model/EventModel.php');
+require_once(__DIR__ . '/../model');
+
+use FinalProject\Controller\RequestController;
 
 use FinalProject\Model\Init;
-use FinalProject\Controller\RequestController;
 use FinalProject\Model\Event;
 use FinalProject\Model\Registration;
+use FinalProject\Model\User;
+
 use FinalProject\Utils\Event as EventUtils;
 
 class MainController
@@ -169,6 +172,9 @@ class MainController
 
     public function profile()
     {
+        $userModel = new User($this->connection);
+        $userObj = ($userModel->getUserByUserId($_SESSION['user']['username']))['user'];
+
         require_once("./view/profile/View.php");
     }
     public function mail()
