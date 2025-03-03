@@ -140,6 +140,7 @@ switch ($action) {
     case 'event.checked-in':
     case 'event.manage':
     case 'event.edit':
+    case 'event.statistic':
     case 'event.create-test':
         $controller->event($action);
         break;
@@ -159,12 +160,6 @@ switch ($action) {
     default:
         error_log("Invalid action: $action");
         http_response_code(404);
-
-        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            echo json_encode(["error" => "Action not found"]);
-            exit;
-        }
-
         $controller->notFound();
         break;
 }

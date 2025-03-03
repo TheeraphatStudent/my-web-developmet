@@ -18,6 +18,17 @@ $textEditor->updatetextarea(description: $eventObj['description'], isEdit: false
 
 $textEditorDescription = new TextEditor();
 $textEditorDescription->updatetextarea(description: $eventObj['description'], isEdit: false);
+
+// ======================== Start Date ================================
+
+$startDates = json_decode($eventObj['start'], true) ?? [];
+$endDates = json_decode($eventObj['end'], true) ?? [];
+
+$formattedDates = array_map(function ($date) {
+    return date("l, j F Y", strtotime($date));
+}, $startDates);
+
+$maxDateDisplay = count($startDates);
 ?>
 
 <body class="bg-primary">
@@ -66,47 +77,58 @@ $textEditorDescription->updatetextarea(description: $eventObj['description'], is
                             <div class="font-kanit text-lg lg:text-xl min-w-full lg:min-w-[325px] whitespace-nowrap text-neutral-800 text-opacity-100 leading-none font-normal">
                                 เวลาจัดงาน
                             </div>
-                            <div class="font-kanit text-base lg:text-[18px] min-w-full lg:min-w-[325px] whitespace-nowrap text-neutral-400 text-opacity-100 leading-none font-normal">
+                            <div class="flex flex-col font-kanit text-base w-full h-full gap-2 whitespace-nowrap text-gray-500 text-opacity-100 leading-none font-normal">
+                                <?php foreach (array_slice($formattedDates, 0, $maxDateDisplay) as $date): ?>
+                                    <span><?= htmlspecialchars($date) ?></span>
+                                <?php endforeach; ?>
+                            </div>
+                            <!-- <div class="font-kanit text-base lg:text-[18px] min-w-full lg:min-w-[325px] whitespace-nowrap text-neutral-400 text-opacity-100 leading-none font-normal">
                                 <span>
                                     อาทิตย์ที่ 12 ม.ค. 2025 : 9.00 PM
                                 </span>
-                            </div>
+                            </div> -->
                         </div>
 
                         <!-- Buttons -->
                         <div class="flex flex-col justify-end gap-2.5 h-full w-full">
                             <form action="../?action=request&on=event&form=register" method="post" class="flex flex-col gap-2.5">
-                                <input type="hidden" name="eventId" value="<?= htmlspecialchars($eventObj['eventId']) ?>">
-                                <input type="hidden" name="userId" value="<?= htmlspecialchars($_SESSION['user']['userId']) ?>">
+                                <?php if (!empty($_SESSION['user']) && isset($_SESSION['user']['userId'])): ?>
+                                    <input type="hidden" name="eventId" value="<?= htmlspecialchars($eventObj['eventId']) ?>">
+                                    <input type="hidden" name="userId" value="<?= htmlspecialchars($_SESSION['user']['userId']) ?>">
 
-                                <?php
-                                $buttons = [
-                                    'accept' => [
-                                        ['class' => 'btn-primary w-full', 'label' => 'แสดงบัตร', 'id' => 'acceptEvent'],
-                                        ['class' => 'btn-primary-outline w-full', 'label' => 'ดาวน์โหลดบัตร', 'id' => 'downloadTicket']
-                                    ],
-                                    'pending' => [
-                                        ['class' => 'btn-warring w-full', 'label' => 'รออนุมัติ', 'id' => 'pendingEvent']
-                                    ],
-                                    'reject' => [
-                                        ['class' => 'btn-danger w-full', 'label' => 'ดูเหตุผล', 'id' => 'rejectEvent']
-                                    ],
-                                    'default' => [
-                                        ['class' => 'btn-primary w-full', 'label' => 'เข้าร่วม', 'id' => 'registerEvent']
-                                    ]
-                                ];
+                                    <?php
+                                    $buttons = [
+                                        'accept' => [
+                                            ['class' => 'btn-primary w-full', 'label' => 'แสดงบัตร', 'id' => 'acceptEvent'],
+                                            ['class' => 'btn-primary-outline w-full', 'label' => 'ดาวน์โหลดบัตร', 'id' => 'downloadTicket']
+                                        ],
+                                        'pending' => [
+                                            ['class' => 'btn-warring w-full', 'label' => 'รออนุมัติ', 'id' => 'pendingEvent']
+                                        ],
+                                        'reject' => [
+                                            ['class' => 'btn-danger w-full', 'label' => 'ดูเหตุผล', 'id' => 'rejectEvent']
+                                        ],
+                                        'default' => [
+                                            ['class' => 'btn-primary w-full', 'label' => 'เข้าร่วม', 'id' => 'registerEvent']
+                                        ]
+                                    ];
 
-                                // print_r($regObj);
+                                    // print_r($regObj);
 
-                                $status = $regObj['data']['status'] ?? 'default';
-                                $status = in_array($status, Register::REGISTER_STATUS) ? $status : 'default';
+                                    $status = $regObj['data']['status'] ?? 'default';
+                                    $status = in_array($status, Register::REGISTER_STATUS) ? $status : 'default';
 
-                                foreach ($buttons[$status] as $button) {
-                                    echo "<button type='button' class='{$button['class']}' id='{$button['id']}'><span>{$button['label']}</span></button>";
-                                }
+                                    foreach ($buttons[$status] as $button) {
+                                        echo "<button type='button' class='{$button['class']}' id='{$button['id']}'><span>{$button['label']}</span></button>";
+                                    }
 
-                                unset($regObj['data']);
-                                ?>
+                                    unset($regObj['data']);
+                                    ?>
+
+                                <?php else : ?>
+                                    <a href="../?action=login" class="btn-gray">เข้าสู่ระบบก่อน</a>
+
+                                <?php endif ?>
                             </form>
                             <!-- <a href="#" class="btn-primary-outline w-full group no-underline">
                                 <span class="group-hover:text-white">สนใจ</span>
@@ -161,22 +183,11 @@ $textEditorDescription->updatetextarea(description: $eventObj['description'], is
                 </div>
             </div>
 
-            <div class="flex flex-col justify-start items-start gap-2.5 w-full h-full lg:w-1/2 relative">
+            <div class="flex flex-col justify-start items-start gap-2.5 w-full h-fit lg:w-1/2 relative">
                 <div class="font-kanit text-xl text-white font-normal">
-                    เวลา
+                    เวลาจัดงาน
                 </div>
-                <?php
-                $startDates = json_decode($eventObj['start'], true) ?? [];
-                $endDates = json_decode($eventObj['end'], true) ?? [];
-
-                $formattedDates = array_map(function ($date) {
-                    return date("l, j F Y", strtotime($date));
-                }, $startDates);
-
-                $maxDateDisplay = count($startDates);
-                ?>
-
-                <div class="flex flex-col font-kanit text-base w-full h-full gap-2 whitespace-nowrap text-white text-opacity-100 leading-none font-normal">
+                <div class="flex flex-col font-kanit text-base w-full h-full min-h-fit gap-2 whitespace-nowrap text-white text-opacity-100 leading-none font-normal">
                     <?php foreach (array_slice($formattedDates, 0, $maxDateDisplay) as $date): ?>
                         <span><?= htmlspecialchars($date) ?></span>
                     <?php endforeach; ?>

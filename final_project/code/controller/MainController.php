@@ -91,7 +91,6 @@ class MainController
                     }
 
                     // print_r($regObj);
-
                     require_once("./view/event/AttendeeView.php");
                     break;
                 case 'create':
@@ -111,6 +110,14 @@ class MainController
                     // $eventObj = $eventModel->getEventById($eventId);
 
                     require_once("./view/event/edit.php");
+                    break;
+                case 'statistic':
+                    $eventId = $_GET['id'];
+                    $allUserReg = $regModel->getUserRegisterByEventAndUserId(userId: $_SESSION['user']['userId'], eventId: $eventId);
+
+                    print_r($allUserReg);
+
+                    require_once("./view/event/statistic.php");
                     break;
             }
         } else {
@@ -152,6 +159,12 @@ class MainController
         }
 
         return $res;
+    }
+
+    public function logout() {
+        unset($_SESSION['user']);
+        echo ('<script> window.reload </script>');
+
     }
 
     public function profile()

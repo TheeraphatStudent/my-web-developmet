@@ -105,4 +105,16 @@ class Registration
             ];
         }
     }
+
+    public function getUserRegisterByEventAndUserId($userId, $eventId)
+    {
+        $statement = $this->connection->prepare("CALL GetUsersRegByEventId(:userId, :eventId)");
+        $statement->bindParam(':userId', $userId);
+        $statement->bindParam(':eventId', $eventId);
+
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result;
+    }
 }

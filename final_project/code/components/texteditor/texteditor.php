@@ -72,7 +72,7 @@ class TextEditor extends Component
                     data-editor-id="<?= $this->editorId ?>"></textarea>
 
                 <input class="editor-hidden-input hidden" name="description" type="text" name="description-<?= $this->editorId ?>" data-editor-id="<?= $this->editorId ?>">
-                <div class="editor-preview p-3 w-full <?= ($this->isEdit ? 'bg-primary md:h-full' : 'bg-transparent') ?> overflow-auto text-white" data-editor-id="<?= $this->editorId ?>"></div>
+                <div class="editor-preview p-3 w-full <?= ($this->isEdit ? 'bg-primary h-[clamp(200px, 20vh, 100%)]' : 'bg-transparent') ?> overflow-auto text-white" data-editor-id="<?= $this->editorId ?>"></div>
             </div>
         </div>
 

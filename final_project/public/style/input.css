@@ -53,7 +53,7 @@
   }
 
   .btn-gray {
-    @apply btn bg-gray-500 text-gray-500 border-[.15rem] border-gray-800 hover:bg-white;
+    @apply btn bg-gray-500 text-white border-[.15rem] border-gray-800 hover:bg-white hover:text-gray-500;
   }
 
   .btn-white {
@@ -75,7 +75,7 @@
 
   /* Input Fields */
   .input-field {
-    @apply w-full text-sm text-black border border-white pl-4 pr-2 py-3 rounded-lg;
+    @apply w-full text-sm bg-white text-black border border-gray-400 pl-4 pr-2 py-3 rounded-lg;
   }
 
   /* Tags */

@@ -1,11 +1,87 @@
 -- Event
+-- DELIMITER $$
+
+-- CREATE PROCEDURE GetAllEventsByUserId(IN getUserId VARCHAR(255))
+-- BEGIN
+--     SELECT * FROM Event WHERE userId = getUserId;
+-- END $$
+
+-- DELIMITER ;
+
+-- DELIMITER $$
+
+-- CREATE PROCEDURE `GetAllEventsByUserId`(IN `getUserId` VARCHAR(255))
+-- BEGIN
+--     SELECT 
+--         e.eventId,
+--         e.cover,
+--         e.title,
+--         e.maximum,
+--         e.type,
+--         e.start,
+--         e.status,
+--         e.created,
+--         COUNT(r.id) AS totalRegistrations
+--     FROM Event e
+--     LEFT JOIN Registration r ON e.eventId = r.eventId
+--     WHERE e.organizeId = getUserId
+--     GROUP BY e.eventId;
+
+-- END$$
+
+-- DELIMITER ;
+
+-- ====================== Event - Get all event by user id
+
 DELIMITER $$
 
-CREATE PROCEDURE GetAllEventsByUserId(IN getUserId VARCHAR(255))
+CREATE PROCEDURE `GetAllEventsByUserId` (IN `getUserId` VARCHAR(255))
 BEGIN
-    SELECT * FROM Event WHERE userId = getUserId;
-END $$
+    SELECT
+        e.eventId,
+        e.cover,
+        e.title,
+        e.maximum,
+        e.type,
+        e.start,
+        e.end,
+        e.created,
+        COUNT(r.regId) AS attendee
+    FROM Event e
+    LEFT JOIN Registration r ON e.eventId = r.eventId
+    WHERE e.organizeId = getUserId
+    GROUP BY 
+        e.eventId, 
+        e.cover, 
+        e.title, 
+        e.maximum, 
+        e.type, 
+        e.start, 
+        e.end, 
+        e.created;
+END$$
 
 DELIMITER ;
 
--- Register
+-- ====================== Event - Get User by event id with regid
+
+DELIMITER $$
+CREATE PROCEDURE `GetUsersByEvent`(
+    IN `getUserId` VARCHAR(255),
+    IN `getEventId` VARCHAR(255)
+)
+BEGIN
+    SELECT DISTINCT
+        u.userId,
+        u.name,
+        u.birth,
+        r.status
+    FROM Event e
+    JOIN User u
+    JOIN Registration r
+    WHERE e.organizeId = 'AGU-0000001_user-b57204e202489c3e67c4baecd336c'
+    AND u.userId = r.userId
+    AND r.eventId = e.eventId
+    AND e.eventId = 'AG-20250000001_event-da2a60c465e8b17b67c4c366aef51'
+END$$
+DELIMITER ;
