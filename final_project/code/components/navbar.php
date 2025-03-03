@@ -30,8 +30,9 @@ class Navbar extends Component
                     <div class="md:block hidden">
                         <div class="flex h-full gap-4 items-baseline *:text-black">
                             <?php if ($this->isLogin) : ?>
-                                <a href='../?action=event.create' class='hover:text-gray-600 text-xs rounded-md font-medium'>Create event</a>
-                                <a href='../?action=event.manage' class='hover:text-gray-600 text-xs rounded-md font-medium'>Manage event</a>
+                                <a href='../?action=event.create' class='hover:text-gray-600 text-sm rounded-md font-medium'>Create event</a>
+                                <a href='../?action=event.manage' class='hover:text-gray-600 text-sm rounded-md font-medium'>Manage event</a>
+                                <a href='../?action=event.manage' class='hover:text-gray-600 text-sm rounded-md font-medium'>Mail</a>
                                 <div class="flex gap-2 items-center border-l-2 border-dark-primary">
                                     <a href="../?action=profile" class="ml-4 hover:text-gray-600 text-sm font-medium flex items-center no-underline">
                                         <div class="w-[56px] h-[56px] flex items-center justify-center rounded-full bg-primary text-white text-xl font-bold">

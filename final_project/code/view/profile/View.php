@@ -21,6 +21,9 @@ $calendar = new SchedulerCalendar();
     <div class="inline-flex flex-col justify-center w-full h-fit max-w-content gap-4">
         <div class="flex w-full justify-between items-center">
             <span class="text-2xl md:text-4xl font-semibold font-kanit text-white text-overflow">Profile</span>
+            <div>
+                <button type="button" class="underline decoration-red text-white hover:text-red/60 md:btn-danger md:w-40">Logout</button>
+            </div>
         </div>
 
         <div class="flex flex-col bg-white/40 w-full h-fit min-h-fit rounded-xl p-8 gap-8">
@@ -30,10 +33,10 @@ $calendar = new SchedulerCalendar();
                 </div>
 
                 <div class="flex flex-col justify-center w-full gap-3 overflow-hidden">
-                    <div class="flex justify-between items-center">
+                    <div class="flex flex-col md:flex-row justify-between items-center">
                         <span class="text-xl md:text-3xl font-semibold font-kanit text-dark-secondary text-overflow"><?= $_SESSION['user']['username'] ?></span>
                         <div>
-                            <button type="button" class="btn-secondary" id="editProfileBtn">Edit</button>
+                            <button type="button" class="text-base md:underline decoration-secondary text-white hover:text-secondary/60 md:btn-secondary md:w-40" id="editProfileBtn">Edit</button>
                         </div>
                     </div>
                     <!-- <span class="font-kanit font-light text-lg md:text-xl text-black text-overflow"><?= $_SESSION['user']['userId'] ?></span> -->
