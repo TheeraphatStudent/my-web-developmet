@@ -118,6 +118,21 @@ class Event
 
         return $result;
     }
+    public function Registration(){
+        $statement = $this->connection->prepare("
+            SELECT User.username,User.userId
+            FROM   Registration,Event,User
+            where  Registration.eventId = Event.eventId
+            AND	Event.organizeId = User.userId
+            AND	User.userId = Registration.userId
+            ");
+
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result;
+    }
+
 
     public function getEventById($id)
     {
