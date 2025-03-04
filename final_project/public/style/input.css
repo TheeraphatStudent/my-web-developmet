@@ -1,0 +1,97 @@
+/* Import Kanit Font (Must be at the top before Tailwind) */
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&display=swap");
+
+/* Tailwind Directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Apply Kanit font globally */
+  * {
+    @apply font-kanit transition-all duration-100 ease-in-out;
+  }
+
+  /* Headings */
+  h1 {
+    @apply text-2xl;
+  }
+  h2 {
+    @apply text-xl;
+  }
+  h3 {
+    @apply text-lg;
+  }
+
+  /* Links */
+  a {
+    @apply underline decoration-white transition-all hover:opacity-80;
+  }
+
+  /* Text Elements */
+  span {
+    @apply font-kanit;
+  }
+}
+
+@layer components {
+  /* Buttons */
+  .btn {
+    @apply flex items-center justify-center font-semibold h-14 px-6 rounded-xl no-underline transition-all;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary text-white border-[.15rem] border-primary hover:bg-secondary;
+  }
+
+  .btn-secondary {
+    @apply btn bg-secondary text-white border-none hover:bg-dark-secondary;
+  }
+
+  .btn-warring {
+    @apply btn bg-yellow/80 text-white border-[.15rem] border-yellow hover:bg-light-yellow;
+  }
+
+  .btn-gray {
+    @apply btn bg-gray-500 text-white border-[.15rem] border-gray-800 hover:bg-white hover:text-gray-500;
+  }
+
+  .btn-white {
+    @apply btn bg-white text-black border-[.15rem] hover:bg-black hover:text-white;
+  }
+
+  .btn-danger {
+    @apply btn bg-red text-white border-none hover:bg-dark-red;
+  }
+
+  .btn-primary-outline {
+    @apply btn text-primary border-[.15rem] border-primary hover:bg-secondary hover:text-black/80;
+  }
+
+  /* Cards */
+  .card {
+    @apply flex w-full max-w-[450px] p-8 bg-white border shadow-xl rounded-xl;
+  }
+
+  /* Input Fields */
+  .input-field {
+    @apply w-full text-sm bg-white text-black border border-gray-400 pl-4 pr-2 py-3 rounded-lg;
+  }
+
+  /* Tags */
+  .tags {
+    @apply flex justify-center items-center rounded px-3 py-2 bg-white text-primary text-sm font-normal;
+  }
+
+  .text-overflow {
+    @apply whitespace-nowrap overflow-hidden text-ellipsis block;
+  }
+
+  .form-title {
+    @apply text-base font-medium text-white leading-none;
+  }
+
+  .form-required {
+    @apply text-red;
+  }
+}

@@ -32,6 +32,8 @@ class User implements UserProps
 
             $userId = $this->connection->lastInsertId();
 
+            // ?
+            // = :id
             $statement = $this->connection->prepare("SELECT * FROM users WHERE id = :id");
             $statement->execute([':id' => $userId]);
             $user = $statement->fetch(PDO::FETCH_ASSOC);
@@ -77,7 +79,7 @@ class User implements UserProps
             $user = $statement->fetch(PDO::FETCH_ASSOC);
 
             if (!$user) {
-                return ['status' => 404, 'error' => 'User not found', 'valid' => false];
+                return ['status' => 404, 'error' => 'User not found', 'valid' => false, 'response' => $user];
             }
 
             unset($user['username']);

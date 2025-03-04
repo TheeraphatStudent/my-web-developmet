@@ -1,13 +1,20 @@
-FROM php:apache
+FROM php:8.2-apache
 
-RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
-RUN sed -i '/<Directory \/var\/www\/html>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
+RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf \
+    && sed -i '/<Directory \/var\/www\/html>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
 RUN docker-php-ext-install pdo pdo_mysql
+
 RUN a2enmod rewrite
 
 COPY . /var/www/html/
+COPY ./config/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
 
 RUN chown -R www-data:www-data /var/www/html
 
+COPY ./config/apache2.conf /etc/apache2/sites-available/000-default.conf
+RUN a2ensite 000-default.conf
+
 EXPOSE 80
+
+CMD ["apache2-foreground"]

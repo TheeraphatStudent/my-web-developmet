@@ -49,6 +49,13 @@ class Student implements StudentProps
 
             $state = $this->connection->prepare('INSERT INTO students (uniqId, stdid, prefix, name, year, grade, birth) VALUES (:uniqId, :stdid, :prefix, :name, :year, :grade, :birth)');
             // $state->bind_param(':uniq_id', $container['uniq_id'], PDO::PARAM_STR);
+            $state->bindParam(':uniqId', $data['uniq_id']);
+            $state->bindParam(':stdid', $data['stdid']);
+            $state->bindParam(':prefix', $data['prefix']);
+            $state->bindParam(':name', $data['name']);
+            $state->bindParam(':year', $data['year']);
+            $state->bindParam(':grade', $data['grade']);
+            $state->bindParam(':birth', $data['birthday']);
 
             // $state->execute($container);
             $state->execute([
@@ -117,7 +124,6 @@ class Student implements StudentProps
             }
 
             return ['status' => 200, 'Removed successfully', 'data' => $uniqId];
-
         } catch (PDOException $e) {
             return ['status' => 500, 'error' => $e->getMessage(), 'data' => []];
         }
