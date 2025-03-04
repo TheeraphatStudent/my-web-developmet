@@ -26,7 +26,7 @@ class QrCodeReader extends Component
         <script type="module">
             import {
                 CameraInit
-            } from '/code/components/camera/camera.js';
+            } from './components/camera/camera.js';
 
             document.addEventListener('DOMContentLoaded', () => {
                 const cameraInit = new CameraInit();

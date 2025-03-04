@@ -10,6 +10,7 @@ use FinalProject\Utils;
 
 use DateTime;
 use PDO;
+use PDOException;
 
 class Event
 {
@@ -84,6 +85,18 @@ class Event
 
         $eventId = "AG-" . $now->format('Y') . $formattedValue . uniqid("_event-" . getRandomId(8));
 
+        $statement->bindParam(':eventId', $eventId);
+        $statement->bindParam(':organizeId', $_SESSION['user']['userId']);
+        $statement->bindParam(':title', $data['title']);
+        $statement->bindParam(':description', $data['description']);
+        $statement->bindParam(':venue', $data['venue']);
+        $statement->bindParam(':maximum', $data['maximum']);
+        $statement->bindParam(':type', $data['type']);
+        $statement->bindParam(':link', $data['link']);
+        $statement->bindParam(':start', $started);
+        $statement->bindParam(':start', $ended);
+        $statement->bindParam(':location', $location);
+
         $statement->execute([
             ':eventId' => $eventId,
             ':organizeId' => $_SESSION['user']['userId'],
@@ -92,7 +105,7 @@ class Event
             ':title' => $data['title'],
             ':description' => $data['description'],
             ':venue' => $data['venue'],
-            ':maximum' => $data['maximum'],
+            ':maximum' => $data['maximum'] ?? 0,
             ':type' => $data['type'],
             ':link' => $data['link'],
             ':start' => $started,
@@ -134,6 +147,17 @@ class Event
     }
 
 
+    public function getAllEventsById($userId)
+    {
+        $statement = $this->connection->prepare("CALL GetAllEventsByUserId(:userId)");
+        $statement->bindParam(':userId', $userId);
+
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result;
+    }
+
     public function getEventById($id)
     {
 
@@ -151,9 +175,9 @@ class Event
 
     public function updateEventById($data = [])
     {
-        print_r($_SESSION);
-        echo "<br>";
-        print_r($data);
+        // print_r($_SESSION);
+        // echo "<br>";
+        // print_r($data);
 
         $sql = $this->connection->prepare(
             "UPDATE Event 
@@ -205,34 +229,42 @@ class Event
         }
     }
 
-    public function searchEvent($title, $location, $date) {
+    public function searchEvent($title, $dateStart, $dateEnd)
+    {
+        try {
+            $title = $title;
+            $dateStart = $dateStart;
+            $dateEnd = $dateEnd;
 
-        $title = "";
-        $date = (new DateTime())->format('Y-m-d H:i:s');
-        $location = json_encode([
-            'lat' => $latMatch[1] ?? 0,
-            'lon' => $lonMatch[1] ?? 0
-        ]);
+            $query = "SELECT * FROM Event WHERE 1=1";
+            $params = [];
 
-        // SQL
-        $sql = $this->connection->prepare("
-        select title, location, start 
-        from Event 
-        where   title = :title
-                location = :location
-                start = :date");
-        // bind
-        $sql->bindParam(':title', $title);
-        $sql->bindParam(':location', $location);
-        $sql->bindParam(':start', $date);
-        // execute
-        $sql -> execute([':title', $title,':location', $location, ':start', $date]);
-        // fetch
-        $result = $sql->fetch(PDO::FETCH_ASSOC);
-        // return
-        return $result;
+            if (!empty($title)) {
+                $query .= " AND title LIKE :title";
+                $params[':title'] = "%$title%";
+            }
 
+            if (!empty($dateStart) && !empty($dateEnd)) {
+                $query .= " AND (
+                JSON_UNQUOTE(JSON_EXTRACT(started, '$[0]')) BETWEEN :dateStart AND :dateEnd
+                OR JSON_UNQUOTE(JSON_EXTRACT(started, '$[1]')) BETWEEN :dateStart AND :dateEnd
+            )";
+                $params[':dateStart'] = $dateStart;
+                $params[':dateEnd'] = $dateEnd;
+            }
+
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute($params);
+
+            $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return ["data" => $events];
+        } catch (PDOException $e) {
+            return ['error' => $e->getMessage(), 'data' => []];
+        }
     }
+
+    public function getRegistrationEventByUserId() {}
 
     public function deleteEventById() {}
 }

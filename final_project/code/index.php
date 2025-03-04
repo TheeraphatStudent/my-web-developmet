@@ -64,13 +64,13 @@ if (isset($_SESSION['user']) && isset($_SESSION['user']['userId'])) {
     $controller->auth($action);
 
     $response = $controller->request(["on" => "user", "form" => "verify"], ["userId" => $_SESSION['user']['userId']]);
+    // print_r($_SESSION['user']);
+    // print_r($response);
 
     $navbar->UpdateNavbar($response['data']['isFound']);
 
     $isLogin = true;
 }
-
-// print_r($_FILES);
 
 switch ($action) {
 
@@ -84,6 +84,12 @@ switch ($action) {
 
         $input = json_decode(file_get_contents("php://input"), true) ?? [];
         $data = array_merge($_POST, $input);
+
+        if (!isset($_GET['action']) || !isset($_GET['on'])) {
+            http_response_code(400);
+            echo json_encode(["error" => "Invalid request parameters."]);
+            exit;
+        }
 
         // if (isset($data['test'])) {
         // print_r($data);
@@ -136,6 +142,7 @@ switch ($action) {
     case 'event.checked-in':
     case 'event.manage':
     case 'event.edit':
+    case 'event.statistic':
     case 'event.create-test':
         $controller->event($action);
         break;
@@ -154,7 +161,7 @@ switch ($action) {
 
     default:
         error_log("Invalid action: $action");
-        header("HTTP/1.0 404 Not Found");
+        http_response_code(404);
         $controller->notFound();
         break;
 }
