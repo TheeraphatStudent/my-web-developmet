@@ -123,8 +123,6 @@ class MainController
                     $eventId = $_GET['id'];
                     $allUserReg = $regModel->getUserRegisterByEventAndUserId(userId: $_SESSION['user']['userId'], eventId: $eventId);
 
-                    // print_r($allUserReg);
-
                     require_once("./view/event/statistic.php");
                     break;
             }
@@ -182,7 +180,7 @@ class MainController
     public function profile()
     {
         $userModel = new User($this->connection);
-        $userObj = ($userModel->getUserByUserId($_SESSION['user']['username']))['user'];
+        $userObj = ($userModel->getUserByUserId($_SESSION['user']['userId']))['user'];
 
         require_once("./view/profile/View.php");
     }

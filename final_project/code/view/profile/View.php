@@ -8,6 +8,8 @@ use FinalProject\Components\SchedulerCalendar;
 
 $calendar = new SchedulerCalendar();
 
+// print_r($userObj);
+
 ?>
 
 <head>

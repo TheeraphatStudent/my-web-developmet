@@ -48,7 +48,7 @@
                                                     <img src="public/icons/reject.png" alt="reject">
                                                 </button>
                                             </form>
-                                            <form action="..?action=request&on=reg&form=update" method="post">
+                                            <form action="..?action=request&on=reg&form=update" class="<?= $item['status'] == "accepted" ? 'hidden' : '' ?>" method="post">
                                                 <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
                                                 <input type="hidden" name="regId" value="<?= $item['regId'] ?>">
                                                 <input type="hidden" name="eventId" value="<?= $_GET['id'] ?>">
