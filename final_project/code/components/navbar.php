@@ -32,6 +32,7 @@ class Navbar extends Component
                             <?php if ($this->isLogin) : ?>
                                 <a href='../?action=event.create' class='hover:text-gray-600 text-sm rounded-md font-medium'>Create event</a>
                                 <a href='../?action=event.manage' class='hover:text-gray-600 text-sm rounded-md font-medium'>Manage event</a>
+                                <!-- <a href='../?action=event.manage' class='hover:text-gray-600 text-sm rounded-md font-medium'>Checked event</a> -->
                                 <a href='../?action=mail' class='hover:text-gray-600 text-sm rounded-md font-medium'>Mail</a>
                                 <div class="flex gap-2 items-center border-l-2 border-dark-primary">
                                     <a href="../?action=profile" class="ml-4 hover:text-gray-600 text-sm font-medium flex items-center no-underline">
