@@ -91,6 +91,7 @@ class MainController
         if (in_array($event, EventUtils::ACCEPT_EVENT)) {
             switch ($event) {
                 case 'checked-in':
+                    $allEvents = $eventModel -> Registration();
                     require_once("./view/event/CheckedInView.php");
                     break;
                 case 'attendee':
