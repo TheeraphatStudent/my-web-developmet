@@ -111,9 +111,9 @@ const renderCalendar = () => {
         const dateString = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
 
         dateCell.className = `calendar-day bg-white rounded p-2 border cursor-pointer hover:bg-gray-100 hover:scale-105 ${now.getDate() == day && 'shadow-xl'}`;
-        dateCell.style.boxShadow = "box-shadow: 0 0 15px 15px rgba(34, 110, 106, 0.8);"
+        dateCell.style.boxShadow = "box-shadow: 0 0 15px 15px #226E6A;"
         dateCell.innerHTML = `
-          <div class="font-semibold ${now.getDate() == day && 'bg-primary text-white rounded-full w-fit h-fit px-2 '}">${day}</div>
+          <div class="font-semibold ${(now.getDate() == day && now.getMonth() == currentDate.getMonth()) && 'bg-primary text-white rounded-full w-fit h-fit px-2 '}">${day}</div>
           <div class="flex flex-wrap mt-1" id="events-${dateString}"></div>
         `;
 
@@ -122,7 +122,6 @@ const renderCalendar = () => {
 
         // icon in calendar
         if (events[dateString]) {
-
             events[dateString].forEach((event, index) => {
                 // console.log(`Event Notify: ${event.title} at ${event.time} on ${day} ${monthYearString} Month`);
 
@@ -148,7 +147,7 @@ const renderCalendar = () => {
 
     monthEvents.forEach(({ date, day, event }) => {
         const eventElement = document.createElement('div');
-        eventElement.className = 'p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100';
+        eventElement.className = 'p-4 bg-white rounded-lg cursor-pointer hover:bg-dark-primary/15';
         eventElement.innerHTML = `
             <div div class="font-semibold" > ${event.title}</div >
       <div class="text-sm text-gray-600">Date: ${day} ${monthYearString}</div>
@@ -184,8 +183,8 @@ const showEventDetails = (date, eventIndex) => {
 
     const actionsContainer = document.querySelector('#eventDetailsModal .flex.justify-end');
     actionsContainer.innerHTML = `
-            <button button id = "moreDetails" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" > More Details</button >
-                <button id="closeDetailsModal" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Close</button>
+            <button button id = "moreDetails" class="px-4 py-2 bg-primary/60 text-white rounded hover:bg-primary/80" > รายละเอียดเพิ่มเติม</button >
+                <button id="closeDetailsModal" class="px-4 py-2 bg-red/60 rounded hover:bg-red/80">ปิด</button>
         `;
 
     document.getElementById('moreDetails').addEventListener('click', () => {

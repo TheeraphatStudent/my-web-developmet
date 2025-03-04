@@ -72,17 +72,15 @@ class TextEditor extends Component
                     data-editor-id="<?= $this->editorId ?>"></textarea>
 
                 <input class="editor-hidden-input hidden" name="description" type="text" name="description-<?= $this->editorId ?>" data-editor-id="<?= $this->editorId ?>">
-                <div class="editor-preview p-3 w-full <?= ($this->isEdit ? 'bg-primary md:h-full' : 'bg-transparent') ?> overflow-auto text-white" data-editor-id="<?= $this->editorId ?>"></div>
+                <div class="editor-preview p-3 w-full <?= ($this->isEdit ? 'bg-primary h-[clamp(200px, 20vh, 100%)]' : 'bg-transparent') ?> overflow-auto text-white" data-editor-id="<?= $this->editorId ?>"></div>
             </div>
         </div>
 
         <script>
-            // Define TextEditorManager if it doesn't exist yet
             if (typeof TextEditorManager === 'undefined') {
                 window.TextEditorManager = {
                     editors: {},
 
-                    // Initialize an editor instance
                     initEditor: function(editorId, initialContent = '') {
                         const container = document.querySelector(`.text-editor-component[data-editor-id="${editorId}"]`);
                         if (!container) return;
@@ -96,17 +94,14 @@ class TextEditor extends Component
 
                         this.editors[editorId] = editor;
 
-                        // Set initial content if available
                         if (initialContent) {
                             editor.input.value = this.convertHtmlToMarkdown(initialContent);
                             this.updatePreview(editorId);
                         }
 
-                        // Set up preview click events
                         this.setupPreviewEvents(editorId);
                     },
 
-                    // Update preview for a specific editor
                     updatePreview: function(editorId) {
                         const editor = this.editors[editorId];
                         if (!editor) return;

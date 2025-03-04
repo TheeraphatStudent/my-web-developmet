@@ -48,6 +48,14 @@
     @apply btn bg-secondary text-white border-none hover:bg-dark-secondary;
   }
 
+  .btn-warring {
+    @apply btn bg-yellow/80 text-white border-[.15rem] border-yellow hover:bg-light-yellow;
+  }
+
+  .btn-gray {
+    @apply btn bg-gray-500 text-white border-[.15rem] border-gray-800 hover:bg-white hover:text-gray-500;
+  }
+
   .btn-white {
     @apply btn bg-white text-black border-[.15rem] hover:bg-black hover:text-white;
   }
@@ -67,7 +75,7 @@
 
   /* Input Fields */
   .input-field {
-    @apply w-full text-sm text-gray-800 border border-gray-300 pl-4 pr-10 py-3 rounded-lg;
+    @apply w-full text-sm bg-white text-black border border-gray-400 pl-4 pr-2 py-3 rounded-lg;
   }
 
   /* Tags */
@@ -85,9 +93,5 @@
 
   .form-required {
     @apply text-red;
-  }
-
-  .form-input {
-    @apply flex items-center w-full h-10 bg-white px-2 rounded;
   }
 }

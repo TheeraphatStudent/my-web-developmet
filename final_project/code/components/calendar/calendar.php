@@ -39,7 +39,7 @@ class SchedulerCalendar extends Component
 
                     <!-- Events Side Panel -->
                     <div class="bg-white/40 rounded-lg shadow-lg p-6 w-full lg:max-w-[350px]">
-                        <h2 class="text-xl font-bold mb-4 text-secondary">Month Events</h2>
+                        <h2 class="text-xl font-bold mb-4 text-secondary">รายการ</h2>
                         <div id="monthEvents" class="h-full min-h-[310px] max-h-[620px] overflow-y-auto space-y-4 pr-5"></div>
                     </div>
                 </div>
@@ -50,8 +50,8 @@ class SchedulerCalendar extends Component
                         <h2 class="text-xl font-bold mb-4" id="detailsTitle"></h2>
                         <p class="text-gray-600 mb-4" id="detailsDescription"></p>
                         <div class="flex justify-end space-x-2">
-                            <button id="moreDetails" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">More Details</button>
-                            <button id="closeDetailsModal" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Close</button>
+                            <button id="moreDetails"></button>
+                            <button id="closeDetailsModal"></button>
                         </div>
                     </div>
                 </div>
