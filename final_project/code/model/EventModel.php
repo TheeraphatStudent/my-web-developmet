@@ -223,4 +223,8 @@ class Event
     }
 
     public function deleteEventById() {}
+
+    public function getmailbyid() {
+
+    }
 }

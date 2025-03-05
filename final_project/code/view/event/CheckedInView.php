@@ -3,16 +3,16 @@
 namespace FinalProject\View\Event;
 
 require_once('components/breadcrumb.php');
-require_once('components/camera/camera.php');
+
 
 use FinalProject\Components\Breadcrumb;
-use FinalProject\Components\QrCodeReader;
+
 
 $navigate = new Breadcrumb();
 
 $navigate->setPath(['Dashboard', 'ตรวจคนเข้างาน', 'AG-25T000001']);
 
-$qrreader = new QrCodeReader();
+
 
 ?>
 
