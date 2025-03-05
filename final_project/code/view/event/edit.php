@@ -5,7 +5,9 @@ namespace FinalProject\View\Event;
 require_once('components/map/map.php');
 require_once('components/texteditor/texteditor.php');
 require_once('utils/useImages.php');
+require_once('components/breadcrumb.php');
 
+use FinalProject\Components\Breadcrumb;
 use FinalProject\Components\Map;
 use FinalProject\Components\TextEditor;
 
@@ -15,7 +17,14 @@ $map->setDefaultLocation($lat, $lon);
 $textEditor = new TextEditor();
 $textEditor->updatetextarea(description: $eventObj['description'], isEdit: true);
 
-// echo $eventObj['description'];
+// ===================== ฺBreadcrumb =====================
+
+$navigate = new Breadcrumb();
+
+$navigate->setPath(
+    data: ['Dashboard', 'แก้ไขกิจกรรม', $_GET['id'] ?? "???"],
+    prevPath: '?action=event.manage'
+);
 
 // ===================== Data =====================
 
@@ -71,7 +80,8 @@ $authors = array_map(function ($type) {
             <!-- <input type="hidden" name="test" value="test"> -->
             <input type="text" name="eventId" class="hidden" value="<?= $eventId ?>">
 
-            <h1 class="text-white font-semibold">Edit Event</h1>
+            <!-- <h1 class="text-white font-semibold">Edit Event</h1> -->
+            <?php $navigate->render(); ?>
 
             <!-- <?php print_r($eventObj) ?> -->
 
@@ -191,7 +201,7 @@ $authors = array_map(function ($type) {
                     </div> -->
                 </div>
 
-                <div class="justify-start items-start w-full">
+                <!-- <div class="justify-start items-start w-full">
                     <div class="flex flex-col w-full justify-start items-start gap-5">
                         <div
                             class="form-title">
@@ -201,7 +211,7 @@ $authors = array_map(function ($type) {
                         $map->render();
                         ?>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <h1 class="text-white font-semibold">Event description</h1>

@@ -4,14 +4,15 @@ namespace FinalProject\Components;
 
 require_once(__DIR__ . '/component.php');
 
-
 class Breadcrumb extends Component
 {
     protected $data;
+    protected $prevPath;
 
-    public function setPath($data = [])
+    public function setPath($prevPath, $data = [])
     {
         $this->data = $data;
+        $this->prevPath = $prevPath;
     }
 
     public function render()
@@ -24,14 +25,12 @@ class Breadcrumb extends Component
             foreach ($this->data as $index => $item) :
                 $isLast = $index === $totalItems - 1;
                 $isEarlyLast = $index === $totalItems - 2;
-
             ?>
                 <li class="inline-flex items-center">
                     <?php if (!$isLast) : ?>
                         <a
                             class="flex items-center text-white hover:text-dark-primary focus:outline-none focus:text-dark-primary dark:text-neutral-500 dark:hover:text-dark-primary/50 dark:focus:text-dark-primary/50 no-underline text-2xl"
-                            href="#"
-                        >
+                            href="../<?= $this->prevPath ?>">
                             <?php echo htmlspecialchars($item); ?>
                         </a>
                         <?php if (!$isEarlyLast) : ?>
@@ -53,3 +52,4 @@ class Breadcrumb extends Component
 <?php
     }
 }
+?>

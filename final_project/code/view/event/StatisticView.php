@@ -1,3 +1,21 @@
+<?php 
+
+require_once('components/tags.php');
+require_once('components/breadcrumb.php');
+
+use FinalProject\Components\Breadcrumb;
+use FinalProject\Components\Tags;
+
+$navigate = new Breadcrumb();
+
+$navigate->setPath(
+    data: ['Dashboard', 'รายงานกิจกรรม', $_GET['id'] ?? "???"],
+    prevPath: '?action=event.manage'
+);
+
+
+?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,10 +45,12 @@
 
 <body class="flex flex-col justify-start items-center bg-primary">
     <div class="flex flex-col w-full gap-14 max-w-content py-[200px] px-10 xl:px-0">
-        <div class="flex gap-3 items-center">
+        <!-- <div class="flex gap-3 items-center">
             <h1 class="max-w-[512px] truncate font-semibold text-white">รายงานอีเวทน์</h1>
             <span class="text-md text-light-green"><?= $_GET['id'] ?? "???" ?></span>
-        </div>
+        </div> -->
+
+        <?php $navigate->render() ?>
 
         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
             <div class="overflow-x-auto">
@@ -53,24 +73,11 @@
                                     <td class="py-3 px-4 text-left">
                                         <?= !empty($item['birth']) ? (new DateTime())->diff(new DateTime($item['birth']))->y : "-" ?>
                                     </td>
-                                    <td class="py-3 px-4 text-sm font-medium max-w-[150px]"><?= $item['status'] ?? "-" ?></td>
+                                    <!-- <td class="py-3 px-4 text-sm font-medium max-w-[150px]"><?= $item['status'] ?? "-" ?></td> -->
+                                    <td class="py-3 px-4 text-sm font-medium max-w-[150px]"><?= (new Tags($item['status']))->render() ?></td>
 
                                     <td class="py-3 px-4 text-center">
                                         <div class="flex justify-center items-center space-x-2 *:mb-0">
-                                            <!-- <a href="../?action=event.edit&id=<?= $item['eventId'] ?>" class="p-1 rounded-full text-secondary hover:bg-light-secondary">
-                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793z"></path>
-                                                </svg>
-                                            </a> -->
-                                            <!-- <form action="..?action=request&on=reg&form=remove" method="post">
-                                                <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
-                                                <input type="hidden" name="regId" value="<?= $item['regId'] ?>">
-                                                <input type="hidden" name="eventId" value="<?= $_GET['id'] ?>">
-
-                                                <button class="p-1.5 rounded-full text-red hover:bg-light-red">
-                                                    <img src="public/icons/reject.png" alt="reject">
-                                                </button>
-                                            </form> -->
                                             <button type="button" class="p-1.5 rounded-full text-red hover:bg-light-red" id="reject">
                                                 <img src="public/icons/reject.png" alt="reject">
                                             </button>

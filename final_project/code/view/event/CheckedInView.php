@@ -4,15 +4,13 @@ namespace FinalProject\View\Event;
 
 require_once('components/breadcrumb.php');
 
-
 use FinalProject\Components\Breadcrumb;
-
-
 $navigate = new Breadcrumb();
 
-$navigate->setPath(['Dashboard', 'ตรวจคนเข้างาน', 'AG-25T000001']);
-
-
+$navigate->setPath(
+    data: ['Dashboard', 'ตรวจคนเข้างาน', $_GET['id']],
+    prevPath: '?action=event.manage'
+);
 
 ?>
 
@@ -47,63 +45,42 @@ $navigate->setPath(['Dashboard', 'ตรวจคนเข้างาน', 'AG-
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-white">
-                            
-                            <?php foreach (array_reverse($allReq) as $item): ?>
+                            <?php foreach (array_reverse([]) as $item): ?>
                                 <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">
                                     <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['userId'] ?></td>
                                     <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['username'] ?></td>
                                     <td>
-                                        
+
                                         <div class="flex justify-center space-x-2">
                                             <form action="../?action=reques&on=Attendance&from=remove" method="POST">
                                                 <!-- เอาคำขอออก-->
-                                                <input type="hidden" name="userId" value="<?=$item['userId']?>">
-                                                <button class = "p-1.5 rounded-full text-red">
+                                                <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
+                                                <button class="p-1.5 rounded-full text-red">
                                                     <img src="public/images/remove.png" width="30px" height="30px">
                                                 </button>
                                             </form>
 
                                             <form action="../?action=reques&on=Attendance&from=update" method="POST">
-                                            <!-- รับคนเข้ากิจกรรม -->
-                                            <input type="hidden" name="userId" value="<?=$item['userId']?>">
-                                            <input type="hidden" name="regId" value="<?=$item['regId']?>">
-                                            <input type="hidden" name="eventId" value="<?=$item['eventId']?>">
-                                            
-                                                <button class = "p-1.5 rounded-full text-red">
+                                                <!-- รับคนเข้ากิจกรรม -->
+                                                <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
+                                                <input type="hidden" name="regId" value="<?= $item['regId'] ?>">
+                                                <input type="hidden" name="eventId" value="<?= $item['eventId'] ?>">
+
+                                                <button class="p-1.5 rounded-full text-red">
                                                     <img src="public/images/accept.png" alt="" width="30px" height="30px">
                                                 </button>
                                             </form>
                                         </div>
                                     </td>
                                 </tr>
-                                <?php endforeach ?>
-                            <?php foreach (array_reverse($allIn) as $item): ?>
-                                <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">
-                                    <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['userId'] ?></td>
-                                    <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['username'] ?></td>
-                                    <td>
-                                        
-                                        <div class="flex justify-center space-x-2">
-                                            <form action="../?action=reques&on=Attendance&from=reques" method="POST">
-                                                <!-- เอาข้อมูลคนนั้นมาดู -->
-                                                <input type="hidden" name="userId" value="<?=$item['userId']?>">
-                                            </form>
-
-                                            <form action="../?action=reques&on=Attendance&from=update" method="POST">
-
-                                            <input type="hidden" name="userId" value="<?=$item['userId']?>">
-                                            <input type="hidden" name="regId" value="<?=$item['regId']?>">
-                                            <input type="hidden" name="eventId" value="<?=$item['eventId']?>">
-
-                                                <!-- เอาคนออกกิจกรรม -->
-                                                <button class = "p-1.5 rounded-full text-red">
-                                                    <img src="public/images/remove.png" width="30px" height="30px">
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <?php endforeach ?>
+                            <?php endforeach ?>
+                            <tr>
+                                <td colspan="7" class="py-10 text-center">
+                                    <div class="flex flex-col items-center justify-center">
+                                        <span class="text-lg mb-3">ยังไม่มีผู้เข้าร่วมกิจกรรมในขณะนี้</span>
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
