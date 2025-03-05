@@ -132,21 +132,38 @@ class Event
         return $result;
     }
     public function Registration(){
+        $use = $_SESSION['user']['userId'];
+        //เพิ่มเงื่อนไขว่าต้องมาจากeventไหนด้วย
         $statement = $this->connection->prepare("
-            SELECT User.username,User.userId
-            FROM   Registration,Event,User
-            where  Registration.eventId = Event.eventId
-            AND	Event.organizeId = User.userId
-            AND	User.userId = Registration.userId
+            SELECT 	*
+            FROM	Registration,User
+            WHERE	Registration.userId = User.userId
+            and     User.userId not like '$use'
             ");
 
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    public function inEvent(){
+        $use = $_SESSION['user']['userId'];
+        $statement = $this->connection->prepare("
+            SELECT 	*
+            FROM	Event,Attendance
+            WHERE	Attendance.verifyBy = Event.organizeId
+            and     Attendance.verifyBy not like '$use'
+            ");
 
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 
-
+    public function acc(){
+        $sql = $this -> connection -> prepare("
+            INSERT INTO Attendance value ('')
+        ");
+    }
     public function getAllEventsById($userId)
     {
         $statement = $this->connection->prepare("CALL GetAllEventsByUserId(:userId)");

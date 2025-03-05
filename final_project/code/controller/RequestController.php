@@ -105,9 +105,7 @@ class RequestController
                 $result = $this->event->searchEvent(title: $data['looking'], dateStart: $data['dateStarted'], dateEnd: $data['dateEnded']);
                 return response(status: 200, message: "Search Work", data: $result, type: 'search');
             case 'register':
-
                 $eventObj = $this->event->getEventById($data['eventId']);
-
                 if ($eventObj['organizeId'] == $data['userId']) {
                     return response(status: 409, message: "Organize can't join an self event", redirect: '../?action=event.attendee&id=' . $data['eventId']);
                 } else {

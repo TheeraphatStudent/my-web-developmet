@@ -95,7 +95,7 @@ $maxDateDisplay = count($startDates);
                                 <?php if (!empty($_SESSION['user']) && isset($_SESSION['user']['userId'])): ?>
                                     <input type="hidden" name="eventId" value="<?= htmlspecialchars($eventObj['eventId']) ?>">
                                     <input type="hidden" name="userId" value="<?= htmlspecialchars($_SESSION['user']['userId']) ?>">
-
+                                    
                                     <?php
                                     $buttons = [
                                         'accept' => [

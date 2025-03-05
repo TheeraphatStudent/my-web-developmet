@@ -47,44 +47,63 @@ $qrreader = new QrCodeReader();
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-white">
-                            <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">
-                                <td class="py-3 px-4 text-sm max-w-[170px]">hello</td>
-                                <td class="py-3 px-4 text-sm max-w-[170px]">world</td>
-                                <td>
-                                    <div class="flex justify-center space-x-2">
-                                        <a href="../?action=event.edit&id=<?= $item['eventId'] ?>" class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
-                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
-                                            </svg>
-                                        </a>
-                                        <a href="../?action=event.edit&id=<?= $item['eventId'] ?>" class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
-                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <?php foreach (array_reverse($allEvents) as $item): ?>
+                            
+                            <?php foreach (array_reverse($allReq) as $item): ?>
                                 <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">
                                     <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['userId'] ?></td>
                                     <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['username'] ?></td>
                                     <td>
+                                        
                                         <div class="flex justify-center space-x-2">
-                                            <a href="../?action=event.edit&id=<?= $item['eventId'] ?>" class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
-                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
-                                                </svg>
-                                            </a>
-                                            <a href="../?action=event.edit&id=<?= $item['eventId'] ?>" class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
-                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
-                                                </svg>
-                                            </a>
+                                            <form action="../?action=reques&on=Attendance&from=remove" method="POST">
+                                                <!-- เอาคำขอออก-->
+                                                <input type="hidden" name="userId" value="<?=$item['userId']?>">
+                                                <button class = "p-1.5 rounded-full text-red">
+                                                    <img src="public/images/remove.png" width="30px" height="30px">
+                                                </button>
+                                            </form>
+
+                                            <form action="../?action=reques&on=Attendance&from=update" method="POST">
+                                            <!-- รับคนเข้ากิจกรรม -->
+                                            <input type="hidden" name="userId" value="<?=$item['userId']?>">
+                                            <input type="hidden" name="regId" value="<?=$item['regId']?>">
+                                            <input type="hidden" name="eventId" value="<?=$item['eventId']?>">
+                                            
+                                                <button class = "p-1.5 rounded-full text-red">
+                                                    <img src="public/images/accept.png" alt="" width="30px" height="30px">
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>
-                            <?php endforeach ?>
+                                <?php endforeach ?>
+                            <?php foreach (array_reverse($allIn) as $item): ?>
+                                <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">
+                                    <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['userId'] ?></td>
+                                    <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['username'] ?></td>
+                                    <td>
+                                        
+                                        <div class="flex justify-center space-x-2">
+                                            <form action="../?action=reques&on=Attendance&from=reques" method="POST">
+                                                <!-- เอาข้อมูลคนนั้นมาดู -->
+                                                <input type="hidden" name="userId" value="<?=$item['userId']?>">
+                                            </form>
+
+                                            <form action="../?action=reques&on=Attendance&from=update" method="POST">
+
+                                            <input type="hidden" name="userId" value="<?=$item['userId']?>">
+                                            <input type="hidden" name="regId" value="<?=$item['regId']?>">
+                                            <input type="hidden" name="eventId" value="<?=$item['eventId']?>">
+
+                                                <!-- เอาคนออกกิจกรรม -->
+                                                <button class = "p-1.5 rounded-full text-red">
+                                                    <img src="public/images/remove.png" width="30px" height="30px">
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <?php endforeach ?>
                         </tbody>
                     </table>
                 </div>

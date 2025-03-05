@@ -82,6 +82,10 @@ class MainController
             switch ($event) {
                 case 'checked-in':
                     $allEvents = $eventModel->Registration();
+
+                    $allReq = $eventModel->Registration();
+                    $allIn = $eventModel->inEvent();
+
                     require_once("./view/event/CheckedInView.php");
                     break;
 
