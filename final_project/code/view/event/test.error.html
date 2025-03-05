@@ -1,0 +1,345 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Event</title>
+    <link rel="stylesheet" href="public/style/main.css">
+    <style>
+        .surprise-animation {
+            animation: colorChange 3s infinite;
+        }
+
+        @keyframes colorChange {
+            0% {
+                background-color: rgba(59, 130, 246, 0.1);
+            }
+
+            50% {
+                background-color: rgba(139, 92, 246, 0.3);
+            }
+
+            100% {
+                background-color: rgba(59, 130, 246, 0.1);
+            }
+        }
+    </style>
+</head>
+
+<body class="flex flex-col justify-start items-center bg-primary">
+    <div class="flex flex-col w-full gap-14 max-w-content py-[200px] px-10 xl:px-0">
+        <h1 class="text-2xl font-semibold mb-4 text-left text-white">Welcome' 12345678</h1>
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full table-auto shadow-lg rounded-lg overflow-hidden">
+                    <thead>
+                        <tr class="bg-gray-100 text-gray-600 uppercase text-xs tracking-wider">
+                            <th class="py-3 px-4 text-left">Event ID</th>
+                            <th class="py-3 px-4 text-left">Title</th>
+                            <th class="py-3 px-4 text-left">Maximum</th>
+                            <th class="py-3 px-4 text-left">Attendees</th>
+                            <th class="py-3 px-4 text-left">Created</th>
+                            <th class="py-3 px-4 text-left">Started</th>
+                            <th class="py-3 px-4 text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr class="hover:bg-gray-50 transition duration-150">
+                            <td class="py-3 px-4 text-sm">AG-20250000005_event-c161f6a807dd24ee67c5487d763b2</td>
+                            <td class="py-3 px-4 text-sm font-medium">Sawaddee</td>
+                            <td class="py-3 px-4 text-center">100</td>
+                            <td class="py-3 px-4 text-center">1</td>
+                            <td class="py-3 px-4 text-sm">2025-03-03 06:13:17</td>
+                            <td class="py-3 px-4 text-sm">2025-03-03 13:12</td>
+                            <td class="py-3 px-4 text-center">
+                                <div class="flex justify-center space-x-2">
+                                    <a href="../?action=event.edit&id=AG-20250000005_event-c161f6a807dd24ee67c5487d763b2"
+                                        class="p-1.5 rounded-full text-secondary hover:bg-light-secondary">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
+                                            </path>
+                                        </svg>
+                                    </a>
+                                    <a href="../?action=event.statistic&id=AG-20250000005_event-c161f6a807dd24ee67c5487d763b2"
+                                        class="p-1.5 rounded-full hover:bg-light-yellow">
+                                        <svg height="20px" width="20px" version="1.1" id="Capa_1"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 57.924 57.924"
+                                            xml:space="preserve" fill="#F4B028" stroke="#F4B028"
+                                            stroke-width="0.0005792400000000001">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke="#CCCCCC" stroke-width="0.23169599999999999"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <g>
+                                                    <path style="fill:#F4B028;"
+                                                        d="M31,26.924h26.924C56.94,12.503,45.421,0.983,31,0V26.924z">
+                                                    </path>
+                                                    <path style="fill:#F4B028;"
+                                                        d="M50.309,48.577c4.343-4.71,7.151-10.858,7.614-17.653H32.656L50.309,48.577z">
+                                                    </path>
+                                                    <path style="fill:#F4B028;"
+                                                        d="M27,30.924V0C11.918,1.028,0,13.58,0,28.924c0,16.016,12.984,29,29,29 c6.99,0,13.396-2.479,18.401-6.599L27,30.924z">
+                                                    </path>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </a>
+                                    <a href="../?action=event.checked-in&id=AG-20250000005_event-c161f6a807dd24ee67c5487d763b2"
+                                        class="p-1.5 rounded-full hover:bg-light-green">
+                                        <svg viewBox="0 0 24 24" height="20px" width="20px" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                stroke-linejoin="round"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <path
+                                                    d="M14 19.2857L15.8 21L20 17M4 21C4 17.134 7.13401 14 11 14C12.4872 14 13.8662 14.4638 15 15.2547M15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z"
+                                                    stroke="#226E6A" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round"></path>
+                                            </g>
+                                        </svg>
+                                    </a>
+                                    <!-- <button class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                                                </svg>
+                                            </button> -->
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition duration-150">
+                            <td class="py-3 px-4 text-sm">AG-20250000003_event-2eaf94dc6704470067c4c3aae2dba</td>
+                            <td class="py-3 px-4 text-sm font-medium">Test</td>
+                            <td class="py-3 px-4 text-center">100</td>
+                            <td class="py-3 px-4 text-center">2</td>
+                            <td class="py-3 px-4 text-sm">2025-03-02 20:46:34</td>
+                            <td class="py-3 px-4 text-sm">2025-03-04 03:45</td>
+                            <td class="py-3 px-4 text-center">
+                                <div class="flex justify-center space-x-2">
+                                    <a href="../?action=event.edit&id=AG-20250000003_event-2eaf94dc6704470067c4c3aae2dba"
+                                        class="p-1.5 rounded-full text-secondary hover:bg-light-secondary">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
+                                            </path>
+                                        </svg>
+                                    </a>
+                                    <a href="../?action=event.statistic&id=AG-20250000003_event-2eaf94dc6704470067c4c3aae2dba"
+                                        class="p-1.5 rounded-full hover:bg-light-yellow">
+                                        <svg height="20px" width="20px" version="1.1" id="Capa_1"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 57.924 57.924"
+                                            xml:space="preserve" fill="#F4B028" stroke="#F4B028"
+                                            stroke-width="0.0005792400000000001">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke="#CCCCCC" stroke-width="0.23169599999999999"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <g>
+                                                    <path style="fill:#F4B028;"
+                                                        d="M31,26.924h26.924C56.94,12.503,45.421,0.983,31,0V26.924z">
+                                                    </path>
+                                                    <path style="fill:#F4B028;"
+                                                        d="M50.309,48.577c4.343-4.71,7.151-10.858,7.614-17.653H32.656L50.309,48.577z">
+                                                    </path>
+                                                    <path style="fill:#F4B028;"
+                                                        d="M27,30.924V0C11.918,1.028,0,13.58,0,28.924c0,16.016,12.984,29,29,29 c6.99,0,13.396-2.479,18.401-6.599L27,30.924z">
+                                                    </path>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </a>
+                                    <a href="../?action=event.checked-in&id=AG-20250000003_event-2eaf94dc6704470067c4c3aae2dba"
+                                        class="p-1.5 rounded-full hover:bg-light-green">
+                                        <svg viewBox="0 0 24 24" height="20px" width="20px" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                stroke-linejoin="round"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <path
+                                                    d="M14 19.2857L15.8 21L20 17M4 21C4 17.134 7.13401 14 11 14C12.4872 14 13.8662 14.4638 15 15.2547M15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z"
+                                                    stroke="#226E6A" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round"></path>
+                                            </g>
+                                        </svg>
+                                    </a>
+                                    <!-- <button class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                                                </svg>
+                                            </button> -->
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition duration-150">
+                            <td class="py-3 px-4 text-sm">AG-20250000001_event-da2a60c465e8b17b67c4c366aef51</td>
+                            <td class="py-3 px-4 text-sm font-medium">My Event</td>
+                            <td class="py-3 px-4 text-center">100</td>
+                            <td class="py-3 px-4 text-center">4</td>
+                            <td class="py-3 px-4 text-sm">2025-03-02 20:45:26</td>
+                            <td class="py-3 px-4 text-sm">2025-03-03 03:44</td>
+                            <td class="py-3 px-4 text-center">
+                                <div class="flex justify-center space-x-2">
+                                    <a href="../?action=event.edit&id=AG-20250000001_event-da2a60c465e8b17b67c4c366aef51"
+                                        class="p-1.5 rounded-full text-secondary hover:bg-light-secondary">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
+                                            </path>
+                                        </svg>
+                                    </a>
+                                    <a href="../?action=event.statistic&id=AG-20250000001_event-da2a60c465e8b17b67c4c366aef51"
+                                        class="p-1.5 rounded-full hover:bg-light-yellow">
+                                        <svg height="20px" width="20px" version="1.1" id="Capa_1"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 57.924 57.924"
+                                            xml:space="preserve" fill="#F4B028" stroke="#F4B028"
+                                            stroke-width="0.0005792400000000001">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke="#CCCCCC" stroke-width="0.23169599999999999"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <g>
+                                                    <path style="fill:#F4B028;"
+                                                        d="M31,26.924h26.924C56.94,12.503,45.421,0.983,31,0V26.924z">
+                                                    </path>
+                                                    <path style="fill:#F4B028;"
+                                                        d="M50.309,48.577c4.343-4.71,7.151-10.858,7.614-17.653H32.656L50.309,48.577z">
+                                                    </path>
+                                                    <path style="fill:#F4B028;"
+                                                        d="M27,30.924V0C11.918,1.028,0,13.58,0,28.924c0,16.016,12.984,29,29,29 c6.99,0,13.396-2.479,18.401-6.599L27,30.924z">
+                                                    </path>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </a>
+                                    <a href="../?action=event.checked-in&id=AG-20250000001_event-da2a60c465e8b17b67c4c366aef51"
+                                        class="p-1.5 rounded-full hover:bg-light-green">
+                                        <svg viewBox="0 0 24 24" height="20px" width="20px" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                stroke-linejoin="round"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <path
+                                                    d="M14 19.2857L15.8 21L20 17M4 21C4 17.134 7.13401 14 11 14C12.4872 14 13.8662 14.4638 15 15.2547M15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z"
+                                                    stroke="#226E6A" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round"></path>
+                                            </g>
+                                        </svg>
+                                    </a>
+                                    <!-- <button class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                                                </svg>
+                                            </button> -->
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="bg-white px-4 py-3 flex items-center justify-between border-2">
+                <!-- <div class="flex items-center text-sm text-darbg-dark-primary0">
+                    Showing <span class="font-medium mx-1">1</span> to <span class="font-medium mx-1">4</span> of <span class="font-medium mx-1">12</span> entries
+                </div> -->
+                <!-- <div class="flex space-x-1">
+                    <button class="">Previous</button>
+                    <button class="">1</button>
+                    <button class="">2</button>
+                    <button class="">3</button>
+                    <button class="">Next</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/x-icon" href="public/images/logo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Act gate</title>
+</head>
+
+<body>
+    <nav class="fixed top-0 bg-white w-screen z-50" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between py-[.75rem]">
+                <div class="flex items-center">
+                    <a href="../" class="text-white font-bold text-xl">
+                        <img src="public/images/logo.png" alt="act gate" width="70px" height="70px">
+                    </a>
+                </div>
+                <!-- Actions -->
+                <div class="md:block hidden">
+                    <div class="flex h-full gap-4 items-baseline *:text-black">
+                        <a href='../?action=event.create'
+                            class='hover:text-gray-600 text-sm rounded-md font-medium'>Create event</a>
+                        <a href='../?action=event.manage'
+                            class='hover:text-gray-600 text-sm rounded-md font-medium'>Manage event</a>
+                        <!-- <a href='../?action=event.manage' class='hover:text-gray-600 text-sm rounded-md font-medium'>Checked event</a> -->
+                        <a href='../?action=mail' class='hover:text-gray-600 text-sm rounded-md font-medium'>Mail</a>
+                        <div class="flex gap-2 items-center border-l-2 border-dark-primary">
+                            <a href="../?action=profile"
+                                class="ml-4 hover:text-gray-600 text-sm font-medium flex items-center no-underline">
+                                <div
+                                    class="w-[56px] h-[56px] flex items-center justify-center rounded-full bg-primary text-white text-xl font-bold">
+                                    1 </div>
+                            </a>
+                            <!-- <a href="../?action=profile" class="hover:text-gray-600 text-sm font-medium flex items-center no-underline">
+                                        <div class="w-[56px] h-[56px] flex items-center justify-center rounded-full bg-red text-white text-xl font-bold">
+                                            <img src="public/icons/exit.svg" alt="logout" width="24" height="24">
+                                        </div>
+                                    </a> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="md:hidden block">
+                    <div class="flex items-baseline space-x-4">
+                        <a href='#' class='flex items-center font-semibold h-14 px-4 rounded-xl'>
+                            <img src="public/icons/drawer.png" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</body>
+
+</html>

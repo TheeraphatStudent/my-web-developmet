@@ -1,8 +1,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Statistic</title>
+    <title>Manage Event</title>
     <link rel="stylesheet" href="public/style/main.css">
+
+    <style>
+        .surprise-animation {
+            animation: colorChange 3s infinite;
+        }
+
+        @keyframes colorChange {
+            0% {
+                background-color: rgba(59, 130, 246, 0.1);
+            }
+
+            50% {
+                background-color: rgba(139, 92, 246, 0.3);
+            }
+
+            100% {
+                background-color: rgba(59, 130, 246, 0.1);
+            }
+        }
+    </style>
 </head>
 
 <body class="flex flex-col justify-start items-center bg-primary">
@@ -24,7 +44,7 @@
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-white">
+                    <tbody class="divide-y divide-white" id="tbody-content">
                         <?php if (!empty($allUserReg)): ?>
                             <?php foreach (array_reverse($allUserReg) as $item): ?>
                                 <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">
@@ -103,30 +123,22 @@
                 </button>
             </div>
 
-            <form id="rejectForm" class="space-y-6" action="#">
-                <div class="flex flex-col items-center gap-3">
-                    <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-white relative group">
-                        <img id="previewImage" class="object-cover w-full h-full" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ" alt="Profile picture">
-                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <label for="profileImage" class="text-white cursor-pointer text-sm">
-                                เปลี่ยนรูป
-                            </label>
-                        </div>
-                    </div>
-                    <input type="file" id="profileImage" name="profileImage" accept="image/*" class="hidden">
-                </div>
-
+            <form id="rejectForm" class="flex flex-col mb-0" action="#" method="post">
                 <div class="space-y-4">
                     <label class="text-sm font-medium text-gray-700">ระบบเหตุผล</label>
-                    <textarea name="message" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="">
+                    <textarea name="message" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="(ไม่บังคับ)"></textarea>
                 </div>
 
                 <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
                     <button type="button" id="cancelEditBtn" class="px-4 py-2 border border-red rounded-lg text-red hover:text-white hover:bg-red/50">ยกเลิก</button>
                     <button type="submit" id="confirmEditBtn" class="px-4 py-2 bg-dark-red text-white rounded-lg hover:bg-red">ยืนยันการปฏิเศษ</button>
                 </div>
+
             </form>
         </div>
+    </div>
+
+    </div>
     </div>
 
     <script>
@@ -135,23 +147,24 @@
         const modal = document.getElementById('rejectModal');
         const closeModalBtn = document.getElementById('closeModalBtn');
 
-        const cancelRequest = document.getElementById('cancelEditBtn');
+        const cancelEditBtn = document.getElementById('cancelEditBtn')
 
         function closeModal() {
             modal.classList.add('hidden');
         }
 
         modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    closeModal();
-                }
+            if (e.target === modal) {
+                closeModal();
+            }
         });
 
         reject.addEventListener('click', () => {
             modal.classList.remove('hidden');
 
-        });
+        })
 
         closeModalBtn.addEventListener('click', closeModal);
+        cancelEditBtn.addEventListener('click', closeModal);
     </script>
 </body>

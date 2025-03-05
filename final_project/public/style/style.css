@@ -1058,6 +1058,10 @@ span{
   margin-top: 2rem;
 }
 
+.mb-0{
+  margin-bottom: 0px;
+}
+
 .block{
   display: block;
 }
@@ -1467,6 +1471,10 @@ span{
   max-width: 170px;
 }
 
+.max-w-\[290px\]{
+  max-width: 290px;
+}
+
 .max-w-\[500px\]{
   max-width: 500px;
 }
@@ -1489,6 +1497,10 @@ span{
 
 .max-w-md{
   max-width: 28rem;
+}
+
+.max-w-\[215px\]{
+  max-width: 215px;
 }
 
 .flex-1{
@@ -1677,6 +1689,12 @@ span{
   margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
 }
 
+.space-y-5 > :not([hidden]) ~ :not([hidden]){
+  --tw-space-y-reverse: 0;
+  margin-top: calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(1.25rem * var(--tw-space-y-reverse));
+}
+
 .divide-y > :not([hidden]) ~ :not([hidden]){
   --tw-divide-y-reverse: 0;
   border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
@@ -1837,6 +1855,11 @@ span{
   border-color: rgb(156 163 175 / var(--tw-border-opacity, 1));
 }
 
+.border-red{
+  --tw-border-opacity: 1;
+  border-color: rgb(226 75 75 / var(--tw-border-opacity, 1));
+}
+
 .border-white{
   --tw-border-opacity: 1;
   border-color: rgb(251 248 238 / var(--tw-border-opacity, 1));
@@ -1888,6 +1911,11 @@ span{
 
 .bg-dark-primary\/50{
   background-color: rgb(16 75 72 / 0.5);
+}
+
+.bg-dark-red{
+  --tw-bg-opacity: 1;
+  background-color: rgb(173 43 43 / var(--tw-bg-opacity, 1));
 }
 
 .bg-dark-secondary{
@@ -1976,6 +2004,14 @@ span{
 
 .bg-white\/40{
   background-color: rgb(251 248 238 / 0.4);
+}
+
+.bg-dark-red\/80{
+  background-color: rgb(173 43 43 / 0.8);
+}
+
+.bg-red\/80{
+  background-color: rgb(226 75 75 / 0.8);
 }
 
 .bg-opacity-50{
@@ -2423,6 +2459,11 @@ span{
   color: rgb(251 248 238 / var(--tw-text-opacity, 1));
 }
 
+.text-dark-red{
+  --tw-text-opacity: 1;
+  color: rgb(173 43 43 / var(--tw-text-opacity, 1));
+}
+
 .text-opacity-100{
   --tw-text-opacity: 1;
 }
@@ -2716,6 +2757,11 @@ span{
   background-color: rgb(16 75 72 / 0.15);
 }
 
+.hover\:bg-dark-red:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(173 43 43 / var(--tw-bg-opacity, 1));
+}
+
 .hover\:bg-dark-red\/80:hover{
   background-color: rgb(173 43 43 / 0.8);
 }
@@ -2773,6 +2819,10 @@ span{
   background-color: rgb(34 110 106 / 0.8);
 }
 
+.hover\:bg-red\/50:hover{
+  background-color: rgb(226 75 75 / 0.5);
+}
+
 .hover\:bg-red\/80:hover{
   background-color: rgb(226 75 75 / 0.8);
 }
@@ -2784,6 +2834,11 @@ span{
 
 .hover\:bg-white\/10:hover{
   background-color: rgb(251 248 238 / 0.1);
+}
+
+.hover\:bg-red:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(226 75 75 / var(--tw-bg-opacity, 1));
 }
 
 .hover\:text-dark-primary:hover{
@@ -2876,6 +2931,10 @@ span{
 
   .sm\:max-w-\[40px\]{
     max-width: 40px;
+  }
+
+  .sm\:flex-col{
+    flex-direction: column;
   }
 
   .sm\:rounded-lg{

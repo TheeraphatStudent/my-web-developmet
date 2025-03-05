@@ -11,11 +11,9 @@ require_once(__DIR__ . '/component.php');
 class Navbar extends Component
 {
     private $isLogin = false;
+
     public function render()
     {
-        $activeLink = $this->data['activeLink'] ?? '';
-
-
 ?>
         <nav class="fixed top-0 bg-white w-screen z-50" id="navbar">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
