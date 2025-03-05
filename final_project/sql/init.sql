@@ -14,11 +14,13 @@ CREATE TABLE Author (
 );
 
 CREATE TABLE Attendance (
-  `id`         int AUTO_INCREMENT PRIMARY KEY,
-  `attId`      varchar(255) NOT NULL,
-  `regId`      varchar(255) NOT NULL,
-  `verifyBy`   varchar(255) NOT NULL,
-  `created`    timestamp
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    regId VARCHAR(255) NOT NULL,
+    verifyBy VARCHAR(255),       
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(100),
+    -- message: ข้อความปฏิเศษ
+    rejectMessage TEXT
 );
 
 CREATE TABLE Registration (
@@ -65,6 +67,7 @@ CREATE TABLE `User` (
   `updated`     timestamp
 );
 
+ALTER TABLE `Attendance` ADD CONSTRAINT `Attendance_regId_fk` FOREIGN KEY (`regId`) REFERENCES `Registration` (`regId`) ON DELETE CASCADE;
 -- ALTER TABLE `Attendance` ADD CONSTRAINT `Attendance_regId_fk` FOREIGN KEY (`regId`) REFERENCES `Registration` (`regId`) ON DELETE CASCADE;
 -- ALTER TABLE `Attendance` ADD CONSTRAINT `Attendance_verifyBy_fk` FOREIGN KEY (`verifyBy`) REFERENCES `Author` (`authorId`) ON DELETE CASCADE;
 ALTER TABLE `Author` ADD CONSTRAINT `Author_eventId_fk` FOREIGN KEY (`eventId`) REFERENCES `Event` (`eventId`) ON DELETE CASCADE;

@@ -1992,6 +1992,16 @@ span{
   background-color: rgb(251 248 238 / 0.4);
 }
 
+.bg-light-yellow{
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 233 190 / var(--tw-bg-opacity, 1));
+}
+
+.bg-light-green{
+  --tw-bg-opacity: 1;
+  background-color: rgb(188 255 171 / var(--tw-bg-opacity, 1));
+}
+
 .bg-opacity-50{
   --tw-bg-opacity: 0.5;
 }
@@ -2440,6 +2450,11 @@ span{
 .text-white{
   --tw-text-opacity: 1;
   color: rgb(251 248 238 / var(--tw-text-opacity, 1));
+}
+
+.text-yellow{
+  --tw-text-opacity: 1;
+  color: rgb(255 193 69 / var(--tw-text-opacity, 1));
 }
 
 .text-opacity-100{
