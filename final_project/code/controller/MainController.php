@@ -56,7 +56,7 @@ class MainController
 
             case 'logout':
                 unset($_SESSION['user']);
-                echo '<script>window.location.href = "../";</script>';
+                header("Location: ../?action=logged-out");
                 exit;
         }
     }
@@ -72,16 +72,6 @@ class MainController
         if (isset($_GET['id'])) {
             $eventId = $_GET['id'];
             $eventObj = $eventModel->getEventById($eventId);
-?>
-
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-                <link rel="stylesheet" href="public/style/main.css">
-                <title><?= $eventObj['title'] ?></title>
-            </head>
-<?php
 
             $value = json_decode($eventObj['location'], true);
             $lat = floatval($value['lat']);
@@ -91,10 +81,14 @@ class MainController
         if (in_array($event, EventUtils::ACCEPT_EVENT)) {
             switch ($event) {
                 case 'checked-in':
-                    $allReq = $eventModel -> Registration();
-                    $allIn = $eventModel -> inEvent();
+                    $allEvents = $eventModel->Registration();
+
+                    $allReq = $eventModel->Registration();
+                    $allIn = $eventModel->inEvent();
+
                     require_once("./view/event/CheckedInView.php");
                     break;
+
                 case 'attendee':
                     if (isset($_GET['id'])) {
                         $regObj = $regModel->getRegisterById(userId: $_SESSION['user']['userId'], eventId: $_GET['id']);
@@ -103,6 +97,7 @@ class MainController
                     // print_r($regObj);
                     require_once("./view/event/AttendeeView.php");
                     break;
+
                 case 'create':
                     require_once("./view/event/CreateView.php");
                     break;
@@ -112,20 +107,24 @@ class MainController
 
                     require_once("./view/event/ManageView.php");
                     break;
+
                 case 'create-test':
                     require_once("./view/event/test.CreateView.php");
                     break;
+
                 case 'edit':
                     // $eventId = $_GET['id'];
                     // $eventObj = $eventModel->getEventById($eventId);
 
                     require_once("./view/event/edit.php");
                     break;
+
                 case 'statistic':
                     $eventId = $_GET['id'];
                     $allUserReg = $regModel->getUserRegisterByEventAndUserId(userId: $_SESSION['user']['userId'], eventId: $eventId);
 
-                    require_once("./view/event/statistic.php");
+                    // require_once("./view/event/statistic.php");
+                    require_once("./view/event/StatisticView.php");
                     break;
             }
         } else {

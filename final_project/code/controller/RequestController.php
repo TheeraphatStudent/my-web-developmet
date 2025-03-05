@@ -125,6 +125,10 @@ class RequestController
                 $result = $this->reg->updateAcceptUserRegById(userId: $data['userId'], eventId: $data['eventId'], regId: $data['regId']);
                 return response(status: 200, message: "Edit event complete", data: $result, redirect: '../?action=event.statistic&id=' . $data['eventId']);
 
+            case 'remove':
+                $response = $this->reg->rejectRegistrationById();
+                return response();
+
             default:
                 return response(status: 404, message: "Something went wrong!");
         }

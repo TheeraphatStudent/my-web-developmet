@@ -9,7 +9,7 @@ header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
 const ALLOWED_REQUEST = ['type'];
-const NOT_RENDER_NAVBAR = ['login', 'register', 'logout'];
+const NOT_RENDER_NAVBAR_AND_ALERT = ['login', 'register', 'logout'];
 const ACCEPT_STATUS = [200, 302];
 
 // require_once(__DIR__ . '/php/environment.php');
@@ -127,6 +127,7 @@ switch ($action) {
         // ================= Page Content =================
 
     case 'index':
+    case 'logged-out':
         $controller->index();
         break;
 
@@ -134,7 +135,6 @@ switch ($action) {
     case 'register':
     case 'logout':
         $controller->auth($action);
-
         break;
 
     case 'event.attendee':
@@ -172,9 +172,6 @@ $content = ob_get_clean();
 
 if (!$isRequest) {
 ?>
-    <!DOCTYPE html>
-    <html lang="en">
-
     <head>
         <meta charset="UTF-8">
         <link rel="shortcut icon" type="image/x-icon" href="public/images/logo.png">
@@ -184,7 +181,7 @@ if (!$isRequest) {
 
     <body>
         <?php
-        if (!in_array($action, NOT_RENDER_NAVBAR)) {
+        if ($action == 'logged-out' || !in_array($action, NOT_RENDER_NAVBAR_AND_ALERT)) {
             $navbar->render();
         }
 
@@ -193,7 +190,7 @@ if (!$isRequest) {
     </body>
 
     <?php
-    if (!$isLogin && !in_array($action, NOT_RENDER_NAVBAR)) {
+    if ($action != 'logged-out' && !$isLogin && !in_array($action, NOT_RENDER_NAVBAR_AND_ALERT)) {
     ?>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
@@ -217,7 +214,5 @@ if (!$isRequest) {
     <?php
     }
     ?>
-
-    </html>
 <?php
 }

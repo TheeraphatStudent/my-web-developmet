@@ -27,7 +27,10 @@
 
 <body class="flex flex-col justify-start items-center bg-primary">
     <div class="flex flex-col w-full gap-14 max-w-content py-[200px] px-10 xl:px-0">
-        <h1 class="text-2xl font-semibold mb-4 text-left text-white">Welcome' <?= $_SESSION['user']['username'] ?? "???" ?></h1>
+        <div class="flex flex-col">
+            <h1 class="text-3xl font-semibold mb-2 text-left text-white">Welcome' <?= $_SESSION['user']['username'] ?? "???" ?></h1>
+            <span class="text-white">จัดการ Event ของคุณได้ที่นี่</span>
+        </div>
 
         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
             <div class="overflow-x-auto">
@@ -134,5 +137,3 @@
         </div>
     </div>
 </body>
-
-</html>
