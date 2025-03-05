@@ -68,7 +68,6 @@ $authors = array_map(function ($type) {
             <h1 class="text-white font-semibold">Create Event</h1>
 
             <div class="flex flex-col md:flex-row justify-between items-start w-full gap-12 *:flex *:flex-col">
-
                 <div class="justify-start items-start w-full gap-5">
                     <div class="flex flex-col w-full justify-start items-start gap-2.5">
                         <div
@@ -183,7 +182,7 @@ $authors = array_map(function ($type) {
                     </div> -->
                 </div>
 
-                <div class="justify-start items-start w-full">
+                <!-- <div class="justify-start items-start w-full">
                     <div class="flex flex-col w-full justify-start items-start gap-5">
                         <div
                             class="form-title">
@@ -193,7 +192,7 @@ $authors = array_map(function ($type) {
                         $map->render();
                         ?>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <h1 class="text-white font-semibold">Event description</h1>

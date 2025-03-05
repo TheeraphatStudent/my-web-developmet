@@ -141,4 +141,8 @@ class Registration
             ];
         }
     }
+
+    public function rejectRegistrationById($userId, $regId) {
+
+    }
 }

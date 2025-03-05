@@ -13,12 +13,12 @@ class Search extends Component
             action="../?action=request&on=event&form=search"
             method="post"
             class="bg-secondary flex flex-col items-center lg:flex-row p-4 rounded-lg shadow-lg gap-5 w-full">
-            <div class="flex flex-col h-fit lg:flex-row gap-5">
+            <div class="flex flex-col w-full h-fit lg:flex-row gap-5">
                 <!-- Field -->
                 <div class="flex flex-col justify-start items-start gap-2.5 h-fit w-full">
                     กำลังมองหา
                     <input type="text" placeholder="เลือกอีเวทน์" id="looking" name="looking"
-                        class="font-kanit text-base min-w-[290px] h-10 input-field whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
+                        class="font-kanit text-base w-full h-10 input-field whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
                     </input>
                 </div>
 
@@ -35,10 +35,10 @@ class Search extends Component
                     ช่วงเวลา
                     <div class="flex gap-5">
                         <input type="datetime-local" placeholder="เลือกช่วงเวลา" name="dateStarted"
-                            class="font-kanit text-base w-[215px] h-10 input-field whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
+                            class="font-kanit text-base w-full max-w-[215px] h-10 input-field whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
                         </input>
                         <input type="datetime-local" placeholder="เลือกช่วงเวลา" name="dateEnded"
-                            class="font-kanit text-base w-[215px] h-10 input-field whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
+                            class="font-kanit text-base w-full max-w-[215px] h-10 input-field whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
                         </input>
                     </div>
                 </div>
