@@ -292,4 +292,8 @@ class Event
     public function getRegistrationEventByUserId() {}
 
     public function deleteEventById() {}
+
+    public function getmailbyid() {
+
+    }
 }
