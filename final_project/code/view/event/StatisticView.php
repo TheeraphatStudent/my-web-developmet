@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 require_once('components/tags.php');
 require_once('components/breadcrumb.php');
@@ -73,7 +73,6 @@ $navigate->setPath(
                                     <td class="py-3 px-4 text-left">
                                         <?= !empty($item['birth']) ? (new DateTime())->diff(new DateTime($item['birth']))->y : "-" ?>
                                     </td>
-                                    <!-- <td class="py-3 px-4 text-sm font-medium max-w-[150px]"><?= $item['status'] ?? "-" ?></td> -->
                                     <td class="py-3 px-4 text-sm font-medium max-w-[150px]"><?= (new Tags($item['status']))->render() ?></td>
 
                                     <td class="py-3 px-4 text-center">
@@ -93,6 +92,44 @@ $navigate->setPath(
                                         </div>
                                     </td>
                                 </tr>
+
+                                <div id="rejectModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+                                    <div class="bg-white rounded-xl w-full max-w-2xl p-6 max-h-[90vh] overflow-y-auto">
+                                        <div class="flex justify-between items-center mb-6">
+                                            <h3 class="text-2xl font-semibold font-kanit text-dark-red">ปฏิเศษผู้เข้าร่วม</h3>
+                                            <button type="button" id="closeModalBtn" class="text-gray-500 hover:text-gray-700">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                            </button>
+                                        </div>
+
+                                        <form id="rejectForm" class="flex flex-col mb-0" action="../?action=request&on=reg&form=reject" method="post">
+                                            <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
+                                            <input type="hidden" name="regId" value="<?= $item['regId'] ?>">
+                                            <input type="hidden" name="eventId" value="<?= $_GET['id'] ?>">
+
+                                            <div class="flex flex-col items-center gap-3">
+                                                <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-white relative group">
+                                                    <img id="profile" class="object-cover w-full h-full" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ" alt="Profile picture">
+                                                </div>
+                                                <span><?= $item['name'] ?? '-' ?></span>
+                                            </div>
+
+                                            <div class="space-y-4">
+                                                <label class="text-sm font-medium text-gray-700">ระบบเหตุผล</label>
+                                                <textarea name="message" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="(ไม่บังคับ)"></textarea>
+                                            </div>
+
+                                            <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+                                                <button type="button" id="cancelForm" class="px-4 py-2 border border-red rounded-lg text-red hover:text-white hover:bg-red/50">ยกเลิก</button>
+                                                <button type="button" id="confirmForm" class="px-4 py-2 bg-dark-red text-white rounded-lg hover:bg-red">ยืนยันการปฏิเศษ</button>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+
                             <?php endforeach ?>
                         <?php else: ?>
                             <tr>
@@ -119,49 +156,16 @@ $navigate->setPath(
         </div>
     </div>
 
-    <div id="rejectModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-xl w-full max-w-2xl p-6 max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-semibold font-kanit text-dark-red">ปฏิเศษผู้เข้าร่วม</h3>
-                <button type="button" id="closeModalBtn" class="text-gray-500 hover:text-gray-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-
-            <form id="rejectForm" class="flex flex-col mb-0" action="#" method="post">
-                <div class="flex flex-col items-center gap-3">
-                    <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-white relative group">
-                        <img id="profile" class="object-cover w-full h-full" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ" alt="Profile picture">
-                    </div>
-                    <span>Display Name</span>
-                </div>
-
-                <div class="space-y-4">
-                    <label class="text-sm font-medium text-gray-700">ระบบเหตุผล</label>
-                    <textarea name="message" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="(ไม่บังคับ)"></textarea>
-                </div>
-
-                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
-                    <button type="button" id="cancelEditBtn" class="px-4 py-2 border border-red rounded-lg text-red hover:text-white hover:bg-red/50">ยกเลิก</button>
-                    <button type="submit" id="confirmEditBtn" class="px-4 py-2 bg-dark-red text-white rounded-lg hover:bg-red">ยืนยันการปฏิเศษ</button>
-                </div>
-
-            </form>
-        </div>
-    </div>
-
-    </div>
-    </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"> </script>
     <script>
         const reject = document.getElementById('reject');
+        const rejectForm = document.getElementById('rejectForm');
 
         const modal = document.getElementById('rejectModal');
         const closeModalBtn = document.getElementById('closeModalBtn');
 
-        const cancelEditBtn = document.getElementById('cancelEditBtn')
+        const cancelForm = document.getElementById('cancelForm')
+        const confirmForm = document.getElementById('confirmForm')
 
         function closeModal() {
             modal.classList.add('hidden');
@@ -179,6 +183,26 @@ $navigate->setPath(
         })
 
         closeModalBtn.addEventListener('click', closeModal);
-        cancelEditBtn.addEventListener('click', closeModal);
+        cancelForm.addEventListener('click', closeModal);
+
+        // =========== Submit Form ===========
+
+        confirmForm.addEventListener('click', () => {
+            const formData = new FormData(rejectForm);
+
+            Swal.fire({
+                title: 'ยืนยันการปฏิเศษ',
+                text: `ผ้เข้าร่วม ${formData.get('name') ?? "-"}`,
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'ยกเลิก',
+                confirmButtonText: 'ยืนยัน'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    rejectForm.submit();
+                }
+            });
+
+        })
     </script>
 </body>
