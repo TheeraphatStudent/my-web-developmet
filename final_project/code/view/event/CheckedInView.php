@@ -47,7 +47,6 @@ $qrreader = new QrCodeReader();
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-white">
-                            
                             <?php foreach (array_reverse($allReq) as $item): ?>
                                 <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">
                                     <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['userId'] ?></td>
@@ -71,33 +70,6 @@ $qrreader = new QrCodeReader();
                                             
                                                 <button class = "p-1.5 rounded-full text-red">
                                                     <img src="public/images/accept.png" alt="" width="30px" height="30px">
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <?php endforeach ?>
-                            <?php foreach (array_reverse($allIn) as $item): ?>
-                                <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">
-                                    <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['userId'] ?></td>
-                                    <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['username'] ?></td>
-                                    <td>
-                                        
-                                        <div class="flex justify-center space-x-2">
-                                            <form action="../?action=reques&on=Attendance&from=reques" method="POST">
-                                                <!-- เอาข้อมูลคนนั้นมาดู -->
-                                                <input type="hidden" name="userId" value="<?=$item['userId']?>">
-                                            </form>
-
-                                            <form action="../?action=reques&on=Attendance&from=update" method="POST">
-
-                                            <input type="hidden" name="userId" value="<?=$item['userId']?>">
-                                            <input type="hidden" name="regId" value="<?=$item['regId']?>">
-                                            <input type="hidden" name="eventId" value="<?=$item['eventId']?>">
-
-                                                <!-- เอาคนออกกิจกรรม -->
-                                                <button class = "p-1.5 rounded-full text-red">
-                                                    <img src="public/images/remove.png" width="30px" height="30px">
                                                 </button>
                                             </form>
                                         </div>

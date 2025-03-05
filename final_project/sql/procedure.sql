@@ -1,4 +1,5 @@
--- Event
+-- ====================== Event - Get User by event id with regid
+
 -- DELIMITER $$
 
 -- CREATE PROCEDURE GetAllEventsByUserId(IN getUserId VARCHAR(255))
@@ -31,7 +32,7 @@
 
 -- DELIMITER ;
 
--- ====================== Event - Get all event by user id
+-- ====================== Register - Get all event by user id
 
 DELIMITER $$
 
@@ -63,7 +64,7 @@ END$$
 
 DELIMITER ;
 
--- ====================== Event - Get User by event id with regid
+-- ====================== Register - Get User by event id with regid
 
 DELIMITER $$
 CREATE PROCEDURE `GetUsersByEvent`(
@@ -86,6 +87,8 @@ BEGIN
 END$$
 DELIMITER ;
 
+-- ====================== User - Count all user joined on event
+
 DELIMITER $$
 CREATE PROCEDURE `CountAllEventCreatedByUserId`(
     IN `getUserId` VARCHAR(255)
@@ -100,6 +103,8 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
+
+-- ====================== Reg - Get User Event Details
 
 CREATE DEFINER=`final-activity`@`%` PROCEDURE `GetUserEventDetails`(
     IN getUserId VARCHAR(255) CHARSET utf8mb4
@@ -123,3 +128,5 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+-- ====================== Reg - get user counter 

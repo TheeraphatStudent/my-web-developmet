@@ -31,6 +31,14 @@ $formattedDates = array_map(function ($date) {
 $maxDateDisplay = count($startDates);
 ?>
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="public/style/main.css">
+    <title>Attendance</title>
+</head>
+
 <body class="bg-primary">
     <div
         class="flex flex-col justify-center items-center gap-12 py-[200px] pr-10 pl-10 w-full h-fit">
@@ -95,7 +103,7 @@ $maxDateDisplay = count($startDates);
                                 <?php if (!empty($_SESSION['user']) && isset($_SESSION['user']['userId'])): ?>
                                     <input type="hidden" name="eventId" value="<?= htmlspecialchars($eventObj['eventId']) ?>">
                                     <input type="hidden" name="userId" value="<?= htmlspecialchars($_SESSION['user']['userId']) ?>">
-                                    
+
                                     <?php
                                     $buttons = [
                                         'accept' => [
