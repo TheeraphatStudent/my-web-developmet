@@ -118,7 +118,7 @@ class Registration
         return $result;
     }
 
-    public function updateAcceptUserRegById($userId, $eventId, $regId)
+    public function acceptUserRegById($userId, $eventId, $regId)
     {
         try {
             $stmt = $this->connection->prepare("UPDATE Registration 
@@ -132,7 +132,7 @@ class Registration
 
             return [
                 "status" => ($stmt->rowCount() > 0) ? 200 : 401,
-                "isUpdate" => true
+                "isUpdate" => ($stmt->rowCount() > 0) ? true : false
             ];
         } catch (PDOException $e) {
             [
@@ -142,7 +142,7 @@ class Registration
         }
     }
 
-    public function rejectRegistrationById($userId, $regId) {
-
+    public function rejectRegistrationById($userId, $eventId, $regId) {
+        
     }
 }
