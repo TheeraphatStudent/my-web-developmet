@@ -16,12 +16,11 @@ const ACCEPT_STATUS = [200, 302];
 require_once(__DIR__ . '/controller/MainController.php');
 
 // require_once(__DIR__ . '/model/MapModel.php');
-require_once(__DIR__ . '/model/EventModel.php');
+// require_once(__DIR__ . '/model/EventModel.php');
 require_once(__DIR__ . '/model/environment.php');
 
 require_once(__DIR__ . '/components/navbar.php');
 
-use FinalProject\Model\Event;
 use FinalProject\Model\Environment;
 use FinalProject\Components\Navbar;
 use FinalProject\Controller\MainController;

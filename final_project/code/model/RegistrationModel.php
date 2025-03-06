@@ -135,14 +135,23 @@ class Registration
                 "isUpdate" => ($stmt->rowCount() > 0) ? true : false
             ];
         } catch (PDOException $e) {
-            [
+            return [
                 "status" => 500,
                 "isUpdate" => false
             ];
         }
     }
 
-    public function rejectRegistrationById($userId, $eventId, $regId) {
-        
+    public function rejectRegistrationById($userId, $eventId, $regId)
+    {
+        try {
+            
+
+        } catch (PDOException $err) {
+            return [
+                "status" => 500,
+                "error" => $err
+            ];
+        }
     }
 }

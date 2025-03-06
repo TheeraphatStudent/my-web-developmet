@@ -146,7 +146,7 @@ class MainController
 
         switch ($onModel) {
             case 'user':
-                $res = $request->authHandler($formContent, $data);
+                $res = $request->userHandler($formContent, $data);
                 break;
 
             case 'event':
