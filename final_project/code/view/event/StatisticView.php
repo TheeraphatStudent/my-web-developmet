@@ -80,7 +80,7 @@ $navigate->setPath(
                                             <button type="button" class="p-1.5 rounded-full text-red hover:bg-light-red" id="reject">
                                                 <img src="public/icons/reject.png" alt="reject">
                                             </button>
-                                            <form action="..?action=request&on=reg&form=update" class="<?= $item['status'] == "accepted" ? 'hidden' : '' ?>" method="post">
+                                            <form action="..?action=request&on=reg&form=accept" class="<?= $item['status'] == "accepted" ? 'hidden' : '' ?>" method="post">
                                                 <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
                                                 <input type="hidden" name="regId" value="<?= $item['regId'] ?>">
                                                 <input type="hidden" name="eventId" value="<?= $_GET['id'] ?>">

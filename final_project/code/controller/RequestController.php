@@ -106,6 +106,7 @@ class RequestController
                 return response(status: 200, message: "Search Work", data: $result, type: 'search');
             case 'register':
                 $eventObj = $this->event->getEventById($data['eventId']);
+
                 if ($eventObj['organizeId'] == $data['userId']) {
                     return response(status: 409, message: "Organize can't join an self event", redirect: '../?action=event.attendee&id=' . $data['eventId']);
                 } else {
@@ -121,12 +122,23 @@ class RequestController
     public function registerHandler($form, array $data)
     {
         switch ($form) {
-            case 'update':
-                $result = $this->reg->updateAcceptUserRegById(userId: $data['userId'], eventId: $data['eventId'], regId: $data['regId']);
+            case 'accept':
+                $result = $this->reg->acceptUserRegById(
+                    userId: $data['userId'],
+                    eventId: $data['eventId'],
+                    regId: $data['regId']
+                );
                 return response(status: 200, message: "Edit event complete", data: $result, redirect: '../?action=event.statistic&id=' . $data['eventId']);
 
             case 'reject':
-                $response = $this->reg->rejectRegistrationById("", "");
+                $response = $this->reg->rejectRegistrationById(
+                    userId: $data['userId'],
+                    eventId: $data['eventId'],
+                    regId: $data['regId']
+                );
+
+                print_r("reject work!");
+
                 return response();
 
             default:
