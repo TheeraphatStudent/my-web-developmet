@@ -8,7 +8,7 @@ RUN docker-php-ext-install pdo pdo_mysql
 RUN a2enmod rewrite
 
 COPY . /var/www/html/
-COPY ./config/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+COPY config/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
 
 RUN chown -R www-data:www-data /var/www/html
 
