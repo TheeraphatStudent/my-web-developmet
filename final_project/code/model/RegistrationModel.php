@@ -121,15 +121,22 @@ class Registration
     public function acceptUserRegById($userId, $eventId, $regId, $authorId)
     {
         try {
-            // Start transaction
             $this->connection->beginTransaction();
 
-            // Update Registration table
+            // Registration table
+            // $stmt = $this->connection->prepare("
+            //     UPDATE Registration 
+            //     SET status = 'accepted', updated = NOW()
+            //     WHERE userId = :userId AND eventId = :eventId AND regId = :regId AND status = 'pending'
+            // ");
             $stmt = $this->connection->prepare("
-            UPDATE Registration 
-            SET status = 'accepted', updated = NOW()
-            WHERE userId = :userId AND eventId = :eventId AND regId = :regId AND status = 'pending'
-        ");
+                UPDATE Registration 
+                SET status = 'accepted', updated = NOW()
+                WHERE userId = :userId 
+                AND eventId = :eventId
+                AND regId = :regId
+            ");
+
             $stmt->bindParam(':userId', $userId);
             $stmt->bindParam(':eventId', $eventId);
             $stmt->bindParam(':regId', $regId);
@@ -201,17 +208,46 @@ class Registration
         }
     }
 
-    public function rejectRegistrationById($userId, $eventId, $regId)
+    public function rejectRegistrationById($regId, $message)
     {
         try {
-            
+            $this->connection->beginTransaction();
 
+            $sql = $this->connection->prepare("
+                UPDATE Registration r
+                JOIN Attendance a ON r.regId = a.regId
+                SET 
+                    r.status = 'reject',
+                    a.status = 'reject',
+                    a.rejectMessage = :message
+                WHERE r.regId = :regId;
+            ");
+
+            $sql->bindParam(':message', $message);
+            $sql->bindParam(':regId', $regId);
+
+            $sql->execute();
+
+            if ($sql->rowCount() === 0) {
+                $this->connection->rollBack();
+                return [
+                    "status" => 500,
+                    "message" => "Failed reject for this user."
+                ];
+            }
+
+            $this->connection->commit();
+
+            return [
+                "status" => 200,
+                "message" => "Reject completed"
+            ];
         } catch (PDOException $err) {
+            $this->connection->rollback();
             return [
                 "status" => 500,
-                "error" => $err
+                "message" => $err,
             ];
         }
     }
-
 }

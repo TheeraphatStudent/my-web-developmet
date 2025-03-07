@@ -130,24 +130,31 @@ class RequestController
 
                 return response(
                     status: 200,
-                    message: "Edit event complete",
+                    message: "Accept user completed",
                     data: $result,
                     redirect: '../?action=event.statistic&id=' . $data['eventId']
                 );
 
             case 'reject':
                 $response = $this->reg->rejectRegistrationById(
-                    userId: $data['userId'],
-                    eventId: $data['eventId'],
-                    regId: $data['regId']
+                    regId: $data['regId'],
+                    message: $data['message'] ?? null
                 );
 
                 // print_r("reject work!");
 
-                return response();
+                return response(
+                    status: $response['status'],
+                    message: $response['message'],
+                    redirect: '../?action=event.statistic&id=' . $data['eventId']
+                );
 
             default:
-                return response(status: 404, message: "Something went wrong!");
+                return response(
+                    status: 404,
+                    message: "Something went wrong!",
+                    redirect: '../?action=event.manage'
+                );
         }
     }
 
