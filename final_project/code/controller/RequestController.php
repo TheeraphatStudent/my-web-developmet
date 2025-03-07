@@ -59,12 +59,12 @@ class RequestController
                 $password = $data["password"];
 
                 $result = $this->user->login($username, $password);
-                if ($result) {
+
+                if ($result != null) {
                     $_SESSION['user'] = [
                         "userId" => $result,
                         "username" => $username
                     ];
-
 
                     return response(status: 200, message: "เข้าสู่ระบบสำเร็จ!", redirect: '/');
                 } else {
