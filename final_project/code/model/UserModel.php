@@ -6,6 +6,7 @@ require_once(__DIR__ . '/../utils/useRandomize.php');
 
 use PDO;
 use DateTime;
+use PDOException;
 
 class User
 {
@@ -44,10 +45,10 @@ class User
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
-            return ["isFound" => true, "user" => $user];
+            return ["isFound" => true, "user" => $user, "status" => 200];
         }
 
-        return ["isFound" => false, "user" => []];
+        return ["isFound" => false, "user" => [], "status" => 404];
     }
 
 
@@ -82,10 +83,13 @@ class User
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         return $user;
     }
+
     public function login($username, $password)
     {
         $stmt = $this->connection->prepare('SELECT * FROM User WHERE username = :username');
-        $stmt->execute([':username' => $username]);
+        $stmt->bindParam(':username', $username);
+
+        $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $result = null;
@@ -100,14 +104,48 @@ class User
         return $result;
     }
 
-    public function getUserEventDetail($userId)
+    public function isUserProfileVerify($userId)
     {
-        $state = $this->connection->prepare('CALL GetUserEventDetails(:userId)');
-        $state->bindParam(':userId', $userId);
+        try {
+            $sql = $this->connection->prepare("
+        SELECT 
+            CASE 
+                WHEN u.name IS NULL 
+                OR u.gender IS NULL 
+                OR u.education IS NULL 
+                OR u.telno IS NULL 
+                OR u.birth IS NULL 
+                THEN FALSE
+                ELSE TRUE 
+            END AS isVerify
+        FROM User u
+        WHERE u.userId = :userId;
+        ");
 
-        $state->execute();
-        $result = $state->fetchAll(PDO::FETCH_ASSOC);
+            $sql->bindParam(':userId', $userId);
 
-        return $result;
+            $sql->execute();
+            $isVerify = $sql->fetch(PDO::FETCH_ASSOC);
+
+            if ($isVerify) {
+                return [
+                    "status" => 200,
+                    "message" => "ผู้ใช้ยืนยันตัวตนเรียบร้อย",
+                    "isVerify" => true
+                ];
+            } else {
+                return [
+                    "status" => 403,
+                    "message" => "ยังไม่ได้ยืนยันตัวตน",
+                    "isVerify" => false
+                ];
+            }
+        } catch (PDOException $err) {
+            return [
+                "status" => 500,
+                "message" => "Error: " . $err,
+                "isVerify" => false
+            ];
+        }
     }
 }

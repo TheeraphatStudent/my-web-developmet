@@ -62,35 +62,6 @@ services:
       - "8080:80"
     networks:
       - mynetwork
-  
-  # backup:
-  #   image: debian:bullseye-slim
-  #   container_name: backup
-  #   volumes:
-  #     - ./sql/backup.sh:/backup.sh
-  #     - ./sql/backups:/backups
-  #     - ./backups:/host_backups
-  #   environment:
-  #     - MYSQL_USER=${MYSQL_USER}
-  #     - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-  #     - MYSQL_DATABASE=${MYSQL_DATABASE}
-  #     - MYSQL_HOST=database
-  #   depends_on:
-  #     - database
-  #   command: >
-  #     /bin/bash -c '
-  #     apt-get update && 
-  #     apt-get install -y cron mariadb-client &&
-  #     chmod +x /backup.sh &&
-  #     echo "0 0 * * * root /backup.sh >> /var/log/cron.log 2>&1" > /etc/cron.d/backup-cron &&
-  #     chmod 0644 /etc/cron.d/backup-cron &&
-  #     touch /var/log/cron.log &&
-  #     cron && tail -f /var/log/cron.log
-  #     '
-  #   networks:
-  #     - mynetwork
-  #   restart: unless-stopped
-
 networks:
   mynetwork:
     driver: bridge
