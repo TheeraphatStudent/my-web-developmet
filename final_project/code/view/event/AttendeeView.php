@@ -2,16 +2,11 @@
 
 namespace FinalProject\View\Event;
 
-require_once('components/map/map.php');
 require_once('utils/useRegister.php');
 require_once('components/texteditor/texteditor.php');
 
-use FinalProject\Components\Map;
 use FinalProject\Components\TextEditor;
 use FinalProject\Utils\Register;
-
-$map = new Map();
-$map->setDefaultLocation($lat, $lon);
 
 $textEditor = new TextEditor();
 $textEditor->updatetextarea(description: $eventObj['description'], isEdit: false);
@@ -180,10 +175,9 @@ $maxDateDisplay = count($startDates);
                     <div class="font-kanit text-xl text-white font-normal">
                         สถานที่จัดงาน
                     </div>
-                    <div class="flex flex-col w-full h-full relative">
+                    <!-- <div class="flex flex-col w-full h-full relative">
                         <?php $map->render(); ?>
 
-                        <!-- Copy Button -->
                         <button
                             class="absolute top-0 right-4 flex justify-start items-center gap-3 px-4 py-2 rounded-b-md bg-neutral-400/50 hover:bg-black transition-colors duration-300 ease-in-out z-10 group">
                             <span class="font-kanit text-base underline text-black group-hover:text-white font-normal transition-colors duration-300 ease-in-out">คัดลอก</span>
@@ -191,7 +185,7 @@ $maxDateDisplay = count($startDates);
                                 <img width="13.5px" height="13.5px" src="public/icons/copy.svg" alt="copy" class="group-hover:invert" />
                             </div>
                         </button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 

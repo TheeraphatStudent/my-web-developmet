@@ -182,16 +182,15 @@ CREATE TABLE `Event` (
   `title` varchar(100) DEFAULT NULL,
   `description` text,
   `venue` varchar(20) DEFAULT NULL,
-  `maximum` json DEFAULT NULL,
+  `maximum` int DEFAULT NULL,
   `type` varchar(10) DEFAULT NULL,
   `link` varchar(255) DEFAULT NULL,
-  `start` varchar(255) DEFAULT NULL,
-  `end` varchar(255) DEFAULT NULL,
-  `location` json DEFAULT NULL,
+  `start` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `end` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `location` text,
   `created` timestamp NULL DEFAULT NULL,
   `updated` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
+)
 --
 -- Dumping data for table `Event`
 --
