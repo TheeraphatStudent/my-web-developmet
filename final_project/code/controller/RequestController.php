@@ -122,9 +122,18 @@ class RequestController
                 $result = $this->reg->acceptUserRegById(
                     userId: $data['userId'],
                     eventId: $data['eventId'],
+                    authorId: $data['authorId'],
                     regId: $data['regId']
                 );
-                return response(status: 200, message: "Edit event complete", data: $result, redirect: '../?action=event.statistic&id=' . $data['eventId']);
+
+                // print_r($result);
+
+                return response(
+                    status: 200,
+                    message: "Edit event complete",
+                    data: $result,
+                    redirect: '../?action=event.statistic&id=' . $data['eventId']
+                );
 
             case 'reject':
                 $response = $this->reg->rejectRegistrationById(

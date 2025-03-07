@@ -84,6 +84,7 @@ $navigate->setPath(
                                                 <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
                                                 <input type="hidden" name="regId" value="<?= $item['regId'] ?>">
                                                 <input type="hidden" name="eventId" value="<?= $_GET['id'] ?>">
+                                                <input type="hidden" name="authorId" value="<?= $_SESSION['user']['userId'] ?>">
 
                                                 <button type="submit" class="p-1.5 rounded-full text-primary hover:bg-light-green">
                                                     <img src="public/icons/accept.png" alt="accept">

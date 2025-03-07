@@ -40,6 +40,7 @@
                             <th class="py-3 px-4 text-left">Event ID</th>
                             <th class="py-3 px-4 text-left">Title</th>
                             <th class="py-3 px-4 text-left">Maximum</th>
+                            <th class="py-3 px-4 text-left">Request</th>
                             <th class="py-3 px-4 text-left">Attendees</th>
                             <th class="py-3 px-4 text-left">Created</th>
                             <th class="py-3 px-4 text-left">Started</th>
@@ -53,6 +54,7 @@
                                     <td class="py-3 px-4 text-sm"><?= $item['eventId'] ?></td>
                                     <td class="py-3 px-4 text-sm font-medium"><?= $item['title'] ?></td>
                                     <td class="py-3 px-4 text-center"><?= $item['maximum'] ?></td>
+                                    <td class="py-3 px-4 text-center">-1</td>
                                     <td class="py-3 px-4 text-center"><?= $item['attendee'] ?></td>
                                     <td class="py-3 px-4 text-sm"><?= $item['created'] ?></td>
                                     <td class="py-3 px-4 text-sm"><?= isset($item['start']) ? str_replace("T", " ", json_decode($item['start'], true)[0]) : "-"; ?></td>
