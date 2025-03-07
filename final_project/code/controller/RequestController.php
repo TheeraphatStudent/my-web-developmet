@@ -42,14 +42,7 @@ class RequestController
                 $password = $data["password"];
                 $email = $data['email'];
 
-                // if ($this->user->getUserByUsername($username)) {
-                //     // echo '<script>window.location.href="../?action=register"</script>';
-                //     // return ["status" => 301, "message" => "Username นี้ถูกใช้งานแล้ว!"];
-                //     return response(status: 301, message: "Username นี้ถูกใช้งานแล้ว!", redirect: '../?action=register');
-                // }
                 if ($this->user->getUserByEmail($email)) {
-                    // echo '<script>window.location.href="../?action=register"</script>';
-                    // return ["status" => 301, "message" => "Username นี้ถูกใช้งานแล้ว!"];
                     return response(status: 301, message: "Email นี้ถูกใช้งานแล้ว!", redirect: '../?action=register');
                 }
 
@@ -75,7 +68,6 @@ class RequestController
 
                     return response(status: 200, message: "เข้าสู่ระบบสำเร็จ!", redirect: '/');
                 } else {
-                    // return ["status" => 401, "message" => "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง"];
                     return response(status: 401, message: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง!", redirect: '../?action=login');
                 }
 
