@@ -32,22 +32,21 @@ $navigate = new Breadcrumb();
                     <table class="w-full table-auto">
                         <thead>
                             <tr class="bg-white text-gray-600 uppercase text-xs *:py-3 *:px-4 border-2">
-                                <th class="text-left">User ID</th>
-                                <th class="text-left">name</th>
-                                <th class="text-center">Actions</th>
+                                <th class="text-left">Event Photos</th>
+                                <th class="text-left">About Event</th>
+                                <th class="text-center">Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                        <!-- <tr>
+                        <tr>
                                 <td colspan="7" class="py-10 text-center">
                                     <div class="flex flex-col items-center justify-center">
-                                        <span class="text-lg mb-3">ยังไม่มีกิจกรรมที่คุณสร้าง</span>
-                                        <a href="../?action=event.create" class="text-primary hover:text-primary/80 font-semibold text-3xl underline decoration-primary">
-                                            สร้างกิจกรรมเลย?
+                                        <a href="../" class="text-primary hover:text-primary/80 font-semibold text-3xl underline decoration-primary">
+                                            Join event
                                         </a>
                                     </div>
                                 </td>
-                            </tr> -->
+                            </tr>
                         </tbody>
                     </table>
                 </div>
