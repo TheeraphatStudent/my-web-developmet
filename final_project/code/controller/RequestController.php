@@ -34,7 +34,7 @@ class RequestController
         $this->map = new Map();
     }
 
-    public function authHandler($form, array $data)
+    public function userHandler($form, array $data)
     {
         switch ($form) {
             case 'register':
@@ -56,11 +56,8 @@ class RequestController
                 $result = $this->user->register($username, $password, $email);
 
                 if ($result) {
-                    // echo '<script>window.location.href="../"</script>';
-                    // return ["status" => 200, "message" => "ลงทะเบียนสำเร็จ!"];
                     return response(status: 200, message: "ลงทะเบียนสำเร็จ", data: $result, redirect: '../?action=login');
                 } else {
-                    // return ["status" => 401, "message" => "เกิดข้อผิดพลาดในการลงทะเบียน"];
                     return response(status: 401, message: "เกิดข้อผิดพลาดในการลงทะเบียน", redirect: '../?action=login');
                 }
 
@@ -70,9 +67,6 @@ class RequestController
 
                 $result = $this->user->login($username, $password);
                 if ($result) {
-                    // echo '<script>window.location.href="../"</script>';
-                    // return ["status" => 200, "message" => "เข้าสู่ระบบสำเร็จ!", "data" => $result];
-
                     $_SESSION['user'] = [
                         "userId" => $result,
                         "username" => $username
@@ -86,8 +80,11 @@ class RequestController
                 }
 
             case "verify":
-                $isFound = $this->user->getUserByUserId($data["userId"])['isFound'];
-                return response(status: 200, data: ["isFound" => $isFound]);
+                $response = $this->user->getUserByUserId($data["userId"]);
+                return response(status: $response['status'], data: ["isFound" => $response['isFound']]);
+            case 'profileVerify':
+                $isVerify = $this->user->isUserProfileVerify($data['userId']);
+                return response(status: $isVerify['status'], message: $isVerify['message'], data: ["isVerify" => $isVerify['isVerify']], type: 'json');
         }
     }
 
@@ -101,7 +98,6 @@ class RequestController
                 $result = $this->event->updateEventById($data);
                 return response(status: 200, message: "Edit event complete", data: $result);
             case 'search':
-                // location, title, date (start)
                 $result = $this->event->searchEvent(title: $data['looking'], dateStart: $data['dateStarted'], dateEnd: $data['dateEnded']);
                 return response(status: 200, message: "Search Work", data: $result, type: 'search');
             case 'register':
@@ -126,23 +122,39 @@ class RequestController
                 $result = $this->reg->acceptUserRegById(
                     userId: $data['userId'],
                     eventId: $data['eventId'],
+                    authorId: $data['authorId'],
                     regId: $data['regId']
                 );
-                return response(status: 200, message: "Edit event complete", data: $result, redirect: '../?action=event.statistic&id=' . $data['eventId']);
+
+                // print_r($result);
+
+                return response(
+                    status: 200,
+                    message: "Accept user completed",
+                    data: $result,
+                    redirect: '../?action=event.statistic&id=' . $data['eventId']
+                );
 
             case 'reject':
                 $response = $this->reg->rejectRegistrationById(
-                    userId: $data['userId'],
-                    eventId: $data['eventId'],
-                    regId: $data['regId']
+                    regId: $data['regId'],
+                    message: $data['message'] ?? null
                 );
 
-                print_r("reject work!");
+                // print_r("reject work!");
 
-                return response();
+                return response(
+                    status: $response['status'],
+                    message: $response['message'],
+                    redirect: '../?action=event.statistic&id=' . $data['eventId']
+                );
 
             default:
-                return response(status: 404, message: "Something went wrong!");
+                return response(
+                    status: 404,
+                    message: "Something went wrong!",
+                    redirect: '../?action=event.manage'
+                );
         }
     }
 

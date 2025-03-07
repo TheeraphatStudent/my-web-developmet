@@ -77,13 +77,14 @@ $navigate->setPath(
 
                                     <td class="py-3 px-4 text-center">
                                         <div class="flex justify-center items-center space-x-2 *:mb-0">
-                                            <button type="button" class="p-1.5 rounded-full text-red hover:bg-light-red" id="reject">
+                                            <button type="button" class="p-1.5 rounded-full text-red hover:bg-light-red <?= $item['status'] == "reject" ? 'hidden' : '' ?>" id="reject">
                                                 <img src="public/icons/reject.png" alt="reject">
                                             </button>
                                             <form action="..?action=request&on=reg&form=accept" class="<?= $item['status'] == "accepted" ? 'hidden' : '' ?>" method="post">
                                                 <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
                                                 <input type="hidden" name="regId" value="<?= $item['regId'] ?>">
                                                 <input type="hidden" name="eventId" value="<?= $_GET['id'] ?>">
+                                                <input type="hidden" name="authorId" value="<?= $_SESSION['user']['userId'] ?>">
 
                                                 <button type="submit" class="p-1.5 rounded-full text-primary hover:bg-light-green">
                                                     <img src="public/icons/accept.png" alt="accept">
@@ -105,16 +106,16 @@ $navigate->setPath(
                                         </div>
 
                                         <form id="rejectForm" class="flex flex-col mb-0" action="../?action=request&on=reg&form=reject" method="post">
-                                            <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
+                                            <!-- <input type="hidden" name="userId" value="<?= $item['userId'] ?>"> -->
                                             <input type="hidden" name="regId" value="<?= $item['regId'] ?>">
                                             <input type="hidden" name="eventId" value="<?= $_GET['id'] ?>">
 
-                                            <div class="flex flex-col items-center gap-3">
+                                            <!-- <div class="flex flex-col items-center gap-3">
                                                 <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-white relative group">
                                                     <img id="profile" class="object-cover w-full h-full" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ" alt="Profile picture">
                                                 </div>
                                                 <span><?= $item['name'] ?? '-' ?></span>
-                                            </div>
+                                            </div> -->
 
                                             <div class="space-y-4">
                                                 <label class="text-sm font-medium text-gray-700">ระบบเหตุผล</label>
@@ -192,7 +193,7 @@ $navigate->setPath(
 
             Swal.fire({
                 title: 'ยืนยันการปฏิเศษ',
-                text: `ผ้เข้าร่วม ${formData.get('name') ?? "-"}`,
+                // text: `ผ้เข้าร่วม ${formData.get('name') ?? "-"}`,
                 icon: 'warning',
                 showCancelButton: true,
                 cancelButtonText: 'ยกเลิก',

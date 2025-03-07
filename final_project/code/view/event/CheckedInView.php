@@ -20,7 +20,6 @@ $navigate->setPath(
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" href="public/style/main.css">
     <title>Barrier</title>
 </head>
@@ -45,11 +44,12 @@ $navigate->setPath(
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-white">
-                            <?php foreach (array_reverse([]) as $item): ?>
-                                <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">
-                                    <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['userId'] ?></td>
-                                    <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['username'] ?></td>
-                                    <td>
+                            <?php if (!empty($data)): ?>
+                                <?php foreach (array_reverse($data) as $item): ?>
+                                    <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">
+                                        <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['userId'] ?></td>
+                                        <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['username'] ?></td>
+                                        <td>
 
                                         <div class="flex justify-center space-x-2">
                                             <form action="../?action=reques&on=Attendance&from=remove" method="POST">
@@ -74,6 +74,7 @@ $navigate->setPath(
                                     </td>
                                 </tr>
                             <?php endforeach ?>
+                            <?php else: ?>
                             <tr>
                                 <td colspan="7" class="py-10 text-center">
                                     <div class="flex flex-col items-center justify-center">
@@ -81,6 +82,7 @@ $navigate->setPath(
                                     </div>
                                 </td>
                             </tr>
+                            <?php endif ?>
                         </tbody>
                     </table>
                 </div>

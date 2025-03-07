@@ -99,7 +99,11 @@ $maxDateDisplay = count($startDates);
 
                         <!-- Buttons -->
                         <div class="flex flex-col justify-end gap-2.5 h-full w-full">
-                            <form action="../?action=request&on=event&form=register" method="post" class="flex flex-col gap-2.5">
+                            <form
+                                action="../?action=request&on=event&form=register"
+                                method="post"
+                                class="flex flex-col gap-2.5"
+                                id="regForm">
                                 <?php if (!empty($_SESSION['user']) && isset($_SESSION['user']['userId'])): ?>
                                     <input type="hidden" name="eventId" value="<?= htmlspecialchars($eventObj['eventId']) ?>">
                                     <input type="hidden" name="userId" value="<?= htmlspecialchars($_SESSION['user']['userId']) ?>">
@@ -235,10 +239,43 @@ $maxDateDisplay = count($startDates);
         document.addEventListener("DOMContentLoaded", function() {
             const registerButton = document.getElementById("registerEvent");
             const rejectButton = document.getElementById("rejectEvent");
-            const form = document.querySelector("form");
+            const form = document.getElementById('regForm');
 
             if (registerButton) {
                 registerButton.addEventListener("click", function() {
+                    Swal.fire({
+                        title: "ยืนยันการเข้าร่วม",
+                        text: "คุณต้องการเข้าร่วมกิจกรรมนี้หรือไม่?",
+                        icon: "error",
+                        confirmButtonText: "เข้าร่วมทันที",
+                        denyButtonText: "ไม่่ใช่ตอนนี้"
+                    }).then(async (res) => {
+                        if (res.isConfirmed) {
+                            const response = await fetch('../?action=request&on=user&form=profileVerify', {
+                                method: 'post',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    userId: <?= $_SESSION['user']['userId'] ?>
+                                })
+                            }).then((res) => {
+                                const status = res?.status ?? 404;
+
+                                switch (status) {
+                                    case 200:
+                                        
+                                        break;
+                                
+                                    default:
+                                        break;
+                                }
+
+                            });
+
+                        }
+
+                    });
                     form.submit();
                 });
             }

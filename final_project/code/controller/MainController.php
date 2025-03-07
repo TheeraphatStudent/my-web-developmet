@@ -82,10 +82,9 @@ class MainController
             switch ($event) {
                 case 'checked-in':
                     // $allEvents = $eventModel->Registration();
-
                     // $allReq = $eventModel->Registration();
                     // $allIn = $eventModel->inEvent();
-
+                    $data = $eventModel->Registration();
                     require_once("./view/event/CheckedInView.php");
                     break;
 
@@ -146,7 +145,7 @@ class MainController
 
         switch ($onModel) {
             case 'user':
-                $res = $request->authHandler($formContent, $data);
+                $res = $request->userHandler($formContent, $data);
                 break;
 
             case 'event':
