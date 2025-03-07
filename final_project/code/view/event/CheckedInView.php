@@ -44,8 +44,9 @@ $navigate->setPath(
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-white">
-                            <?php if (!empty($data)): ?>
-                                <?php foreach (array_reverse($data) as $item): ?>
+                            <?php if (!empty($ReqIn)): ?>
+                                <?php if(!empty($InEvent)): ?>
+                                <?php foreach (array_reverse($ReqIn) as $item): ?>
                                     <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">
                                         <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['userId'] ?></td>
                                         <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['username'] ?></td>
@@ -74,14 +75,36 @@ $navigate->setPath(
                                     </td>
                                 </tr>
                             <?php endforeach ?>
-                            <?php else: ?>
-                            <tr>
-                                <td colspan="7" class="py-10 text-center">
-                                    <div class="flex flex-col items-center justify-center">
-                                        <span class="text-lg mb-3">ยังไม่มีผู้เข้าร่วมกิจกรรมในขณะนี้</span>
-                                    </div>
-                                </td>
-                            </tr>
+                                <?php foreach (array_reverse($InEvent) as $item): ?>
+                                    <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">
+                                        <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['userId'] ?></td>
+                                        <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['username'] ?></td>
+                                        <td>
+
+                                        <div class="flex justify-center space-x-2">
+                                            <form action="../?action=reques&on=Attendance&from=update" method="POST">
+                                                <!-- รายละเอียดผู้เข้าร่วม -->
+                                                <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
+                                                <input type="hidden" name="regId" value="<?= $item['regId'] ?>">
+                                                <input type="hidden" name="eventId" value="<?= $item['eventId'] ?>">
+
+                                                <button class="p-1.5 rounded-full text-red">
+                                                    <img src="public/images/accept.png" alt="" width="30px" height="30px">
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <?php endforeach ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="7" class="py-10 text-center">
+                                            <div class="flex flex-col items-center justify-center">
+                                                <span class="text-lg mb-3">ยังไม่มีผู้เข้าร่วมกิจกรรมในขณะนี้</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php endif ?>
                             <?php endif ?>
                         </tbody>
                     </table>

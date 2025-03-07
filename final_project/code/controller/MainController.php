@@ -81,10 +81,8 @@ class MainController
         if (in_array($event, EventUtils::ACCEPT_EVENT)) {
             switch ($event) {
                 case 'checked-in':
-                    // $allEvents = $eventModel->Registration();
-                    // $allReq = $eventModel->Registration();
-                    // $allIn = $eventModel->inEvent();
-                    $data = $eventModel->Registration();
+                    $ReqIn = $eventModel->GetReq();
+                    $InEvent = $eventModel->GetInEvent();
                     require_once("./view/event/CheckedInView.php");
                     break;
 

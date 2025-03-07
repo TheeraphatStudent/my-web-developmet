@@ -131,8 +131,7 @@ class Event
         return $result;
     }
 
-    public function Registration(){
-        print_r($_SESSION);
+    public function GetReq(){
         $use = $_SESSION['user']['userId'];
         //เพิ่มเงื่อนไขว่าต้องมาจากeventไหนด้วย
         $statement = $this->connection->prepare("
@@ -142,33 +141,24 @@ class Event
             and     User.userId not like '$use'
             ");
         $statement->execute();
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        $data = [
-            "userId" => $result['userId'],
-            "username" => $result['username']
-        ];
-        return $result;
-    }
+        $ReqIn = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-    public function inEvent(){
+        return $ReqIn;
+    }
+    public function GetInEvent(){
         $use = $_SESSION['user']['userId'];
+        //เพิ่มเงื่อนไขว่าต้องมาจากeventไหนด้วย
         $statement = $this->connection->prepare("
-            SELECT 	*
-            FROM	Event,Attendance
-            WHERE	Attendance.verifyBy = Event.organizeId
-            and      Attendance.verifyBy not like '$use'
+            SELECT User.userId,User.username
+            FROM User, Registration, Attendance
+            where User.userId = Registration.userId
+            AND	Registration.regId = Attendance.regId
             ");
-            // and      eventId = :eventId 
         $statement->execute();
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
+        $InEvent = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-    // public function acc($){
-    //     $sql = $this -> connection -> prepare("
-    //         INSERT INTO Attendance value ('')
-    //     ");
-    // }
+        return $InEvent;
+    }
 
     public function getUsersByRegId($regId) {
 
