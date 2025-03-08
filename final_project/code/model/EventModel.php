@@ -62,8 +62,8 @@ class Event
             $formattedValue = str_pad($newValue, 7, "0", STR_PAD_LEFT);
             $eventId = "AG-" . $now->format('Y') . $formattedValue . uniqid("_event-" . getRandomId(8));
 
-            $venue = $data['venue'] ?? 0;
-            $maximum = $data['maximum'] ?? -1;
+            $venue = isset($data['venue']) && $data['venue'] !== '' ? $data['venue'] : '0';
+            $maximum = isset($data['maximum']) && is_numeric($data['maximum']) ? intval($data['maximum']) : -1;
 
             $statement = $this->connection->prepare("
                 INSERT INTO Event 
@@ -98,7 +98,7 @@ class Event
 
             return [
                 "status" => 201,
-                "message" => "Event (" . $eventId .") created successfully.",
+                "message" => "Event (" . $eventId . ") created successfully.",
             ];
         } catch (PDOException $e) {
             $this->connection->rollBack();
@@ -175,32 +175,17 @@ class Event
 
         $now = new DateTime();
 
-        // Bind the parameters
         $sql->bindParam(':eventId', $data['eventId']);
-        $sql->bindParam(':organizeId', $_SESSION['userId']);
+        $sql->bindParam(':organizeId', $_SESSION['user']['userId']);
         $sql->bindParam(':title', $data['title']);
         $sql->bindParam(':description', $data['description']);
         $sql->bindParam(':venue', $data['venue']);
         $sql->bindParam(':maximum', $data['maximum']);
         $sql->bindParam(':type', $data['type']);
         $sql->bindParam(':link', $data['link']);
+        $sql->bindParam(':updated', $now->format('Y-m-d H:i:s'));
 
-        $sql->execute([
-            ':eventId' => $data['eventId'],
-            ':organizeId' => $_SESSION['user']['userId'],
-            // ':cover' => $coverImage,
-            // ':morePics' => $more_pic,
-            ':title' => $data['title'],
-            ':description' => $data['description'],
-            ':venue' => $data['venue'],
-            ':maximum' => $data['maximum'],
-            ':type' => $data['type'],
-            ':link' => $data['link'],
-            // ':start' => $started,
-            // ':end' => $ended,
-            // ':location' => $location,
-            ':updated' => $now->format('Y-m-d H:i:s')
-        ]);
+        $sql->execute();
 
         $rowCount = $sql->rowCount();
         if ($rowCount > 0) {
@@ -222,9 +207,57 @@ class Event
             }
 
             if (!empty($dateStart) && !empty($dateEnd)) {
-                $query .= " AND start BETWEEN :dateStart AND :dateEnd";
+                $query .= " AND (DATE(start) BETWEEN :dateStart AND :dateEnd OR DATE(end) BETWEEN :dateStart AND :dateEnd)";
                 $params[':dateStart'] = $dateStart;
                 $params[':dateEnd'] = $dateEnd;
+            }
+
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute($params);
+
+            $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return ["data" => $events];
+        } catch (PDOException $e) {
+            return ['error' => $e->getMessage(), 'data' => []];
+        }
+    }
+
+    public function searchEventByCategories($dateType, $eventType)
+    {
+        try {
+            $_SESSION['selected_type'] = $eventType;
+
+            $query = "SELECT * FROM Event WHERE 1";
+            $params = [];
+
+            $now = new DateTime();
+
+            if (!empty($dateType)) {
+                switch ($dateType) {
+                    case 'day':
+                        $query .= " AND (DATE(start) = DATE(:today) OR DATE(end) = DATE(:today))";
+                        $params[':today'] = $now->format('Y-m-d');
+                        break;
+                    case 'week':
+                        $query .= " AND (DATE(start) BETWEEN :weekStart AND :weekEnd OR DATE(end) BETWEEN :weekStart AND :weekEnd)";
+                        $params[':weekStart'] = $now->format('Y-m-d');
+                        $params[':weekEnd'] = $now->modify('+7 days')->format('Y-m-d');
+                        break;
+                    case 'month':
+                        $query .= " AND (
+                            (MONTH(start) = MONTH(:currentMonth) AND YEAR(start) = YEAR(:currentYear)) OR 
+                            (MONTH(end) = MONTH(:currentMonth) AND YEAR(end) = YEAR(:currentYear))
+                        )";
+                        $params[':currentMonth'] = $now->format('Y-m-d');
+                        $params[':currentYear'] = $now->format('Y-m-d');
+                        break;
+                }
+            }
+
+            if (!empty($eventType) && $eventType !== 'any') {
+                $query .= " AND type = :type";
+                $params[':type'] = $eventType;
             }
 
             $stmt = $this->connection->prepare($query);
@@ -241,6 +274,4 @@ class Event
     public function getRegistrationEventByUserId() {}
 
     public function deleteEventById() {}
-
-    public function getmailbyid() {}
 }

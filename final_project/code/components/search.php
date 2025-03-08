@@ -18,7 +18,7 @@ class Search extends Component
                 <div class="flex flex-col justify-start items-start gap-2.5 h-fit w-full">
                     กำลังมองหา
                     <input type="text" placeholder="เลือกอีเวทน์" id="looking" name="looking"
-                        class="font-kanit text-base w-full h-10 input-field whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
+                        class="input-field">
                     </input>
                 </div>
 
@@ -35,10 +35,10 @@ class Search extends Component
                     ช่วงเวลา
                     <div class="flex gap-5">
                         <input type="datetime-local" placeholder="เลือกช่วงเวลา" name="dateStarted"
-                            class="font-kanit text-base w-full max-w-[215px] h-10 input-field whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
+                            class="input-field">
                         </input>
                         <input type="datetime-local" placeholder="เลือกช่วงเวลา" name="dateEnded"
-                            class="font-kanit text-base w-full max-w-[215px] h-10 input-field whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
+                            class="input-field">
                         </input>
                     </div>
                 </div>
@@ -115,22 +115,30 @@ class Filter extends Component
         </style>
 
         <div class="w-full flex justify-between mb-4 *:font-kanit">
-            <div>
+            <div class="cursor-pointer" onclick="window.location.reload()">
                 <span class="text-4xl font-bold text-white glow-word">อีเวนท์</span>
                 <span class="text-4xl font-bold text-dark-secondary glow2-word">ล่าสุด</span>
             </div>
-            <div class="flex gap-5">
-                <select class="input-field" id="date-select">
+            <form
+                action="../?action=request&on=event&form=search_categories"
+                method="post"
+                class="flex gap-5">
+                <!-- <select class="input-field" id="date-select" name="date" onchange="this.form.submit()">
                     <option value="day">วันนี้</option>
                     <option selected value="week">สัปดาห์นี้</option>
                     <option value="month">เดือนนี้</option>
+                </select> -->
+                <?php
+                $selectedType = $_SESSION['selected_type'] ?? '';
+                ?>
+                <select class="input-field" id="type-select" name="type" onchange="this.form.submit()">
+                    <option value="" <?php echo $selectedType == '' ? 'selected' : ''; ?>>เลือกกิจกรรม</option>
+                    <option value="any" <?php echo $selectedType == 'any' ? 'selected' : ''; ?>>ทั้งหมด</option>
+                    <option value="online" <?php echo $selectedType == 'online' ? 'selected' : ''; ?>>ออนไลน์</option>
+                    <option value="onsite" <?php echo $selectedType == 'onsite' ? 'selected' : ''; ?>>ออนไซต์</option>
                 </select>
-                <select class="input-field" id="type-select">
-                    <option value="any">ทั้งหมด</option>
-                    <option value="online">ออนไลน์</option>
-                    <option value="onsite">ออนไซต์</option>
-                </select>
-            </div>
+
+            </form>
 
         </div>
 <?php

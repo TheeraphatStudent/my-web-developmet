@@ -110,7 +110,7 @@
                             <tr>
                                 <td colspan="7" class="py-10 text-center">
                                     <div class="flex flex-col items-center justify-center">
-                                        <span class="text-lg mb-3">ยังไม่มีกิจกรรมที่คุณสร้าง</span>
+                                        <span class="text-lg mb-3 text-gray-500">ยังไม่มีกิจกรรมที่คุณสร้าง</span>
                                         <a href="../?action=event.create" class="text-primary hover:text-primary/80 font-semibold text-3xl underline decoration-primary">
                                             สร้างกิจกรรมเลย?
                                         </a>

@@ -218,7 +218,7 @@ $maxDateDisplay = count($startDates);
                         denyButtonText: "ยังก่อน"
                     }).then((res) => {
                         if (res.isConfirmed) {
-                            window.location.href = "../?action=profile";
+                            window.location.href = "../?action=profile&isEdit=true";
                             
                         }
 

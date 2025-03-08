@@ -159,7 +159,7 @@ class MainController
                 break;
         }
 
-        if (isset($res['type']) && ($res['type'] == 'search')) {
+        if (isset($res['type']) && (strpos($res['type'], 'search') !== false)) {
             $_SESSION['search'] = [
                 "onSearch" => true,
                 "value" => $res['data']['data']
