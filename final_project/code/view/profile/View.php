@@ -144,17 +144,25 @@ $calendar = new SchedulerCalendar();
                 <div class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="space-y-2 md:col-span-2">
-                            <label for="username" class="text-sm font-medium text-gray-700">ชื่อผู้ใช้</label>
-                            <input type="text" id="username" name="username" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="ระบุชื่อผู้ใช้งาน"  value="<?= htmlspecialchars($userObj['username'] ?? '') ?>" >
+                            <label for="username" class="text-sm font-medium text-gray-700">
+                                ชื่อผู้ใช้
+                            </label>
+                            <input type="text" id="username" name="username" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="ระบุชื่อผู้ใช้งาน" value="<?= htmlspecialchars($userObj['username'] ?? '') ?>">
                         </div>
 
                         <div class="space-y-2">
-                            <label for="fullName" class="text-sm font-medium text-gray-700">ชื่อ-นามสกุล</label>
+                            <label for="fullName" class="text-sm font-medium text-gray-700">
+                                ชื่อ-นามสกุล&nbsp;
+                                <span class="form-required">*</span>
+                            </label>
                             <input type="text" id="fullName" name="fullName" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="ระุบุชื่อเต็ม" value="<?= htmlspecialchars($userObj['name'] ?? '') ?>">
                         </div>
 
                         <div class="space-y-2">
-                            <label for="gender" class="text-sm font-medium text-gray-700">เพศ</label>
+                            <label for="gender" class="text-sm font-medium text-gray-700">
+                                เพศ&nbsp;
+                                <span class="form-required">*</span>
+                            </label>
                             <select id="gender" name="gender" class="w-full rounded-lg border border-gray-300 px-3 py-2">
                                 <option value="male" <?= $userObj['gender'] === 'male' ? 'selected' : '' ?>>ชาย</option>
                                 <option value="female" <?= $userObj['gender'] === 'female' ? 'selected' : '' ?>>หญิง</option>
@@ -162,17 +170,26 @@ $calendar = new SchedulerCalendar();
                         </div>
 
                         <div class="space-y-2">
-                            <label for="birthday" class="text-sm font-medium text-gray-700">วันเกิด</label>
+                            <label for="birthday" class="text-sm font-medium text-gray-700">
+                                วันเกิด&nbsp;
+                                <span class="form-required">*</span>
+                            </label>
                             <input type="date" id="birthday" name="birthday" class="w-full rounded-lg border border-gray-300 px-3 py-2" value="<?= htmlspecialchars($userObj['birth'] ?? '') ?>">
                         </div>
 
                         <div class="space-y-2">
-                            <label for="telno" class="text-sm font-medium text-gray-700">เบอร์โทรศัพท์</label>
+                            <label for="telno" class="text-sm font-medium text-gray-700">
+                                เบอร์โทรศัพท์&nbsp;
+                                <span class="form-required">*</span>
+                            </label>
                             <input type="tel" id="telno" name="telno" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="ระุบุเบอร์ที่ติดต่อได้" value="<?= htmlspecialchars($userObj['telno'] ?? '') ?>">
                         </div>
 
                         <div class="space-y-2 md:col-span-2">
-                            <label for="education" class="text-sm font-medium text-gray-700">การศึกษา</label>
+                            <label for="education" class="text-sm font-medium text-gray-700">
+                                การศึกษา&nbsp;
+                                <span class="form-required">*</span>
+                            </label>
                             <input type="text" id="education" name="education" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="ระบุสถานการศึกษาหรือประวัติการศึกษา" value="<?= htmlspecialchars($userObj['education'] ?? '') ?>">
                         </div>
                     </div>
