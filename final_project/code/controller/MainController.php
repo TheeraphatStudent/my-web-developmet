@@ -45,6 +45,17 @@ class MainController
     public function auth($type = 'login')
     {
 
+        echo "<script>
+                        function togglePasswordVisibility() {
+                            const password = document.getElementById('password');
+                            if (password.type === 'password') {
+                                password.type = 'text';
+                            } else {
+                                password.type = 'password';
+                            }
+                        }
+                    </script>";
+
         switch ($type) {
             case 'login':
                 require_once("./view/auth/LoginView.php");
@@ -165,7 +176,6 @@ class MainController
                 "onSearch" => true,
                 "value" => $res['data']['data']
             ];
-
         }
 
         return $res;

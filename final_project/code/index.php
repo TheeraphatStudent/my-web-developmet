@@ -2,6 +2,10 @@
 
 namespace FinalProject;
 
+ini_set('session.cookie_domain', 'http://act-gate.webhop.me');
+ini_set('session.cookie_secure', 'on');
+ini_set('session.cookie_httponly', 'on');
+
 session_start();
 
 header("Access-Control-Allow-Origin: *");
