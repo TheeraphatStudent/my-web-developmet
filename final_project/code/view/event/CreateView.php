@@ -240,7 +240,7 @@ $authors = array_map(function ($type) {
 
             const submitBtn = document.getElementById("form-submit");
 
-            submitBtn.addEventListener("click", () => {
+            submitBtn.addEventListener("click", async () => {
                 const inputs = form.querySelectorAll("input[required], textarea[required], select[required]");
                 let isValid = true;
                 let firstInvalidField = null;
@@ -262,19 +262,46 @@ $authors = array_map(function ($type) {
                     return;
                 }
 
-                Swal.fire({
-                    icon: "success",
-                    title: "สำเร็จ",
-                    text: "สร้างกิจกรรมเสร็จสิ้น!",
-                }).then(() => {
-                    form.submit();
-                });
+                try {
+                    const formData = new FormData(form);
+                    const response = await fetch(form.action, {
+                        method: form.method, 
+                        body: formData
+                    });
+
+                    const result = await response.json();
+                    // console.log(result);
+
+                    if (response.ok) {
+                        await Swal.fire({
+                            icon: "success",
+                            title: "สำเร็จ",
+                            text: "สร้างกิจกรรมเสร็จสิ้น!", 
+                        });
+
+                        window.location.href = `${result?.redirect}`
+
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "เกิดข้อผิดพลาด",
+                            text: "เกิดข้อผิดพลาดในการส่งข้อมูล, ลองใหม่อีกครั้ง"
+                        });
+                    }
+                } catch (error) {
+                    console.error(error);
+                    Swal.fire({
+                        icon: "error", 
+                        title: "เกิดข้อผิดพลาด",
+                        text: "ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้, ติดต่อนักพัฒนา"
+                    });
+                }
             });
         });
     </script>
 
     <!-- Multi Selected Option -->
-    <script>
+    <!-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             const multiSelect = document.getElementById('author-selected');
 
@@ -297,7 +324,7 @@ $authors = array_map(function ($type) {
                 console.log('Selected values:', selectedOptions);
             });
         });
-    </script>
+    </script> -->
 
     <!-- Image input -->
     <script>

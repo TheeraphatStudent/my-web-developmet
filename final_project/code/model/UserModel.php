@@ -124,12 +124,13 @@ class User
             $sql = $this->connection->prepare("
         SELECT 
             CASE 
-                WHEN u.name IS NULL 
-                OR u.gender IS NULL 
-                OR u.education IS NULL 
-                OR u.telno IS NULL 
-                OR u.birth IS NULL 
-                THEN FALSE
+                WHEN 
+                    u.name IS NULL 
+                    OR u.gender IS NULL 
+                    OR u.education IS NULL 
+                    OR u.telno IS NULL 
+                    OR u.birth IS NULL 
+                    THEN FALSE
                 ELSE TRUE 
             END AS isVerify
         FROM User u
@@ -141,7 +142,8 @@ class User
             $sql->execute();
 
             $isVerify = $sql->fetch(PDO::FETCH_ASSOC);
-            if ($isVerify === 1) {
+
+            if ($isVerify['isVerify'] === 1) {
                 return [
                     "status" => 200,
                     "message" => "ผู้ใช้ยืนยันตัวตนเรียบร้อย",
@@ -159,6 +161,69 @@ class User
                 "status" => 500,
                 "message" => "Error: " . $err,
                 "isVerify" => false
+            ];
+        }
+    }
+
+    public function updateUserById(array $data)
+    {
+        try {
+            $this->connection->beginTransaction();
+
+            $checkUserStmt = $this->connection->prepare("SELECT u.username FROM User u WHERE u.userId = :userId");
+            $checkUserStmt->bindParam(':userId', $data['userId'], PDO::PARAM_STR);
+            $checkUserStmt->execute();
+
+            $user = $checkUserStmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$user) {
+                $this->connection->rollBack();
+                return [
+                    "status" => 404,
+                    "message" => "User not found"
+                ];
+            }
+
+            $sql = $this->connection->prepare("
+            UPDATE User 
+            SET 
+                username = :username,
+                email = :email,
+                name = :name,
+                gender = :gender,
+                telno = :telno,
+                birth = :birth,
+                education = :education,
+                updated = :updated
+            WHERE userId = :userId
+            ");
+
+            $now = (new DateTime())->format('Y-m-d H:i:s');
+            $username = $data['username'] ?? $user['username'];
+
+            $sql->bindParam(':username', $username, PDO::PARAM_STR);
+            $sql->bindParam(':userId', $data['userId'], PDO::PARAM_STR);
+            $sql->bindParam(':email', $data['email'], PDO::PARAM_STR);
+            $sql->bindParam(':name', $data['name'], PDO::PARAM_STR);
+            $sql->bindParam(':gender', $data['gender'], PDO::PARAM_STR);
+            $sql->bindParam(':telno', $data['telno'], PDO::PARAM_STR);
+            $sql->bindParam(':birth', $data['birth'], PDO::PARAM_STR);
+            $sql->bindParam(':education', $data['education'], PDO::PARAM_STR);
+            $sql->bindParam(':updated', $now, PDO::PARAM_STR);
+
+            $sql->execute();
+
+            $this->connection->commit();
+
+            return [
+                "status" => 200,
+                "message" => "User updated successfully: " . $sql->fetch(PDO::FETCH_ASSOC)
+            ];
+        } catch (PDOException $err) {
+            $this->connection->rollBack();
+            return [
+                "status" => 500,
+                "message" => "Error: " . $err->getMessage()
             ];
         }
     }

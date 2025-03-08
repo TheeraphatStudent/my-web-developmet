@@ -126,7 +126,8 @@ $calendar = new SchedulerCalendar();
                 </button>
             </div>
 
-            <form id="editProfileForm" class="space-y-6" action="../?action=request&on=user&update">
+            <!-- Edit User -->
+            <form id="editProfileForm" class="space-y-6" action="../?action=request&on=user&form=update" method="post">
                 <div class="flex flex-col items-center gap-3">
                     <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-white relative group">
                         <div class="w-full h-full flex items-center justify-center rounded-full bg-primary text-white text-xl font-bold">
@@ -138,41 +139,76 @@ $calendar = new SchedulerCalendar();
                             </label>
                         </div> -->
                     </div>
-                    <input type="file" id="profileImage" name="profileImage" accept="image/*" class="hidden">
+                    <!-- <input type="file" id="profileImage" name="profileImage" accept="image/*" class="hidden"> -->
                 </div>
+
+                <input type="hidden" name="userId" value="<?= $_SESSION['user']['userId'] ?>">
 
                 <div class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="space-y-2 md:col-span-2">
-                            <label for="username" class="text-sm font-medium text-gray-700">ชื่อผู้ใช้</label>
-                            <input type="text" id="username" name="username" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="ระบุชื่อผู้ใช้งาน"  value="<?= htmlspecialchars($userObj['username'] ?? '') ?>" >
+                            <label for="username" class="text-sm font-medium text-gray-700">
+                                ชื่อผู้ใช้
+                            </label>
+                            <input type="text" id="username" name="username" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="ระบุชื่อผู้ใช้งาน" value="<?= htmlspecialchars($userObj['username'] ?? '') ?>">
                         </div>
 
                         <div class="space-y-2">
-                            <label for="fullName" class="text-sm font-medium text-gray-700">ชื่อ-นามสกุล</label>
-                            <input type="text" id="fullName" name="fullName" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="ระุบุชื่อเต็ม" value="<?= htmlspecialchars($userObj['name'] ?? '') ?>">
+                            <label for="name" class="text-sm font-medium text-gray-700">
+                                ชื่อ-นามสกุล&nbsp;
+                                <span class="form-required">*</span>
+                            </label>
+                            <input required type="text" id="name" name="name" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="ระุบุชื่อเต็ม" value="<?= htmlspecialchars($userObj['name'] ?? '') ?>">
                         </div>
 
                         <div class="space-y-2">
-                            <label for="gender" class="text-sm font-medium text-gray-700">เพศ</label>
-                            <select id="gender" name="gender" class="w-full rounded-lg border border-gray-300 px-3 py-2">
+                            <label for="gender" class="text-sm font-medium text-gray-700">
+                                เพศ&nbsp;
+                                <span class="form-required">*</span>
+                            </label>
+                            <select required id="gender" name="gender" class="w-full rounded-lg border border-gray-300 px-3 py-2">
                                 <option value="male" <?= $userObj['gender'] === 'male' ? 'selected' : '' ?>>ชาย</option>
                                 <option value="female" <?= $userObj['gender'] === 'female' ? 'selected' : '' ?>>หญิง</option>
                             </select>
                         </div>
 
                         <div class="space-y-2">
-                            <label for="birthday" class="text-sm font-medium text-gray-700">วันเกิด</label>
-                            <input type="date" id="birthday" name="birthday" class="w-full rounded-lg border border-gray-300 px-3 py-2" value="<?= htmlspecialchars($userObj['birth'] ?? '') ?>">
+                            <label for="birth" class="text-sm font-medium text-gray-700">
+                                วันเกิด&nbsp;
+                                <span class="form-required">*</span>
+                            </label>
+                            <input
+                                id="birth"
+                                name="birth"
+                                type="date"
+                                name="trip-start"
+                                class="w-full rounded-lg border border-gray-300 px-3 py-2"
+                                value="<?= htmlspecialchars($userObj['birth'] ?? '') ?>"
+                                max="<?php echo (date('Y') - 12) . '-12-31'; ?>"
+                                required />
                         </div>
 
                         <div class="space-y-2">
-                            <label for="telno" class="text-sm font-medium text-gray-700">เบอร์โทรศัพท์</label>
-                            <input type="tel" id="telno" name="telno" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="ระุบุเบอร์ที่ติดต่อได้" value="<?= htmlspecialchars($userObj['telno'] ?? '') ?>">
+                            <label for="telno" class="text-sm font-medium text-gray-700">
+                                เบอร์โทรศัพท์&nbsp;
+                                <span class="form-required">*</span>
+                            </label>
+                            <input type="tel" id="telno" name="telno" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="ระุบุเบอร์ที่ติดต่อได้" value="<?= htmlspecialchars($userObj['telno'] ?? '') ?>" pattern="\d{10}">
                         </div>
 
                         <div class="space-y-2 md:col-span-2">
-                            <label for="education" class="text-sm font-medium text-gray-700">การศึกษา</label>
+                            <label for="email" class="text-sm font-medium text-gray-700">
+                                อีเมล&nbsp;
+                                <span class="form-required">*</span>
+                            </label>
+                            <input type="email" id="email" name="email" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="ระบุอีเมลที่ติดต่อได้" value="<?= htmlspecialchars($userObj['email'] ?? '') ?>">
+                        </div>
+
+                        <div class="space-y-2 md:col-span-2">
+                            <label for="education" class="text-sm font-medium text-gray-700">
+                                การศึกษา&nbsp;
+                                <span class="form-required">*</span>
+                            </label>
                             <input type="text" id="education" name="education" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="ระบุสถานการศึกษาหรือประวัติการศึกษา" value="<?= htmlspecialchars($userObj['education'] ?? '') ?>">
                         </div>
                     </div>
@@ -206,6 +242,21 @@ $calendar = new SchedulerCalendar();
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const isEdit = <?= $_GET['isEdit'] ?>
+
+            if (isEdit === true) {
+                const url = new URL(window.location.href);
+                url.searchParams.delete("isEdit");
+                window.history.replaceState({}, document.title, url.toString());
+    
+                document.getElementById('editProfileModal').classList.remove('hidden');
+
+            }
+        })
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

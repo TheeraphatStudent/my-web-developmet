@@ -74,9 +74,18 @@ class RequestController
             case "verify":
                 $response = $this->user->getUserByUserId($data["userId"]);
                 return response(status: $response['status'], data: ["isFound" => $response['isFound']]);
+
             case 'profileVerify':
                 $isVerify = $this->user->isUserProfileVerify($data['userId']);
                 return response(status: $isVerify['status'], message: $isVerify['message'], data: ["isVerify" => $isVerify['isVerify']], type: 'json');
+
+            case 'update':
+                $response = $this->user->updateUserById($data);
+                // print_r($data);
+                // echo "<br>";
+                // print_r($response);
+
+                return response(status: $response['status'], message: $response['message'], redirect: "../?action=profile");
         }
     }
 
@@ -87,17 +96,19 @@ class RequestController
         switch ($form) {
             case 'create':
                 $result = $this->event->createEvent($data);
-                return response(status: 200, message: "Create event complete", data: $result);
+                return response(status: 200, message: "Create event complete", data: $result, type: 'json', redirect: "../");
             case 'update':
                 $result = $this->event->updateEventById($data);
                 return response(status: 200, message: "Edit event complete", data: $result);
-                
+
             case 'search':
                 $result = $this->event->searchEvent(title: $data['looking'], dateStart: $data['dateStarted'], dateEnd: $data['dateEnded']);
                 return response(status: 200, message: "Search Work", data: $result, type: 'search');
-            case 'mail':
-                $result = $this->event->getmailbyid($data);
-                return response(status: 200, message: "Mail Work", data: $result, type: 'search');
+
+            case 'search_categories':
+                $result = $this->event->searchEventByCategories(dateType: $data['date'] ?? null, eventType: $data['type'] ?? null);
+                return response(status: 200, message: "Search Work", data: $result, type: 'search');
+
             case 'register':
                 $verifyAccount = $this->user->isUserProfileVerify($data['userId']);
 

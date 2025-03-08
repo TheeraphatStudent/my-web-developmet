@@ -271,7 +271,7 @@ $authors = array_map(function ($type) {
 
             <div class="flex w-full justify-start items-start gap-5">
                 <button type="button" class="w-1/3 btn-danger">Cancel</button>
-                <button type="submit" class="w-full btn-secondary">Done Edit</button>
+                <button type="submit" class="w-full btn-secondary">Update</button>
             </div>
 
         </form>

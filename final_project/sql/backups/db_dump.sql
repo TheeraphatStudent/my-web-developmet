@@ -2,29 +2,32 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE PROCEDURE `GetAllEventsByUserId` (IN `getUserId` VARCHAR(255))   BEGIN
+CREATE DEFINER=`final-activity`@`%` PROCEDURE `GetAllEventsByUserId`(IN `getUserId` VARCHAR(255))
+BEGIN
     SELECT
-        e.eventId,
-        e.cover,
-        e.title,
-        e.maximum,
-        e.type,
-        e.start,
-        e.end,
-        e.created,
-        COUNT(r.regId) AS attendee
-    FROM Event e
-    LEFT JOIN Registration r ON e.eventId = r.eventId
-    WHERE e.organizeId = getUserId
-    GROUP BY 
-        e.eventId, 
-        e.cover, 
-        e.title, 
-        e.maximum, 
-        e.type, 
-        e.start, 
-        e.end, 
-        e.created;
+    e.eventId,
+    e.cover,
+    e.title,
+    e.maximum,
+    e.type,
+    e.start,
+    e.end,
+    e.created,
+    COUNT(CASE WHEN r.status = 'pending' THEN r.regId END) AS request,
+    COUNT(CASE WHEN a.status IN ('pending', 'accept') THEN a.regId END) AS attendee
+FROM Event e
+LEFT JOIN Registration r ON e.eventId = r.eventId
+LEFT JOIN Attendance a ON r.regId = a.regId
+WHERE e.organizeId = getUserId
+GROUP BY 
+    e.eventId, 
+    e.cover, 
+    e.title, 
+    e.maximum, 
+    e.type, 
+    e.start, 
+    e.end, 
+    e.created;
 END$$
 
 CREATE PROCEDURE `GetMail` (IN `getUserId` VARCHAR(255))   BEGIN
