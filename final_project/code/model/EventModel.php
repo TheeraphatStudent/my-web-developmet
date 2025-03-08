@@ -274,4 +274,15 @@ class Event
     public function getRegistrationEventByUserId() {}
 
     public function deleteEventById() {}
+
+    public function getmailbyid($userId) {
+        
+        $sql = $this->connection->prepare("CALL GetMail(:userId)");
+        $sql->bindParam(':userId', $userId);
+
+        $sql->execute();
+        $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result;
+    }
 }

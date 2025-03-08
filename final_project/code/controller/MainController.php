@@ -106,6 +106,11 @@ class MainController
                     require_once("./view/event/ManageView.php");
                     break;
 
+                // case 'mail':
+                //         $allaboutmail = $eventModel->getmailbyid($_SESSION['user']['userId']);
+                //         require_once("./view/mail/view.php");
+                //         break;
+
                 case 'create-test':
                     require_once("./view/event/test.CreateView.php");
                     break;
@@ -186,6 +191,10 @@ class MainController
     }
     public function mail()
     {
+        $event = new Event ($this->connection);
+        $aboutmail = ($event->getmailbyid($_SESSION['user']['userId']));
+        $emailTest = ["1", "2", "3"];
+
         require_once("./view/mail/view.php");
     }
 
