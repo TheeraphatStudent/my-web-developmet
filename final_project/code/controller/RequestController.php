@@ -42,14 +42,7 @@ class RequestController
                 $password = $data["password"];
                 $email = $data['email'];
 
-                // if ($this->user->getUserByUsername($username)) {
-                //     // echo '<script>window.location.href="../?action=register"</script>';
-                //     // return ["status" => 301, "message" => "Username นี้ถูกใช้งานแล้ว!"];
-                //     return response(status: 301, message: "Username นี้ถูกใช้งานแล้ว!", redirect: '../?action=register');
-                // }
                 if ($this->user->getUserByEmail($email)) {
-                    // echo '<script>window.location.href="../?action=register"</script>';
-                    // return ["status" => 301, "message" => "Username นี้ถูกใช้งานแล้ว!"];
                     return response(status: 301, message: "Email นี้ถูกใช้งานแล้ว!", redirect: '../?action=register');
                 }
 
@@ -66,16 +59,15 @@ class RequestController
                 $password = $data["password"];
 
                 $result = $this->user->login($username, $password);
-                if ($result) {
+
+                if ($result != null) {
                     $_SESSION['user'] = [
                         "userId" => $result,
                         "username" => $username
                     ];
 
-
                     return response(status: 200, message: "เข้าสู่ระบบสำเร็จ!", redirect: '/');
                 } else {
-                    // return ["status" => 401, "message" => "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง"];
                     return response(status: 401, message: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง!", redirect: '../?action=login');
                 }
 
@@ -101,13 +93,19 @@ class RequestController
                 $result = $this->event->searchEvent(title: $data['looking'], dateStart: $data['dateStarted'], dateEnd: $data['dateEnded']);
                 return response(status: 200, message: "Search Work", data: $result, type: 'search');
             case 'register':
+                $verifyAccount = $this->user->isUserProfileVerify($data['userId']);
+
+                if ($verifyAccount['status'] !== 200) {
+                    return response(status: $verifyAccount['status'], message: $verifyAccount['message'], redirect: '../?action=event.attendee&id=' . $data['eventId']);
+                }
+
                 $eventObj = $this->event->getEventById($data['eventId']);
 
-                if ($eventObj['organizeId'] == $data['userId']) {
-                    return response(status: 409, message: "Organize can't join an self event", redirect: '../?action=event.attendee&id=' . $data['eventId']);
+                if ($eventObj['organizeId'] === $data['userId']) {
+                    return response(status: 409, message: "Organizer can't join their own event", redirect: '../?action=event.attendee&id=' . $data['eventId']);
                 } else {
                     $result = $this->reg->registerEvent(userId: $data['userId'], eventId: $data['eventId']);
-                    return response(status: $result['status'], message: "Register Work", data: $result['data'], redirect: '../?action=event.attendee&id=' . $data['eventId']);
+                    return response(status: $result['status'], message: "Registration successful", data: $result['data'], redirect: '../?action=event.attendee&id=' . $data['eventId']);
                 }
 
             default:

@@ -11,6 +11,7 @@ use FinalProject\Utils;
 use DateTime;
 use PDO;
 use PDOException;
+use Exception;
 
 class Event
 {
@@ -24,100 +25,93 @@ class Event
 
     public function createEvent($data = [])
     {
-        // array: start, end, authors, more_pic
+        try {
+            $this->connection->beginTransaction();
 
-        $uploadDir = '/var/www/html/public/images/uploads/';
-        $coverImage = null;
-        $morePics = [];
+            $uploadDir = '/var/www/html/public/images/uploads/';
+            $coverImage = null;
+            $morePics = [];
 
-        // print_r($_FILES);
+            $requiredFields = ['title', 'description', 'type', 'start', 'end', 'location'];
+            foreach ($requiredFields as $field) {
+                if (empty($data[$field])) {
+                    return [
+                        "status" => 400,
+                        "message" => "Missing required field: $field"
+                    ];
+                }
+            }
 
-        if (isset($_FILES['cover']) && $_FILES['cover']['error'] === UPLOAD_ERR_OK) {
-            $coverImage = uploadFile($_FILES['cover'], $uploadDir);
-            unset($_FILES['cover']);
+            if (isset($_FILES['cover']) && $_FILES['cover']['error'] === UPLOAD_ERR_OK) {
+                $coverImage = uploadFile($_FILES['cover'], $uploadDir);
+                unset($_FILES['cover']);
+            }
+
+            if (isset($_FILES['more_pic'])) {
+                $morePics = uploadMultipleFiles($_FILES['more_pic'], $uploadDir);
+            }
+
+            $more_pic = json_encode($morePics);
+
+            $now = new DateTime();
+            $lastCols = $this->connection->prepare("SELECT id FROM Event ORDER BY id DESC LIMIT 1");
+            $lastCols->execute();
+            $getCols = $lastCols->fetchColumn();
+
+            $newValue = ($getCols !== false) ? intval($getCols) + 1 : 1;
+            $formattedValue = str_pad($newValue, 7, "0", STR_PAD_LEFT);
+            $eventId = "AG-" . $now->format('Y') . $formattedValue . uniqid("_event-" . getRandomId(8));
+
+            $venue = $data['venue'] ?? 0;
+            $maximum = $data['maximum'] ?? -1;
+
+            $statement = $this->connection->prepare("
+                INSERT INTO Event 
+                (`eventId`, `organizeId`, `cover`, `morePics`, `title`, `description`, `venue`, `maximum`, `type`, `link`, `start`, `end`, `location`)
+                VALUES 
+                (:eventId, :organizeId, :cover, :morePics, :title, :description, :venue, :maximum, :type, :link, :start, :end, :location)
+            ");
+
+            $statement->bindParam(':eventId', $eventId);
+            $statement->bindParam(':organizeId', $_SESSION['user']['userId']);
+            $statement->bindParam(':cover', $coverImage);
+            $statement->bindParam(':morePics', $more_pic);
+            $statement->bindParam(':title', $data['title']);
+            $statement->bindParam(':description', $data['description']);
+            $statement->bindParam(':venue', $venue);
+            $statement->bindParam(':maximum', $maximum);
+            $statement->bindParam(':type', $data['type']);
+            $statement->bindParam(':link', $data['link']);
+            $statement->bindParam(':start', $data['start']);
+            $statement->bindParam(':end', $data['end']);
+            $statement->bindParam(':location', $data['location']);
+
+            if (!$statement->execute()) {
+                $this->connection->rollBack();
+                return [
+                    "status" => 500,
+                    "message" => "Failed to create event."
+                ];
+            }
+
+            $this->connection->commit();
+
+            return [
+                "status" => 201,
+                "message" => "Event (" . $eventId .") created successfully.",
+            ];
+        } catch (PDOException $e) {
+            $this->connection->rollBack();
+            return [
+                "status" => 500,
+                "message" => "Database error: " . $e->getMessage()
+            ];
+        } catch (Exception $e) {
+            return [
+                "status" => 500,
+                "message" => "Error: " . $e->getMessage()
+            ];
         }
-
-        if (isset($_FILES['more_pic'])) {
-            $morePics = uploadMultipleFiles($_FILES['more_pic'], $uploadDir);
-        }
-
-        // print_r($coverImage);
-        // print_r($morePics);
-
-        $started = json_encode($data['start']);
-        $ended = json_encode($data['end']);
-        $more_pic = json_encode($morePics);
-
-        $latMatch = [];
-        $lonMatch = [];
-
-        preg_match('/lat=([^&]*)/', $data['location'], $latMatch);
-        preg_match('/lon=([^&]*)/', $data['location'], $lonMatch);
-
-        $location = json_encode([
-            'lat' => $latMatch[1] ?? 0,
-            'lon' => $lonMatch[1] ?? 0
-        ]);
-
-        $statement = $this->connection->prepare(
-            "INSERT INTO Event 
-        (`eventId`, `organizeId`, `cover`, `morePics`, `title`, `description`, `venue`, `maximum`, `type`, `link`, `start`, `end`, `location`, `created`, `updated`)
-        VALUES 
-        (:eventId, :organizeId, :cover, :morePics, :title, :description, :venue, :maximum, :type, :link, :start, :end, :location, :created, :updated)"
-        );
-
-        $now = new DateTime();
-
-        // Create Id -> AG
-        // 25 : year
-        // T : First character in Fname
-        // 00000: Count
-
-        $lastCols = $this->connection->prepare(
-            "SELECT id FROM Event ORDER BY id DESC LIMIT 1"
-        );
-
-        $lastCols->execute();
-        $getCols = $lastCols->fetchColumn();
-
-        $newValue = ($getCols !== false) ? intval($getCols) + 1 : 1;
-        $formattedValue = str_pad($newValue, 7, "0", STR_PAD_LEFT);
-
-        $eventId = "AG-" . $now->format('Y') . $formattedValue . uniqid("_event-" . getRandomId(8));
-
-        $statement->bindParam(':eventId', $eventId);
-        $statement->bindParam(':organizeId', $_SESSION['user']['userId']);
-        $statement->bindParam(':title', $data['title']);
-        $statement->bindParam(':description', $data['description']);
-        $statement->bindParam(':venue', $data['venue']);
-        $statement->bindParam(':maximum', $data['maximum']);
-        $statement->bindParam(':type', $data['type']);
-        $statement->bindParam(':link', $data['link']);
-        $statement->bindParam(':start', $started);
-        $statement->bindParam(':start', $ended);
-        $statement->bindParam(':location', $location);
-
-        $statement->execute([
-            ':eventId' => $eventId,
-            ':organizeId' => $_SESSION['user']['userId'],
-            ':cover' => $coverImage,
-            ':morePics' => $more_pic,
-            ':title' => $data['title'],
-            ':description' => $data['description'],
-            ':venue' => $data['venue'],
-            ':maximum' => $data['maximum'] ?? 0,
-            ':type' => $data['type'],
-            ':link' => $data['link'],
-            ':start' => $started,
-            ':end' => $ended,
-            ':location' => $location,
-            ':created' => $now->format('Y-m-d H:i:s'),
-            ':updated' => $now->format('Y-m-d H:i:s')
-        ]);
-
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
-
-        return [$result];
     }
 
     public function getAllEvents()
@@ -132,46 +126,8 @@ class Event
         return $result;
     }
 
-    // public function Registration(){
-    //     $use = $_SESSION['user']['userId'];
-    //     //เพิ่มเงื่อนไขว่าต้องมาจากeventไหนด้วย
-    //     $statement = $this->connection->prepare("
-    //         SELECT 	*
-    //         FROM	Registration,User
-    //         WHERE	Registration.userId = User.userId
-    //         and     User.userId not like '$use'
-    //         ");
+    public function getUsersByRegId($regId) {}
 
-    //     $statement->execute();
-    //     $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-    //     return $result;
-    // }
-
-    // public function inEvent(){
-    //     $use = $_SESSION['user']['userId'];
-
-    //     $statement = $this->connection->prepare("
-    //         SELECT 	*
-    //         FROM	Event,Attendance
-    //         WHERE	Attendance.verifyBy = Event.organizeId
-    //         and     Attendance.verifyBy not like '$use'
-    //         ");
-
-    //     $statement->execute();
-    //     $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-    //     return $result;
-    // }
-
-    // public function acc(){
-    //     $sql = $this -> connection -> prepare("
-    //         INSERT INTO Attendance value ('')
-    //     ");
-    // }
-
-    public function getUsersByRegId($regId) {
-
-    }
-    
     public function getAllEventsById($userId)
     {
         $statement = $this->connection->prepare("CALL GetAllEventsByUserId(:userId)");
@@ -293,7 +249,5 @@ class Event
 
     public function deleteEventById() {}
 
-    public function getmailbyid() {
-
-    }
+    public function getmailbyid() {}
 }

@@ -5,6 +5,7 @@ namespace FinalProject\View\Event;
 require_once('components/breadcrumb.php');
 
 use FinalProject\Components\Breadcrumb;
+
 $navigate = new Breadcrumb();
 
 $navigate->setPath(
@@ -77,7 +78,10 @@ $navigate->setPath(
                             <tr>
                                 <td colspan="7" class="py-10 text-center">
                                     <div class="flex flex-col items-center justify-center">
-                                        <span class="text-lg mb-3">ยังไม่มีผู้เข้าร่วมกิจกรรมในขณะนี้</span>
+                                        <span class="text-lg mb-3">ยังไม่มีผู้ผ่านการยอมรับการเข้าร่วมกิจกรรม</span>
+                                        <a href="../?action=event.statistic&id=<?= $_GET['id'] ?>" class="text-primary hover:text-primary/80 font-semibold text-3xl underline decoration-primary">
+                                        อนุมัติผู้เข้าร่วมตอนนี้?
+                                        </a>
                                     </div>
                                 </td>
                             </tr>

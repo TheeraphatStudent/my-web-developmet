@@ -31,7 +31,10 @@ $calendar = new SchedulerCalendar();
         <div class="flex flex-col bg-white/40 w-full h-fit min-h-fit rounded-xl p-8 gap-8">
             <div class="flex flex-col items-center md:flex-row gap-6">
                 <div class="flex justify-center items-center w-32 h-32 min-w-[128px] min-h-[128px] relative border-4 border-white rounded-full overflow-hidden">
-                    <img class="object-cover object-center w-full h-full" src='https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ' alt='Woman looking front'>
+                    <!-- <img class="object-cover object-center w-full h-full" src='https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ' alt='Woman looking front'> -->
+                    <div class="w-full h-full flex items-center justify-center rounded-full bg-primary text-white text-xl font-bold">
+                        <?= htmlspecialchars(strtoupper(substr($_SESSION['user']['username'], 0, 1))) ?>
+                    </div>
                 </div>
 
                 <div class="flex flex-col justify-center w-full gap-3 overflow-hidden">
@@ -45,11 +48,11 @@ $calendar = new SchedulerCalendar();
                     <div class="flex w-full gap-4 mt-2 *:bg-dark-primary/40">
                         <div class="flex flex-col w-full rounded-lg py-2 px-4 text-center">
                             <span class="text-sm text-white">อีเวนท์ที่สร้าง</span>
-                            <p class="text-xl font-bold text-white"><?= $userObj['totalOrganize'] ?? "0" ?></p>
+                            <p class="text-xl font-bold text-white"><?= $userObj['total_events_created'] ?></p>
                         </div>
                         <div class="flex flex-col w-full rounded-lg py-2 px-4 text-center">
                             <span class="text-sm text-white">อีเวนท์ที่เข้าร่วม</span>
-                            <p class="text-xl font-bold text-white"><?= $userObj['totalAttendee'] ?? "0" ?></p>
+                            <p class="text-xl font-bold text-white"><?= $userObj['total_events_joined'] ?></p>
                         </div>
                     </div>
                 </div>
@@ -60,24 +63,24 @@ $calendar = new SchedulerCalendar();
                 <h3 class="text-xl md:text-2xl font-semibold font-kanit text-secondary/80 mb-4">ข้อมูลส่วนตัว</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
                     <div class="flex flex-col">
-                        <span class="text-sm text-gray-600">Name</span>
-                        <span class="font-medium"><?= $userObj['name'] ?? "-" ?></span>
+                        <span class="text-sm text-gray-600">ชื่อ</span>
+                        <span class="font-medium"><?= htmlspecialchars($userObj['name'] ?? "-") ?></span>
                     </div>
                     <div class="flex flex-col">
-                        <span class="text-sm text-gray-600">Gender</span>
-                        <span class="font-medium"><?= $userObj['gender'] ?? "-" ?></span>
+                        <span class="text-sm text-gray-600">เพศ</span>
+                        <span class="font-medium"><?= htmlspecialchars($userObj['gender'] ?? "-") ?></span>
                     </div>
                     <div class="flex flex-col">
-                        <span class="text-sm text-gray-600">Birthday</span>
-                        <span class="font-medium"><?= $userObj['birth'] ?? "-" ?></span>
+                        <span class="text-sm text-gray-600">วันเกิด</span>
+                        <span class="font-medium"><?= htmlspecialchars($userObj['birth'] ?? "-") ?></span>
                     </div>
                     <div class="flex flex-col">
-                        <span class="text-sm text-gray-600">Telephone</span>
-                        <span class="font-medium"><?= $userObj['telno'] ?? "-" ?></span>
+                        <span class="text-sm text-gray-600">เบอร์โทรศัพท์</span>
+                        <span class="font-medium"><?= htmlspecialchars($userObj['telno'] ?? "-") ?></span>
                     </div>
                     <div class="flex flex-col">
-                        <span class="text-sm text-gray-600">Education</span>
-                        <span class="font-medium"><?= $userObj['education'] ?? "-" ?></span>
+                        <span class="text-sm text-gray-600">การศึกษา</span>
+                        <span class="font-medium"><?= htmlspecialchars($userObj['education'] ?? "-") ?></span>
                     </div>
                 </div>
             </div>
@@ -88,7 +91,17 @@ $calendar = new SchedulerCalendar();
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
                     <div class="flex flex-col">
                         <span class="text-sm text-gray-600">เข้าร่วมเมื่อ</span>
-                        <span class="font-medium"><?= $userObj['created'] ?? "-" ?></span>
+                        <span class="font-medium">
+                            <?php
+                            $createdDate = $userObj['created'] ?? "-";
+                            if ($createdDate !== "-") {
+                                $dateParts = explode(" ", $createdDate);
+                                echo htmlspecialchars($dateParts[0]);
+                            } else {
+                                echo "-";
+                            }
+                            ?>
+                        </span>
                     </div>
                     <!-- <div class="flex flex-col">
                         <span class="text-sm text-gray-600">Status</span>
@@ -113,48 +126,54 @@ $calendar = new SchedulerCalendar();
                 </button>
             </div>
 
-            <form id="editProfileForm" class="space-y-6" action="#">
+            <form id="editProfileForm" class="space-y-6" action="../?action=request&on=user&update">
                 <div class="flex flex-col items-center gap-3">
                     <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-white relative group">
-                        <img id="previewImage" class="object-cover w-full h-full" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ" alt="Profile picture">
-                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div class="w-full h-full flex items-center justify-center rounded-full bg-primary text-white text-xl font-bold">
+                            <?= htmlspecialchars(strtoupper(substr($_SESSION['user']['username'], 0, 1))) ?>
+                        </div>
+                        <!-- <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                             <label for="profileImage" class="text-white cursor-pointer text-sm">
                                 เปลี่ยนรูป
                             </label>
-                        </div>
+                        </div> -->
                     </div>
                     <input type="file" id="profileImage" name="profileImage" accept="image/*" class="hidden">
                 </div>
 
                 <div class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-2 md:col-span-2">
+                            <label for="username" class="text-sm font-medium text-gray-700">ชื่อผู้ใช้</label>
+                            <input type="text" id="username" name="username" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="ระบุชื่อผู้ใช้งาน"  value="<?= htmlspecialchars($userObj['username'] ?? '') ?>" >
+                        </div>
+
                         <div class="space-y-2">
                             <label for="fullName" class="text-sm font-medium text-gray-700">ชื่อ-นามสกุล</label>
-                            <input type="text" id="fullName" name="fullName" class="w-full rounded-lg border border-gray-300 px-3 py-2" value="Theeraphat Chueanokkhum">
+                            <input type="text" id="fullName" name="fullName" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="ระุบุชื่อเต็ม" value="<?= htmlspecialchars($userObj['name'] ?? '') ?>">
                         </div>
 
                         <div class="space-y-2">
                             <label for="gender" class="text-sm font-medium text-gray-700">เพศ</label>
                             <select id="gender" name="gender" class="w-full rounded-lg border border-gray-300 px-3 py-2">
-                                <option value="male" selected>ชาย</option>
-                                <option value="female">หญิง</option>
-                                <option value="other">อื่นๆ</option>
+                                <option value="male" <?= $userObj['gender'] === 'male' ? 'selected' : '' ?>>ชาย</option>
+                                <option value="female" <?= $userObj['gender'] === 'female' ? 'selected' : '' ?>>หญิง</option>
                             </select>
                         </div>
 
                         <div class="space-y-2">
                             <label for="birthday" class="text-sm font-medium text-gray-700">วันเกิด</label>
-                            <input type="date" id="birthday" name="birthday" class="w-full rounded-lg border border-gray-300 px-3 py-2" value="1995-01-15">
+                            <input type="date" id="birthday" name="birthday" class="w-full rounded-lg border border-gray-300 px-3 py-2" value="<?= htmlspecialchars($userObj['birth'] ?? '') ?>">
                         </div>
 
                         <div class="space-y-2">
-                            <label for="telephone" class="text-sm font-medium text-gray-700">เบอร์โทรศัพท์</label>
-                            <input type="tel" id="telephone" name="telephone" class="w-full rounded-lg border border-gray-300 px-3 py-2" value="+66 89 123 4567">
+                            <label for="telno" class="text-sm font-medium text-gray-700">เบอร์โทรศัพท์</label>
+                            <input type="tel" id="telno" name="telno" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="ระุบุเบอร์ที่ติดต่อได้" value="<?= htmlspecialchars($userObj['telno'] ?? '') ?>">
                         </div>
 
                         <div class="space-y-2 md:col-span-2">
                             <label for="education" class="text-sm font-medium text-gray-700">การศึกษา</label>
-                            <input type="text" id="education" name="education" class="w-full rounded-lg border border-gray-300 px-3 py-2" value="Bachelor of Engineering, AGU University">
+                            <input type="text" id="education" name="education" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="ระบุสถานการศึกษาหรือประวัติการศึกษา" value="<?= htmlspecialchars($userObj['education'] ?? '') ?>">
                         </div>
                     </div>
                 </div>
