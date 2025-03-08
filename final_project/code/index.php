@@ -105,13 +105,8 @@ switch ($action) {
         http_response_code($response['status'] ?? 404);
 
         if (isset($response['status']) && !in_array($response['status'], ACCEPT_STATUS)) {
-            if ($response['status'] == 500) {
-            header('Location: /not-found');
-
-            } else {
             header('Location: ' . $response['redirect'] . '&status=' . $response['status']);
 
-            }
             exit;
         }
 

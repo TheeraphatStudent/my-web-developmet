@@ -54,10 +54,10 @@
                                     <td class="py-3 px-4 text-sm"><?= $item['eventId'] ?></td>
                                     <td class="py-3 px-4 text-sm font-medium"><?= $item['title'] ?></td>
                                     <td class="py-3 px-4 text-center"><?= $item['maximum'] ?></td>
-                                    <td class="py-3 px-4 text-center">-1</td>
+                                    <td class="py-3 px-4 text-center"><?= $item['request'] ?></td>
                                     <td class="py-3 px-4 text-center"><?= $item['attendee'] ?></td>
                                     <td class="py-3 px-4 text-sm"><?= $item['created'] ?></td>
-                                    <td class="py-3 px-4 text-sm"><?= isset($item['start']) ? str_replace("T", " ", json_decode($item['start'], true)[0]) : "-"; ?></td>
+                                    <td class="py-3 px-4 text-sm"><?= $item['start'] ?></td>
                                     <td class="py-3 px-4 text-center">
                                         <div class="flex justify-center space-x-2">
                                             <a href="../?action=event.edit&id=<?= $item['eventId'] ?>" class="p-1.5 rounded-full text-secondary hover:bg-light-secondary">

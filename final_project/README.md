@@ -88,7 +88,10 @@ docker compose down
 
 # Deploy with sliplane
 
-[Dashboard](https://sliplane.io/app/projects/project_2fywb6ezn6av/services/service_dd168963wr9i/logs)
+```
+Webpage: http://206.189.91.219:3001
+Phpadmin: http://206.189.91.219:8081
+```
 
 # Deply wirh ngrok
 

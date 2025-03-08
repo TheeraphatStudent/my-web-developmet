@@ -21,6 +21,7 @@ class Init
                 PDO::ATTR_PERSISTENT => true,
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
             );
+
             $this->connection = new PDO($dsn, $user, $password, $options);
         } catch (PDOException $e) {
             die('Database connection failed: ' . $e->getMessage());
