@@ -213,11 +213,7 @@ class Event
     public function searchEvent($title, $dateStart, $dateEnd)
     {
         try {
-            $title = $title;
-            $dateStart = $dateStart;
-            $dateEnd = $dateEnd;
-
-            $query = "SELECT * FROM Event WHERE 1=1";
+            $query = "SELECT * FROM Event WHERE 1";
             $params = [];
 
             if (!empty($title)) {
@@ -226,10 +222,7 @@ class Event
             }
 
             if (!empty($dateStart) && !empty($dateEnd)) {
-                $query .= " AND (
-                JSON_UNQUOTE(JSON_EXTRACT(started, '$[0]')) BETWEEN :dateStart AND :dateEnd
-                OR JSON_UNQUOTE(JSON_EXTRACT(started, '$[1]')) BETWEEN :dateStart AND :dateEnd
-            )";
+                $query .= " AND start BETWEEN :dateStart AND :dateEnd";
                 $params[':dateStart'] = $dateStart;
                 $params[':dateEnd'] = $dateEnd;
             }

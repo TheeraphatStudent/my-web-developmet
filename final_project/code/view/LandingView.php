@@ -72,19 +72,41 @@ $calendar = new SchedulerCalendar();
                             class="flex flex-col justify-between items-center bg-center bg-cover gap-[150px] rounded w-full h-60 overflow-hidden bg-dark-primary/50 border-dashed border-gray-400 border-2"
                             style="background-image: url(public/images/uploads/<?= $item['cover'] ?>);">
                             <!-- Tag -->
-                            <div class="flex flex-row justify-start items-start gap-2.5 pt-2.5 pr-2.5 pb-2.5 pl-2.5 w-full h-fit bg-gradient-to-b from-dark-primary/50 via-dark-primary/25 to-transparent">
-                                <!-- <?php ?> -->
-                                <!-- <div class="flex justify-center items-center rounded w-11 h-6 shadow-sm bg-white">
-                                    <div class="font-kanit text-[10px] min-w-[23px] whitespace-nowrap text-teal-700 text-opacity-100 text-center leading-none font-normal">
-                                        FREE
+                            <div class="flex flex-row justify-start items-start gap-2.5 p-2.5 pb-3.5 w-full h-fit bg-gradient-to-b from-dark-primary/50 via-dark-primary/25 to-transparent">
+                                <?php
+                                $tags = [
+                                    "online" => ["text" => "ONLINE", "background" => "bg-light-secondary", "color" => "text-secondary"],
+                                    "onsite" => ["text" => "ONSITE", "background" => "bg-light-green", "color" => "text-primary"],
+                                    "paid" => ["text" => "PAID", "background" => "bg-light-orange", "color" => "text-orange"],
+                                    "free" => ["text" => "FREE", "background" => "bg-light-yellow", "color" => "text-yellow"]
+                                ];
+
+                                $selectedTags = [];
+
+                                if ($item['type'] === 'online' || $item['type'] === 'any') {
+                                    $selectedTags[] = "online";
+                                }
+
+                                if ($item['type'] === 'onsite' || $item['type'] === 'any') {
+                                    $selectedTags[] = "onsite";
+                                }
+                                
+                                if ($item['venue'] > 0) {
+                                    $selectedTags[] = "paid";
+                                } else {
+                                    $selectedTags[] = "free";
+                                }
+
+                                ?>
+                                <?php foreach ($selectedTags as $tag): ?>
+                                    <div class='flex justify-center items-center rounded w-16 h-8 shadow-sm <?= $tags[$tag]['background'] ?>'>
+                                        <span class='font-kanit text-sm text-center whitespace-nowrap text-opacity-100 leading-none font-normal <?= $tags[$tag]['color'] ?>'>
+                                            <?= $tags[$tag]['text'] ?>
+                                        </span>
                                     </div>
-                                </div> -->
-                                <!-- <div class="flex justify-center items-center rounded w-[67px] h-6 shadow-sm bg-blue-300">
-                                    <div class="font-kanit text-[10px] text-center min-w-[47px] whitespace-nowrap text-blue-900 text-opacity-100 leading-none font-normal">
-                                        ONLINE
-                                    </div>
-                                </div> -->
+                                <?php endforeach ?>
                             </div>
+
 
                             <!-- Star -->
                             <!-- <div class="flex flex-row justify-end items-center gap-2.5 pt-2.5 pr-2.5 pb-2.5 pl-2.5 w-full h-11">
@@ -94,38 +116,20 @@ $calendar = new SchedulerCalendar();
                             </div> -->
                         </div>
 
-                        <div class="flex flex-col justify-start items-start gap-3 h-20 w-full">
-                            <div class="flex flex-col justify-start items-start h-12 w-full">
+                        <div class="flex flex-col justify-start items-start gap-3 h-24 w-full">
+                            <div class="flex flex-col justify-start items-start h-fit py-2 w-full gap-2">
                                 <div class="flex flex-row justify-between items-center gap-2.5 w-full h-7">
-                                    <div class="font-kanit text-lg whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
-                                        <?php echo htmlspecialchars_decode($item['title'] ?? "-") ?>
+                                    <div class="font-kanit text-xl whitespace-nowrap text-black leading-none font-normal">
+                                        <?= htmlspecialchars_decode($item['title'] ?? "-") ?>
                                     </div>
-                                    <div class="font-kanit text-lg text-right whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
-                                        <!-- 80/- -->
-                                        <?php echo htmlspecialchars_decode($item['maximum'] ?? "-") ?>
+                                    <div class="font-kanit text-lg text-right whitespace-nowrap text-black leading-none font-normal">
+                                        <?= htmlspecialchars_decode($item['maximum'] ?? "-") ?>
                                     </div>
                                 </div>
-                                <?php
-                                $dates = json_decode($item['start'], true) ?? [];
-                                $formattedDates = array_map(function ($date) {
-                                    return date("l, j F Y", strtotime($date));
-                                }, $dates);
-
-                                $maxDateDisplay = 1;
-                                ?>
-
-                                <div class="flex flex-col font-kanit text-xs w-full whitespace-nowrap text-primary text-opacity-100 leading-none font-normal">
-                                    <?php foreach (array_slice($formattedDates, 0, $maxDateDisplay) as $date): ?>
-                                        <span><?= htmlspecialchars($date) ?></span>
-                                    <?php endforeach; ?>
-                                    <?php if (count($formattedDates) > $maxDateDisplay): ?>
-                                        <span>...</span>
-                                    <?php endif; ?>
+                                <div class="flex flex-col gap-1 font-kanit text-sm w-full whitespace-nowrap text-primary leading-none font-normal">
+                                    <span>เริ่มงาน: <?= $item['start'] ?></span>
+                                    <span>สิ้นสุด: <?= $item['end'] ?></span>
                                 </div>
-                            </div>
-                            <div class="font-kanit text-sm w-full whitespace-nowrap text-gray-400 text-opacity-100 leading-none font-normal">
-                                <!-- ทุกที่ -->
-                                <?php echo htmlspecialchars_decode($item['type'] ?? "-") ?>
                             </div>
                         </div>
                         <div class="flex flex-row justify-center items-center gap-2.5 w-full h-9">

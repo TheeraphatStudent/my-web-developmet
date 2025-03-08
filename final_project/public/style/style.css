@@ -887,6 +887,24 @@ span{
 
 /* Tags */
 
+.tags{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(251 248 238 / var(--tw-bg-opacity, 1));
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  --tw-text-opacity: 1;
+  color: rgb(34 110 106 / var(--tw-text-opacity, 1));
+}
+
 .text-overflow{
   display: block;
   overflow: hidden;
@@ -1220,6 +1238,26 @@ span{
   height: 100vh;
 }
 
+.h-24{
+  height: 6rem;
+}
+
+.h-\[4\]{
+  height: 4;
+}
+
+.h-\[425px\]{
+  height: 425px;
+}
+
+.h-\[435px\]{
+  height: 435px;
+}
+
+.h-52{
+  height: 13rem;
+}
+
 .max-h-10{
   max-height: 2.5rem;
 }
@@ -1251,6 +1289,10 @@ span{
 .max-h-fit{
   max-height: -moz-fit-content;
   max-height: fit-content;
+}
+
+.max-h-\[\]{
+  max-height: ;
 }
 
 .min-h-\[128px\]{
@@ -1383,6 +1425,18 @@ span{
   width: 100vw;
 }
 
+.w-14{
+  width: 3.5rem;
+}
+
+.w-1{
+  width: 0.25rem;
+}
+
+.w-16{
+  width: 4rem;
+}
+
 .min-w-80{
   min-width: 20rem;
 }
@@ -1429,6 +1483,10 @@ span{
 
 .min-w-full{
   min-width: 100%;
+}
+
+.min-w-14{
+  min-width: 3.5rem;
 }
 
 .max-w-2xl{
@@ -2000,6 +2058,12 @@ span{
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
+.from-dark-primary\/75{
+  --tw-gradient-from: rgb(16 75 72 / 0.75) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(16 75 72 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
 .from-0\%{
   --tw-gradient-from-position: 0%;
 }
@@ -2204,6 +2268,14 @@ span{
 
 .pt-\[8rem\]{
   padding-top: 8rem;
+}
+
+.pl-4{
+  padding-left: 1rem;
+}
+
+.pb-3\.5{
+  padding-bottom: 0.875rem;
 }
 
 .text-left{
@@ -2414,6 +2486,11 @@ span{
 .text-yellow{
   --tw-text-opacity: 1;
   color: rgb(255 193 69 / var(--tw-text-opacity, 1));
+}
+
+.text-green{
+  --tw-text-opacity: 1;
+  color: rgb(27 134 0 / var(--tw-text-opacity, 1));
 }
 
 .text-opacity-100{
