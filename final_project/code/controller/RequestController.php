@@ -82,6 +82,8 @@ class RequestController
 
     public function eventHandler($form, array $data)
     {
+        $result = null;
+
         switch ($form) {
             case 'create':
                 $result = $this->event->createEvent($data);
@@ -89,6 +91,7 @@ class RequestController
             case 'update':
                 $result = $this->event->updateEventById($data);
                 return response(status: 200, message: "Edit event complete", data: $result);
+                
             case 'search':
                 $result = $this->event->searchEvent(title: $data['looking'], dateStart: $data['dateStarted'], dateEnd: $data['dateEnded']);
                 return response(status: 200, message: "Search Work", data: $result, type: 'search');
