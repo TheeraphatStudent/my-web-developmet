@@ -62,6 +62,7 @@ services:
       - "8081:80"
     networks:
       - mynetwork
+
 networks:
   mynetwork:
     driver: bridge

@@ -181,13 +181,13 @@ $calendar = new SchedulerCalendar();
         </div>
 
         <!-- Content -->
-        <?php if (count([...$allEvents]) < 0) : ?>
+        <?php if (count([...$allEvents]) > 0) : ?>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-content h-full min-h-fit mx-10 px-5 lg:px-16">
                 <?php foreach ($allEvents as $item) :
                     // $dataUrl = "data:image/png;base64," . base64_encode(file_get_contents($item['cover']));
                     // print_r($dataUrl);
                 ?>
-                    <div class="flex flex-col justify-between items-center p-4 gap-4 rounded-lg w-full h-[420px] shadow-md bg-white">
+                    <div class="flex flex-col justify-between items-center p-4 gap-4 rounded-lg w-full h-[420px] shadow-md bg-white hover:scale-105 hover:cursor-pointer">
                         <div
                             class="flex flex-col justify-between items-center bg-center bg-cover gap-[150px] rounded w-full h-60 overflow-hidden bg-dark-primary/50 border-dashed border-gray-400 border-2"
                             style="background-image: url(public/images/uploads/<?= $item['cover'] ?>);">
@@ -270,7 +270,7 @@ $calendar = new SchedulerCalendar();
                     $textArray = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
 
                     foreach ($textArray as $key => $value) {
-                        echo "<span>$value</span>";
+                        echo "<span> $value </span>";
                     }
                     ?>
                 </div>
