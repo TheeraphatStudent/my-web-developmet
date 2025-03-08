@@ -181,7 +181,7 @@ $calendar = new SchedulerCalendar();
         </div>
 
         <!-- Content -->
-        <?php if (count([...$allEvents]) < 0) : ?>
+        <?php if (count([...$allEvents]) > 0) : ?>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-content h-full min-h-fit mx-10 px-5 lg:px-16">
                 <?php foreach ($allEvents as $item) :
                     // $dataUrl = "data:image/png;base64," . base64_encode(file_get_contents($item['cover']));
