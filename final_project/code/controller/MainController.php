@@ -45,7 +45,9 @@ class MainController
     public function auth($type = 'login')
     {
 
-        echo "<script>
+        switch ($type) {
+            case 'login':
+                echo "<script>
                         function togglePasswordVisibility() {
                             const password = document.getElementById('password');
                             if (password.type === 'password') {
@@ -56,12 +58,21 @@ class MainController
                         }
                     </script>";
 
-        switch ($type) {
-            case 'login':
                 require_once("./view/auth/LoginView.php");
                 break;
 
             case 'register':
+                echo "<script>
+                        function togglePasswordVisibility() {
+                            const password = document.getElementById('password');
+                            if (password.type === 'password') {
+                                password.type = 'text';
+                            } else {
+                                password.type = 'password';
+                            }
+                        }
+                    </script>";
+
                 require_once("./view/auth/RegisterView.php");
                 break;
 

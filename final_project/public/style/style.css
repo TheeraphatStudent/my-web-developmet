@@ -1385,6 +1385,10 @@ span{
   width: 100vw;
 }
 
+.w-\[800px\]{
+  width: 800px;
+}
+
 .min-w-80{
   min-width: 20rem;
 }
