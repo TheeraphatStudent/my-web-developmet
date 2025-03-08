@@ -25,6 +25,126 @@ $calendar = new SchedulerCalendar();
 
     <link rel="shortcut icon" type="image/x-icon" href="public/images/logo.png">
     <link rel="stylesheet" href="public/style/main.css">
+
+    <style>
+        .text-container {
+            position: relative;
+        }
+
+        .animated-text {
+            font-size: 40px;
+            font-weight: bold;
+            display: inline-block;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .animated-text span {
+            display: inline-block;
+            animation: colorChange 3s infinite;
+        }
+
+        .animated-text span:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .animated-text span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .animated-text span:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .animated-text span:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .animated-text span:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .animated-text span:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+
+        .animated-text span:nth-child(7) {
+            animation-delay: 0.7s;
+        }
+
+        .animated-text span:nth-child(8) {
+            animation-delay: 0.8s;
+        }
+
+        .animated-text span:nth-child(9) {
+            animation-delay: 0.9s;
+        }
+
+        .animated-text span:nth-child(10) {
+            animation-delay: 1.0s;
+        }
+
+        .animated-text span:nth-child(11) {
+            animation-delay: 1.1s;
+        }
+
+        .animated-text span:nth-child(12) {
+            animation-delay: 1.2s;
+        }
+
+        @keyframes colorChange {
+            0% {
+                color: #BCFFAB;
+                transform: scale(1) rotate(0deg);
+            }
+
+            25% {
+                color: #ABCDFF;
+                transform: scale(1.1) rotate(5deg);
+            }
+
+            50% {
+                color: #FBF8EE;
+                transform: scale(1) rotate(0deg);
+            }
+
+            75% {
+                color: #ABCDFF;
+                transform: scale(1.1) rotate(-5deg);
+            }
+
+            100% {
+                color: #BCFFAB;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(circle, rgba(188, 255, 171, 0.3) 0%, rgba(0, 83, 186, 0.1) 50%, rgba(26, 26, 46, 0) 70%);
+            filter: blur(20px);
+            z-index: -1;
+            animation: pulse 4s infinite;
+        }
+    </style>
 </head>
 
 <body class="flex flex-col justify-center items-center bg-primary relative gap-12">
@@ -61,8 +181,8 @@ $calendar = new SchedulerCalendar();
         </div>
 
         <!-- Content -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-content h-full min-h-[445px] mx-10 px-5 lg:px-16">
-            <?php if (count([...$allEvents]) > 0) : ?>
+        <?php if (count([...$allEvents]) < 0) : ?>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-content h-full min-h-fit mx-10 px-5 lg:px-16">
                 <?php foreach ($allEvents as $item) :
                     // $dataUrl = "data:image/png;base64," . base64_encode(file_get_contents($item['cover']));
                     // print_r($dataUrl);
@@ -90,7 +210,7 @@ $calendar = new SchedulerCalendar();
                                 if ($item['type'] === 'onsite' || $item['type'] === 'any') {
                                     $selectedTags[] = "onsite";
                                 }
-                                
+
                                 if ($item['venue'] > 0) {
                                     $selectedTags[] = "paid";
                                 } else {
@@ -107,13 +227,12 @@ $calendar = new SchedulerCalendar();
                                 <?php endforeach ?>
                             </div>
 
-
                             <!-- Star -->
                             <!-- <div class="flex flex-row justify-end items-center gap-2.5 pt-2.5 pr-2.5 pb-2.5 pl-2.5 w-full h-11">
-                                <div class="flex flex-row justify-center items-center gap-2.5 rounded-[50px] h-7 border-white border-t border-b border-l border-r border-dashed border overflow-hidden">
-                                    <img src="/assets/ImageAsset10.png" alt="Image Asset 10" width="20px" height="20px" />
-                                </div>
-                            </div> -->
+                                    <div class="flex flex-row justify-center items-center gap-2.5 rounded-[50px] h-7 border-white border-t border-b border-l border-r border-dashed border overflow-hidden">
+                                        <img src="/assets/ImageAsset10.png" alt="Image Asset 10" width="20px" height="20px" />
+                                    </div>
+                                </div> -->
                         </div>
 
                         <div class="flex flex-col justify-start items-start gap-3 h-24 w-full">
@@ -141,11 +260,23 @@ $calendar = new SchedulerCalendar();
                         </div>
                     </div>
                 <?php endforeach; ?>
-            <?php else : ?>
+            </div>
+        <?php else : ?>
+            <div class="text-container flex justify-center items-center min-h-[450px] drop-shadow-2xl">
+                <div class="animated-text text-white gap-0.5">
 
+                    <?php
+                    $text = "ไม่พบกิจกรรม";
+                    $textArray = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
 
-            <?php endif ?>
-        </div>
+                    foreach ($textArray as $key => $value) {
+                        echo "<span>$value</span>";
+                    }
+                    ?>
+                </div>
+            </div>
+
+        <?php endif ?>
 
         <!-- Suggest -->
         <div class="flex w-full items-end min-h-[400px] max-h-[400px]">
