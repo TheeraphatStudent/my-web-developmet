@@ -68,18 +68,64 @@ class Filter extends Component
     public function render()
     {
     ?>
-        <div class="w-full flex justify-between *:font-kanit">
+        <style>
+            @keyframes glow {
+                0% {
+                    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
+                }
+
+                50% {
+                    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+                }
+
+                100% {
+                    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
+                }
+            }
+
+            @keyframes glow2 {
+                0% {
+                    filter: drop-shadow(0 0 2px rgba(0, 83, 186, 0.5));
+                }
+
+                50% {
+                    filter: drop-shadow(0 0 10px rgba(171, 205, 255, 0.5));
+                }
+
+                100% {
+                    filter: drop-shadow(0 0 2px rgba(0, 83, 186, 0.5));
+                }
+            }
+
+            .glow-word {
+                font-family: sans-serif;
+                font-weight: bold;
+                font-size: 48px;
+                fill: white;
+                animation: fadeIn 1s ease-out forwards, glow 3s infinite;
+            }
+
+            .glow2-word {
+                font-family: sans-serif;
+                font-weight: bold;
+                font-size: 48px;
+                fill: white;
+                animation: fadeIn 1s ease-out forwards, glow2 2s infinite;
+            }
+        </style>
+
+        <div class="w-full flex justify-between mb-4 *:font-kanit">
             <div>
-                <span class="text-4xl font-bold text-white">อีเวนท์</span>
-                <span class="text-4xl font-bold text-dark-secondary">ล่าสุด</span>
+                <span class="text-4xl font-bold text-white glow-word">อีเวนท์</span>
+                <span class="text-4xl font-bold text-dark-secondary glow2-word">ล่าสุด</span>
             </div>
             <div class="flex gap-5">
-                <select id="date-select">
+                <select class="input-field" id="date-select">
                     <option value="day">วันนี้</option>
                     <option selected value="week">สัปดาห์นี้</option>
                     <option value="month">เดือนนี้</option>
                 </select>
-                <select id="type-select">
+                <select class="input-field" id="type-select">
                     <option value="any">ทั้งหมด</option>
                     <option value="online">ออนไลน์</option>
                     <option value="onsite">ออนไซต์</option>
