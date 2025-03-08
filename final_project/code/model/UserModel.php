@@ -37,11 +37,27 @@ class User
     public function getUserByUserId($userId)
     {
         $stmt = $this->connection->prepare("
-        SELECT u.username, u.userId, u.email, u.name, u.gender, u.education, u.telno, u.birth 
-        FROM User u 
-        WHERE u.userId = :userId
-    ");
-        $stmt->execute([':userId' => $userId]);
+            SELECT 
+                u.username, 
+                u.userId, 
+                u.email, 
+                u.name, 
+                u.gender, 
+                u.education, 
+                u.telno, 
+                u.birth, 
+                u.created,
+                COUNT(DISTINCT CASE WHEN r.status = 'accept' THEN r.regId END) AS total_events_joined,
+                COUNT(DISTINCT e.eventId) AS total_events_created
+            FROM User u
+            LEFT JOIN Registration r ON u.userId = r.userId
+            LEFT JOIN Event e ON u.userId = e.organizeId
+            WHERE u.userId = :userId
+            GROUP BY u.userId
+        ");
+
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_STR);
+        $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
@@ -120,12 +136,12 @@ class User
         WHERE u.userId = :userId;
         ");
 
-            $sql->bindParam(':userId', $userId);
+            $sql->bindParam(':userId', $userId, PDO::PARAM_STR);
 
             $sql->execute();
-            $isVerify = $sql->fetch(PDO::FETCH_ASSOC);
 
-            if ($isVerify) {
+            $isVerify = $sql->fetch(PDO::FETCH_ASSOC);
+            if ($isVerify === 1) {
                 return [
                     "status" => 200,
                     "message" => "ผู้ใช้ยืนยันตัวตนเรียบร้อย",

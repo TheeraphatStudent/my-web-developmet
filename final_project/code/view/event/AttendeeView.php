@@ -208,6 +208,22 @@ $maxDateDisplay = count($startDates);
                         confirmButtonText: "ปิด"
                     });
                     break;
+                case 403:
+                    Swal.fire({
+                        title: "เกิดข้อผิดพลาด",
+                        text: "ดูเหมือนว่าคุณยังไม่ได้ยืนยันตัวตน",
+                        icon: "warning",
+                        showDenyButton: true,
+                        confirmButtonText: "ยืนยันตอนนี้",
+                        denyButtonText: "ยังก่อน"
+                    }).then((res) => {
+                        if (res.isConfirmed) {
+                            window.location.href = "../?action=profile";
+                            
+                        }
+
+                    });
+                    break;
 
                 default:
                     break;

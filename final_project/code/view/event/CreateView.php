@@ -221,8 +221,8 @@ $authors = array_map(function ($type) {
                     <?php $textEditor->render() ?>
                 </div>
 
-                <div class="flex flex-row md:flex-col w-full justify-start items-start gap-5">
-                    <a href="../" id="form-cancel" class="w-1/3 btn-danger">Cancel</a>
+                <div class="flex w-full justify-start items-start gap-5 flex-col md:flex-row">
+                    <a href="../" id="form-cancel" class="w-full md:w-1/3 btn-danger">Cancel</a>
                     <button type="button" id="form-submit" class="w-full btn-secondary">Create Event</button>
                 </div>
 

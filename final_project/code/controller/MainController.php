@@ -95,6 +95,7 @@ class MainController
                     break;
 
                 case 'create':
+
                     require_once("./view/event/CreateView.php");
                     break;
                 case 'manage':
