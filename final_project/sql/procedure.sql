@@ -130,3 +130,15 @@ END$$
 DELIMITER ;
 
 -- ====================== Reg - get user counter 
+
+CREATE DEFINER=`final-activity`@`%` PROCEDURE `GetMail` (IN `getUserId` VARCHAR(255))   BEGIN
+    SELECT
+        e.title,
+        e.cover,
+        e.start,
+        r.status
+    FROM Registration r
+    JOIN User u ON u.userId = r.userId
+    JOIN Event e ON r.eventId = e.eventId
+    WHERE u.userId = getUserId;
+END$$
