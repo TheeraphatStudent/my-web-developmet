@@ -173,7 +173,7 @@ class Event
             WHERE eventId = :eventId AND organizeId = :organizeId"
         );
 
-        $now = new DateTime();
+        $now = (new DateTime())->format('Y-m-d H:i:s');
 
         $sql->bindParam(':eventId', $data['eventId']);
         $sql->bindParam(':organizeId', $_SESSION['user']['userId']);
@@ -183,7 +183,7 @@ class Event
         $sql->bindParam(':maximum', $data['maximum']);
         $sql->bindParam(':type', $data['type']);
         $sql->bindParam(':link', $data['link']);
-        $sql->bindParam(':updated', $now->format('Y-m-d H:i:s'));
+        $sql->bindParam(':updated', $now);
 
         $sql->execute();
 
