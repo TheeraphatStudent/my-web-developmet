@@ -108,7 +108,7 @@ class MainController
                     break;
 
                 case 'attendee':
-                    if (isset($_GET['id'])) {
+                    if (isset($_GET['id']) && isset($_SESSION['user'])) {
                         $regObj = $regModel->getRegisterById(userId: $_SESSION['user']['userId'], eventId: $_GET['id']);
                     }
 

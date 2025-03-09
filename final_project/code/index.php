@@ -109,12 +109,6 @@ switch ($action) {
 
         http_response_code($response['status'] ?? 404);
 
-        if (isset($response['status']) && !in_array($response['status'], ACCEPT_STATUS)) {
-            header('Location: ' . $response['redirect'] . '&status=' . $response['status']);
-
-            exit;
-        }
-
         if ($response['type'] == 'json') {
             header("Content-Type: application/json");
             echo json_encode($response);
@@ -124,6 +118,12 @@ switch ($action) {
         if ($response['type'] == 'image') {
             header('Content-Type: image/jpeg');
             echo $response['data']['image'];
+            exit;
+        }
+
+        if (isset($response['status']) && !in_array($response['status'], ACCEPT_STATUS)) {
+            header('Location: ' . $response['redirect'] . '&status=' . $response['status']);
+
             exit;
         }
 
@@ -159,7 +159,7 @@ switch ($action) {
     case 'event':
         $controller->event($action);
         break;
-        
+
     case 'mail':
         $controller->mail();
         break;
@@ -177,6 +177,9 @@ $content = ob_get_clean();
 
 if (!$isRequest) {
 ?>
+    <!DOCTYPE html>
+    <html lang="th">
+
     <head>
         <meta charset="UTF-8">
         <link rel="shortcut icon" type="image/x-icon" href="public/images/logo.png">

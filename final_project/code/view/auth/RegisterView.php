@@ -64,6 +64,57 @@
         </form>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch(this.action, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(async (response) => {
+                    const res = await response.json();
+
+                    return res;
+                })
+                .then((data) => {
+                    if (data.status === 200) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'สร้างบัญชีเสร็จสิ้น',
+                            text: data.message,
+                            showConfirmButton: false,
+                            timerProgressBar: true,
+                            timer: 1500
+                        }).then(() => {
+                            window.location.href = data.redirect;
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'ไม่สามารถสร้างบัญชีได้',
+                            text: data.message,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'ลองใหม่อีกครั้ง'
+                        });
+
+                    }
+
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้',
+                        confirmButtonColor: '#3085d6'
+                    });
+                });
+        });
+    </script>
+
 </body>
 
 </html>

@@ -140,6 +140,7 @@ class Registration
             $stmt->bindParam(':userId', $userId);
             $stmt->bindParam(':eventId', $eventId);
             $stmt->bindParam(':regId', $regId);
+
             $stmt->execute();
 
             if ($stmt->rowCount() === 0) {
@@ -154,6 +155,7 @@ class Registration
             $author = $this->connection->prepare("
                 SELECT a.id FROM Author a WHERE a.authorId = :authorId AND a.eventId = :eventId
             ");
+
             $author->bindParam(':authorId', $authorId);
             $author->bindParam(':eventId', $eventId);
             $author->execute();
@@ -163,7 +165,7 @@ class Registration
                 return [
                     "status" => 404,
                     "isUpdate" => false,
-                    "message" => "Author not found"
+                    "message" => "คุณไม่ใช่ผู้มีส่วนร่วมในกิจกรรมนี้"
                 ];
             }
 
@@ -175,35 +177,26 @@ class Registration
                 VALUES (:regId, :authorId, :status)
             ");
 
-            $status = "pending";
+            $status = "accept";
             $attendance->bindParam(':regId', $regId);
             $attendance->bindParam(':authorId', $authorId);
             $attendance->bindParam(':status', $status);
 
             $attendance->execute();
 
-            if ($attendance->rowCount() === 0) {
-                $this->connection->rollBack();
-                return [
-                    "status" => 500,
-                    "isUpdate" => false,
-                    "message" => "Failed to insert attendance record."
-                ];
-            }
-
             $this->connection->commit();
 
             return [
                 "status" => 200,
                 "isUpdate" => true,
-                "message" => "Registration accepted and attendance recorded."
+                "message" => "เข้าร่วมกิจกรรมแล้ว"
             ];
         } catch (PDOException $e) {
             $this->connection->rollBack();
             return [
                 "status" => 500,
                 "isUpdate" => false,
-                "message" => "Database error: " . $e->getMessage()
+                "message" => "เกิดข้อผิดพลาด: " . $e->getMessage()
             ];
         }
     }
