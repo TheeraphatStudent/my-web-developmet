@@ -3,32 +3,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Event</title>
     <link rel="stylesheet" href="public/style/main.css">
-
-    <style>
-        .surprise-animation {
-            animation: colorChange 3s infinite;
-        }
-
-        @keyframes colorChange {
-            0% {
-                background-color: rgba(59, 130, 246, 0.1);
-            }
-
-            50% {
-                background-color: rgba(139, 92, 246, 0.3);
-            }
-
-            100% {
-                background-color: rgba(59, 130, 246, 0.1);
-            }
-        }
-    </style>
 </head>
 
 <body class="flex flex-col justify-start items-center bg-primary">
     <div class="flex flex-col w-full gap-14 max-w-content py-[200px] px-10 xl:px-0">
         <div class="flex flex-col">
-            <h1 class="text-3xl font-semibold mb-2 text-left text-white">Welcome' <?= $_SESSION['user']['username'] ?? "???" ?></h1>
+            <h1 class="text-3xl font-semibold mb-2 text-left text-white flex item-center">Welcome'&nbsp;<span class="typing-animation max-w-fit"><?= $_SESSION['user']['username'] ?? "???" ?></span></h1>
             <span class="text-white">จัดการ Event ของคุณได้ที่นี่</span>
         </div>
 
@@ -41,7 +21,8 @@
                             <th class="py-3 px-4 text-left">Title</th>
                             <th class="py-3 px-4 text-left">Maximum</th>
                             <th class="py-3 px-4 text-left">Request</th>
-                            <th class="py-3 px-4 text-left">Attendees</th>
+                            <th class="py-3 px-4 text-left">Attends</th>
+                            <th class="py-3 px-4 text-left">Joined</th>
                             <th class="py-3 px-4 text-left">Created</th>
                             <th class="py-3 px-4 text-left">Started</th>
                             <th class="py-3 px-4 text-center">Actions</th>
@@ -56,6 +37,7 @@
                                     <td class="py-3 px-4 text-center"><?= $item['maximum'] ?></td>
                                     <td class="py-3 px-4 text-center"><?= $item['request'] ?></td>
                                     <td class="py-3 px-4 text-center"><?= $item['attendee'] ?></td>
+                                    <td class="py-3 px-4 text-center"><?= $item['joined'] ?></td>
                                     <td class="py-3 px-4 text-sm"><?= $item['created'] ?></td>
                                     <td class="py-3 px-4 text-sm"><?= $item['start'] ?></td>
                                     <td class="py-3 px-4 text-center">

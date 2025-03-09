@@ -33,6 +33,7 @@ class Event
             $morePics = [];
 
             $requiredFields = ['title', 'description', 'type', 'start', 'end', 'location'];
+
             foreach ($requiredFields as $field) {
                 if (empty($data[$field])) {
                     return [
@@ -42,13 +43,26 @@ class Event
                 }
             }
 
+            $isUploadedImage = false;
+
             if (isset($_FILES['cover']) && $_FILES['cover']['error'] === UPLOAD_ERR_OK) {
                 $coverImage = uploadFile($_FILES['cover'], $uploadDir);
                 unset($_FILES['cover']);
+
+                $isUploadedImage = true;
             }
 
             if (isset($_FILES['more_pic'])) {
                 $morePics = uploadMultipleFiles($_FILES['more_pic'], $uploadDir);
+
+                $isUploadedImage = true;
+            }
+
+            if ($isUploadedImage === false) {
+                return [
+                    "status" => 500,
+                    "message" => "เกิดข้อผิดพลาระหว่างอัพโหลดรูปภาพ"
+                ];
             }
 
             $more_pic = json_encode($morePics);
@@ -62,6 +76,8 @@ class Event
             $formattedValue = str_pad($newValue, 7, "0", STR_PAD_LEFT);
             $eventId = "AG-" . $now->format('Y') . $formattedValue . uniqid("_event-" . getRandomId(8));
 
+            $userId = $_SESSION['user']['userId'];
+
             $venue = isset($data['venue']) && $data['venue'] !== '' ? $data['venue'] : '0';
             $maximum = isset($data['maximum']) && is_numeric($data['maximum']) ? intval($data['maximum']) : -1;
 
@@ -73,7 +89,7 @@ class Event
             ");
 
             $statement->bindParam(':eventId', $eventId);
-            $statement->bindParam(':organizeId', $_SESSION['user']['userId']);
+            $statement->bindParam(':organizeId', $userId);
             $statement->bindParam(':cover', $coverImage);
             $statement->bindParam(':morePics', $more_pic);
             $statement->bindParam(':title', $data['title']);
@@ -90,7 +106,25 @@ class Event
                 $this->connection->rollBack();
                 return [
                     "status" => 500,
-                    "message" => "Failed to create event."
+                    "message" => "เกิดข้อผิดพลาดระหว่างสร้างกิจกรรม"
+                ];
+            }
+
+            $authorStmt = $this->connection->prepare("
+            INSERT INTO `Author` (`authorId`, `eventId`, `role`) 
+            VALUES (:authorId, :eventId, :role);
+            ");
+
+            $role = "admin";
+            $authorStmt->bindParam(':authorId', $userId);
+            $authorStmt->bindParam(':eventId', $eventId);
+            $authorStmt->bindParam(':role', $role);
+
+            if (!$authorStmt->execute()) {
+                $this->connection->rollBack();
+                return [
+                    "status" => 500,
+                    "message" => "ไม่พบผู้ใช้, ลองเข้าสู่ระบบอีกครั้ง"
                 ];
             }
 
@@ -101,6 +135,7 @@ class Event
                 "message" => "Event (" . $eventId . ") created successfully.",
             ];
         } catch (PDOException $e) {
+            // Database error: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
             $this->connection->rollBack();
             return [
                 "status" => 500,
@@ -117,7 +152,35 @@ class Event
     public function getAllEvents()
     {
         $statement = $this->connection->prepare(
-            "SELECT * FROM Event WHERE 1"
+            "
+            SELECT
+                e.eventId,
+                e.cover,
+                e.title,
+                e.maximum,
+                e.type,
+                e.start,
+                e.end,
+                e.venue,
+                e.organizeId,
+                u.name AS organizeName,
+                COUNT(CASE WHEN a.status = 'accepted' THEN a.regId END) AS joined
+            FROM Event e
+            JOIN Registration r ON e.eventId = r.eventId
+            JOIN Attendance a ON r.regId = a.regId
+            JOIN User u ON e.organizeId = u.userId
+            GROUP BY 
+                e.eventId, 
+                e.cover, 
+                e.title, 
+                e.maximum, 
+                e.type, 
+                e.start, 
+                e.end,
+                e.venue,
+                e.organizeId, 
+                u.name;
+            "
         );
 
         $statement->execute();
@@ -228,7 +291,24 @@ class Event
         try {
             $_SESSION['selected_type'] = $eventType;
 
-            $query = "SELECT * FROM Event WHERE 1";
+            $query = "
+            SELECT
+                e.eventId,
+                e.cover,
+                e.title,
+                e.maximum,
+                e.type,
+                e.start,
+                e.end,
+                e.venue,
+                e.organizeId,
+                u.name AS organizeName,
+                COUNT(CASE WHEN a.status = 'accepted' THEN a.regId END) AS joined
+            FROM Event e
+            JOIN Registration r ON e.eventId = r.eventId
+            JOIN Attendance a ON r.regId = a.regId
+            JOIN User u ON e.organizeId = u.userId
+            WHERE 1=1";
             $params = [];
 
             $now = new DateTime();
@@ -236,18 +316,18 @@ class Event
             if (!empty($dateType)) {
                 switch ($dateType) {
                     case 'day':
-                        $query .= " AND (DATE(start) = DATE(:today) OR DATE(end) = DATE(:today))";
+                        $query .= " AND (DATE(e.start) = DATE(:today) OR DATE(e.end) = DATE(:today))";
                         $params[':today'] = $now->format('Y-m-d');
                         break;
                     case 'week':
-                        $query .= " AND (DATE(start) BETWEEN :weekStart AND :weekEnd OR DATE(end) BETWEEN :weekStart AND :weekEnd)";
+                        $query .= " AND (DATE(e.start) BETWEEN :weekStart AND :weekEnd OR DATE(e.end) BETWEEN :weekStart AND :weekEnd)";
                         $params[':weekStart'] = $now->format('Y-m-d');
                         $params[':weekEnd'] = $now->modify('+7 days')->format('Y-m-d');
                         break;
                     case 'month':
                         $query .= " AND (
-                            (MONTH(start) = MONTH(:currentMonth) AND YEAR(start) = YEAR(:currentYear)) OR 
-                            (MONTH(end) = MONTH(:currentMonth) AND YEAR(end) = YEAR(:currentYear))
+                            (MONTH(e.start) = MONTH(:currentMonth) AND YEAR(e.start) = YEAR(:currentYear)) OR 
+                            (MONTH(e.end) = MONTH(:currentMonth) AND YEAR(e.end) = YEAR(:currentYear))
                         )";
                         $params[':currentMonth'] = $now->format('Y-m-d');
                         $params[':currentYear'] = $now->format('Y-m-d');
@@ -256,9 +336,21 @@ class Event
             }
 
             if (!empty($eventType) && $eventType !== 'any') {
-                $query .= " AND type = :type";
+                $query .= " AND e.type = :type";
                 $params[':type'] = $eventType;
             }
+
+            $query .= " GROUP BY 
+                e.eventId, 
+                e.cover, 
+                e.title, 
+                e.maximum, 
+                e.type, 
+                e.start, 
+                e.end,
+                e.venue,
+                e.organizeId, 
+                u.name";
 
             $stmt = $this->connection->prepare($query);
             $stmt->execute($params);
@@ -275,8 +367,9 @@ class Event
 
     public function deleteEventById() {}
 
-    public function getmailbyid($userId) {
-        
+    public function getmailbyid($userId)
+    {
+
         $sql = $this->connection->prepare("CALL GetMail(:userId)");
         $sql->bindParam(':userId', $userId);
 

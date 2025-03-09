@@ -11,18 +11,6 @@ use DateTime;
 use PDO;
 use PDOException;
 
-/* 
-CREATE TABLE Registration (
-  `id`        int AUTO_INCREMENT PRIMARY KEY,
-  `regId`     varchar(255) NOT NULL UNIQUE,
-  `eventId`   varchar(255) NOT NULL,
-  `userId`    varchar(255) NOT NULL,
-  `status`    varchar(100),
-  `updated`   timestamp,
-  `created`   timestamp
-);
-
-*/
 
 class Registration
 {
@@ -106,6 +94,7 @@ class Registration
         }
     }
 
+    // User ส่งคำขอมาที่ Reg table
     public function getUserRegisterByEventAndUserId($userId, $eventId)
     {
         $statement = $this->connection->prepare("CALL GetUsersRegByEventId(:userId, :eventId)");
@@ -140,6 +129,7 @@ class Registration
             $stmt->bindParam(':userId', $userId);
             $stmt->bindParam(':eventId', $eventId);
             $stmt->bindParam(':regId', $regId);
+
             $stmt->execute();
 
             if ($stmt->rowCount() === 0) {
@@ -151,25 +141,26 @@ class Registration
                 ];
             }
 
-            $author = $this->connection->prepare("
-                SELECT a.id FROM Author a WHERE a.authorId = :authorId AND a.eventId = :eventId
-            ");
-            $author->bindParam(':authorId', $authorId);
-            $author->bindParam(':eventId', $eventId);
-            $author->execute();
+            // $author = $this->connection->prepare("
+            //     SELECT a.id FROM Author a WHERE a.authorId = :authorId AND a.eventId = :eventId
+            // ");
 
-            if ($author->rowCount() === 0) {
-                $this->connection->rollBack();
-                return [
-                    "status" => 404,
-                    "isUpdate" => false,
-                    "message" => "Author not found"
-                ];
-            }
+            // $author->bindParam(':authorId', $authorId);
+            // $author->bindParam(':eventId', $eventId);
+            // $author->execute();
 
-            $authorId = ($author->fetch(PDO::FETCH_ASSOC))['id'];
+            // if ($author->rowCount() === 0) {
+            //     $this->connection->rollBack();
+            //     return [
+            //         "status" => 404,
+            //         "isUpdate" => false,
+            //         "message" => "คุณไม่ใช่ผู้มีส่วนร่วมในกิจกรรมนี้"
+            //     ];
+            // }
 
-            // Attendance table
+            // $authorId = ($author->fetch(PDO::FETCH_ASSOC))['id'];
+
+            // Att table 
             $attendance = $this->connection->prepare("
                 INSERT INTO `Attendance` (`regId`, `verifyBy`, `status`) 
                 VALUES (:regId, :authorId, :status)
@@ -182,28 +173,19 @@ class Registration
 
             $attendance->execute();
 
-            if ($attendance->rowCount() === 0) {
-                $this->connection->rollBack();
-                return [
-                    "status" => 500,
-                    "isUpdate" => false,
-                    "message" => "Failed to insert attendance record."
-                ];
-            }
-
             $this->connection->commit();
 
             return [
                 "status" => 200,
                 "isUpdate" => true,
-                "message" => "Registration accepted and attendance recorded."
+                "message" => "เข้าร่วมกิจกรรมแล้ว"
             ];
         } catch (PDOException $e) {
             $this->connection->rollBack();
             return [
                 "status" => 500,
                 "isUpdate" => false,
-                "message" => "Database error: " . $e->getMessage()
+                "message" => "เกิดข้อผิดพลาด: " . $e->getMessage()
             ];
         }
     }

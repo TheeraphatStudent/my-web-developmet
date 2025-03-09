@@ -7,9 +7,10 @@ require_once(__DIR__ . '/../utils/useEvent.php');
 
 require_once(__DIR__ . '/../model/EventModel.php');
 require_once(__DIR__ . '/../model/RegistrationModel.php');
+require_once(__DIR__ . '/../model/AttendanceModel.php');
 
 use FinalProject\Controller\RequestController;
-
+use FinalProject\Model\Attendance;
 use FinalProject\Model\Init;
 use FinalProject\Model\Event;
 use FinalProject\Model\Registration;
@@ -44,35 +45,28 @@ class MainController
 
     public function auth($type = 'login')
     {
+        if ($type == 'login' || $type == 'register') {
+            echo "<script>
+                        let isPasswordVisible = false;
+                        function togglePasswordVisibility() {
+                            const passwords = document.querySelectorAll('input[type=\"password\"], input[data-type=\"password\"]');
+                            isPasswordVisible = !isPasswordVisible;
+                            passwords.forEach(password => {
+                                password.type = isPasswordVisible ? 'text' : 'password';
+                                if (!password.hasAttribute('data-type')) {
+                                    password.setAttribute('data-type', 'password');
+                                }
+                            });
+                        }
+                    </script>";
+        }
 
         switch ($type) {
             case 'login':
-                echo "<script>
-                        function togglePasswordVisibility() {
-                            const password = document.getElementById('password');
-                            if (password.type === 'password') {
-                                password.type = 'text';
-                            } else {
-                                password.type = 'password';
-                            }
-                        }
-                    </script>";
-
                 require_once("./view/auth/LoginView.php");
                 break;
 
             case 'register':
-                echo "<script>
-                        function togglePasswordVisibility() {
-                            const password = document.getElementById('password');
-                            if (password.type === 'password') {
-                                password.type = 'text';
-                            } else {
-                                password.type = 'password';
-                            }
-                        }
-                    </script>";
-
                 require_once("./view/auth/RegisterView.php");
                 break;
 
@@ -90,63 +84,48 @@ class MainController
 
         $eventModel = new Event($this->connection);
         $regModel = new Registration($this->connection);
+        $attModel = new Attendance($this->connection);
 
-        if (isset($_GET['id'])) {
-            $eventId = $_GET['id'];
-            $eventObj = $eventModel->getEventById($eventId);
-        }
+        $eventId = isset($_GET['id']) ? $_GET['id'] : null;
+        $userId = isset($_SESSION['user']) ? $_SESSION['user']['userId'] : null;
 
         if (in_array($event, EventUtils::ACCEPT_EVENT)) {
             switch ($event) {
                 case 'checked-in':
-                    // $allEvents = $eventModel->Registration();
-
-                    // $allReq = $eventModel->Registration();
-                    // $allIn = $eventModel->inEvent();
+                    $allUserAttendOnEvent = $attModel->getUserWasAcceptRegOnEventById(userId: $userId, eventId: $eventId);
 
                     require_once("./view/event/CheckedInView.php");
                     break;
 
                 case 'attendee':
-                    if (isset($_GET['id'])) {
-                        $regObj = $regModel->getRegisterById(userId: $_SESSION['user']['userId'], eventId: $_GET['id']);
-                    }
+                    $regObj = $regModel->getRegisterById(userId: $userId, eventId: $eventId);
+                    $eventObj = $eventModel->getEventById($eventId);
 
-                    // print_r($regObj);
                     require_once("./view/event/AttendeeView.php");
                     break;
 
                 case 'create':
-
                     require_once("./view/event/CreateView.php");
                     break;
+
                 case 'manage':
-                    // ต้องแก้เป็น by id
-                    $allEvents = $eventModel->getAllEventsById($_SESSION['user']['userId']);
-                    // print_r($_SESSION['user']['userId']);
+                    $allEvents = $eventModel->getAllEventsById($userId);
 
                     require_once("./view/event/ManageView.php");
                     break;
-
-                // case 'mail':
-                //         $allaboutmail = $eventModel->getmailbyid($_SESSION['user']['userId']);
-                //         require_once("./view/mail/view.php");
-                //         break;
 
                 case 'create-test':
                     require_once("./view/event/test.CreateView.php");
                     break;
 
                 case 'edit':
-                    // $eventId = $_GET['id'];
-                    // $eventObj = $eventModel->getEventById($eventId);
+                    $eventObj = $eventModel->getEventById($eventId);
 
                     require_once("./view/event/edit.php");
                     break;
 
                 case 'statistic':
-                    $eventId = $_GET['id'];
-                    $allUserReg = $regModel->getUserRegisterByEventAndUserId(userId: $_SESSION['user']['userId'], eventId: $eventId);
+                    $allUserReg = $regModel->getUserRegisterByEventAndUserId(userId: $userId, eventId: $eventId);
 
                     // require_once("./view/event/statistic.php");
                     require_once("./view/event/StatisticView.php");
@@ -182,6 +161,10 @@ class MainController
                 $res = $request->registerHandler($formContent, $data);
                 break;
 
+            case 'attend':
+                $res = $request->attendanceHandler($formContent, $data);
+                break;
+
             case 'map':
                 $res = $request->mapHandler($formContent, $data);
                 break;
@@ -212,7 +195,7 @@ class MainController
     }
     public function mail()
     {
-        $event = new Event ($this->connection);
+        $event = new Event($this->connection);
         $aboutmail = ($event->getmailbyid($_SESSION['user']['userId']));
         $emailTest = ["1", "2", "3"];
 

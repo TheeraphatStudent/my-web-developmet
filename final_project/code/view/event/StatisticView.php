@@ -2,6 +2,7 @@
 
 require_once('components/tags.php');
 require_once('components/breadcrumb.php');
+require_once('utils/useDateTime.php');
 
 use FinalProject\Components\Breadcrumb;
 use FinalProject\Components\Tags;
@@ -59,6 +60,7 @@ $navigate->setPath(
                         <tr class="bg-white text-gray-600 uppercase text-xs *:py-3 *:px-4 border-2">
                             <th class="text-left">User ID</th>
                             <th class="text-left">Name</th>
+                            <th class="text-left">gender</th>
                             <th class="text-left">Age</th>
                             <th class="text-left">Status</th>
                             <th class="text-center">Actions</th>
@@ -70,9 +72,8 @@ $navigate->setPath(
                                 <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">
                                     <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['userId'] ?? "-" ?></td>
                                     <td class="py-3 px-4 text-sm font-medium max-w-[150px]"><?= $item['name'] ?? "-" ?></td>
-                                    <td class="py-3 px-4 text-left">
-                                        <?= !empty($item['birth']) ? (new DateTime())->diff(new DateTime($item['birth']))->y : "-" ?>
-                                    </td>
+                                    <td class="py-3 px-4 text-sm font-medium max-w-[150px]"><?= $item['gender'] ?? "-" ?></td>
+                                    <td class="py-3 px-4 text-left"> <?= !empty($item['birth']) ? ageCalculator(birth: $item['birth']) : "-" ?> </td>
                                     <td class="py-3 px-4 text-sm font-medium max-w-[150px]"><?= (new Tags($item['status']))->render() ?></td>
 
                                     <td class="py-3 px-4 text-center">

@@ -42,40 +42,6 @@ CREATE PROCEDURE `GetMail` (IN `getUserId` VARCHAR(255))   BEGIN
     WHERE u.userId = getUserId;
 END$$
 
-CREATE PROCEDURE `GetUserEventDetails` (IN `getUserId` VARCHAR(255) CHARSET utf8mb4)   BEGIN
-    SELECT 
-        u.userId,
-        u.name,
-        u.birth,
-        u.email,
-        u.gender,
-        u.education,
-        u.telno,
-        u.created,
-
-        (SELECT COUNT(*) FROM Event e WHERE e.organizeId = u.userId) AS totalOrganize,
-        (SELECT COUNT(*) FROM Registration r WHERE r.userId = u.userId) AS totalAttendee
-
-    FROM User u
-    WHERE u.userId = getUserId;
-END$$
-
-CREATE PROCEDURE `GetUsersByEvent` (IN `getUserId` VARCHAR(255), IN `getEventId` VARCHAR(255))   BEGIN
-    SELECT 
-        u.userId,
-        u.name,
-        u.gender,
-        u.telno,
-        u.email,
-        r.status,
-        r.created
-    FROM Registration r
-    JOIN Event e ON r.eventId = e.eventId
-    JOIN User u ON u.userId = r.userId 
-    WHERE e.eventId = getEventId 
-    AND (e.organizeId = getUserId OR getUserId IS NULL OR getUserId = '');
-END$$
-
 CREATE PROCEDURE `GetUsersRegByEventId` (IN `getUserId` VARCHAR(255), IN `getEventId` VARCHAR(255))   BEGIN
     SELECT DISTINCT
         u.userId,

@@ -290,10 +290,11 @@ $authors = array_map(function ($type) {
                     }
                 } catch (error) {
                     console.error(error);
+                    console.error(error.message);
                     Swal.fire({
                         icon: "error", 
                         title: "เกิดข้อผิดพลาด",
-                        text: "ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้, ติดต่อนักพัฒนา"
+                        text: `${error.message || "ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้, โปรดติดต่อนักพัฒนา"}`
                     });
                 }
             });

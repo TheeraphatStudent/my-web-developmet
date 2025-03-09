@@ -7,10 +7,15 @@ require_once(__DIR__ . '/../model/InitModel.php');
 require_once(__DIR__ . '/../model/UserModel.php');
 require_once(__DIR__ . '/../model/EventModel.php');
 require_once(__DIR__ . '/../model/RegistrationModel.php');
+require_once(__DIR__ . '/../model/AttendanceModel.php');
+require_once(__DIR__ . '/../model/AuthorModel.php');
+
 require_once(__DIR__ . '/../model/mapModel.php');
 
 require_once(__DIR__ . '/../utils/useResponse.php');
 
+use FinalProject\Model\Attendance;
+use FinalProject\Model\Author;
 use FinalProject\Model\Init;
 use FinalProject\Model\User;
 use FinalProject\Model\Event;
@@ -22,6 +27,9 @@ class RequestController
     private $user;
     private $event;
     private $reg;
+    private $author;
+    private $att;
+
     private $map;
 
     public function __construct()
@@ -30,6 +38,8 @@ class RequestController
         $this->user = new User($inti->getConnected());
         $this->event = new Event($inti->getConnected());
         $this->reg = new Registration($inti->getConnected());
+        $this->author = new Author($inti->getConnected());
+        $this->att = new Attendance($inti->getConnected());
 
         $this->map = new Map();
     }
@@ -43,15 +53,17 @@ class RequestController
                 $email = $data['email'];
 
                 if ($this->user->getUserByEmail($email)) {
-                    return response(status: 301, message: "Email นี้ถูกใช้งานแล้ว!", redirect: '../?action=register');
+                    return response(status: 301, message: "อีเมลนี้ถูกใช้งานแล้ว!", redirect: '../?action=register', type: 'json');
                 }
 
                 $result = $this->user->register($username, $password, $email);
 
-                if ($result) {
-                    return response(status: 200, message: "ลงทะเบียนสำเร็จ", data: $result, redirect: '../?action=login');
+                if ($result['status'] === 201) {
+                    return response(status: $result['status'], message: "ยินดีต้อนรับสมาชิกใหม่, สามารถเข้าสู่ระบบได้แล้ว", data: $result, redirect: '../?action=login', type: 'json');
+
                 } else {
-                    return response(status: 401, message: "เกิดข้อผิดพลาดในการลงทะเบียน", redirect: '../?action=login');
+                    return response(status: $result['status'], message: "เกิดข้อผิดพลาดในการลงทะเบียน, โปรดลองใหม่อีกครั้ง", redirect: '../?action=login', type: 'json');
+
                 }
 
             case "login":
@@ -66,9 +78,9 @@ class RequestController
                         "username" => $username
                     ];
 
-                    return response(status: 200, message: "เข้าสู่ระบบสำเร็จ!", redirect: '/');
+                    return response(status: 200, message: "เข้าสู่ระบบสำเร็จ!", redirect: '/', type: 'json');
                 } else {
-                    return response(status: 401, message: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง!", redirect: '../?action=login');
+                    return response(status: 401, message: "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง!", redirect: '../?action=login', type: 'json');
                 }
 
             case "verify":
@@ -81,11 +93,11 @@ class RequestController
 
             case 'update':
                 $response = $this->user->updateUserById($data);
-                // print_r($data);
-                // echo "<br>";
-                // print_r($response);
-
                 return response(status: $response['status'], message: $response['message'], redirect: "../?action=profile");
+
+            case 'reset':
+                $response = $this->user->resetPassword(username: $data['username'], email: $data['email'], newPassword: $data['password']);
+                return response(status: $response['status'], message: $response['message'], redirect: "../?action=login", type: 'json');
         }
     }
 
@@ -96,7 +108,8 @@ class RequestController
         switch ($form) {
             case 'create':
                 $result = $this->event->createEvent($data);
-                return response(status: 200, message: "Create event complete", data: $result, type: 'json', redirect: "../");
+                return response(status: $result['status'], message: $result['message'], data: $result, type: 'json', redirect: "../");
+
             case 'update':
                 $result = $this->event->updateEventById($data);
                 return response(status: 200, message: "Edit event complete", data: $result);
@@ -117,6 +130,7 @@ class RequestController
                 }
 
                 $eventObj = $this->event->getEventById($data['eventId']);
+
                 if ($eventObj['organizeId'] === $data['userId']) {
                     return response(status: 409, message: "Organizer can't join their own event", redirect: '../?action=event.attendee&id=' . $data['eventId']);
                 } else {
@@ -133,18 +147,29 @@ class RequestController
     {
         switch ($form) {
             case 'accept':
+                $authorId = $this->author->getAuthorId(userId: $data['authorId'], eventId: $data['eventId']);
+
+                if ($authorId['status'] !== 200) {
+                    return response(
+                        status: $authorId['status'],
+                        message: $authorId['message'],
+                        data: [null],
+                        redirect: '../?action=event.statistic&id=' . $data['eventId']
+                    );
+                }
+
                 $result = $this->reg->acceptUserRegById(
                     userId: $data['userId'],
                     eventId: $data['eventId'],
-                    authorId: $data['authorId'],
+                    authorId: $authorId['authorId'],
                     regId: $data['regId']
                 );
 
                 // print_r($result);
 
                 return response(
-                    status: 200,
-                    message: "Accept user completed",
+                    status: $result['status'],
+                    message: $result['message'],
                     data: $result,
                     redirect: '../?action=event.statistic&id=' . $data['eventId']
                 );
@@ -168,6 +193,46 @@ class RequestController
                     status: 404,
                     message: "Something went wrong!",
                     redirect: '../?action=event.manage'
+                );
+        }
+    }
+
+    public function attendanceHandler($form, array $data)
+    {
+        switch ($form) {
+
+            // update status ใน att เป็น reject พร้อมข้อความ
+            case 'reject':
+
+
+                break;
+
+            // update status เป็น accept
+            case 'accept':
+                $authorId = $this->author->getAuthorId(userId: $data['authorId'], eventId: $data['eventId']);
+
+                if ($authorId['status'] !== 200) {
+                    return response(
+                        status: $authorId['status'],
+                        message: $authorId['message'],
+                        data: [null],
+                        redirect: '../?action=event.checked-in&id=' . $data['eventId']
+                    );
+                }
+
+                $result = $this->att->acceptUserById(userId: $data['userId'], verifyBy: $authorId['authorId'], regId: $data['regId']);
+
+                return response(
+                    status: $result['status'],
+                    message: $result['message'],
+                    redirect: '../?action=event.checked-in&id=' . $data['eventId']
+                );
+
+            default:
+                return response(
+                    status: 404,
+                    message: "Something went wrong!",
+                    redirect: '../?action=event.checked-in&id=' . $data['eventId']
                 );
         }
     }
