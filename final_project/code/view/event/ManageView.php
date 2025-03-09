@@ -21,8 +21,6 @@
             overflow: hidden;
             white-space: nowrap;
             border-right: 3px solid white;
-            animation-duration: 2s, 1s;
-            animation-delay: 1s, 0s;
             animation:
                 typing 3.5s steps(40, end) forwards,
                 blink-caret .75s step-end infinite;
@@ -58,7 +56,8 @@
                             <th class="py-3 px-4 text-left">Title</th>
                             <th class="py-3 px-4 text-left">Maximum</th>
                             <th class="py-3 px-4 text-left">Request</th>
-                            <th class="py-3 px-4 text-left">Attendees</th>
+                            <th class="py-3 px-4 text-left">Attends</th>
+                            <th class="py-3 px-4 text-left">Joined</th>
                             <th class="py-3 px-4 text-left">Created</th>
                             <th class="py-3 px-4 text-left">Started</th>
                             <th class="py-3 px-4 text-center">Actions</th>
@@ -73,6 +72,7 @@
                                     <td class="py-3 px-4 text-center"><?= $item['maximum'] ?></td>
                                     <td class="py-3 px-4 text-center"><?= $item['request'] ?></td>
                                     <td class="py-3 px-4 text-center"><?= $item['attendee'] ?></td>
+                                    <td class="py-3 px-4 text-center"><?= $item['joined'] ?></td>
                                     <td class="py-3 px-4 text-sm"><?= $item['created'] ?></td>
                                     <td class="py-3 px-4 text-sm"><?= $item['start'] ?></td>
                                     <td class="py-3 px-4 text-center">

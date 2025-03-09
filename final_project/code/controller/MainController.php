@@ -168,6 +168,10 @@ class MainController
                 $res = $request->registerHandler($formContent, $data);
                 break;
 
+            case 'attend':
+                $res = $request->attendanceHandler($formContent, $data);
+                break;
+
             case 'map':
                 $res = $request->mapHandler($formContent, $data);
                 break;

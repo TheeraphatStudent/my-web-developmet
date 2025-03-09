@@ -7,10 +7,15 @@ require_once(__DIR__ . '/../model/InitModel.php');
 require_once(__DIR__ . '/../model/UserModel.php');
 require_once(__DIR__ . '/../model/EventModel.php');
 require_once(__DIR__ . '/../model/RegistrationModel.php');
+require_once(__DIR__ . '/../model/AttendanceModel.php');
+require_once(__DIR__ . '/../model/AuthorModel.php');
+
 require_once(__DIR__ . '/../model/mapModel.php');
 
 require_once(__DIR__ . '/../utils/useResponse.php');
 
+use FinalProject\Model\Attendance;
+use FinalProject\Model\Author;
 use FinalProject\Model\Init;
 use FinalProject\Model\User;
 use FinalProject\Model\Event;
@@ -22,6 +27,9 @@ class RequestController
     private $user;
     private $event;
     private $reg;
+    private $author;
+    private $att;
+
     private $map;
 
     public function __construct()
@@ -30,6 +38,8 @@ class RequestController
         $this->user = new User($inti->getConnected());
         $this->event = new Event($inti->getConnected());
         $this->reg = new Registration($inti->getConnected());
+        $this->author = new Author($inti->getConnected());
+        $this->att = new Attendance($inti->getConnected());
 
         $this->map = new Map();
     }
@@ -97,6 +107,7 @@ class RequestController
             case 'create':
                 $result = $this->event->createEvent($data);
                 return response(status: $result['status'], message: $result['message'], data: $result, type: 'json', redirect: "../");
+
             case 'update':
                 $result = $this->event->updateEventById($data);
                 return response(status: 200, message: "Edit event complete", data: $result);
@@ -134,10 +145,21 @@ class RequestController
     {
         switch ($form) {
             case 'accept':
+                $authorId = $this->author->getAuthorId(userId: $data['authorId'], eventId: $data['eventId']);
+
+                if ($authorId['status'] !== 200) {
+                    return response(
+                        status: $authorId['status'],
+                        message: $authorId['message'],
+                        data: [null],
+                        redirect: '../?action=event.statistic&id=' . $data['eventId']
+                    );
+                }
+
                 $result = $this->reg->acceptUserRegById(
                     userId: $data['userId'],
                     eventId: $data['eventId'],
-                    authorId: $data['authorId'],
+                    authorId: $authorId['authorId'],
                     regId: $data['regId']
                 );
 
@@ -169,6 +191,46 @@ class RequestController
                     status: 404,
                     message: "Something went wrong!",
                     redirect: '../?action=event.manage'
+                );
+        }
+    }
+
+    public function attendanceHandler($form, array $data)
+    {
+        switch ($form) {
+
+            // update status ใน att เป็น reject พร้อมข้อความ
+            case 'reject':
+
+
+                break;
+
+            // update status เป็น accept
+            case 'accept':
+                $authorId = $this->author->getAuthorId(userId: $data['authorId'], eventId: $data['eventId']);
+
+                if ($authorId['status'] !== 200) {
+                    return response(
+                        status: $authorId['status'],
+                        message: $authorId['message'],
+                        data: [null],
+                        redirect: '../?action=event.checked-in&id=' . $data['eventId']
+                    );
+                }
+
+                $result = $this->att->acceptUserById(userId: $data['userId'], verifyBy: $authorId['authorId'], regId: $data['regId']);
+
+                return response(
+                    status: $result['status'],
+                    message: $result['message'],
+                    redirect: '../?action=event.checked-in&id=' . $data['eventId']
+                );
+
+            default:
+                return response(
+                    status: 404,
+                    message: "Something went wrong!",
+                    redirect: '../?action=event.checked-in&id=' . $data['eventId']
                 );
         }
     }

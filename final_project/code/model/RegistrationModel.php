@@ -141,24 +141,24 @@ class Registration
                 ];
             }
 
-            $author = $this->connection->prepare("
-                SELECT a.id FROM Author a WHERE a.authorId = :authorId AND a.eventId = :eventId
-            ");
+            // $author = $this->connection->prepare("
+            //     SELECT a.id FROM Author a WHERE a.authorId = :authorId AND a.eventId = :eventId
+            // ");
 
-            $author->bindParam(':authorId', $authorId);
-            $author->bindParam(':eventId', $eventId);
-            $author->execute();
+            // $author->bindParam(':authorId', $authorId);
+            // $author->bindParam(':eventId', $eventId);
+            // $author->execute();
 
-            if ($author->rowCount() === 0) {
-                $this->connection->rollBack();
-                return [
-                    "status" => 404,
-                    "isUpdate" => false,
-                    "message" => "คุณไม่ใช่ผู้มีส่วนร่วมในกิจกรรมนี้"
-                ];
-            }
+            // if ($author->rowCount() === 0) {
+            //     $this->connection->rollBack();
+            //     return [
+            //         "status" => 404,
+            //         "isUpdate" => false,
+            //         "message" => "คุณไม่ใช่ผู้มีส่วนร่วมในกิจกรรมนี้"
+            //     ];
+            // }
 
-            $authorId = ($author->fetch(PDO::FETCH_ASSOC))['id'];
+            // $authorId = ($author->fetch(PDO::FETCH_ASSOC))['id'];
 
             // Att table 
             $attendance = $this->connection->prepare("

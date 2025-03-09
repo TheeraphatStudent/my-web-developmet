@@ -64,22 +64,23 @@ $navigate->setPath(
                                         <td class="py-3 px-4 text-sm max-w-[170px]"><?= (new Tags($item['status']))->render() ?></td>
                                         <td>
                                             <div class="flex justify-center space-x-2">
-                                                <form action="../?action=reques&on=Attendance&from=remove" method="POST">
+                                                <form action="../?action=request&on=attend&from=remove" method="post">
                                                     <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
                                                     <input type="hidden" name="regId" value="<?= $item['regId'] ?>">
                                                     <input type="hidden" name="eventId" value="<?= $item['eventId'] ?>">
 
-                                                    <button type="button" class="p-1.5 rounded-full text-red hover:bg-light-red <?= $item['status'] == "reject" ? 'hidden' : '' ?>" id="reject">
+                                                    <button type="button" class="p-1.5 rounded-full text-red hover:bg-light-red <?= ($item['status'] == "pending") ? '' : 'hidden' ?>" id="reject">
                                                         <img src="public/icons/reject.png" alt="reject">
                                                     </button>
                                                 </form>
 
-                                                <form action="../?action=reques&on=Attendance&from=update" method="POST">
+                                                <form action="../?action=request&on=attend&form=accept" method="post">
                                                     <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
+                                                    <input type="hidden" name="authorId" value="<?= $_SESSION['user']['userId'] ?>">
                                                     <input type="hidden" name="regId" value="<?= $item['regId'] ?>">
                                                     <input type="hidden" name="eventId" value="<?= $item['eventId'] ?>">
 
-                                                    <button type="submit" class="p-1.5 rounded-full text-primary hover:bg-light-green">
+                                                    <button type="submit" class="p-1.5 rounded-full text-primary hover:bg-light-green <?= $item['status'] == "accepted" ? 'hidden' : '' ?>">
                                                         <img src="public/icons/accept.png" alt="accept">
                                                     </button>
                                                 </form>
