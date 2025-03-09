@@ -81,7 +81,7 @@
                     return res;
                 })
                 .then((data) => {
-                    if (data.status === 200) {
+                    if (data.status === 201) {
                         Swal.fire({
                             icon: 'success',
                             title: 'สร้างบัญชีเสร็จสิ้น',

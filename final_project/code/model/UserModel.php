@@ -30,8 +30,11 @@ class User
     public function getUserByEmail($email)
     {
         $stmt = $this->connection->prepare("SELECT userId FROM User WHERE email = :email");
-        $stmt->execute([':email' => $email]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->bindParam(':email', $email);
+
+        $stmt->execute();
+
+        return $stmt->fetchColumn() > 0;
     }
 
     public function getUserByUserId($userId)
@@ -70,34 +73,43 @@ class User
 
     public function register($username, $password, $email)
     {
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $this->connection->prepare("INSERT INTO User (userId, username, password, email, created, updated) VALUES (:userId, :username, :password, :email, :created, :updated)");
+        try {
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $stmt = $this->connection->prepare("INSERT INTO User (userId, username, password, email, created, updated) VALUES (:userId, :username, :password, :email, :created, :updated)");
 
-        $lastCols = $this->connection->prepare(
-            "SELECT id FROM User ORDER BY id DESC LIMIT 1"
-        );
+            $lastCols = $this->connection->prepare(
+                "SELECT id FROM User ORDER BY id DESC LIMIT 1"
+            );
 
-        $lastCols->execute();
-        $getCols = $lastCols->fetchColumn();
+            $lastCols->execute();
+            $getCols = $lastCols->fetchColumn();
 
-        $newValue = ($getCols !== false) ? intval($getCols) + 1 : 1;
-        $formattedValue = str_pad($newValue, 7, "0", STR_PAD_LEFT);
+            $newValue = ($getCols !== false) ? intval($getCols) + 1 : 1;
+            $formattedValue = str_pad($newValue, 7, "0", STR_PAD_LEFT);
 
-        $userId = "AGU-" . $formattedValue . uniqid("_user-" . getRandomId(8));
+            $userId = "AGU-" . $formattedValue . uniqid("_user-" . getRandomId(8));
 
-        $now = new DateTime();
+            $now = new DateTime();
 
-        $stmt->execute([
-            ':userId' => $userId,
-            ':username' => $username,
-            ':password' => $hashedPassword,
-            ':email' => $email,
-            ':created' => $now->format('Y-m-d H:i:s'),
-            ':updated' => $now->format('Y-m-d H:i:s')
-        ]);
+            $stmt->execute([
+                ':userId' => $userId,
+                ':username' => $username,
+                ':password' => $hashedPassword,
+                ':email' => $email,
+                ':created' => $now->format('Y-m-d H:i:s'),
+                ':updated' => $now->format('Y-m-d H:i:s')
+            ]);
 
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $user;
+            return [
+                "status" => 201,
+                "message" => "User registered successfully",
+            ];
+        } catch (PDOException $err) {
+            return [
+                "status" => 500,
+                "message" => "Registration failed: " . $err->getMessage()
+            ];
+        }
     }
 
     public function login($username, $password)
@@ -224,6 +236,63 @@ class User
             return [
                 "status" => 500,
                 "message" => "Error: " . $err->getMessage()
+            ];
+        }
+    }
+
+    public function resetPassword($username, $email, $newPassword) {
+        try {
+            $this->connection->beginTransaction();
+            
+            $stmt = $this->connection->prepare("
+                SELECT userId
+                FROM User 
+                WHERE username = :username 
+                AND email = :email
+            ");
+            
+            $stmt->execute([
+                ':username' => $username,
+                ':email' => $email
+            ]);
+            
+            if (!$stmt->fetch()) {
+                $this->connection->rollBack();
+                return [
+                    "status" => 404,
+                    "message" => "ไม่พบผู้ใช้งาน"
+                ];
+            }
+
+            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+            $updateStmt = $this->connection->prepare("
+                UPDATE User 
+                SET password = :password,
+                    updated = :updated
+                WHERE username = :username 
+                AND email = :email
+            ");
+
+            $now = (new DateTime())->format('Y-m-d H:i:s');
+            
+            $updateStmt->execute([
+                ':password' => $hashedPassword,
+                ':updated' => $now,
+                ':username' => $username,
+                ':email' => $email
+            ]);
+
+            $this->connection->commit();
+            return [
+                "status" => 200,
+                "message" => "รหัสผ่านถูกเปลี่ยนแปลงเรียบร้อย"
+            ];
+            
+        } catch (PDOException $err) {
+            $this->connection->rollBack();
+            return [
+                "status" => 500, 
+                "message" => "เกิดข้อผิดพลาด: " . $err->getMessage()
             ];
         }
     }

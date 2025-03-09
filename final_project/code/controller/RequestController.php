@@ -53,15 +53,17 @@ class RequestController
                 $email = $data['email'];
 
                 if ($this->user->getUserByEmail($email)) {
-                    return response(status: 301, message: "Email นี้ถูกใช้งานแล้ว!", redirect: '../?action=register', type: 'json');
+                    return response(status: 301, message: "อีเมลนี้ถูกใช้งานแล้ว!", redirect: '../?action=register', type: 'json');
                 }
 
                 $result = $this->user->register($username, $password, $email);
 
-                if ($result) {
-                    return response(status: 200, message: "ยินดีต้อนรับสมาชิกใหม่, สามารถเข้าสู่ระบบได้แล้ว", data: $result, redirect: '../?action=login', type: 'json');
+                if ($result['status'] === 201) {
+                    return response(status: $result['status'], message: "ยินดีต้อนรับสมาชิกใหม่, สามารถเข้าสู่ระบบได้แล้ว", data: $result, redirect: '../?action=login', type: 'json');
+
                 } else {
-                    return response(status: 401, message: "เกิดข้อผิดพลาดในการลงทะเบียน, อีเมลนี้เคยใช้กับบัญชีอื่นแล้ว", redirect: '../?action=login', type: 'json');
+                    return response(status: $result['status'], message: "เกิดข้อผิดพลาดในการลงทะเบียน, โปรดลองใหม่อีกครั้ง", redirect: '../?action=login', type: 'json');
+
                 }
 
             case "login":
@@ -91,11 +93,11 @@ class RequestController
 
             case 'update':
                 $response = $this->user->updateUserById($data);
-                // print_r($data);
-                // echo "<br>";
-                // print_r($response);
-
                 return response(status: $response['status'], message: $response['message'], redirect: "../?action=profile");
+
+            case 'reset':
+                $response = $this->user->resetPassword(username: $data['username'], email: $data['email'], newPassword: $data['password']);
+                return response(status: $response['status'], message: $response['message'], redirect: "../?action=login", type: 'json');
         }
     }
 

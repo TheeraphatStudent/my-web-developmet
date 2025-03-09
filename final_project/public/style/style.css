@@ -2788,6 +2788,10 @@ span{
   background-color: rgb(251 248 238 / 0.1);
 }
 
+.hover\:bg-dark-primary\/50:hover{
+  background-color: rgb(16 75 72 / 0.5);
+}
+
 .hover\:text-dark-primary:hover{
   --tw-text-opacity: 1;
   color: rgb(16 75 72 / var(--tw-text-opacity, 1));

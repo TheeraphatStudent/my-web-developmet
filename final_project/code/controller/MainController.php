@@ -45,35 +45,28 @@ class MainController
 
     public function auth($type = 'login')
     {
+        if ($type == 'login' || $type == 'register') {
+            echo "<script>
+                        let isPasswordVisible = false;
+                        function togglePasswordVisibility() {
+                            const passwords = document.querySelectorAll('input[type=\"password\"], input[data-type=\"password\"]');
+                            isPasswordVisible = !isPasswordVisible;
+                            passwords.forEach(password => {
+                                password.type = isPasswordVisible ? 'text' : 'password';
+                                if (!password.hasAttribute('data-type')) {
+                                    password.setAttribute('data-type', 'password');
+                                }
+                            });
+                        }
+                    </script>";
+        }
 
         switch ($type) {
             case 'login':
-                echo "<script>
-                        function togglePasswordVisibility() {
-                            const password = document.getElementById('password');
-                            if (password.type === 'password') {
-                                password.type = 'text';
-                            } else {
-                                password.type = 'password';
-                            }
-                        }
-                    </script>";
-
                 require_once("./view/auth/LoginView.php");
                 break;
 
             case 'register':
-                echo "<script>
-                        function togglePasswordVisibility() {
-                            const password = document.getElementById('password');
-                            if (password.type === 'password') {
-                                password.type = 'text';
-                            } else {
-                                password.type = 'password';
-                            }
-                        }
-                    </script>";
-
                 require_once("./view/auth/RegisterView.php");
                 break;
 
@@ -106,8 +99,8 @@ class MainController
 
                 case 'attendee':
                     $regObj = $regModel->getRegisterById(userId: $userId, eventId: $eventId);
+                    $eventObj = $eventModel->getEventById($eventId);
 
-                    // print_r($regObj);
                     require_once("./view/event/AttendeeView.php");
                     break;
 
