@@ -4,6 +4,7 @@ namespace FinalProject\View\Event;
 
 require_once('components/tags.php');
 require_once('components/breadcrumb.php');
+require_once('utils/useDateTime.php');
 
 use FinalProject\Components\Breadcrumb;
 use FinalProject\Components\Tags;
@@ -44,6 +45,8 @@ $navigate->setPath(
                             <tr class="bg-white text-gray-600 uppercase text-xs *:py-3 *:px-4 border-2">
                                 <th class="text-left">User ID</th>
                                 <th class="text-left">Name</th>
+                                <th class="text-left">Gender</th>
+                                <th class="text-left">Age</th>
                                 <th class="text-left">Status</th>
                                 <th class="text-center">Actions</th>
                             </tr>
@@ -54,8 +57,10 @@ $navigate->setPath(
                                     <!-- <?php print_r($item); ?> -->
 
                                     <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">
-                                        <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['userId'] ?></td>
-                                        <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['name'] ?></td>
+                                        <td class="py-3 px-4 text-sm max-w-[170px]"><?= htmlspecialchars($item['userId'] ?? "-") ?></td>
+                                        <td class="py-3 px-4 text-sm max-w-[170px]"><?= htmlspecialchars($item['name'] ?? "-") ?></td>
+                                        <td class="py-3 px-4 text-sm max-w-[170px]"><?= htmlspecialchars($item['gender'] ?? "-") ?></td>
+                                        <td class="py-3 px-4 text-left"> <?= !empty($item['birth']) ? ageCalculator(birth: $item['birth']) : "-" ?> </td>
                                         <td class="py-3 px-4 text-sm max-w-[170px]"><?= (new Tags($item['status']))->render() ?></td>
                                         <td>
                                             <div class="flex justify-center space-x-2">
