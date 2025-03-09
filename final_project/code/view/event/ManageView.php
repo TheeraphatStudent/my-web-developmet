@@ -3,41 +3,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Event</title>
     <link rel="stylesheet" href="public/style/main.css">
-
-    <style>
-        @keyframes typing {
-            from {
-            width: 0%
-            }
-
-            to {
-            width: 100%
-            }
-        }
-
-        .typing-animation {
-            display: inline-block;
-            width: 0%;
-            overflow: hidden;
-            white-space: nowrap;
-            border-right: 3px solid white;
-            animation:
-                typing 3.5s steps(40, end) forwards,
-                blink-caret .75s step-end infinite;
-        }
-
-        @keyframes blink-caret {
-
-            from,
-            to {
-            border-color: transparent
-            }
-
-            50% {
-            border-color: white
-            }
-        }
-    </style>
 </head>
 
 <body class="flex flex-col justify-start items-center bg-primary">

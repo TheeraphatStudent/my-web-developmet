@@ -152,7 +152,35 @@ class Event
     public function getAllEvents()
     {
         $statement = $this->connection->prepare(
-            "SELECT * FROM Event WHERE 1"
+            "
+            SELECT
+                e.eventId,
+                e.cover,
+                e.title,
+                e.maximum,
+                e.type,
+                e.start,
+                e.end,
+                e.venue,
+                e.organizeId,
+                u.name AS organizeName,
+                COUNT(CASE WHEN a.status = 'accepted' THEN a.regId END) AS joined
+            FROM Event e
+            JOIN Registration r ON e.eventId = r.eventId
+            JOIN Attendance a ON r.regId = a.regId
+            JOIN User u ON e.organizeId = u.userId
+            GROUP BY 
+                e.eventId, 
+                e.cover, 
+                e.title, 
+                e.maximum, 
+                e.type, 
+                e.start, 
+                e.end,
+                e.venue,
+                e.organizeId, 
+                u.name;
+            "
         );
 
         $statement->execute();
@@ -263,7 +291,24 @@ class Event
         try {
             $_SESSION['selected_type'] = $eventType;
 
-            $query = "SELECT * FROM Event WHERE 1";
+            $query = "
+            SELECT
+                e.eventId,
+                e.cover,
+                e.title,
+                e.maximum,
+                e.type,
+                e.start,
+                e.end,
+                e.venue,
+                e.organizeId,
+                u.name AS organizeName,
+                COUNT(CASE WHEN a.status = 'accepted' THEN a.regId END) AS joined
+            FROM Event e
+            JOIN Registration r ON e.eventId = r.eventId
+            JOIN Attendance a ON r.regId = a.regId
+            JOIN User u ON e.organizeId = u.userId
+            WHERE 1=1";
             $params = [];
 
             $now = new DateTime();
@@ -271,18 +316,18 @@ class Event
             if (!empty($dateType)) {
                 switch ($dateType) {
                     case 'day':
-                        $query .= " AND (DATE(start) = DATE(:today) OR DATE(end) = DATE(:today))";
+                        $query .= " AND (DATE(e.start) = DATE(:today) OR DATE(e.end) = DATE(:today))";
                         $params[':today'] = $now->format('Y-m-d');
                         break;
                     case 'week':
-                        $query .= " AND (DATE(start) BETWEEN :weekStart AND :weekEnd OR DATE(end) BETWEEN :weekStart AND :weekEnd)";
+                        $query .= " AND (DATE(e.start) BETWEEN :weekStart AND :weekEnd OR DATE(e.end) BETWEEN :weekStart AND :weekEnd)";
                         $params[':weekStart'] = $now->format('Y-m-d');
                         $params[':weekEnd'] = $now->modify('+7 days')->format('Y-m-d');
                         break;
                     case 'month':
                         $query .= " AND (
-                            (MONTH(start) = MONTH(:currentMonth) AND YEAR(start) = YEAR(:currentYear)) OR 
-                            (MONTH(end) = MONTH(:currentMonth) AND YEAR(end) = YEAR(:currentYear))
+                            (MONTH(e.start) = MONTH(:currentMonth) AND YEAR(e.start) = YEAR(:currentYear)) OR 
+                            (MONTH(e.end) = MONTH(:currentMonth) AND YEAR(e.end) = YEAR(:currentYear))
                         )";
                         $params[':currentMonth'] = $now->format('Y-m-d');
                         $params[':currentYear'] = $now->format('Y-m-d');
@@ -291,9 +336,21 @@ class Event
             }
 
             if (!empty($eventType) && $eventType !== 'any') {
-                $query .= " AND type = :type";
+                $query .= " AND e.type = :type";
                 $params[':type'] = $eventType;
             }
+
+            $query .= " GROUP BY 
+                e.eventId, 
+                e.cover, 
+                e.title, 
+                e.maximum, 
+                e.type, 
+                e.start, 
+                e.end,
+                e.venue,
+                e.organizeId, 
+                u.name";
 
             $stmt = $this->connection->prepare($query);
             $stmt->execute($params);
