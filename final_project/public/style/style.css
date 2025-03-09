@@ -1473,6 +1473,11 @@ span{
   max-width: 28rem;
 }
 
+.max-w-fit{
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+}
+
 .flex-1{
   flex: 1 1 0%;
 }

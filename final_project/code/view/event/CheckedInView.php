@@ -46,45 +46,48 @@ $navigate->setPath(
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-white">
-                            <?php foreach (array_reverse([]) as $item): ?>
-                                <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">
-                                    <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['userId'] ?></td>
-                                    <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['username'] ?></td>
-                                    <td>
+                            <?php if (!empty($allUserAttendOnEvent)) : ?>
+                                <?php foreach (array_reverse($allUserAttendOnEvent) as $item): ?>
+                                    <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">
+                                        <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['userId'] ?></td>
+                                        <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['username'] ?></td>
+                                        <td>
 
-                                        <div class="flex justify-center space-x-2">
-                                            <form action="../?action=reques&on=Attendance&from=remove" method="POST">
-                                                <!-- เอาคำขอออก-->
-                                                <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
-                                                <button class="p-1.5 rounded-full text-red">
-                                                    <img src="public/images/remove.png" width="30px" height="30px">
-                                                </button>
-                                            </form>
+                                            <div class="flex justify-center space-x-2">
+                                                <form action="../?action=reques&on=Attendance&from=remove" method="POST">
+                                                    <!-- เอาคำขอออก-->
+                                                    <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
+                                                    <button class="p-1.5 rounded-full text-red">
+                                                        <img src="public/images/remove.png" width="30px" height="30px">
+                                                    </button>
+                                                </form>
 
-                                            <form action="../?action=reques&on=Attendance&from=update" method="POST">
-                                                <!-- รับคนเข้ากิจกรรม -->
-                                                <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
-                                                <input type="hidden" name="regId" value="<?= $item['regId'] ?>">
-                                                <input type="hidden" name="eventId" value="<?= $item['eventId'] ?>">
+                                                <form action="../?action=reques&on=Attendance&from=update" method="POST">
+                                                    <!-- รับคนเข้ากิจกรรม -->
+                                                    <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
+                                                    <input type="hidden" name="regId" value="<?= $item['regId'] ?>">
+                                                    <input type="hidden" name="eventId" value="<?= $item['eventId'] ?>">
 
-                                                <button class="p-1.5 rounded-full text-red">
-                                                    <img src="public/images/accept.png" alt="" width="30px" height="30px">
-                                                </button>
-                                            </form>
+                                                    <button class="p-1.5 rounded-full text-red">
+                                                        <img src="public/images/accept.png" alt="" width="30px" height="30px">
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php endforeach ?>
+                            <?php else : ?>
+                                <tr>
+                                    <td colspan="7" class="py-10 text-center">
+                                        <div class="flex flex-col items-center justify-center">
+                                            <span class="text-lg mb-3 text-gray-500">ยังไม่มีผู้ผ่านการยอมรับการเข้าร่วมกิจกรรม</span>
+                                            <a href="../?action=event.statistic&id=<?= $_GET['id'] ?>" class="text-primary hover:text-primary/80 font-semibold text-3xl underline decoration-primary">
+                                                อนุมัติผู้เข้าร่วมตอนนี้?
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>
-                            <?php endforeach ?>
-                            <tr>
-                                <td colspan="7" class="py-10 text-center">
-                                    <div class="flex flex-col items-center justify-center">
-                                        <span class="text-lg mb-3 text-gray-500">ยังไม่มีผู้ผ่านการยอมรับการเข้าร่วมกิจกรรม</span>
-                                        <a href="../?action=event.statistic&id=<?= $_GET['id'] ?>" class="text-primary hover:text-primary/80 font-semibold text-3xl underline decoration-primary">
-                                        อนุมัติผู้เข้าร่วมตอนนี้?
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
+                            <?php endif ?>
                         </tbody>
                     </table>
                 </div>

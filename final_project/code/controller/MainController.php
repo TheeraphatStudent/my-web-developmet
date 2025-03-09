@@ -7,9 +7,10 @@ require_once(__DIR__ . '/../utils/useEvent.php');
 
 require_once(__DIR__ . '/../model/EventModel.php');
 require_once(__DIR__ . '/../model/RegistrationModel.php');
+require_once(__DIR__ . '/../model/AttendanceModel.php');
 
 use FinalProject\Controller\RequestController;
-
+use FinalProject\Model\Attendance;
 use FinalProject\Model\Init;
 use FinalProject\Model\Event;
 use FinalProject\Model\Registration;
@@ -90,63 +91,49 @@ class MainController
 
         $eventModel = new Event($this->connection);
         $regModel = new Registration($this->connection);
+        $attModel = new Attendance($this->connection);
 
-        if (isset($_GET['id'])) {
-            $eventId = $_GET['id'];
-            $eventObj = $eventModel->getEventById($eventId);
-        }
+        $eventId = isset($_GET['id']) ? $_GET['id'] : null;
+        $userId = isset($_SESSION['user']) ? $_SESSION['user']['userId'] : null;
 
         if (in_array($event, EventUtils::ACCEPT_EVENT)) {
             switch ($event) {
                 case 'checked-in':
-                    // $allEvents = $eventModel->Registration();
-
-                    // $allReq = $eventModel->Registration();
-                    // $allIn = $eventModel->inEvent();
+                    // if (isset($_GET['id']) && isset($_SESSION['user']))
+                    $allUserAttendOnEvent = $attModel->getUserWasAcceptRegOnEventById(userId: $userId, eventId: $eventId);
 
                     require_once("./view/event/CheckedInView.php");
                     break;
 
                 case 'attendee':
-                    if (isset($_GET['id']) && isset($_SESSION['user'])) {
-                        $regObj = $regModel->getRegisterById(userId: $_SESSION['user']['userId'], eventId: $_GET['id']);
-                    }
+                    $regObj = $regModel->getRegisterById(userId: $userId, eventId: $eventId);
 
                     // print_r($regObj);
                     require_once("./view/event/AttendeeView.php");
                     break;
 
                 case 'create':
-
                     require_once("./view/event/CreateView.php");
                     break;
+
                 case 'manage':
-                    // ต้องแก้เป็น by id
-                    $allEvents = $eventModel->getAllEventsById($_SESSION['user']['userId']);
-                    // print_r($_SESSION['user']['userId']);
+                    $allEvents = $eventModel->getAllEventsById($userId);
 
                     require_once("./view/event/ManageView.php");
                     break;
-
-                // case 'mail':
-                //         $allaboutmail = $eventModel->getmailbyid($_SESSION['user']['userId']);
-                //         require_once("./view/mail/view.php");
-                //         break;
 
                 case 'create-test':
                     require_once("./view/event/test.CreateView.php");
                     break;
 
                 case 'edit':
-                    // $eventId = $_GET['id'];
-                    // $eventObj = $eventModel->getEventById($eventId);
+                    $eventObj = $eventModel->getEventById($eventId);
 
                     require_once("./view/event/edit.php");
                     break;
 
                 case 'statistic':
-                    $eventId = $_GET['id'];
-                    $allUserReg = $regModel->getUserRegisterByEventAndUserId(userId: $_SESSION['user']['userId'], eventId: $eventId);
+                    $allUserReg = $regModel->getUserRegisterByEventAndUserId(userId: $userId, eventId: $eventId);
 
                     // require_once("./view/event/statistic.php");
                     require_once("./view/event/StatisticView.php");
@@ -212,7 +199,7 @@ class MainController
     }
     public function mail()
     {
-        $event = new Event ($this->connection);
+        $event = new Event($this->connection);
         $aboutmail = ($event->getmailbyid($_SESSION['user']['userId']));
         $emailTest = ["1", "2", "3"];
 
