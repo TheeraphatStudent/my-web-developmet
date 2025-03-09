@@ -22,8 +22,24 @@ class Attendance
         $this->connection = $connection;
     }
 
-    public function getUserWasAcceptRegOnEventById($userId, $eventId) {
+    public function getUserWasAcceptRegOnEventById($userId, $eventId)
+    {
+        try {
+            $stmt = $this->connection->prepare("CALL GetUserAttendanceOnEvent(:userId, :eventId)");
 
+            $stmt->bindParam(':userId', $userId);
+            $stmt->bindParam(':eventId', $eventId);
+
+            if (!$stmt->execute()) {
+                return [];
+            }
+
+            $att = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return $att;
+
+        } catch (PDOException $err) {
+            return [];
+        }
     }
-
 }

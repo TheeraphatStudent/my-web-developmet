@@ -2,9 +2,11 @@
 
 namespace FinalProject\View\Event;
 
+require_once('components/tags.php');
 require_once('components/breadcrumb.php');
 
 use FinalProject\Components\Breadcrumb;
+use FinalProject\Components\Tags;
 
 $navigate = new Breadcrumb();
 
@@ -41,35 +43,39 @@ $navigate->setPath(
                         <thead>
                             <tr class="bg-white text-gray-600 uppercase text-xs *:py-3 *:px-4 border-2">
                                 <th class="text-left">User ID</th>
-                                <th class="text-left">name</th>
+                                <th class="text-left">Name</th>
+                                <th class="text-left">Status</th>
                                 <th class="text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-white">
                             <?php if (!empty($allUserAttendOnEvent)) : ?>
-                                <?php foreach (array_reverse($allUserAttendOnEvent) as $item): ?>
+                                <?php foreach (array_reverse(array($allUserAttendOnEvent)) as $item): ?>
+                                    <!-- <?php print_r($item); ?> -->
+
                                     <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">
                                         <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['userId'] ?></td>
-                                        <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['username'] ?></td>
+                                        <td class="py-3 px-4 text-sm max-w-[170px]"><?= $item['name'] ?></td>
+                                        <td class="py-3 px-4 text-sm max-w-[170px]"><?= (new Tags($item['status']))->render() ?></td>
                                         <td>
-
                                             <div class="flex justify-center space-x-2">
                                                 <form action="../?action=reques&on=Attendance&from=remove" method="POST">
-                                                    <!-- เอาคำขอออก-->
-                                                    <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
-                                                    <button class="p-1.5 rounded-full text-red">
-                                                        <img src="public/images/remove.png" width="30px" height="30px">
-                                                    </button>
-                                                </form>
-
-                                                <form action="../?action=reques&on=Attendance&from=update" method="POST">
-                                                    <!-- รับคนเข้ากิจกรรม -->
                                                     <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
                                                     <input type="hidden" name="regId" value="<?= $item['regId'] ?>">
                                                     <input type="hidden" name="eventId" value="<?= $item['eventId'] ?>">
 
-                                                    <button class="p-1.5 rounded-full text-red">
-                                                        <img src="public/images/accept.png" alt="" width="30px" height="30px">
+                                                    <button type="button" class="p-1.5 rounded-full text-red hover:bg-light-red <?= $item['status'] == "reject" ? 'hidden' : '' ?>" id="reject">
+                                                        <img src="public/icons/reject.png" alt="reject">
+                                                    </button>
+                                                </form>
+
+                                                <form action="../?action=reques&on=Attendance&from=update" method="POST">
+                                                    <input type="hidden" name="userId" value="<?= $item['userId'] ?>">
+                                                    <input type="hidden" name="regId" value="<?= $item['regId'] ?>">
+                                                    <input type="hidden" name="eventId" value="<?= $item['eventId'] ?>">
+
+                                                    <button type="submit" class="p-1.5 rounded-full text-primary hover:bg-light-green">
+                                                        <img src="public/icons/accept.png" alt="accept">
                                                     </button>
                                                 </form>
                                             </div>

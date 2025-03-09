@@ -99,7 +99,6 @@ class MainController
         if (in_array($event, EventUtils::ACCEPT_EVENT)) {
             switch ($event) {
                 case 'checked-in':
-                    // if (isset($_GET['id']) && isset($_SESSION['user']))
                     $allUserAttendOnEvent = $attModel->getUserWasAcceptRegOnEventById(userId: $userId, eventId: $eventId);
 
                     require_once("./view/event/CheckedInView.php");

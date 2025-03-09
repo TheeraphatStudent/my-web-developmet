@@ -64,29 +64,6 @@ END$$
 
 DELIMITER ;
 
--- ====================== Register - Get User by event id with regid
-
-DELIMITER $$
-CREATE PROCEDURE `GetUsersByEvent`(
-    IN `getUserId` VARCHAR(255),
-    IN `getEventId` VARCHAR(255)
-)
-BEGIN
-    SELECT DISTINCT
-        u.userId,
-        u.name,
-        u.birth,
-        r.status
-    FROM Event e
-    JOIN User u
-    JOIN Registration r
-    WHERE e.organizeId = 'AGU-0000001_user-b57204e202489c3e67c4baecd336c'
-    AND u.userId = r.userId
-    AND r.eventId = e.eventId
-    AND e.eventId = 'AG-20250000001_event-da2a60c465e8b17b67c4c366aef51'
-END$$
-DELIMITER ;
-
 -- ====================== User - Count all user joined on event
 
 DELIMITER $$
@@ -103,31 +80,6 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-
--- ====================== Reg - Get User Event Details
-
-CREATE DEFINER=`final-activity`@`%` PROCEDURE `GetUserEventDetails`(
-    IN getUserId VARCHAR(255) CHARSET utf8mb4
-)
-BEGIN
-    SELECT 
-        u.userId,
-        u.name,
-        u.birth,
-        u.email,
-        u.gender,
-        u.education,
-        u.telno,
-
-        (SELECT COUNT(*) FROM Event e WHERE e.organizeId = u.userId) AS totalOrganize,
-
-        (SELECT COUNT(*) FROM Registration r WHERE r.userId = u.userId) AS totalAttendee
-
-    FROM User u
-    WHERE u.userId = getUserId;
-END$$
-
-DELIMITER ;
 
 -- ====================== Reg - get user counter 
 
