@@ -120,11 +120,12 @@ $authors = array_map(function ($type) {
                         <div class="flex flex-col w-full gap-2.5">
                             <div
                                 class="form-title">
-                                Link&nbsp;
-                                <span class="form-required">*</span>
+                                Link
                             </div>
                             <input
-                                class="input-field" name="link" type="text" placeholder="Enter link">
+                                class="input-field" name="link" type="url"
+                                placeholder="https://example.com"
+                                pattern="https?:\/\/.*">
 
                         </div>
                     </div>
@@ -160,7 +161,7 @@ $authors = array_map(function ($type) {
                                 <span class="form-required">*</span>
                             </div>
                             <textarea require minlength="20"
-                                class="input-field" type="number" name="location" placeholder="Enter event location"></textarea>
+                                class="input-field" type="text" name="location" placeholder="Enter event location"></textarea>
 
                         </div>
                     </div>
@@ -222,7 +223,7 @@ $authors = array_map(function ($type) {
                 </div>
 
                 <div class="flex w-full justify-start items-start gap-5 flex-col md:flex-row">
-                    <a href="../" id="form-cancel" class="w-full md:w-1/3 btn-danger">Cancel</a>
+                    <a href="../" id="form-cancel" class="w-full md:w-1/3 btn-danger" onclick="window.history.back()">Cancel</a>
                     <button type="button" id="form-submit" class="w-full btn-secondary">Create Event</button>
                 </div>
 
@@ -265,7 +266,7 @@ $authors = array_map(function ($type) {
                 try {
                     const formData = new FormData(form);
                     const response = await fetch(form.action, {
-                        method: form.method, 
+                        method: form.method,
                         body: formData
                     });
 
@@ -276,7 +277,7 @@ $authors = array_map(function ($type) {
                         await Swal.fire({
                             icon: "success",
                             title: "สำเร็จ",
-                            text: "สร้างกิจกรรมเสร็จสิ้น!", 
+                            text: "สร้างกิจกรรมเสร็จสิ้น!",
                         });
 
                         window.location.href = `${result?.redirect}`
@@ -292,7 +293,7 @@ $authors = array_map(function ($type) {
                     console.error(error);
                     console.error(error.message);
                     Swal.fire({
-                        icon: "error", 
+                        icon: "error",
                         title: "เกิดข้อผิดพลาด",
                         text: `${error.message || "ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้, โปรดติดต่อนักพัฒนา"}`
                     });

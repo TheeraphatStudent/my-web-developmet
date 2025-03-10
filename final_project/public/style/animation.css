@@ -36,8 +36,6 @@
 }
 
 .animated-text {
-  font-size: 40px;
-  font-weight: bold;
   display: inline-block;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
   animation: float 3s ease-in-out infinite;
@@ -85,7 +83,7 @@
 }
 
 .animated-text span:nth-child(10) {
-  animation-delay: 1.0s;
+  animation-delay: 1s;
 }
 
 .animated-text span:nth-child(11) {
@@ -98,42 +96,42 @@
 
 @keyframes colorChange {
   0% {
-      color: #BCFFAB;
-      transform: scale(1) rotate(0deg);
+    color: #bcffab;
+    transform: scale(1) rotate(0deg);
   }
 
   25% {
-      color: #ABCDFF;
-      transform: scale(1.1) rotate(5deg);
+    color: #abcdff;
+    transform: scale(1.1) rotate(5deg);
   }
 
   50% {
-      color: #FBF8EE;
-      transform: scale(1) rotate(0deg);
+    color: #fbf8ee;
+    transform: scale(1) rotate(0deg);
   }
 
   75% {
-      color: #ABCDFF;
-      transform: scale(1.1) rotate(-5deg);
+    color: #abcdff;
+    transform: scale(1.1) rotate(-5deg);
   }
 
   100% {
-      color: #BCFFAB;
-      transform: scale(1) rotate(0deg);
+    color: #bcffab;
+    transform: scale(1) rotate(0deg);
   }
 }
 
 @keyframes float {
   0% {
-      transform: translateY(0px);
+    transform: translateY(0px);
   }
 
   50% {
-      transform: translateY(-15px);
+    transform: translateY(-15px);
   }
 
   100% {
-      transform: translateY(0px);
+    transform: translateY(0px);
   }
 }
 
@@ -143,8 +141,53 @@
   height: 100%;
   top: 0;
   left: 0;
-  background: radial-gradient(circle, rgba(188, 255, 171, 0.3) 0%, rgba(0, 83, 186, 0.1) 50%, rgba(26, 26, 46, 0) 70%);
+  background: radial-gradient(
+    circle,
+    rgba(188, 255, 171, 0.3) 0%,
+    rgba(0, 83, 186, 0.1) 50%,
+    rgba(26, 26, 46, 0) 70%
+  );
   filter: blur(20px);
   z-index: -1;
   animation: pulse 4s infinite;
+}
+
+/* Text glow */
+
+@keyframes glow {
+  0% {
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+  }
+
+  100% {
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
+  }
+}
+
+@keyframes glow2 {
+  0% {
+    filter: drop-shadow(0 0 2px rgba(0, 83, 186, 0.5));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 10px rgba(171, 205, 255, 0.5));
+  }
+
+  100% {
+    filter: drop-shadow(0 0 2px rgba(0, 83, 186, 0.5));
+  }
+}
+
+.glow-word {
+  fill: white;
+  animation: fadeIn 1s ease-out forwards, glow 3s infinite;
+}
+
+.glow2-word {
+  fill: white;
+  animation: fadeIn 1s ease-out forwards, glow2 2s infinite;
 }

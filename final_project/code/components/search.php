@@ -34,10 +34,10 @@ class Search extends Component
                 <div class="flex flex-col justify-start items-start gap-2.5 h-fit w-full">
                     ช่วงเวลา
                     <div class="flex gap-5">
-                        <input type="datetime-local" placeholder="เลือกช่วงเวลา" name="dateStarted"
+                        <input type="date" placeholder="เลือกช่วงเวลา" name="dateStarted"
                             class="input-field">
                         </input>
-                        <input type="datetime-local" placeholder="เลือกช่วงเวลา" name="dateEnded"
+                        <input type="date" placeholder="เลือกช่วงเวลา" name="dateEnded"
                             class="input-field">
                         </input>
                     </div>
@@ -68,61 +68,15 @@ class Filter extends Component
     public function render()
     {
     ?>
-        <style>
-            @keyframes glow {
-                0% {
-                    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
-                }
-
-                50% {
-                    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
-                }
-
-                100% {
-                    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
-                }
-            }
-
-            @keyframes glow2 {
-                0% {
-                    filter: drop-shadow(0 0 2px rgba(0, 83, 186, 0.5));
-                }
-
-                50% {
-                    filter: drop-shadow(0 0 10px rgba(171, 205, 255, 0.5));
-                }
-
-                100% {
-                    filter: drop-shadow(0 0 2px rgba(0, 83, 186, 0.5));
-                }
-            }
-
-            .glow-word {
-                font-family: sans-serif;
-                font-weight: bold;
-                font-size: 48px;
-                fill: white;
-                animation: fadeIn 1s ease-out forwards, glow 3s infinite;
-            }
-
-            .glow2-word {
-                font-family: sans-serif;
-                font-weight: bold;
-                font-size: 48px;
-                fill: white;
-                animation: fadeIn 1s ease-out forwards, glow2 2s infinite;
-            }
-        </style>
-
-        <div class="w-full flex justify-between mb-4 *:font-kanit">
-            <div class="cursor-pointer" onclick="window.location.reload()">
-                <span class="text-4xl font-bold text-white glow-word">อีเวนท์</span>
-                <span class="text-4xl font-bold text-dark-secondary glow2-word">ล่าสุด</span>
+        <div class="w-full flex flex-col sm:flex-row gap-2.5 justify-between items-center mb-4 *:font-kanit">
+            <div class="flex h-fit cursor-pointer *:font-bold *:text-3xl *:sm:text-4xl *:min-w-fit" onclick="window.location.reload()">
+                <span class="text-white glow-word">อีเวนท์</span>
+                <span class="text-dark-secondary glow2-word">ล่าสุด</span>
             </div>
             <form
                 action="../?action=request&on=event&form=search_categories"
                 method="post"
-                class="flex gap-5">
+                class="flex gap-5 w-full sm:w-fit">
                 <!-- <select class="input-field" id="date-select" name="date" onchange="this.form.submit()">
                     <option value="day">วันนี้</option>
                     <option selected value="week">สัปดาห์นี้</option>
@@ -131,8 +85,8 @@ class Filter extends Component
                 <?php
                 $selectedType = $_SESSION['selected_type'] ?? '';
                 ?>
-                <select class="input-field cursor-pointer" id="type-select" name="type" onchange="this.form.submit()">
-                    <option value="" <?php echo $selectedType == '' ? 'selected' : ''; ?>>เลือกกิจกรรม</option>
+                <select class="input-field cursor-pointer w-full max-h-12" id="type-select" name="type" onchange="this.form.submit()">
+                    <option value="any" <?php echo $selectedType == '' ? 'selected' : ''; ?>>เลือกกิจกรรม</option>
                     <option value="any" <?php echo $selectedType == 'any' ? 'selected' : ''; ?>>ทั้งหมด</option>
                     <option value="online" <?php echo $selectedType == 'online' ? 'selected' : ''; ?>>ออนไลน์</option>
                     <option value="onsite" <?php echo $selectedType == 'onsite' ? 'selected' : ''; ?>>ออนไซต์</option>

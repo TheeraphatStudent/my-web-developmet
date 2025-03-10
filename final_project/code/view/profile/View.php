@@ -41,7 +41,7 @@ $calendar = new SchedulerCalendar();
                     <div class="flex flex-col md:flex-row justify-between items-center">
                         <span class="text-xl md:text-3xl font-semibold font-kanit text-dark-secondary text-overflow"><?= $userObj['username'] ?? "-" ?></span>
                         <div>
-                            <button type="button" class="text-base md:underline decoration-secondary text-white hover:text-secondary/60 md:btn-secondary md:w-40" id="editProfileBtn">Edit</button>
+                            <button type="button" class="text-base md:underline decoration-secondary text-white hover:text-secondary/60 md:btn-secondary md:w-40 first-letter hover:cursor-pointer" id="editProfileBtn">Edit</button>
                         </div>
                     </div>
                     <!-- <span class="font-kanit font-light text-lg md:text-xl text-black text-overflow"><?= $_SESSION['user']['userId'] ?></span> -->
@@ -49,6 +49,10 @@ $calendar = new SchedulerCalendar();
                         <div class="flex flex-col w-full rounded-lg py-2 px-4 text-center">
                             <span class="text-sm text-white">อีเวนท์ที่สร้าง</span>
                             <p class="text-xl font-bold text-white"><?= $userObj['total_events_created'] ?></p>
+                        </div>
+                        <div class="flex flex-col w-full rounded-lg py-2 px-4 text-center">
+                            <span class="text-sm text-white">อีเวนท์ที่รออนุมัติ</span>
+                            <p class="text-xl font-bold text-white"><?= $userObj['total_events_request'] ?></p>
                         </div>
                         <div class="flex flex-col w-full rounded-lg py-2 px-4 text-center">
                             <span class="text-sm text-white">อีเวนท์ที่เข้าร่วม</span>
@@ -115,7 +119,7 @@ $calendar = new SchedulerCalendar();
         </div>
     </div>
 
-    <div id="editProfileModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+    <div id="editProfileModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden mt-24">
         <div class="bg-white rounded-xl w-full max-w-2xl p-6 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-2xl font-semibold font-kanit text-dark-secondary">แก้ไขข้อมูลส่วนตัว</h3>

@@ -50,11 +50,13 @@ class User
                 u.telno, 
                 u.birth, 
                 u.created,
-                COUNT(DISTINCT CASE WHEN r.status = 'accept' THEN r.regId END) AS total_events_joined,
+                COUNT(DISTINCT CASE WHEN a.status = 'accepted' THEN a.regId END) AS total_events_joined,
+                COUNT(DISTINCT CASE WHEN r.status = 'accepted' AND a.status != 'accepted' THEN r.regId END) AS total_events_request,
                 COUNT(DISTINCT e.eventId) AS total_events_created
             FROM User u
             LEFT JOIN Registration r ON u.userId = r.userId
             LEFT JOIN Event e ON u.userId = e.organizeId
+            LEFT JOIN Attendance a ON r.regId = a.regId
             WHERE u.userId = :userId
             GROUP BY u.userId
         ");

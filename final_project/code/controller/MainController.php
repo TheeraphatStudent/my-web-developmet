@@ -197,7 +197,6 @@ class MainController
     {
         $event = new Event($this->connection);
         $aboutmail = ($event->getmailbyid($_SESSION['user']['userId']));
-        $emailTest = ["1", "2", "3"];
 
         require_once("./view/mail/view.php");
     }

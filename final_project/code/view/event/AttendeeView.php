@@ -8,25 +8,16 @@ require_once('components/texteditor/texteditor.php');
 use FinalProject\Components\TextEditor;
 use FinalProject\Utils\Register;
 
-$textEditor = new TextEditor();
-$textEditor->updatetextarea(description: $eventObj['description'], isEdit: false);
+$detail = new TextEditor();
+$detail->updatetextarea(description: $eventObj['description'], isEdit: false);
 
-$textEditorDescription = new TextEditor();
-$textEditorDescription->updatetextarea(description: $eventObj['description'], isEdit: false);
+$detailDescription = new TextEditor();
+$detailDescription->updatetextarea(description: $eventObj['description'], isEdit: false);
 
 $location = new TextEditor();
 $location->updatetextarea(description: $eventObj['location'], isEdit: false);
 
-// ======================== Start Date ================================
-
-$startDates = json_decode($eventObj['start'], true) ?? [];
-$endDates = json_decode($eventObj['end'], true) ?? [];
-
-$formattedDates = array_map(function ($date) {
-    return date("l, j F Y", strtotime($date));
-}, $startDates);
-
-$maxDateDisplay = count($startDates);
+// print_r($eventObj);
 ?>
 
 <head>
@@ -63,7 +54,7 @@ $maxDateDisplay = count($startDates);
                             "Eat with Me: How to Eat for Health"<br />มาร่วมงาน "Eat with Me" กับเรา! 🌿✨<br />งานที่จะพาคุณเรียนรู้เกี่ยวกับการรับประทานอาหารอย่างถูกต้อง เพื่อสุขภาพที่ดีและสมดุล พบกับแนวทางการเลือกอาหารที่มีประโยชน์ เคล็ดลับการกินเพื่อสุขภาพ และไอเดียเมนูอร่อยที่ดีต่อร่างกาย<br /><br />📅 วันและเวลา: 12 มกราคาม 2568📍 สถานที่: Coworking space ท่าขอนยาง<br /><br />ร่วมสัมผัสประสบการณ์การกินอย่างมีสติ และค้นพบวิธีดูแลสุขภาพผ่านอาหารที่อร่อยและมีคุณค่าทางโภชนาการ! 🥗🍎
                         </div> -->
                         <?php
-                        $textEditor->render();
+                        $detail->render();
                         ?>
                     </div>
 
@@ -102,7 +93,7 @@ $maxDateDisplay = count($startDates);
 
                                     <?php
                                     $buttons = [
-                                        'accept' => [
+                                        'accepted' => [
                                             ['class' => 'btn-primary w-full', 'label' => 'แสดงบัตร', 'id' => 'acceptEvent'],
                                             ['class' => 'btn-primary-outline w-full', 'label' => 'ดาวน์โหลดบัตร', 'id' => 'downloadTicket']
                                         ],
@@ -117,9 +108,7 @@ $maxDateDisplay = count($startDates);
                                         ]
                                     ];
 
-                                    // print_r($regObj);
-
-                                    $status = $regObj['data']['status'] ?? 'default';
+                                    $status = (isset($regObj['data']['status']) ? trim($regObj['data']['status']) : null) ?? 'default';
                                     $status = in_array($status, Register::REGISTER_STATUS) ? $status : 'default';
 
                                     foreach ($buttons[$status] as $button) {
@@ -162,7 +151,7 @@ $maxDateDisplay = count($startDates);
                     <h1 class="text-white font-semibold">คำอธิบาย</h1>
 
                     <?php
-                    $textEditorDescription->render();
+                    $detailDescription->render();
                     ?>
                 </div>
 
@@ -219,7 +208,7 @@ $maxDateDisplay = count($startDates);
                     }).then((res) => {
                         if (res.isConfirmed) {
                             window.location.href = "../?action=profile&isEdit=true";
-                            
+
                         }
 
                     });
