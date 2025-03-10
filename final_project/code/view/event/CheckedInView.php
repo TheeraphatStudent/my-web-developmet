@@ -53,7 +53,7 @@ $navigate->setPath(
                         </thead>
                         <tbody class="divide-y divide-white">
                             <?php if (!empty($allUserAttendOnEvent)) : ?>
-                                <?php foreach (array_reverse(array($allUserAttendOnEvent)) as $item): ?>
+                                <?php foreach (array_reverse($allUserAttendOnEvent) as $item): ?>
                                     <!-- <?php print_r($item); ?> -->
 
                                     <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">

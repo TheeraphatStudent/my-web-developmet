@@ -34,10 +34,11 @@ class Attendance
                 return [];
             }
 
-            $att = $stmt->fetch(PDO::FETCH_ASSOC);
+            $att = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             return $att;
         } catch (PDOException $err) {
+            error_log($err->getMessage());
             return [];
         }
     }

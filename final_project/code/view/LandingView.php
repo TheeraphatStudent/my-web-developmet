@@ -4,6 +4,7 @@ namespace FinalProject\View;
 
 require_once(__DIR__ . '/../components/search.php');
 require_once(__DIR__ . '/../components/calendar/calendar.php');
+require_once('utils/useTags.php');
 
 use FinalProject\Components\Search;
 use FinalProject\Components\Filter;
@@ -13,6 +14,8 @@ $search = new Search();
 $filter = new Filter();
 
 $calendar = new SchedulerCalendar();
+
+// print_r($allEvents);
 
 ?>
 
@@ -28,16 +31,10 @@ $calendar = new SchedulerCalendar();
 </head>
 
 <body class="relative flex flex-col justify-center items-center bg-primary gap-12 overflow-x-hidden">
-    <!-- Cover Image -->
-    <div class="relative lg:pt-[12rem] lg:pb-[8rem] pb-[4rem] pt-[8rem]">
+    <!-- Cover Image Container -->
+    <div class="relative lg:pt-[12rem] lg:pb-[8rem] py-[8rem]">
         <div
             class="flex flex-col justify-end items-center w-[clamp(350px,85vw,1650px)] min-w-[400px] h-[clamp(300px,40vw,700px)] rounded-3xl bg-[url(/public/images/banner.jpg)] bg-center bg-cover overflow-hidden">
-            <!-- Search -->
-            <div class="absolute lg:bottom-[3.5rem] w-fit">
-                <?php
-                $search->render();
-                ?>
-            </div>
 
             <!-- Text -->
             <div
@@ -50,8 +47,16 @@ $calendar = new SchedulerCalendar();
                 </div>
             </div>
 
+            <!-- Search Bar Positioned at the Bottom -->
+            <div class="absolute bottom-[30px] w-fit">
+                <?php
+                $search->render();
+                ?>
+            </div>
+
         </div>
     </div>
+
 
     <!-- Landing Content -->
     <div class="flex flex-col items-center w-full h-full min-h-fit gap-5 *:w-full *:h-full mt-8">
@@ -63,7 +68,7 @@ $calendar = new SchedulerCalendar();
         </div>
 
         <!-- Content -->
-        <?php if (count([...$allEvents]) > 0) : ?>
+        <?php if ((!empty($allEvents))) : ?>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-content h-full min-h-fit mx-10 px-5 lg:px-16">
                 <?php foreach ($allEvents as $item) :
                     // $dataUrl = "data:image/png;base64," . base64_encode(file_get_contents($item['cover']));
@@ -76,13 +81,6 @@ $calendar = new SchedulerCalendar();
                             <!-- Tag -->
                             <div class="flex flex-row justify-start items-start gap-2.5 p-2.5 pb-3.5 w-full h-fit bg-gradient-to-b from-dark-primary/50 via-dark-primary/25 to-transparent">
                                 <?php
-                                $tags = [
-                                    "online" => ["text" => "ONLINE", "background" => "bg-light-secondary", "color" => "text-secondary"],
-                                    "onsite" => ["text" => "ONSITE", "background" => "bg-light-green", "color" => "text-primary"],
-                                    "paid" => ["text" => "PAID", "background" => "bg-purple-100", "color" => "text-purple-600"],
-                                    "free" => ["text" => "FREE", "background" => "bg-light-yellow", "color" => "text-yellow"]
-                                ];
-
                                 $selectedTags = [];
 
                                 if ($item['type'] === 'online' || $item['type'] === 'any') {
@@ -110,12 +108,12 @@ $calendar = new SchedulerCalendar();
                             </div>
 
                             <!-- Organize Detail -->
-                            <div class="flex flex-row justify-start items-center gap-2.5 px-2.5 py-2 w-full h-fit">
+                            <div class="flex flex-row justify-start items-center gap-2.5 px-2.5 py-2 pt-6 w-full h-fit bg-gradient-to-t from-dark-primary/75 via-dark-primary/25 to-transparent">
                                 <div class="w-[32px] h-[32px] flex items-center justify-center rounded-full <?= (isset($_SESSION['user']['userId']) && $item['organizeId'] === $_SESSION['user']['userId']) ? 'bg-dark-secondary' : 'bg-primary' ?> text-white text-sm font-bold">
-                                    <?= htmlspecialchars(strtoupper(substr($item['organizeName'], 0, 1))) ?>
+                                    <?= htmlspecialchars(strtoupper(substr(($item['organizeName'] ?? "-"), 0, 1))) ?>
                                 </div>
                                 <span class="text-white text-sm">
-                                    <?= htmlspecialchars($item['organizeName']) ?>
+                                    <?= htmlspecialchars($item['organizeName'] ?? "-") ?>
                                 </span>
                             </div>
                         </div>
@@ -155,7 +153,7 @@ $calendar = new SchedulerCalendar();
                     $textArray = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
 
                     foreach ($textArray as $key => $value) {
-                        echo "<span> $value </span>";
+                        echo "<span class='text-6xl'> $value </span>";
                     }
                     ?>
                 </div>
@@ -175,15 +173,15 @@ $calendar = new SchedulerCalendar();
                     <div class="flex flex-col justify-center items-center md:items-start gap-3 text-center h-full md:text-left self-center">
                         <div class="font-kanit text-2xl md:text-3xl text-teal-700 leading-tight font-normal">
                             สร้าง<span class="font-bold">&nbsp;</span>
-                            <span class="font-bold underline">อีเวนท์</span>
+                            <a href="../?action=event.create" class="font-bold" style="text-decoration: underline;">กิจกรรม</a>
                             <span class="font-bold">&nbsp;</span>ของคุณได้ทันที
                         </div>
 
-                        <button class="mt-4 md:mt-0 flex justify-center items-center w-full md:w-[300px] h-[60px] rounded-lg shadow-md bg-sky-700 hover:bg-sky-800 transition">
+                        <a href="../?action=event.create" class="mt-4 md:mt-0 flex justify-center items-center w-full md:w-[300px] h-[60px] rounded-lg shadow-md bg-sky-700 hover:bg-sky-800 transition">
                             <span class="font-kanit text-[18px] text-white font-normal">
                                 สร้างเลย
                             </span>
-                        </button>
+                        </a>
                     </div>
 
                 </div>

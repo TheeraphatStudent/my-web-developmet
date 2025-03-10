@@ -2,7 +2,6 @@
 
 namespace FinalProject;
 
-ini_set('session.cookie_domain', 'http://act-gate.webhop.me');
 ini_set('session.cookie_secure', true);
 ini_set('session.cookie_httponly', true);
 ini_set('session.cookie_lifetime', 60 * 15);

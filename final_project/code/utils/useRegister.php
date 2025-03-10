@@ -4,5 +4,5 @@ namespace FinalProject\Utils;
 
 class Register
 {
-    public const REGISTER_STATUS = ['pending', 'reject', 'accept'];
+    public const REGISTER_STATUS = ['pending', 'reject', 'accepted'];
 }

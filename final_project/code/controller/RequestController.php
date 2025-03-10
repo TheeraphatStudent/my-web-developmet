@@ -108,11 +108,11 @@ class RequestController
         switch ($form) {
             case 'create':
                 $result = $this->event->createEvent($data);
-                return response(status: $result['status'], message: $result['message'], data: $result, type: 'json', redirect: "../");
+                return response(status: $result['status'], message: $result['message'], data: $result, type: 'json', redirect: "../?action=event.manage");
 
             case 'update':
                 $result = $this->event->updateEventById($data);
-                return response(status: 200, message: "Edit event complete", data: $result);
+                return response(status: $result['status'], message: $result['message'], data: $data, type: 'json', redirect: "../?action=event.manage");
 
             case 'search':
                 $result = $this->event->searchEvent(title: $data['looking'], dateStart: $data['dateStarted'], dateEnd: $data['dateEnded']);

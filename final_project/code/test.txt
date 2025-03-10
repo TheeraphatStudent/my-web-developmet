@@ -1,0 +1,6 @@
+Array ( 
+    [cover] => Array ( [name] => 67cd88e39191b_cover-banner.jpg [full_path] => 67cd88e39191b_cover-banner.jpg [type] => image/jpeg [tmp_name] => /tmp/phpMB11jM [error] => 0 [size] => 283698 ) 
+    [more_pic] => Array ( [name] => Array ( 
+        [0] => 67cd88e393940_more-cover.jpg ) [full_path] => Array ( [0] => 67cd88e393940_more-cover.jpg ) [type] => Array ( [0] => image/jpeg ) [tmp_name] => Array ( [0] => /tmp/phpqnNam0 ) [error] => Array ( [0] => 0 ) [size] => Array ( [0] => 12120 ) ) 
+    [more_pic_exist] => Array ( [name] => Array ( 
+        [0] => 67cd88e393940_more-cover.jpg ) [full_path] => Array ( [0] => 67cd88e393940_more-cover.jpg ) [type] => Array ( [0] => image/jpeg ) [tmp_name] => Array ( [0] => /tmp/phpNty26M ) [error] => Array ( [0] => 0 ) [size] => Array ( [0] => 12120 ) ) )

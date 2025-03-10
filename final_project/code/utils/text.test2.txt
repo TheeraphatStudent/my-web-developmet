@@ -1,0 +1,13 @@
+<br/>
+<b>Warning</b>
+:  unlink(/var/www/html/public/images/uploads/): Is a directory in <b>/var/www/html/code/utils/useImages.php</b>
+on line <b>94</b>
+<br/>
+<br/>
+<b>Warning</b>
+:  Cannot modify header information - headers already sent by (output started at /var/www/html/code/utils/useImages.php:94) in <b>/var/www/html/code/index.php</b>
+on line <b>112</b>
+<br/>
+{"status":201,"message":"Update event complete!","data":{"eventId":"AG-20250000001_event-b9985b633bbe50e667ce5cee7386a","title":"Hello World","venue":"0","maximum":"100","type":"online","link":"","start":"2025-03-11T10:30","end":"2025-03-15T10:30","location":"Location work","description":"
+<h1 id=\"hello-world\">
+    Hello World<\/h1>"},"redirect":"..\/?action=event.manage","type":"json"}

@@ -16,6 +16,8 @@ use Exception;
 class Event
 {
     private $connection;
+    // private $requiredFields = ['title', 'description', 'type', 'start', 'end', 'location', 'cover', 'more_pic[]'];
+    private $requiredFields = ['title', 'description', 'type', 'start', 'end', 'location'];
 
     public function __construct($connection)
     {
@@ -32,9 +34,7 @@ class Event
             $coverImage = null;
             $morePics = [];
 
-            $requiredFields = ['title', 'description', 'type', 'start', 'end', 'location'];
-
-            foreach ($requiredFields as $field) {
+            foreach ($this->requiredFields as $field) {
                 if (empty($data[$field])) {
                     return [
                         "status" => 400,
@@ -61,7 +61,7 @@ class Event
             if ($isUploadedImage === false) {
                 return [
                     "status" => 500,
-                    "message" => "เกิดข้อผิดพลาระหว่างอัพโหลดรูปภาพ"
+                    "message" => "เกิดข้อผิดพลาระหว่างอัพโหลดรูปภาพกิจกรรม"
                 ];
             }
 
@@ -166,8 +166,8 @@ class Event
                 u.name AS organizeName,
                 COUNT(CASE WHEN a.status = 'accepted' THEN a.regId END) AS joined
             FROM Event e
-            JOIN Registration r ON e.eventId = r.eventId
-            JOIN Attendance a ON r.regId = a.regId
+            LEFT JOIN Registration r ON e.eventId = r.eventId
+            LEFT JOIN Attendance a ON r.regId = a.regId
             JOIN User u ON e.organizeId = u.userId
             GROUP BY 
                 e.eventId, 
@@ -188,8 +188,6 @@ class Event
 
         return $result;
     }
-
-    public function getUsersByRegId($regId) {}
 
     public function getAllEventsById($userId)
     {
@@ -219,42 +217,170 @@ class Event
 
     public function updateEventById($data = [])
     {
-        // print_r($_SESSION);
-        // echo "<br>";
-        // print_r($data);
+        try {
+            $this->connection->beginTransaction();
 
-        $sql = $this->connection->prepare(
-            "UPDATE Event 
-            SET 
-                title = :title, 
-                description = :description, 
-                venue = :venue, 
-                maximum = :maximum, 
-                type = :type, 
-                link = :link, 
-                updated = :updated 
-            WHERE eventId = :eventId AND organizeId = :organizeId"
-        );
+            $uploadDir = '/var/www/html/public/images/uploads/';
+            $coverImage = null;
+            $morePics = [];
 
-        $now = (new DateTime())->format('Y-m-d H:i:s');
+            foreach ($this->requiredFields as $field) {
+                if (empty($data[$field])) {
+                    return [
+                        "status" => 400,
+                        "message" => "กรุณาเช็คข้อมูลให้ถูกต้องก่อนส่งข้อมูล"
+                    ];
+                }
+            }
 
-        $sql->bindParam(':eventId', $data['eventId']);
-        $sql->bindParam(':organizeId', $_SESSION['user']['userId']);
-        $sql->bindParam(':title', $data['title']);
-        $sql->bindParam(':description', $data['description']);
-        $sql->bindParam(':venue', $data['venue']);
-        $sql->bindParam(':maximum', $data['maximum']);
-        $sql->bindParam(':type', $data['type']);
-        $sql->bindParam(':link', $data['link']);
-        $sql->bindParam(':updated', $now);
+            $isUploadedImage = !false;
 
-        $sql->execute();
+            // removeFile(fileName: $_FILES['cover_exist']['name'], saveDir: $uploadDir);
 
-        $rowCount = $sql->rowCount();
-        if ($rowCount > 0) {
-            return ["It worked, $rowCount rows updated"];
-        } else {
-            return ["No rows updated, check the eventId or organizeId"];
+            if (isset($_FILES['cover']) && $_FILES['cover']['error'] === UPLOAD_ERR_OK) {
+                if (isset($_FILES['cover_exist']) && $_FILES['cover']['name'] !== $_FILES['cover_exist']['name']) {
+                    if (isset($_FILES['cover_exist']['name']) && $_FILES['cover_exist']['name'] !== '') {
+                        $fullPath = $uploadDir . $_FILES['cover_exist']['name'];
+
+                        if (file_exists($fullPath)) {
+                            removeFile(fileName: $_FILES['cover_exist']['name'], saveDir: $uploadDir);
+                        }
+                    }
+
+                    $coverImage = uploadFile($_FILES['cover'], $uploadDir);
+
+                    unset($_FILES['cover']);
+                    unset($_FILES['cover_exist']);
+                } else {
+                    // $coverImage = uploadFile($_FILES['cover'], $uploadDir);
+                    $coverImage = $_FILES['cover']['name'];
+                }
+
+                $isUploadedImage = true;
+            } else {
+                return [
+                    "status" => 404,
+                    "message" => "ไม่พบรูปภาพแบนเนอร์"
+                ];
+            }
+
+            // if (isset($_FILES['more_pic'])) {
+            //     if (isset($_FILES['more_pic_exist'])) {
+            //         foreach ($_FILES['more_pic_exist']['name'] as $existingImage) {
+            //             removeFile(fileName: $existingImage, saveDir: $uploadDir);
+            //         }
+            //     }
+
+            //     foreach ($_FILES['more_pic']['name'] as $index => $filename) {
+            //         $tempFile = [
+            //             'name' => $_FILES['more_pic']['name'][$index],
+            //             'type' => $_FILES['more_pic']['type'][$index], 
+            //             'tmp_name' => $_FILES['more_pic']['tmp_name'][$index],
+            //             'error' => $_FILES['more_pic']['error'][$index],
+            //             'size' => $_FILES['more_pic']['size'][$index]
+            //         ];
+
+            //         $uploadedFile = uploadFile($tempFile, $uploadDir);
+
+            //         if ($uploadedFile) {
+            //             $morePics[] = $uploadedFile;
+            //         }
+            //     }
+
+            //     $isUploadedImage = true;
+            // }
+
+            if (isset($_FILES['more_pic'])) {
+                if (isset($_FILES['more_pic_exist'])) {
+                    foreach ($_FILES['more_pic_exist']['name'] as $existingFile) {
+                        if (!empty($existingFile)) {
+                            removeFile(fileName: $existingFile, saveDir: $uploadDir);
+                        }
+                    }
+                }
+
+                $morePics = uploadMultipleFiles($_FILES['more_pic'], $uploadDir);
+                $isUploadedImage = true;
+            }
+
+            if ($isUploadedImage === false) {
+                return [
+                    "status" => 500,
+                    "message" => "เกิดข้อผิดพลาดระหว่างอัพโหลดรูปภาพกิจกรรม"
+                ];
+            }
+
+            $more_pic = json_encode($morePics);
+
+            $now = (new DateTime())->format('Y-m-d H:i:s');
+
+            $eventId = $data['eventId'];
+
+            $userId = $_SESSION['user']['userId'];
+
+            $venue = isset($data['venue']) && $data['venue'] !== '' ? $data['venue'] : '0';
+            $maximum = isset($data['maximum']) && is_numeric($data['maximum']) ? intval($data['maximum']) : -1;
+
+            $statement = $this->connection->prepare("
+                UPDATE Event 
+                SET organizeId = :organizeId,
+                    cover = :cover,
+                    morePics = :morePics,
+                    title = :title,
+                    description = :description,
+                    venue = :venue,
+                    maximum = :maximum,
+                    type = :type,
+                    link = :link,
+                    start = :start,
+                    end = :end,
+                    updated = :updated,
+                    location = :location
+                WHERE eventId = :eventId
+            ");
+
+            // print_r($coverImage);
+
+            $statement->bindParam(':eventId', $eventId);
+            $statement->bindParam(':organizeId', $userId);
+            $statement->bindParam(':cover', $coverImage);
+            $statement->bindParam(':morePics', $more_pic);
+            $statement->bindParam(':title', $data['title']);
+            $statement->bindParam(':description', $data['description']);
+            $statement->bindParam(':venue', $venue);
+            $statement->bindParam(':maximum', $maximum);
+            $statement->bindParam(':type', $data['type']);
+            $statement->bindParam(':link', $data['link']);
+            $statement->bindParam(':start', $data['start']);
+            $statement->bindParam(':end', $data['end']);
+            $statement->bindParam(':updated', $now);
+            $statement->bindParam(':location', $data['location']);
+
+            if (!$statement->execute()) {
+                $this->connection->rollBack();
+                return [
+                    "status" => 500,
+                    "message" => "เกิดข้อผิดพลาดระหว่างสร้างกิจกรรม"
+                ];
+            }
+
+            $this->connection->commit();
+
+            return [
+                "status" => 201,
+                "message" => "Update event complete!",
+            ];
+        } catch (PDOException $e) {
+            $this->connection->rollBack();
+            return [
+                "status" => 500,
+                "message" => "Database error: " . $e->getMessage()
+            ];
+        } catch (Exception $e) {
+            return [
+                "status" => 500,
+                "message" => "Error: " . $e->getMessage()
+            ];
         }
     }
 
@@ -305,8 +431,8 @@ class Event
                 u.name AS organizeName,
                 COUNT(CASE WHEN a.status = 'accepted' THEN a.regId END) AS joined
             FROM Event e
-            JOIN Registration r ON e.eventId = r.eventId
-            JOIN Attendance a ON r.regId = a.regId
+            LEFT JOIN Registration r ON e.eventId = r.eventId
+            LEFT JOIN Attendance a ON r.regId = a.regId
             JOIN User u ON e.organizeId = u.userId
             WHERE 1=1";
             $params = [];
@@ -336,7 +462,7 @@ class Event
             }
 
             if (!empty($eventType) && $eventType !== 'any') {
-                $query .= " AND e.type = :type";
+                $query .= " AND e.type = :type OR e.type = 'any'";
                 $params[':type'] = $eventType;
             }
 
@@ -351,6 +477,8 @@ class Event
                 e.venue,
                 e.organizeId, 
                 u.name";
+
+            // var_dump($query);
 
             $stmt = $this->connection->prepare($query);
             $stmt->execute($params);
@@ -369,7 +497,6 @@ class Event
 
     public function getmailbyid($userId)
     {
-
         $sql = $this->connection->prepare("CALL GetMail(:userId)");
         $sql->bindParam(':userId', $userId);
 

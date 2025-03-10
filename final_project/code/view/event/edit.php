@@ -11,9 +11,6 @@ use FinalProject\Components\Breadcrumb;
 use FinalProject\Components\Map;
 use FinalProject\Components\TextEditor;
 
-$map = new Map();
-$map->setDefaultLocation($lat, $lon);
-
 $textEditor = new TextEditor();
 $textEditor->updatetextarea(description: $eventObj['description'], isEdit: true);
 
@@ -83,8 +80,6 @@ $authors = array_map(function ($type) {
             <!-- <h1 class="text-white font-semibold">Edit Event</h1> -->
             <?php $navigate->render(); ?>
 
-            <!-- <?php print_r($eventObj) ?> -->
-
             <div class="flex flex-col md:flex-row justify-between items-start w-full gap-12 *:flex *:flex-col">
 
                 <div class="justify-start items-start w-full gap-5">
@@ -130,7 +125,9 @@ $authors = array_map(function ($type) {
                             <!-- <input class="input-field" type="" name="venue" placeholder="Enter venue"> -->
                             <select name="type" class="input-field">
                                 <?php foreach ($formOptions as $option): ?>
-                                    <option value="<?= $option['value'] ?>"><?= $option['label'] ?></option>
+                                    <option value="<?= $option['value'] ?>" <?= ($eventObj['type'] === $option['value']) ? 'selected' : '' ?>>
+                                        <?= $option['label'] ?>
+                                    </option>
                                 <?php endforeach; ?>
                             </select>
 
@@ -138,12 +135,15 @@ $authors = array_map(function ($type) {
                         <div class="flex flex-col w-full gap-2.5">
                             <div
                                 class="form-title">
-                                Link&nbsp;
-                                <span class="form-required">*</span>
+                                Link
                             </div>
                             <input
-                                class="input-field" name="link" type="text" placeholder="Enter link" value="<?php echo htmlspecialchars($eventObj['link']) ?>">
-
+                                class="input-field"
+                                name="link"
+                                type="url"
+                                value="<?php echo htmlspecialchars($eventObj['link'] ?? "") ?>"
+                                placeholder="https://example.com"
+                                pattern="https?:\/\/.*">
                         </div>
                     </div>
 
@@ -155,7 +155,7 @@ $authors = array_map(function ($type) {
                                         Start&nbsp;
                                         <span class="form-required">*</span>
                                     </div>
-                                    <input class="input-field" type="datetime-local" name="start[]" placeholder="Enter started time">
+                                    <input class="input-field" type="datetime-local" name="start" placeholder="Enter started time" value="<?php echo date('Y-m-d\TH:i', strtotime(str_replace('/', '-', $eventObj['start']))); ?>">
                                 </div>
                                 <div class="flex flex-col w-1/2 gap-2.5">
                                     <div class="form-title">
@@ -163,25 +163,11 @@ $authors = array_map(function ($type) {
                                         <span class="form-required">*</span>
                                     </div>
                                     <div class="flex w-full gap-2.5">
-                                        <input class="input-field w-full" type="datetime-local" name="end[]" placeholder="Enter ended time">
+                                        <input class="input-field" type="datetime-local" name="end" placeholder="Enter started time" value="<?php echo date('Y-m-d\TH:i', strtotime(str_replace('/', '-', $eventObj['end']))); ?>">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="flex w-full gap-5 *:flex">
-                        <button type="button" id="add-datetime" class="justify-center w-full bg-light-secondary text-secondary px-4 py-2 rounded active:bg-dark-secondary hover:bg-dark-secondary/80">
-                            <span class="flex items-center justify-center gap-3">
-                                <img src="public/icons/added.svg" alt="add icon" width="15" height="15">
-                                Date
-                            </span>
-                        </button>
-                        <button type="button" id="deleted-datetime" class="justify-center w-full bg-light-red text-red px-4 py-2 rounded active:bg-dark-red hover:bg-dark-red/80">
-                            <span class="flex items-center justify-center gap-3">
-                                <img src="public/icons/delete.svg" alt="del icon" width="15" height="15">
-                                Delete
-                            </span>
-                        </button>
                     </div>
 
                     <!-- <div class="flex flex-row w-full justify-start items-start gap-5 ">
@@ -199,19 +185,23 @@ $authors = array_map(function ($type) {
 
                         </div>
                     </div> -->
-                </div>
 
-                <!-- <div class="justify-start items-start w-full">
-                    <div class="flex flex-col w-full justify-start items-start gap-5">
-                        <div
-                            class="form-title">
-                            Location&nbsp;
+                    <div class="flex flex-row w-full justify-start items-start gap-5 ">
+                        <div class="flex flex-col w-full gap-2.5">
+                            <div
+                                class="form-title">
+                                Location&nbsp;
+                                <span class="form-required">*</span>
+                            </div>
+                            <textarea
+                                required
+                                minlength="20"
+                                class="input-field"
+                                name="location"
+                                placeholder="Enter event location"><?php echo htmlspecialchars($eventObj['location']) ?></textarea>
                         </div>
-                        <?php
-                        $map->render();
-                        ?>
                     </div>
-                </div> -->
+                </div>
             </div>
 
             <h1 class="text-white font-semibold">Event description</h1>
@@ -221,7 +211,10 @@ $authors = array_map(function ($type) {
                     Cover&nbsp;
                     <span class="form-required">*</span>
                 </div>
-                <label id="cover_label" for="cover_img" class="bg-cover flex relative flex-col items-center justify-center w-full h-[450px] gap-2.5 bg-black/55 p-4 group hover:cursor-pointer rounded-xl overflow-hidden">
+                <label
+                    id="cover_label"
+                    for="cover_img"
+                    class="bg-cover flex relative flex-col items-center justify-center w-full h-[450px] gap-2.5 bg-black/55 p-4 group hover:cursor-pointer rounded-xl overflow-hidden">
                     <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300"></div>
 
                     <img id="upload_icon" src="public/icons/upload.svg" alt="upload image"
@@ -230,6 +223,7 @@ $authors = array_map(function ($type) {
                         Upload Cover
                     </span>
                     <input required type="file" accept=".png, .jpg, .jpeg" id="cover_img" name="cover" class="hidden">
+                    <input type="file" accept=".png, .jpg, .jpeg" id="cover_img_exist" name="cover_exist" class="hidden">
                 </label>
             </div>
 
@@ -239,7 +233,7 @@ $authors = array_map(function ($type) {
                     <span class="form-required">*</span>
                 </div>
 
-                <div class="flex w-full gap-5 overflow-auto">
+                <div class="flex w-full gap-5 overflow-auto" id="imagesWheel">
                     <div id="images-container" class="flex gap-4 w-fit">
                         <label id="add-image-btn" class="flex flex-col justify-center items-center gap-2.5 py-5 rounded-2xl border-white border-2 border-dashed min-w-80 min-h-[180px] shadow-sm cursor-pointer hover:bg-white/10 transition-colors">
                             <div class="flex flex-col justify-center items-center gap-2.5 w-[76px] h-20">
@@ -270,92 +264,75 @@ $authors = array_map(function ($type) {
             </div>
 
             <div class="flex w-full justify-start items-start gap-5">
-                <button type="button" class="w-1/3 btn-danger">Cancel</button>
-                <button type="submit" class="w-full btn-secondary">Update</button>
+                <button type="button" class="w-1/3 btn-danger" onclick="window.history.back()">Cancel</button>
+                <button type="submit" class="w-full btn-secondary">Update event</button>
             </div>
 
         </form>
 
     </div>
 
-    <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-
     <!-- Validate Form -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('form-content');
 
-            form.addEventListener('submit', () => {
-
-            })
-
-        });
-    </script>
-
-    <!-- Date Time -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const container = document.getElementById('datetime-container');
-
-            const addButton = document.getElementById('add-datetime');
-            const delButton = document.getElementById('deleted-datetime');
-
-            const newDateTimeSet = document.createElement('div');
-            addButton.addEventListener('click', () => {
-                newDateTimeSet.className = 'flex flex-row w-full justify-start items-start gap-5 added-field';
-                newDateTimeSet.innerHTML = `
-                <div class="flex flex-col w-full">
-                    <input class="input-field start-field" type="datetime-local" name="start[]" placeholder="Enter started time">
-                </div>
-                <div class="flex flex-col w-full">
-                    <input class="input-field end-field" type="datetime-local" name="end[]" placeholder="Enter ended time">
-                </div>
-            `;
-
-                container.appendChild(newDateTimeSet);
-
-                newDateTimeSet.offsetHeight;
-                newDateTimeSet.classList.add('show');
-            });
-
-            delButton.addEventListener('click', () => {
-                const addedContent = document.getElementsByClassName('added-field');
-                if (addedContent.length > 0) {
-                    const lastField = addedContent[addedContent.length - 1];
-
-                    lastField.classList.remove('show');
-
-                    lastField.addEventListener('transitionend', handler = () => {
-                        container.removeChild(lastField);
-                        lastField.removeEventListener('transitionend', handler);
-                    });
-                }
-            });
-        });
-    </script>
-
-    <!-- Multi Selected Option -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const multiSelect = document.getElementById('author-selected');
-
-            multiSelect.addEventListener('mousedown', function(e) {
+            form.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
-                const option = e.target;
-                if (option.tagName === 'OPTION') {
-                    option.selected = !option.selected;
+                try {
+                    const formData = new FormData(form);
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: formData
+                    });
 
-                    const event = new Event('change');
-                    this.dispatchEvent(event);
+                    switch (response.status) {
+                        case 201:
+                            await Swal.fire({
+                                title: 'แก้ไขกิจกรรมเสร็จสิ้น!',
+                                text: response?.message,
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            });
+                            window.location.href = '?action=event.manage';
+                            break;
+
+                        case 400:
+                            await Swal.fire({
+                                title: 'ข้อมูลไม่ครบ',
+                                text: response?.message,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                            break;
+
+                        case 404:
+                            await Swal.fire({
+                                title: 'เกิดข้อผิดพลาด',
+                                text: response?.message,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                            break;
+
+                        default:
+                            await Swal.fire({
+                                title: 'เกิดข้อผิดพลาด',
+                                text: response?.message,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                    }
+                } catch (error) {
+                    await Swal.fire({
+                        title: 'Error',
+                        text: 'Failed to connect to server',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
                 }
-            });
-
-            multiSelect.addEventListener('change', function(e) {
-                const selectedOptions = Array.from()
-                    .map(option => option.value);
-
-                console.log('Selected values:', selectedOptions);
             });
         });
     </script>
@@ -385,14 +362,13 @@ $authors = array_map(function ($type) {
             };
 
             // Cover Img
-
             const defaultImageUrl = "public/images/uploads/";
             const coverPath = `${defaultImageUrl}<?= $eventObj['cover'] ?>`;
 
             const coverInput = document.getElementById('cover_img');
-            // const coverField = document.getElementById('coverImgField');
+            const coverExist = document.getElementById('cover_img_exist');
+
             const coverPreview = document.getElementById('cover_label');
-            // console.log(`${defaultImageUrl}<?= $eventObj['cover'] ?>`);
 
             if (coverPreview) {
                 coverPreview.style.backgroundImage = `url(${coverPath})`;
@@ -401,6 +377,7 @@ $authors = array_map(function ($type) {
 
             if (coverInput) {
                 coverInput.files = await getFileInputFromUrl(coverPath);
+                coverExist.files = await getFileInputFromUrl(coverPath);
 
                 coverInput.addEventListener('change', async function(event) {
                     const file = event.target.files[0];
@@ -510,13 +487,21 @@ $authors = array_map(function ($type) {
 
                 deleteButton.onclick = () => wrapper.remove();
 
+                // More input field
                 const inputField = document.createElement("input");
                 inputField.type = "file";
                 inputField.name = "more_pic[]";
-                inputField.className = "hidden";
+                inputField.classList.add("hidden");
                 inputField.files = fileInput;
 
-                wrapper.append(image, overlay, deleteButton, inputField);
+                // More inout field exits
+                const inputExist = document.createElement("input");
+                inputExist.type = "file";
+                inputExist.name = "more_pic_exist[]";
+                inputExist.classList.add("hidden");
+                inputExist.files = fileInput;
+
+                wrapper.append(image, overlay, deleteButton, inputField, inputExist);
 
                 return wrapper;
             }
@@ -529,6 +514,16 @@ $authors = array_map(function ($type) {
                     elementToRemove.remove();
                 }
             }
+        });
+    </script>
+
+    <!-- Scroll -->
+    <script>
+        const container = document.getElementById("imagesWheel");
+
+        container.addEventListener("wheel", function(event) {
+            event.preventDefault();
+            container.scrollLeft += event.deltaY;
         });
     </script>
 </body>
