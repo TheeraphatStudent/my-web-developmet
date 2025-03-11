@@ -37,6 +37,7 @@ $navigate = new Breadcrumb();
                 <?php foreach (array_reverse($aboutmail) as $about):
 
                     // print_r($about);
+                    // print_r($about['reg_status']);
                 ?>
                     <div class="flex flex-col md:flex-row justify-between items-start gap-4 p-4 rounded-xl bg-white w-full shadow-sm">
                         <div class="flex flex-col justify-start items-start gap-3 w-full md:w-3/5">
@@ -97,30 +98,68 @@ $navigate = new Breadcrumb();
 
                             <!-- Action Buttons -->
                             <div class="flex flex-row justify-start items-center gap-2.5 w-full">
-                                <!-- Cancel/Delete Button -->
-                                <div class="flex justify-center items-center p-2 rounded-lg bg-light-red">
+                                <!-- <div class="flex justify-center items-center p-2 rounded-lg bg-light-red">
                                     <img
                                         src="public/icons/delete.svg"
                                         alt="Cancel"
                                         class="w-5 h-5" />
-                                </div>
+                                </div> -->
 
-                                <!-- Ticket Button -->
-                                <div class="flex justify-between items-center px-4 py-2 rounded-lg bg-primary flex-grow">
-                                    <div class="flex items-center gap-2">
-                                        <img
-                                            class="w-6 h-6"
-                                            src="public/icons/ticket.svg"
-                                            alt="Ticket" />
-                                        <span class="text-sm text-white font-medium">บัตรเข้างาน</span>
+                                <?php if ($about['reg_status'] === 'pending'): ?>
+                                    <div class="flex justify-between items-center px-4 py-2 rounded-lg bg-yellow hover:cursor-pointer hover:bg-dark-yellow flex-grow">
+                                        <div class="flex items-center gap-2">
+                                            <!-- <img
+                                                class="w-6 h-6"
+                                                src="public/icons/ticket.svg"
+                                                alt="Ticket" /> -->
+                                            <span class="text-sm text-white font-medium" lang="th">รออนุมัติ</span>
+                                        </div>
+                                        <!-- <div class="flex justify-center items-center w-6 h-6">
+                                            <img
+                                                class="w-3 h-3"
+                                                src="public/icons/arrow-right.svg"
+                                                alt="Arrow" />
+                                        </div> -->
                                     </div>
-                                    <div class="flex justify-center items-center w-6 h-6">
-                                        <img
-                                            class="w-3 h-3"
-                                            src="public/icons/arrow-right.svg"
-                                            alt="Arrow" />
+                                <?php endif ?>
+                                <?php if ($about['reg_status'] === 'accepted' && $about['att_status'] === 'pending'): ?>
+                                    <div class="flex justify-between items-center px-4 py-2 rounded-lg bg-primary hover:cursor-pointer hover:bg-dark-primary flex-grow">
+                                        <div class="flex items-center gap-2">
+                                            <img
+                                                class="w-6 h-6"
+                                                src="public/icons/ticket.svg"
+                                                alt="Ticket" />
+
+                                            <!-- Event.refId&u=User.primaryKey -->
+                                            <!-- X12xa9RT&u=1 -->
+
+                                            <span class="text-sm text-white font-medium" lang="th">X12xa9RT&u=1</span>
+                                        </div>
+                                        <!-- <div class="flex justify-center items-center w-6 h-6">
+                                            <img
+                                                class="w-3 h-3"
+                                                src="public/icons/arrow-right.svg"
+                                                alt="Arrow" />
+                                        </div> -->
                                     </div>
-                                </div>
+                                <?php endif ?>
+                                <?php if ($about['reg_status'] === 'accepted' && $about['att_status'] === 'accepted'): ?>
+                                    <div class="flex justify-between items-center px-4 py-2 rounded-lg bg-gray-400 hover:cursor-pointer hover:bg-gray-800 flex-grow">
+                                        <div class="flex items-center gap-2">
+                                            <!-- <img
+                                                class="w-6 h-6"
+                                                src="public/icons/ticket.svg"
+                                                alt="Ticket" /> -->
+                                            <span class="text-sm text-white font-medium" lang="th">เข้าร่วมแล้ว</span>
+                                        </div>
+                                        <!-- <div class="flex justify-center items-center w-6 h-6">
+                                            <img
+                                                class="w-3 h-3"
+                                                src="public/icons/arrow-right.svg"
+                                                alt="Arrow" />
+                                        </div> -->
+                                    </div>
+                                <?php endif ?>
                             </div>
                         </div>
                     </div>
@@ -130,7 +169,23 @@ $navigate = new Breadcrumb();
             </div>
         </div>
 
+        <div id="editProfileModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden mt-24">
+            <div class="bg-white rounded-xl w-full max-w-2xl p-6 max-h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-semibold font-kanit text-dark-secondary">บัตรเข้างาน</h3>
+                    <button type="button" id="closeModalBtn" class="text-gray-500 hover:text-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
 
+                <!-- Edit User -->
+                <form id="editProfileForm" class="space-y-6" action="../?action=request&on=user&form=update" method="post">
+
+                </form>
+            </div>
+        </div>
 
     </div>
     <!-- </div> -->

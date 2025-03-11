@@ -493,7 +493,50 @@ class Event
 
     public function getRegistrationEventByUserId() {}
 
-    public function deleteEventById() {}
+    public function deleteEventById($userId, $eventId) {
+        try {
+            $this->connection->beginTransaction();
+
+            $checkAuth = $this->connection->prepare("
+                SELECT organizeId FROM Event 
+                WHERE eventId = :eventId AND organizeId = :userId
+            ");
+
+            $checkAuth->execute([
+                ':eventId' => $eventId,
+                ':userId' => $userId
+            ]);
+
+            if (!$checkAuth->fetch()) {
+                return [
+                    "status" => 403,
+                    "message" => "คุณไม่มีสิทธิ์ลบกิจกรรมนี้"
+                ];
+            }
+
+            $deleteEvent = $this->connection->prepare("
+                DELETE FROM Event 
+                WHERE eventId = :eventId
+            ");
+
+            $deleteEvent->bindParam(':eventId', $eventId);
+            $deleteEvent->execute();
+
+            $this->connection->commit();
+
+            return [
+                "status" => 200,
+                "message" => "กิจกรรมถูกลบแล้ว"
+            ];
+
+        } catch (PDOException $e) {
+            $this->connection->rollBack();
+            return [
+                "status" => 500,
+                "message" => "Database error: " . $e->getMessage()
+            ];
+        }
+    }
 
     public function getmailbyid($userId)
     {

@@ -51,7 +51,7 @@ class User
                 u.birth, 
                 u.created,
                 COUNT(DISTINCT CASE WHEN a.status = 'accepted' THEN a.regId END) AS total_events_joined,
-                COUNT(DISTINCT CASE WHEN r.status = 'accepted' AND a.status != 'accepted' THEN r.regId END) AS total_events_request,
+                COUNT(DISTINCT CASE WHEN r.status = 'pending' THEN r.regId END) AS total_events_request,
                 COUNT(DISTINCT e.eventId) AS total_events_created
             FROM User u
             LEFT JOIN Registration r ON u.userId = r.userId

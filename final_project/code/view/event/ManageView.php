@@ -3,6 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Event</title>
     <link rel="stylesheet" href="public/style/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"> </script>
 </head>
 
 <body class="flex flex-col justify-start items-center bg-primary">
@@ -69,21 +70,54 @@
                                                     </g>
                                                 </svg>
                                             </a>
-                                            <!-- <button class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
-                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
-                                                </svg>
+                                            <button type="button" onclick="handleDelete(`<?= $item['eventId'] ?>`)" class="p-1.5 rounded-full hover:bg-light-red">
+                                                <img src="public/icons/delete.svg" alt="delete" srcset="" class="min-w-2.5 min-h-2.5" width="32px" height="32px">
                                             </button>
-                                            <button class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
-                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
-                                                </svg>
-                                            </button>
-                                            <button class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
-                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
-                                                </svg>
-                                            </button> -->
+                                            <script>
+                                                function handleDelete(eventId) {
+                                                    Swal.fire({
+                                                        title: 'คุณต้องการลบกิจกรรมนี้หรือไม่?',
+                                                        text: "หากลบแล้วจะไม่สามารถกู้คืนได้อีก",
+                                                        icon: 'warning',
+                                                        showCancelButton: true,
+                                                        confirmButtonColor: '#d33',
+                                                        cancelButtonColor: '#3085d6',
+                                                        confirmButtonText: 'ลบทันที',
+                                                        cancelButtonText: 'ขอคิดดูก่อน'
+                                                    }).then((result) => {
+                                                        if (result.isConfirmed) {
+                                                            const formData = new FormData();
+                                                            formData.append('eventId', eventId);
+                                                            formData.append('userId', `<?= $_SESSION['user']['userId'] ?>`);
+
+                                                            fetch(`../?action=request&on=event&form=delete`, {
+                                                                method: 'POST',
+                                                                body: formData
+                                                            })
+                                                            .then(response => response.json())
+                                                            .then(data => {
+                                                                console.log(data)
+
+                                                                if (data.status === 200) {
+                                                                    Swal.fire(
+                                                                        'สำเร็จ',
+                                                                        'กิจกรรมถูกลบเรียบร้อย',
+                                                                        'success'
+                                                                    ).then(() => {
+                                                                        location.reload();
+                                                                    });
+                                                                } else {
+                                                                    Swal.fire(
+                                                                        'เกิดข้อผิดพลาด',
+                                                                        data.message,
+                                                                        'error'
+                                                                    );
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                            </script>
                                         </div>
                                     </td>
                                 </tr>

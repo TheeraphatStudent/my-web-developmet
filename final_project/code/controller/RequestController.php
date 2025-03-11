@@ -1,5 +1,4 @@
 <?php
-// Get Request
 
 namespace FinalProject\Controller;
 
@@ -60,10 +59,8 @@ class RequestController
 
                 if ($result['status'] === 201) {
                     return response(status: $result['status'], message: "ยินดีต้อนรับสมาชิกใหม่, สามารถเข้าสู่ระบบได้แล้ว", data: $result, redirect: '../?action=login', type: 'json');
-
                 } else {
                     return response(status: $result['status'], message: "เกิดข้อผิดพลาดในการลงทะเบียน, โปรดลองใหม่อีกครั้ง", redirect: '../?action=login', type: 'json');
-
                 }
 
             case "login":
@@ -126,17 +123,23 @@ class RequestController
                 $verifyAccount = $this->user->isUserProfileVerify($data['userId']);
 
                 if ($verifyAccount['status'] !== 200) {
-                    return response(status: $verifyAccount['status'], message: $verifyAccount['message'], redirect: '../?action=event.attendee&id=' . $data['eventId']);
+                    return response(status: $verifyAccount['status'], message: $verifyAccount['message'], redirect: '../?action=event.attendee&id=' . $data['eventId'] . '&joined=' . $data['joined']);
                 }
 
                 $eventObj = $this->event->getEventById($data['eventId']);
 
                 if ($eventObj['organizeId'] === $data['userId']) {
-                    return response(status: 409, message: "Organizer can't join their own event", redirect: '../?action=event.attendee&id=' . $data['eventId']);
-                } else {
-                    $result = $this->reg->registerEvent(userId: $data['userId'], eventId: $data['eventId']);
-                    return response(status: $result['status'], message: "Registration successful", data: $result['data'], redirect: '../?action=event.attendee&id=' . $data['eventId']);
+                    return response(status: 409, message: "Organizer can't join their own event", redirect: '../?action=event.attendee&id=' . $data['eventId'] . '&joined=' . $data['joined']);
                 }
+
+                // เช็คคนเต็ม
+
+                $result = $this->reg->registerEvent(userId: $data['userId'], eventId: $data['eventId']);
+                return response(status: $result['status'], message: "Registration successful", data: $result['data'], redirect: '../?action=event.attendee&id=' . $data['eventId'] . '&joined=' . $data['joined']);
+
+            case 'delete':
+                $result = $this->event->deleteEventById(userId: $data['userId'], eventId: $data['eventId']);
+                return response(status: $result['status'], message: $result['message'], type: 'json');
 
             default:
                 return response(status: 404, message: "Something went wrong!");
