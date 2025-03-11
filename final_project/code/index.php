@@ -2,6 +2,11 @@
 
 namespace FinalProject;
 
+ini_set('session.cookie_secure', false);
+ini_set('session.cookie_httponly', true);
+ini_set('session.cookie_lifetime', (60 * 60));
+ini_set('session.cookie_samesite', 'Lax');
+
 session_start();
 
 header("Access-Control-Allow-Origin: *");
@@ -9,19 +14,18 @@ header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
 const ALLOWED_REQUEST = ['type'];
-const NOT_RENDER_NAVBAR = ['login', 'register', 'logout'];
+const NOT_RENDER_NAVBAR_AND_ALERT = ['login', 'register', 'logout'];
 const ACCEPT_STATUS = [200, 302];
 
 // require_once(__DIR__ . '/php/environment.php');
 require_once(__DIR__ . '/controller/MainController.php');
 
 // require_once(__DIR__ . '/model/MapModel.php');
-require_once(__DIR__ . '/model/EventModel.php');
+// require_once(__DIR__ . '/model/EventModel.php');
 require_once(__DIR__ . '/model/environment.php');
 
 require_once(__DIR__ . '/components/navbar.php');
 
-use FinalProject\Model\Event;
 use FinalProject\Model\Environment;
 use FinalProject\Components\Navbar;
 use FinalProject\Controller\MainController;
@@ -105,11 +109,6 @@ switch ($action) {
 
         http_response_code($response['status'] ?? 404);
 
-        if (isset($response['status']) && !in_array($response['status'], ACCEPT_STATUS)) {
-            header('Location: ' . $response['redirect'] . '&status=' . $response['status']);
-            exit;
-        }
-
         if ($response['type'] == 'json') {
             header("Content-Type: application/json");
             echo json_encode($response);
@@ -122,11 +121,18 @@ switch ($action) {
             exit;
         }
 
+        if (isset($response['status']) && !in_array($response['status'], ACCEPT_STATUS)) {
+            header('Location: ' . $response['redirect'] . '&status=' . $response['status']);
+
+            exit;
+        }
+
         header('Location: ' . $response['redirect']);
         exit;
         // ================= Page Content =================
 
     case 'index':
+    case 'logged-out':
         $controller->index();
         break;
 
@@ -134,7 +140,6 @@ switch ($action) {
     case 'register':
     case 'logout':
         $controller->auth($action);
-
         break;
 
     case 'event.attendee':
@@ -154,7 +159,7 @@ switch ($action) {
     case 'event':
         $controller->event($action);
         break;
-        
+
     case 'mail':
         $controller->mail();
         break;
@@ -173,18 +178,19 @@ $content = ob_get_clean();
 if (!$isRequest) {
 ?>
     <!DOCTYPE html>
-    <html lang="en">
+    <html lang="th">
 
     <head>
         <meta charset="UTF-8">
         <link rel="shortcut icon" type="image/x-icon" href="public/images/logo.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <title>Act gate</title>
     </head>
 
     <body>
         <?php
-        if (!in_array($action, NOT_RENDER_NAVBAR)) {
+        if ($action == 'logged-out' || !in_array($action, NOT_RENDER_NAVBAR_AND_ALERT)) {
             $navbar->render();
         }
 
@@ -193,7 +199,7 @@ if (!$isRequest) {
     </body>
 
     <?php
-    if (!$isLogin && !in_array($action, NOT_RENDER_NAVBAR)) {
+    if ($action != 'logged-out' && !$isLogin && !in_array($action, NOT_RENDER_NAVBAR_AND_ALERT)) {
     ?>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
@@ -217,7 +223,5 @@ if (!$isRequest) {
     <?php
     }
     ?>
-
-    </html>
 <?php
 }

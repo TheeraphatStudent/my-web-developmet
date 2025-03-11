@@ -7,9 +7,10 @@ require_once(__DIR__ . '/../utils/useEvent.php');
 
 require_once(__DIR__ . '/../model/EventModel.php');
 require_once(__DIR__ . '/../model/RegistrationModel.php');
+require_once(__DIR__ . '/../model/AttendanceModel.php');
 
 use FinalProject\Controller\RequestController;
-
+use FinalProject\Model\Attendance;
 use FinalProject\Model\Init;
 use FinalProject\Model\Event;
 use FinalProject\Model\Registration;
@@ -44,6 +45,21 @@ class MainController
 
     public function auth($type = 'login')
     {
+        if ($type == 'login' || $type == 'register') {
+            echo "<script>
+                        let isPasswordVisible = false;
+                        function togglePasswordVisibility() {
+                            const passwords = document.querySelectorAll('input[type=\"password\"], input[data-type=\"password\"]');
+                            isPasswordVisible = !isPasswordVisible;
+                            passwords.forEach(password => {
+                                password.type = isPasswordVisible ? 'text' : 'password';
+                                if (!password.hasAttribute('data-type')) {
+                                    password.setAttribute('data-type', 'password');
+                                }
+                            });
+                        }
+                    </script>";
+        }
 
         switch ($type) {
             case 'login':
@@ -56,7 +72,7 @@ class MainController
 
             case 'logout':
                 unset($_SESSION['user']);
-                echo '<script>window.location.href = "../";</script>';
+                header("Location: ../?action=logged-out");
                 exit;
         }
     }
@@ -68,62 +84,51 @@ class MainController
 
         $eventModel = new Event($this->connection);
         $regModel = new Registration($this->connection);
+        $attModel = new Attendance($this->connection);
 
-        if (isset($_GET['id'])) {
-            $eventId = $_GET['id'];
-            $eventObj = $eventModel->getEventById($eventId);
-?>
-
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-                <link rel="stylesheet" href="public/style/main.css">
-                <title><?= $eventObj['title'] ?></title>
-            </head>
-<?php
-
-            $value = json_decode($eventObj['location'], true);
-            $lat = floatval($value['lat']);
-            $lon = floatval($value['lon']);
-        }
+        $eventId = isset($_GET['id']) ? $_GET['id'] : null;
+        $userId = isset($_SESSION['user']) ? $_SESSION['user']['userId'] : null;
 
         if (in_array($event, EventUtils::ACCEPT_EVENT)) {
             switch ($event) {
                 case 'checked-in':
+                    $allUserAttendOnEvent = $attModel->getUserWasAcceptRegOnEventById(userId: $userId, eventId: $eventId);
+
                     require_once("./view/event/CheckedInView.php");
                     break;
-                case 'attendee':
-                    if (isset($_GET['id'])) {
-                        $regObj = $regModel->getRegisterById(userId: $_SESSION['user']['userId'], eventId: $_GET['id']);
-                    }
 
-                    // print_r($regObj);
+                case 'attendee':
+                    $regObj = $regModel->getRegisterById(userId: $userId, eventId: $eventId);
+                    $eventObj = $eventModel->getEventById($eventId);
+
                     require_once("./view/event/AttendeeView.php");
                     break;
+
                 case 'create':
                     require_once("./view/event/CreateView.php");
                     break;
+
                 case 'manage':
-                    // ต้องแก้เป็น by id
-                    $allEvents = $eventModel->getAllEventsById($_SESSION['user']['userId']);
+                    $allEvents = $eventModel->getAllEventsById($userId);
 
                     require_once("./view/event/ManageView.php");
                     break;
+
                 case 'create-test':
                     require_once("./view/event/test.CreateView.php");
                     break;
+
                 case 'edit':
-                    // $eventId = $_GET['id'];
-                    // $eventObj = $eventModel->getEventById($eventId);
+                    $eventObj = $eventModel->getEventById($eventId);
 
                     require_once("./view/event/edit.php");
                     break;
-                case 'statistic':
-                    $eventId = $_GET['id'];
-                    $allUserReg = $regModel->getUserRegisterByEventAndUserId(userId: $_SESSION['user']['userId'], eventId: $eventId);
 
-                    require_once("./view/event/statistic.php");
+                case 'statistic':
+                    $allUserReg = $regModel->getUserRegisterByEventAndUserId(userId: $userId, eventId: $eventId);
+
+                    // require_once("./view/event/statistic.php");
+                    require_once("./view/event/StatisticView.php");
                     break;
             }
         } else {
@@ -145,7 +150,7 @@ class MainController
 
         switch ($onModel) {
             case 'user':
-                $res = $request->authHandler($formContent, $data);
+                $res = $request->userHandler($formContent, $data);
                 break;
 
             case 'event':
@@ -156,12 +161,16 @@ class MainController
                 $res = $request->registerHandler($formContent, $data);
                 break;
 
+            case 'attend':
+                $res = $request->attendanceHandler($formContent, $data);
+                break;
+
             case 'map':
                 $res = $request->mapHandler($formContent, $data);
                 break;
         }
 
-        if (isset($res['type']) && ($res['type'] == 'search')) {
+        if (isset($res['type']) && (strpos($res['type'], 'search') !== false)) {
             $_SESSION['search'] = [
                 "onSearch" => true,
                 "value" => $res['data']['data']
@@ -186,6 +195,9 @@ class MainController
     }
     public function mail()
     {
+        $event = new Event($this->connection);
+        $aboutmail = ($event->getmailbyid($_SESSION['user']['userId']));
+
         require_once("./view/mail/view.php");
     }
 

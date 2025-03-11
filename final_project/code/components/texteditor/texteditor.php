@@ -14,7 +14,6 @@ class TextEditor extends Component
 
     public function __construct($editorId = null)
     {
-        // Generate a unique ID for this editor instance if not provided
         $this->editorId = $editorId ?: 'editor-' . uniqid();
     }
 
@@ -81,7 +80,7 @@ class TextEditor extends Component
                 window.TextEditorManager = {
                     editors: {},
 
-                    initEditor: function(editorId, initialContent = '') {
+                    initEditor: function(editorId, defaultValue = '') {
                         const container = document.querySelector(`.text-editor-component[data-editor-id="${editorId}"]`);
                         if (!container) return;
 
@@ -94,8 +93,8 @@ class TextEditor extends Component
 
                         this.editors[editorId] = editor;
 
-                        if (initialContent) {
-                            editor.input.value = this.convertHtmlToMarkdown(initialContent);
+                        if (defaultValue) {
+                            editor.input.value = this.convertHtmlToMarkdown(defaultValue);
                             this.updatePreview(editorId);
                         }
 
@@ -240,7 +239,7 @@ class TextEditor extends Component
             }
 
             document.addEventListener('DOMContentLoaded', function() {
-                TextEditorManager.initEditor('<?= $this->editorId ?>', `<?= addslashes($this->dest) ?>`);
+                TextEditorManager.initEditor('<?= $this->editorId ?>', `<?= (addslashes($this->dest)) ?>`);
             });
         </script>
 <?php

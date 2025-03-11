@@ -1,0 +1,213 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Statistic</title>
+    <link rel="stylesheet" href="public/style/main.css">
+</head>
+
+<body class="flex flex-col justify-start items-center bg-primary">
+
+    <div class="flex flex-col w-full gap-14 max-w-content py-[200px] px-10 xl:px-0">
+        <div class="flex gap-3 items-center">
+            <h1 class="max-w-[512px] truncate font-semibold text-white">รายงานอีเวทน์</h1>
+            <span class="text-md text-light-green">AG-20250000005_event-c161f6a807dd24ee67c5487d763b2</span>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full table-auto">
+                    <thead>
+                        <tr class="bg-white text-gray-600 uppercase text-xs *:py-3 *:px-4 border-2">
+                            <th class="text-left">User ID</th>
+                            <th class="text-left">Name</th>
+                            <th class="text-left">Age</th>
+                            <th class="text-left">Status</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white">
+                        <tr class="hover:bg-dark-primary/10 max-h-16 h-16 *:overflow-hidden *:truncate">
+                            <td class="py-3 px-4 text-sm max-w-[170px]">AGU-0000004_user-0e8f582fbdc5f35f67c54c802b88e
+                            </td>
+                            <td class="py-3 px-4 text-sm font-medium max-w-[150px]">-</td>
+                            <td class="py-3 px-4 text-left">
+                                - </td>
+                            <td class="py-3 px-4 text-sm font-medium max-w-[150px]">accepted</td>
+
+                            <td class="py-3 px-4 text-center">
+                                <div class="flex justify-center items-center space-x-2 *:mb-0">
+                                    <!-- <a href="../?action=event.edit&id=<br />
+<b>Warning</b>:  Undefined array key "eventId" in <b>/var/www/html/code/view/event/statistic.php</b> on line <b>41</b><br />
+" class="p-1 rounded-full text-secondary hover:bg-light-secondary">
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793z"></path>
+                                                </svg>
+                                            </a> -->
+                                    <!-- <form action="..?action=request&on=reg&form=remove" method="post">
+                                                <input type="hidden" name="userId" value="AGU-0000004_user-0e8f582fbdc5f35f67c54c802b88e">
+                                                <input type="hidden" name="regId" value="AGR-0000009_reg-a2aaf26e83f18a9167c54c8721fc2">
+                                                <input type="hidden" name="eventId" value="AG-20250000005_event-c161f6a807dd24ee67c5487d763b2">
+
+                                                <button class="p-1.5 rounded-full text-red hover:bg-light-red">
+                                                    <img src="public/icons/reject.png" alt="reject">
+                                                </button>
+                                            </form> -->
+                                    <button type="button" class="p-1.5 rounded-full text-red hover:bg-light-red"
+                                        id="reject">
+                                        <img src="public/icons/reject.png" alt="reject">
+                                    </button>
+                                    <form action="..?action=request&on=reg&form=update" class="hidden" method="post">
+                                        <input type="hidden" name="userId"
+                                            value="AGU-0000004_user-0e8f582fbdc5f35f67c54c802b88e">
+                                        <input type="hidden" name="regId"
+                                            value="AGR-0000009_reg-a2aaf26e83f18a9167c54c8721fc2">
+                                        <input type="hidden" name="eventId"
+                                            value="AG-20250000005_event-c161f6a807dd24ee67c5487d763b2">
+
+                                        <button type="submit"
+                                            class="p-1.5 rounded-full text-primary hover:bg-light-green">
+                                            <img src="public/icons/accept.png" alt="accept">
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div class="bg-white px-4 py-3 flex items-center justify-between border-2">
+                <!-- <div class="flex items-center text-sm text-darbg-dark-primary0">
+                    Showing <span class="font-medium mx-1">1</span> to <span class="font-medium mx-1">4</span> of <span class="font-medium mx-1">12</span> entries
+                </div> -->
+                <!-- <div class="flex space-x-1">
+                    <button class="">Previous</button>
+                    <button class="">1</button>
+                    <button class="">2</button>
+                    <button class="">3</button>
+                    <button class="">Next</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <div id="rejectModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl w-full max-w-2xl p-6 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-semibold font-kanit text-dark-red">เหตุผลการปฏิเศษ</h3>
+                <button type="button" id="closeModalBtn" class="text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <form id="rejectForm" class="space-y-6" action="#">
+                <div class="flex flex-col items-center gap-3">
+                    <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-white relative group">
+                        <img id="previewImage" class="object-cover w-full h-full"
+                            src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
+                            alt="Profile picture">
+                        <div
+                            class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <label for="profileImage" class="text-white cursor-pointer text-sm">
+                                เปลี่ยนรูป
+                            </label>
+                        </div>
+                    </div>
+                    <input type="file" id="profileImage" name="profileImage" accept="image/*" class="hidden">
+                </div>
+
+                <div class="space-y-4">
+                    <label class="text-sm font-medium text-gray-700">ระบบเหตุผล</label>
+                    <textarea name="message" class="w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="">
+                </div>
+
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+                    <button type="button" id="cancelEditBtn" class="px-4 py-2 border border-red rounded-lg text-red hover:text-white hover:bg-red/50">ยกเลิก</button>
+                    <button type="submit" id="confirmEditBtn" class="px-4 py-2 bg-dark-red text-white rounded-lg hover:bg-red">ยืนยันการปฏิเศษ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const reject = document.getElementById('reject');
+
+        const modal = document.getElementById('rejectModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+
+        function closeModal() {
+            modal.classList.add('hidden');
+        }
+
+        reject.addEventListener('click', () => {
+            console.log("CLicked work!")
+
+            modal.classList.remove('hidden');
+
+        })
+
+        closeModalBtn.addEventListener('click', closeModal);
+    </script>
+</body>
+
+</html>    
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <link rel="shortcut icon" type="image/x-icon" href="public/images/logo.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Act gate</title>
+    </head>
+
+    <body>
+                <nav class="fixed top-0 bg-white w-screen z-50" id="navbar">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between py-[.75rem]">
+                    <div class="flex items-center">
+                        <a href="../" class="text-white font-bold text-xl">
+                            <img src="public/images/logo.png" alt="act gate" width="70px" height="70px">
+                        </a>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="md:block hidden">
+                        <div class="flex h-full gap-4 items-baseline *:text-black">
+                                                            <a href='../?action=event.create' class='hover:text-gray-600 text-sm rounded-md font-medium'>Create event</a>
+                                <a href='../?action=event.manage' class='hover:text-gray-600 text-sm rounded-md font-medium'>Manage event</a>
+                                <!-- <a href='../?action=event.manage' class='hover:text-gray-600 text-sm rounded-md font-medium'>Checked event</a> -->
+                                <a href='../?action=mail' class='hover:text-gray-600 text-sm rounded-md font-medium'>Mail</a>
+                                <div class="flex gap-2 items-center border-l-2 border-dark-primary">
+                                    <a href="../?action=profile" class="ml-4 hover:text-gray-600 text-sm font-medium flex items-center no-underline">
+                                        <div class="w-[56px] h-[56px] flex items-center justify-center rounded-full bg-primary text-white text-xl font-bold">
+                                            1                                        </div>
+                                    </a>
+                                    <!-- <a href="../?action=profile" class="hover:text-gray-600 text-sm font-medium flex items-center no-underline">
+                                        <div class="w-[56px] h-[56px] flex items-center justify-center rounded-full bg-red text-white text-xl font-bold">
+                                            <img src="public/icons/exit.svg" alt="logout" width="24" height="24">
+                                        </div>
+                                    </a> -->
+                                </div>
+                            
+                        </div>
+                    </div>
+                    <div class="md:hidden block">
+                        <div class="flex items-baseline space-x-4">
+                            <a href='#' class='flex items-center font-semibold h-14 px-4 rounded-xl'>
+                                <img src="public/icons/drawer.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </body>
+
+    
+    </html>

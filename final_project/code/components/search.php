@@ -13,12 +13,12 @@ class Search extends Component
             action="../?action=request&on=event&form=search"
             method="post"
             class="bg-secondary flex flex-col items-center lg:flex-row p-4 rounded-lg shadow-lg gap-5 w-full">
-            <div class="flex flex-col h-fit lg:flex-row gap-5">
+            <div class="flex flex-col w-full h-fit lg:flex-row gap-5">
                 <!-- Field -->
                 <div class="flex flex-col justify-start items-start gap-2.5 h-fit w-full">
                     กำลังมองหา
                     <input type="text" placeholder="เลือกอีเวทน์" id="looking" name="looking"
-                        class="font-kanit text-base min-w-[290px] h-10 input-field whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
+                        class="input-field">
                     </input>
                 </div>
 
@@ -34,11 +34,11 @@ class Search extends Component
                 <div class="flex flex-col justify-start items-start gap-2.5 h-fit w-full">
                     ช่วงเวลา
                     <div class="flex gap-5">
-                        <input type="datetime-local" placeholder="เลือกช่วงเวลา" name="dateStarted"
-                            class="font-kanit text-base w-[215px] h-10 input-field whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
+                        <input type="date" placeholder="เลือกช่วงเวลา" name="dateStarted"
+                            class="input-field">
                         </input>
-                        <input type="datetime-local" placeholder="เลือกช่วงเวลา" name="dateEnded"
-                            class="font-kanit text-base w-[215px] h-10 input-field whitespace-nowrap text-black text-opacity-100 leading-none font-normal">
+                        <input type="date" placeholder="เลือกช่วงเวลา" name="dateEnded"
+                            class="input-field">
                         </input>
                     </div>
                 </div>
@@ -68,23 +68,31 @@ class Filter extends Component
     public function render()
     {
     ?>
-        <div class="w-full flex justify-between *:font-kanit">
-            <div>
-                <span class="text-4xl font-bold text-white">อีเวนท์</span>
-                <span class="text-4xl font-bold text-dark-secondary">ล่าสุด</span>
+        <div class="w-full flex flex-col sm:flex-row gap-2.5 justify-between items-center mb-4 *:font-kanit">
+            <div class="flex h-fit cursor-pointer *:font-bold *:text-3xl *:sm:text-4xl *:min-w-fit" onclick="window.location.reload()">
+                <span class="text-white glow-word">อีเวนท์</span>
+                <span class="text-dark-secondary glow2-word">ล่าสุด</span>
             </div>
-            <div class="flex gap-5">
-                <select id="date-select">
+            <form
+                action="../?action=request&on=event&form=search_categories"
+                method="post"
+                class="flex gap-5 w-full sm:w-fit">
+                <!-- <select class="input-field" id="date-select" name="date" onchange="this.form.submit()">
                     <option value="day">วันนี้</option>
                     <option selected value="week">สัปดาห์นี้</option>
                     <option value="month">เดือนนี้</option>
+                </select> -->
+                <?php
+                $selectedType = $_SESSION['selected_type'] ?? '';
+                ?>
+                <select class="input-field cursor-pointer w-full max-h-12" id="type-select" name="type" onchange="this.form.submit()">
+                    <option value="any" <?php echo $selectedType == '' ? 'selected' : ''; ?>>เลือกกิจกรรม</option>
+                    <option value="any" <?php echo $selectedType == 'any' ? 'selected' : ''; ?>>ทั้งหมด</option>
+                    <option value="online" <?php echo $selectedType == 'online' ? 'selected' : ''; ?>>ออนไลน์</option>
+                    <option value="onsite" <?php echo $selectedType == 'onsite' ? 'selected' : ''; ?>>ออนไซต์</option>
                 </select>
-                <select id="type-select">
-                    <option value="any">ทั้งหมด</option>
-                    <option value="online">ออนไลน์</option>
-                    <option value="onsite">ออนไซต์</option>
-                </select>
-            </div>
+
+            </form>
 
         </div>
 <?php

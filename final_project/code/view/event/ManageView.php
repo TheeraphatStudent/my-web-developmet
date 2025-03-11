@@ -3,31 +3,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Event</title>
     <link rel="stylesheet" href="public/style/main.css">
-
-    <style>
-        .surprise-animation {
-            animation: colorChange 3s infinite;
-        }
-
-        @keyframes colorChange {
-            0% {
-                background-color: rgba(59, 130, 246, 0.1);
-            }
-
-            50% {
-                background-color: rgba(139, 92, 246, 0.3);
-            }
-
-            100% {
-                background-color: rgba(59, 130, 246, 0.1);
-            }
-        }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"> </script>
 </head>
 
 <body class="flex flex-col justify-start items-center bg-primary">
     <div class="flex flex-col w-full gap-14 max-w-content py-[200px] px-10 xl:px-0">
-        <h1 class="text-2xl font-semibold mb-4 text-left text-white">Welcome' <?= $_SESSION['user']['username'] ?? "???" ?></h1>
+        <div class="flex flex-col">
+            <h1 class="text-3xl font-semibold mb-2 text-left text-white flex item-center">Welcome'&nbsp;<span class="typing-animation max-w-fit"><?= $_SESSION['user']['username'] ?? "???" ?></span></h1>
+            <span class="text-white">จัดการ Event ของคุณได้ที่นี่</span>
+        </div>
 
         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
             <div class="overflow-x-auto">
@@ -37,7 +21,9 @@
                             <th class="py-3 px-4 text-left">Event ID</th>
                             <th class="py-3 px-4 text-left">Title</th>
                             <th class="py-3 px-4 text-left">Maximum</th>
-                            <th class="py-3 px-4 text-left">Attendees</th>
+                            <th class="py-3 px-4 text-left">Request</th>
+                            <th class="py-3 px-4 text-left">Attends</th>
+                            <th class="py-3 px-4 text-left">Joined</th>
                             <th class="py-3 px-4 text-left">Created</th>
                             <th class="py-3 px-4 text-left">Started</th>
                             <th class="py-3 px-4 text-center">Actions</th>
@@ -50,9 +36,11 @@
                                     <td class="py-3 px-4 text-sm"><?= $item['eventId'] ?></td>
                                     <td class="py-3 px-4 text-sm font-medium"><?= $item['title'] ?></td>
                                     <td class="py-3 px-4 text-center"><?= $item['maximum'] ?></td>
+                                    <td class="py-3 px-4 text-center"><?= $item['request'] ?></td>
                                     <td class="py-3 px-4 text-center"><?= $item['attendee'] ?></td>
+                                    <td class="py-3 px-4 text-center"><?= $item['joined'] ?></td>
                                     <td class="py-3 px-4 text-sm"><?= $item['created'] ?></td>
-                                    <td class="py-3 px-4 text-sm"><?= isset($item['start']) ? str_replace("T", " ", json_decode($item['start'], true)[0]) : "-"; ?></td>
+                                    <td class="py-3 px-4 text-sm"><?= $item['start'] ?></td>
                                     <td class="py-3 px-4 text-center">
                                         <div class="flex justify-center space-x-2">
                                             <a href="../?action=event.edit&id=<?= $item['eventId'] ?>" class="p-1.5 rounded-full text-secondary hover:bg-light-secondary">
@@ -73,30 +61,72 @@
                                                     </g>
                                                 </svg>
                                             </a>
-                                            <!-- <button class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
-                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                                            <a href="../?action=event.checked-in&id=<?= $item['eventId'] ?>" class="p-1.5 rounded-full hover:bg-light-green">
+                                                <svg viewBox="0 0 24 24" height="20px" width="20px" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                                    <g id="SVGRepo_iconCarrier">
+                                                        <path d="M14 19.2857L15.8 21L20 17M4 21C4 17.134 7.13401 14 11 14C12.4872 14 13.8662 14.4638 15 15.2547M15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z" stroke="#226E6A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    </g>
                                                 </svg>
+                                            </a>
+                                            <button type="button" onclick="handleDelete(`<?= $item['eventId'] ?>`)" class="p-1.5 rounded-full hover:bg-light-red">
+                                                <img src="public/icons/delete.svg" alt="delete" srcset="" class="min-w-2.5 min-h-2.5" width="32px" height="32px">
                                             </button>
-                                            <button class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
-                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
-                                                </svg>
-                                            </button>
-                                            <button class="p-1 rounded-full text-blue-600 hover:bg-blue-100">
-                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
-                                                </svg>
-                                            </button> -->
+                                            <script>
+                                                function handleDelete(eventId) {
+                                                    Swal.fire({
+                                                        title: 'คุณต้องการลบกิจกรรมนี้หรือไม่?',
+                                                        text: "หากลบแล้วจะไม่สามารถกู้คืนได้อีก",
+                                                        icon: 'warning',
+                                                        showCancelButton: true,
+                                                        confirmButtonColor: '#d33',
+                                                        cancelButtonColor: '#3085d6',
+                                                        confirmButtonText: 'ลบทันที',
+                                                        cancelButtonText: 'ขอคิดดูก่อน'
+                                                    }).then((result) => {
+                                                        if (result.isConfirmed) {
+                                                            const formData = new FormData();
+                                                            formData.append('eventId', eventId);
+                                                            formData.append('userId', `<?= $_SESSION['user']['userId'] ?>`);
+
+                                                            fetch(`../?action=request&on=event&form=delete`, {
+                                                                method: 'POST',
+                                                                body: formData
+                                                            })
+                                                            .then(response => response.json())
+                                                            .then(data => {
+                                                                console.log(data)
+
+                                                                if (data.status === 200) {
+                                                                    Swal.fire(
+                                                                        'สำเร็จ',
+                                                                        'กิจกรรมถูกลบเรียบร้อย',
+                                                                        'success'
+                                                                    ).then(() => {
+                                                                        location.reload();
+                                                                    });
+                                                                } else {
+                                                                    Swal.fire(
+                                                                        'เกิดข้อผิดพลาด',
+                                                                        data.message,
+                                                                        'error'
+                                                                    );
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                            </script>
                                         </div>
                                     </td>
                                 </tr>
                             <?php endforeach ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="7" class="py-10 text-center">
+                                <td colspan="9" class="py-10 text-center">
                                     <div class="flex flex-col items-center justify-center">
-                                        <span class="text-lg mb-3">ยังไม่มีกิจกรรมที่คุณสร้าง</span>
+                                        <span class="text-lg mb-3 text-gray-500">ยังไม่มีกิจกรรมที่คุณสร้าง</span>
                                         <a href="../?action=event.create" class="text-primary hover:text-primary/80 font-semibold text-3xl underline decoration-primary">
                                             สร้างกิจกรรมเลย?
                                         </a>
@@ -125,5 +155,3 @@
         </div>
     </div>
 </body>
-
-</html>

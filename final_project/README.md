@@ -86,21 +86,12 @@ docker compose up -d
 docker compose down
 ```
 
-# Deploy with koyeb
+# Deploy with sliplane
 
-1. Test docker image
-
-```bash
-docker run -p 8080:80 th33raphat/web-final_act-gate:latest
 ```
-
-2. Pull to docker hub
-
-```bash
-docker build -t web-final_act-gate -f .\DockerFile . ;& docker tag web-final_act-gate th33raphat/web-final_act-gate:latest ;& docker push th33raphat/web-final_act-gate:latest
+Webpage: http://206.189.91.219:3001
+Phpadmin: http://206.189.91.219:8081
 ```
-
-3. Go to koyeb and redeploy
 
 # Deply wirh ngrok
 

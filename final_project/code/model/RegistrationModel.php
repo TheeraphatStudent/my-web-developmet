@@ -11,18 +11,6 @@ use DateTime;
 use PDO;
 use PDOException;
 
-/* 
-CREATE TABLE Registration (
-  `id`        int AUTO_INCREMENT PRIMARY KEY,
-  `regId`     varchar(255) NOT NULL UNIQUE,
-  `eventId`   varchar(255) NOT NULL,
-  `userId`    varchar(255) NOT NULL,
-  `status`    varchar(100),
-  `updated`   timestamp,
-  `created`   timestamp
-);
-
-*/
 
 class Registration
 {
@@ -106,6 +94,7 @@ class Registration
         }
     }
 
+    // User ส่งคำขอมาที่ Reg table
     public function getUserRegisterByEventAndUserId($userId, $eventId)
     {
         $statement = $this->connection->prepare("CALL GetUsersRegByEventId(:userId, :eventId)");
@@ -118,26 +107,122 @@ class Registration
         return $result;
     }
 
-    public function updateAcceptUserRegById($userId, $eventId, $regId)
+    public function acceptUserRegById($userId, $eventId, $regId, $authorId)
     {
         try {
-            $stmt = $this->connection->prepare("UPDATE Registration 
-                    SET status = 'accepted', updated = NOW()
-                    WHERE userId = :userId AND eventId = :eventId AND regId = :regId AND status = 'pending'");
+            $this->connection->beginTransaction();
+
+            $stmt = $this->connection->prepare("
+                UPDATE Registration 
+                SET status = 'accepted', updated = NOW()
+                WHERE userId = :userId 
+                AND eventId = :eventId
+                AND regId = :regId
+            ");
+
             $stmt->bindParam(':userId', $userId);
             $stmt->bindParam(':eventId', $eventId);
             $stmt->bindParam(':regId', $regId);
 
             $stmt->execute();
 
+            if ($stmt->rowCount() === 0) {
+                $this->connection->rollBack();
+                return [
+                    "status" => 401,
+                    "isUpdate" => false,
+                    "message" => "Something went wrong!"
+                ];
+            }
+
+            // $author = $this->connection->prepare("
+            //     SELECT a.id FROM Author a WHERE a.authorId = :authorId AND a.eventId = :eventId
+            // ");
+
+            // $author->bindParam(':authorId', $authorId);
+            // $author->bindParam(':eventId', $eventId);
+            // $author->execute();
+
+            // if ($author->rowCount() === 0) {
+            //     $this->connection->rollBack();
+            //     return [
+            //         "status" => 404,
+            //         "isUpdate" => false,
+            //         "message" => "คุณไม่ใช่ผู้มีส่วนร่วมในกิจกรรมนี้"
+            //     ];
+            // }
+
+            // $authorId = ($author->fetch(PDO::FETCH_ASSOC))['id'];
+
+            // Att table 
+            $attendance = $this->connection->prepare("
+                INSERT INTO `Attendance` (`regId`, `verifyBy`, `status`) 
+                VALUES (:regId, :authorId, :status)
+            ");
+
+            $status = "pending";
+            $attendance->bindParam(':regId', $regId);
+            $attendance->bindParam(':authorId', $authorId);
+            $attendance->bindParam(':status', $status);
+
+            $attendance->execute();
+
+            $this->connection->commit();
+
             return [
-                "status" => ($stmt->rowCount() > 0) ? 200 : 401,
-                "isUpdate" => true
+                "status" => 200,
+                "isUpdate" => true,
+                "message" => "เข้าร่วมกิจกรรมแล้ว"
             ];
         } catch (PDOException $e) {
-            [
+            $this->connection->rollBack();
+            return [
                 "status" => 500,
-                "isUpdate" => false
+                "isUpdate" => false,
+                "message" => "เกิดข้อผิดพลาด: " . $e->getMessage()
+            ];
+        }
+    }
+
+    public function rejectRegistrationById($regId, $message)
+    {
+        try {
+            $this->connection->beginTransaction();
+
+            $sql = $this->connection->prepare("
+                UPDATE Registration r
+                JOIN Attendance a ON r.regId = a.regId
+                SET 
+                    r.status = 'reject',
+                    a.status = 'reject',
+                    a.rejectMessage = :message
+                WHERE r.regId = :regId;
+            ");
+
+            $sql->bindParam(':message', $message);
+            $sql->bindParam(':regId', $regId);
+
+            $sql->execute();
+
+            if ($sql->rowCount() === 0) {
+                $this->connection->rollBack();
+                return [
+                    "status" => 500,
+                    "message" => "Failed reject for this user."
+                ];
+            }
+
+            $this->connection->commit();
+
+            return [
+                "status" => 200,
+                "message" => "Reject completed"
+            ];
+        } catch (PDOException $err) {
+            $this->connection->rollback();
+            return [
+                "status" => 500,
+                "message" => $err,
             ];
         }
     }

@@ -11,13 +11,11 @@ require_once(__DIR__ . '/component.php');
 class Navbar extends Component
 {
     private $isLogin = false;
+
     public function render()
     {
-        $activeLink = $this->data['activeLink'] ?? '';
-
-
 ?>
-        <nav class="fixed top-0 bg-white w-screen z-50" id="navbar">
+        <nav class="fixed top-0 bg-white w-screen z-50 shadow-md shadow-primary/40" id="navbar">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between py-[.75rem]">
                     <div class="flex items-center">
@@ -32,7 +30,8 @@ class Navbar extends Component
                             <?php if ($this->isLogin) : ?>
                                 <a href='../?action=event.create' class='hover:text-gray-600 text-sm rounded-md font-medium'>Create event</a>
                                 <a href='../?action=event.manage' class='hover:text-gray-600 text-sm rounded-md font-medium'>Manage event</a>
-                                <a href='../?action=mail' class='hover:text-gray-600 text-sm rounded-md font-medium'>Mail</a>
+                                <!-- <a href='../?action=event.manage' class='hover:text-gray-600 text-sm rounded-md font-medium'>Checked event</a> -->
+                                <a href='../?action=mail' class='hover:text-gray-600 text-sm rounded-md font-medium'>History</a>
                                 <div class="flex gap-2 items-center border-l-2 border-dark-primary">
                                     <a href="../?action=profile" class="ml-4 hover:text-gray-600 text-sm font-medium flex items-center no-underline">
                                         <div class="w-[56px] h-[56px] flex items-center justify-center rounded-full bg-primary text-white text-xl font-bold">
