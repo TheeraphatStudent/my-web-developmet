@@ -135,7 +135,7 @@ $calendar = new SchedulerCalendar();
                             </div>
                         </div>
                         <div class="flex flex-row justify-center items-center gap-2.5 w-full h-10">
-                            <a href="../?action=event.attendee&id=<?= $item['eventId'] ?>" class="btn-primary max-h-10 w-full max-w-[80%]">
+                            <a href="../?action=event.attendee&id=<?= $item['eventId'] ?>&joined=<?= $item['joined'] ?>" class="btn-primary max-h-10 w-full max-w-[80%]">
                                 <span class="font-kanit text-base text-white">
                                     ดูกิจกรรม
                                 </span>

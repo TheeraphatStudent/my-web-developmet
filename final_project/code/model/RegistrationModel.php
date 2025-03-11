@@ -112,12 +112,6 @@ class Registration
         try {
             $this->connection->beginTransaction();
 
-            // Registration table
-            // $stmt = $this->connection->prepare("
-            //     UPDATE Registration 
-            //     SET status = 'accepted', updated = NOW()
-            //     WHERE userId = :userId AND eventId = :eventId AND regId = :regId AND status = 'pending'
-            // ");
             $stmt = $this->connection->prepare("
                 UPDATE Registration 
                 SET status = 'accepted', updated = NOW()

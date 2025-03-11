@@ -235,15 +235,15 @@ $calendar = new SchedulerCalendar();
         </div>
     </div> -->
 
-    <div class="inline-flex flex-col w-full h-fit max-w-content gap-10">
+    <!-- <div class="inline-flex flex-col w-full h-fit max-w-content gap-10">
         <div class="flex w-full justify-between">
             <span class="text-2xl md:text-4xl font-semibold font-kanit text-white text-overflow">อีเวนท์เดือนนี้</span>
         </div>
 
         <?php
-        $calendar->render();
+        // $calendar->render();
         ?>
-    </div>
+    </div> -->
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

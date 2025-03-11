@@ -1318,6 +1318,10 @@ span{
   max-height: fit-content;
 }
 
+.min-h-2\.5{
+  min-height: 0.625rem;
+}
+
 .min-h-\[128px\]{
   min-height: 128px;
 }
@@ -1446,6 +1450,10 @@ span{
 
 .w-screen{
   width: 100vw;
+}
+
+.min-w-2\.5{
+  min-width: 0.625rem;
 }
 
 .min-w-80{
@@ -1955,6 +1963,11 @@ span{
   background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));
 }
 
+.bg-gray-400{
+  --tw-bg-opacity: 1;
+  background-color: rgb(156 163 175 / var(--tw-bg-opacity, 1));
+}
+
 .bg-green{
   --tw-bg-opacity: 1;
   background-color: rgb(27 134 0 / var(--tw-bg-opacity, 1));
@@ -2339,6 +2352,11 @@ span{
   line-height: 2.25rem;
 }
 
+.text-6xl{
+  font-size: 3.75rem;
+  line-height: 1;
+}
+
 .text-\[18px\]{
   font-size: 18px;
 }
@@ -2366,16 +2384,6 @@ span{
 .text-xs{
   font-size: 0.75rem;
   line-height: 1rem;
-}
-
-.text-4xl{
-  font-size: 2.25rem;
-  line-height: 2.5rem;
-}
-
-.text-6xl{
-  font-size: 3.75rem;
-  line-height: 1;
 }
 
 .font-bold{
@@ -2854,6 +2862,11 @@ span{
   background-color: rgb(16 75 72 / 0.15);
 }
 
+.hover\:bg-dark-yellow:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(144 90 60 / var(--tw-bg-opacity, 1));
+}
+
 .hover\:bg-gray-100:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1));
@@ -2867,6 +2880,11 @@ span{
 .hover\:bg-gray-50:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
+}
+
+.hover\:bg-gray-800:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(31 41 55 / var(--tw-bg-opacity, 1));
 }
 
 .hover\:bg-light-green:hover{
