@@ -2,10 +2,11 @@
 
 namespace FinalProject\View;
 
-
 require_once('components/texteditor/texteditor.php');
 require_once('components/breadcrumb.php');
+
 require_once('utils/useTags.php');
+require_once('utils/useDateTime.php');
 
 use FinalProject\Components\TextEditor;
 
@@ -21,151 +22,167 @@ $navigate = new Breadcrumb();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" href="public/style/main.css">
 
-    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script> -->
-    <title>Mail</title>
+    <title>History</title>
 </head>
 
 <body class="flex flex-col justify-start items-center bg-primary">
     <div class="flex flex-col w-full gap-14 max-w-content py-[200px] px-10 xl:px-0">
 
-        <div class="rounded-lg shadow-lg overflow-hidden">
+        <div class="rounded-lg overflow-hidden">
             <div class="flex flex-col p-2.5 gap-2.5">
-                <?php foreach (array_reverse($aboutmail) as $about):
+                <?php if (!empty($aboutmail)) : ?>
+                    <?php foreach (array_reverse($aboutmail) as $about):
 
-                    // print_r($about);
-                    // print_r($about['reg_status']);
-                ?>
-                    <div class="flex flex-col md:flex-row justify-between items-start gap-4 p-4 rounded-xl bg-white w-full shadow-sm">
-                        <div class="flex flex-col justify-start items-start gap-3 w-full md:w-3/5">
-                            <div class="flex items-center gap-2.5 w-full">
-                                <div class="rounded-full w-10 h-10 bg-primary/50 flex-shrink-0"></div>
-                                <div class="flex flex-col justify-center">
-                                    <div class="font-bold text-lg text-black"><?= $about['organizeName'] ?></div>
-                                    <div class="font-light text-sm text-neutral-800"><?= $about['start'] ?> - <?= $about['end'] ?></div>
+                        // print_r($about);
+                        // print_r($about['reg_status']);
+                    ?>
+                        <div class="flex flex-col md:flex-row justify-between items-start gap-4 p-4 rounded-xl bg-white w-full shadow-sm">
+                            <div class="flex flex-col justify-start items-start gap-3 w-full md:w-3/5">
+                                <div class="flex items-center gap-2.5 w-full">
+                                    <div class="rounded-full w-10 h-10 bg-primary/50 flex-shrink-0"></div>
+                                    <div class="flex flex-col justify-center">
+                                        <div class="font-bold text-lg text-dark-primary"><?= $about['organizeName'] ?></div>
+                                        <div class="font-light text-sm text-neutral-800"><?= dateFormat($about['start']) ?> - <?= dateFormat($about['end']) ?></div>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="w-full h-14 max-h-14 overflow-y-auto">
-                                <h2 class="font-bold text-base text-black mb-1"><?= $about['title'] ?></h2>
-                                <?php
-                                $editor = new TextEditor();
-                                $editor->updatetextarea($about['description'], false);
-                                ?>
-                                <?php $editor->render(); ?>
-                                <?php
-                                ?>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col gap-2.5 w-full md:w-2/5">
-                            <div
-                                class="flex flex-col justify-between items-stretch bg-center bg-cover rounded w-full h-36 overflow-hidden bg-dark-primary/50 border-dashed border-primary/60 border-2"
-                                style="background-image: url(public/images/uploads/<?= $about['cover'] ?>);">
-                                <!-- Tag -->
-                                <div class="flex flex-row justify-start items-start gap-2.5 p-2.5 pb-3.5 w-full h-fit bg-gradient-to-b from-dark-primary/50 via-dark-primary/25 to-transparent">
+                                <div class="w-full h-14 max-h-14 overflow-y-auto">
+                                    <h2 class="font-bold text-base text-dark-primary mb-1"><?= $about['title'] ?></h2>
                                     <?php
-                                    $selectedTags = [];
-
-                                    if ($about['type'] === 'online' || $about['type'] === 'any') {
-                                        $selectedTags[] = "online";
-                                    }
-
-                                    if ($about['type'] === 'onsite' || $about['type'] === 'any') {
-                                        $selectedTags[] = "onsite";
-                                    }
-
-                                    if ($about['venue'] > 0) {
-                                        $selectedTags[] = "paid";
-                                    } else {
-                                        $selectedTags[] = "free";
-                                    }
-
+                                    $editor = new TextEditor();
+                                    $editor->updatetextarea($about['description'], false);
                                     ?>
-                                    <?php foreach ($selectedTags as $tag): ?>
-                                        <div class='flex justify-center items-center rounded w-16 h-8 shadow-sm <?= $tags[$tag]['background'] ?>'>
-                                            <span class='font-kanit text-sm text-center whitespace-nowrap text-opacity-100 leading-none font-normal <?= $tags[$tag]['color'] ?>'>
-                                                <?= $tags[$tag]['text'] ?>
-                                            </span>
-                                        </div>
-                                    <?php endforeach ?>
+                                    <?php $editor->render(); ?>
+                                    <?php
+                                    ?>
                                 </div>
                             </div>
 
+                            <div class="flex flex-col gap-2.5 w-full md:w-2/5">
+                                <div
+                                    class="flex flex-col justify-between items-stretch bg-center bg-cover rounded w-full h-36 overflow-hidden bg-dark-primary/50 border-dashed border-primary/60 border-2"
+                                    style="background-image: url(public/images/uploads/<?= $about['cover'] ?>);">
+                                    <!-- Tag -->
+                                    <div class="flex flex-row justify-start items-start gap-2.5 p-2.5 pb-3.5 w-full h-fit bg-gradient-to-b from-dark-primary/50 via-dark-primary/25 to-transparent">
+                                        <?php
+                                        $selectedTags = [];
 
-                            <!-- Action Buttons -->
-                            <div class="flex flex-row justify-start items-center gap-2.5 w-full">
-                                <!-- <div class="flex justify-center items-center p-2 rounded-lg bg-light-red">
-                                    <img
-                                        src="public/icons/delete.svg"
-                                        alt="Cancel"
-                                        class="w-5 h-5" />
-                                </div> -->
+                                        if ($about['type'] === 'online' || $about['type'] === 'any') {
+                                            $selectedTags[] = "online";
+                                        }
 
-                                <?php if ($about['reg_status'] === 'pending'): ?>
-                                    <div class="flex justify-between items-center px-4 py-2 rounded-lg bg-yellow hover:cursor-pointer hover:bg-dark-yellow flex-grow">
-                                        <div class="flex items-center gap-2">
-                                            <!-- <img
-                                                class="w-6 h-6"
-                                                src="public/icons/ticket.svg"
-                                                alt="Ticket" /> -->
-                                            <span class="text-sm text-white font-medium" lang="th">รออนุมัติ</span>
-                                        </div>
-                                        <!-- <div class="flex justify-center items-center w-6 h-6">
-                                            <img
-                                                class="w-3 h-3"
-                                                src="public/icons/arrow-right.svg"
-                                                alt="Arrow" />
-                                        </div> -->
+                                        if ($about['type'] === 'onsite' || $about['type'] === 'any') {
+                                            $selectedTags[] = "onsite";
+                                        }
+
+                                        if ($about['venue'] > 0) {
+                                            $selectedTags[] = "paid";
+                                        } else {
+                                            $selectedTags[] = "free";
+                                        }
+
+                                        ?>
+                                        <?php foreach ($selectedTags as $tag): ?>
+                                            <div class='flex justify-center items-center rounded w-16 h-8 shadow-sm <?= $tags[$tag]['background'] ?>'>
+                                                <span class='font-kanit text-sm text-center whitespace-nowrap text-opacity-100 leading-none font-normal <?= $tags[$tag]['color'] ?>'>
+                                                    <?= $tags[$tag]['text'] ?>
+                                                </span>
+                                            </div>
+                                        <?php endforeach ?>
                                     </div>
-                                <?php endif ?>
-                                <?php if ($about['reg_status'] === 'accepted' && $about['att_status'] === 'pending'): ?>
-                                    <div class="flex justify-between items-center px-4 py-2 rounded-lg bg-primary hover:cursor-pointer hover:bg-dark-primary flex-grow">
-                                        <div class="flex items-center gap-2">
-                                            <img
-                                                class="w-6 h-6"
-                                                src="public/icons/ticket.svg"
-                                                alt="Ticket" />
+                                </div>
 
-                                            <!-- Event.refId&u=User.primaryKey -->
-                                            <!-- X12xa9RT&u=1 -->
 
-                                            <span class="text-sm text-white font-medium" lang="th">X12xa9RT&u=1</span>
+                                <!-- Action Buttons -->
+                                <div class="flex flex-row justify-start items-center gap-2.5 w-full">
+                                    <!-- <div class="flex justify-center items-center p-2 rounded-lg bg-light-red">
+                                        <img
+                                            src="public/icons/delete.svg"
+                                            alt="Cancel"
+                                            class="w-5 h-5" />
+                                    </div> -->
+
+                                    <?php if ($about['reg_status'] === 'pending'): ?>
+                                        <div class="flex justify-between items-center px-4 py-2 rounded-lg bg-yellow hover:cursor-pointer hover:bg-dark-yellow flex-grow">
+                                            <div class="flex items-center gap-2">
+                                                <!-- <img
+                                                    class="w-6 h-6"
+                                                    src="public/icons/ticket.svg"
+                                                    alt="Ticket" /> -->
+                                                <span class="text-sm text-white font-medium" lang="th">รออนุมัติ</span>
+                                            </div>
+                                            <!-- <div class="flex justify-center items-center w-6 h-6">
+                                                <img
+                                                    class="w-3 h-3"
+                                                    src="public/icons/arrow-right.svg"
+                                                    alt="Arrow" />
+                                            </div> -->
                                         </div>
-                                        <!-- <div class="flex justify-center items-center w-6 h-6">
-                                            <img
-                                                class="w-3 h-3"
-                                                src="public/icons/arrow-right.svg"
-                                                alt="Arrow" />
-                                        </div> -->
-                                    </div>
-                                <?php endif ?>
-                                <?php if ($about['reg_status'] === 'accepted' && $about['att_status'] === 'accepted'): ?>
-                                    <div class="flex justify-between items-center px-4 py-2 rounded-lg bg-gray-400 hover:cursor-pointer hover:bg-gray-800 flex-grow">
-                                        <div class="flex items-center gap-2">
-                                            <!-- <img
-                                                class="w-6 h-6"
-                                                src="public/icons/ticket.svg"
-                                                alt="Ticket" /> -->
-                                            <span class="text-sm text-white font-medium" lang="th">เข้าร่วมแล้ว</span>
+                                    <?php endif ?>
+                                    <?php if ($about['reg_status'] === 'accepted' && $about['att_status'] === 'pending'): ?>
+                                        <div class="flex justify-between items-center px-4 py-2 rounded-lg bg-primary hover:cursor-pointer hover:bg-dark-primary flex-grow">
+                                            <div class="flex items-center gap-2">
+                                                <img
+                                                    class="w-6 h-6"
+                                                    src="public/icons/ticket.svg"
+                                                    alt="Ticket" />
+
+                                                <span class="text-sm text-white font-medium">X12xa9RT&u=1</span>
+                                            </div>
+                                            <div class="flex justify-center items-center w-6 h-6">
+                                                <img
+                                                    class="w-3 h-3"
+                                                    src="public/icons/arrow-right.svg"
+                                                    alt="Arrow" />
+                                            </div>
                                         </div>
-                                        <!-- <div class="flex justify-center items-center w-6 h-6">
-                                            <img
-                                                class="w-3 h-3"
-                                                src="public/icons/arrow-right.svg"
-                                                alt="Arrow" />
-                                        </div> -->
-                                    </div>
-                                <?php endif ?>
+                                    <?php endif ?>
+                                    <?php if ($about['reg_status'] === 'accepted' && $about['att_status'] === 'accepted'): ?>
+                                        <div class="flex justify-between items-center px-4 py-2 rounded-lg bg-gray-400 hover:cursor-pointer hover:bg-gray-800 flex-grow">
+                                            <div class="flex items-center gap-2">
+                                                <!-- <img
+                                                    class="w-6 h-6"
+                                                    src="public/icons/ticket.svg"
+                                                    alt="Ticket" /> -->
+                                                <span class="text-sm text-white font-medium" lang="th">เข้าร่วมแล้ว</span>
+                                            </div>
+                                            <!-- <div class="flex justify-center items-center w-6 h-6">
+                                                <img
+                                                    class="w-3 h-3"
+                                                    src="public/icons/arrow-right.svg"
+                                                    alt="Arrow" />
+                                            </div> -->
+                                        </div>
+                                    <?php endif ?>
+                                </div>
                             </div>
                         </div>
+
+                    <?php endforeach ?>
+
+                <?php else : ?>
+                    <div class="flex flex-col gap-6 text-container justify-center items-center min-h-[450px] drop-shadow-2xl">
+                        <div class="animated-text text-white gap-0.5">
+
+                            <?php
+                            $text = "คุณยังไม่เคยเข้าร่วมกิจกรรม";
+                            $textArray = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
+
+                            foreach ($textArray as $key => $value) {
+                                echo "<span class='text-6xl'> $value </span>";
+                            }
+                            ?>
+                        </div>
+                        <a href="../"
+                            class="relative text-white font-semibold text-3xl underline group overflow-hidden">
+                            <span class="absolute left-0 bottom-0 w-full h-0 rounded-tl-sm rounded-tr-sm bg-white transition-all duration-300 ease-out group-hover:h-full"></span>
+                            <span class="relative group-hover:text-dark-primary px-1 transition-colors duration-300">ค้นหากิจกรรมเลย!</span>
+                        </a>
                     </div>
 
-                <?php endforeach ?>
-
+                <?php endif ?>
             </div>
         </div>
 

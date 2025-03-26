@@ -72,7 +72,6 @@ class User
         return ["isFound" => false, "user" => [], "status" => 404];
     }
 
-
     public function register($username, $password, $email)
     {
         try {
@@ -136,48 +135,50 @@ class User
     {
         try {
             $sql = $this->connection->prepare("
-        SELECT 
-            CASE 
-                WHEN 
-                    u.name IS NULL 
-                    OR u.gender IS NULL 
-                    OR u.education IS NULL 
-                    OR u.telno IS NULL 
-                    OR u.birth IS NULL 
-                    THEN FALSE
-                ELSE TRUE 
-            END AS isVerify
-        FROM User u
-        WHERE u.userId = :userId;
+            SELECT 
+                CASE 
+                    WHEN 
+                        u.name IS NULL 
+                        OR u.gender IS NULL 
+                        OR u.education IS NULL 
+                        OR u.telno IS NULL 
+                        OR u.birth IS NULL 
+                        THEN 0
+                    ELSE 1
+                END AS isVerify
+            FROM User u
+            WHERE u.userId = :userId;
         ");
 
             $sql->bindParam(':userId', $userId, PDO::PARAM_STR);
-
             $sql->execute();
 
             $isVerify = $sql->fetch(PDO::FETCH_ASSOC);
 
-            if ($isVerify['isVerify'] === 1) {
+            $isVerified = (bool) $isVerify['isVerify'];
+
+            if ($isVerified) {
                 return [
                     "status" => 200,
                     "message" => "ผู้ใช้ยืนยันตัวตนเรียบร้อย",
-                    "isVerify" => true
+                    "isVerify" => 1
                 ];
             } else {
                 return [
                     "status" => 403,
                     "message" => "ยังไม่ได้ยืนยันตัวตน",
-                    "isVerify" => false
+                    "isVerify" => 0
                 ];
             }
         } catch (PDOException $err) {
             return [
                 "status" => 500,
-                "message" => "Error: " . $err,
-                "isVerify" => false
+                "message" => "Error: " . $err->getMessage(),
+                "isVerify" => 0
             ];
         }
     }
+
 
     public function updateUserById(array $data)
     {
@@ -242,22 +243,23 @@ class User
         }
     }
 
-    public function resetPassword($username, $email, $newPassword) {
+    public function resetPassword($username, $email, $newPassword)
+    {
         try {
             $this->connection->beginTransaction();
-            
+
             $stmt = $this->connection->prepare("
                 SELECT userId
                 FROM User 
                 WHERE username = :username 
                 AND email = :email
             ");
-            
+
             $stmt->execute([
                 ':username' => $username,
                 ':email' => $email
             ]);
-            
+
             if (!$stmt->fetch()) {
                 $this->connection->rollBack();
                 return [
@@ -276,7 +278,7 @@ class User
             ");
 
             $now = (new DateTime())->format('Y-m-d H:i:s');
-            
+
             $updateStmt->execute([
                 ':password' => $hashedPassword,
                 ':updated' => $now,
@@ -289,11 +291,10 @@ class User
                 "status" => 200,
                 "message" => "รหัสผ่านถูกเปลี่ยนแปลงเรียบร้อย"
             ];
-            
         } catch (PDOException $err) {
             $this->connection->rollBack();
             return [
-                "status" => 500, 
+                "status" => 500,
                 "message" => "เกิดข้อผิดพลาด: " . $err->getMessage()
             ];
         }

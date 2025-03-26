@@ -17,7 +17,7 @@ class Search extends Component
                 <!-- Field -->
                 <div class="flex flex-col justify-start items-start gap-2.5 h-fit w-full">
                     กำลังมองหา
-                    <input type="text" placeholder="เลือกอีเวทน์" id="looking" name="looking"
+                    <input type="text" placeholder="ค้นหากิจกรรมที่ชื่นชอบ" id="looking" name="looking"
                         class="input-field">
                     </input>
                 </div>

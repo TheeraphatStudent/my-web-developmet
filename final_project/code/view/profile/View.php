@@ -20,104 +20,110 @@ $calendar = new SchedulerCalendar();
 </head>
 
 <body class="bg-primary w-screen h-fit flex flex-col justify-start items-center pt-[120px] mb-[160px] px-5 lg:px-16 gap-12 overflow-x-hidden">
-    <div class="inline-flex flex-col justify-center w-full h-fit max-w-content gap-4">
-        <div class="flex w-full justify-between items-center">
-            <span class="text-2xl md:text-4xl font-semibold font-kanit text-white text-overflow">Profile</span>
-            <div>
-                <a href="../?action=logout" class="underline decoration-red text-white hover:text-red/60 md:btn-danger md:w-40">Logout</a>
-            </div>
-        </div>
+    <main class="inline-flex flex-col justify-center w-full h-fit max-w-content gap-6">
+        <section class="flex flex-col gap-3">
+            <section class="flex w-full justify-between items-center">
+                <span class="text-2xl md:text-4xl font-semibold font-kanit text-white text-overflow">Profile</span>
+                <div>
+                    <a href="../?action=logout" class="underline decoration-red text-white hover:text-red/60 md:btn-danger md:w-40">Logout</a>
+                </div>
+            </section>
 
-        <div class="flex flex-col bg-white/40 w-full h-fit min-h-fit rounded-xl p-8 gap-8">
-            <div class="flex flex-col items-center md:flex-row gap-6">
-                <div class="flex justify-center items-center w-32 h-32 min-w-[128px] min-h-[128px] relative border-4 border-white rounded-full overflow-hidden">
-                    <!-- <img class="object-cover object-center w-full h-full" src='https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ' alt='Woman looking front'> -->
-                    <div class="w-full h-full flex items-center justify-center rounded-full bg-primary text-white text-xl font-bold">
-                        <?= htmlspecialchars(strtoupper(substr($_SESSION['user']['username'], 0, 1))) ?>
+            <section class="flex flex-col bg-white/40 w-full h-fit min-h-fit rounded-xl p-8 gap-8">
+                <div class="flex flex-col items-center md:flex-row gap-6">
+                    <div class="flex justify-center items-center w-32 h-32 min-w-[128px] min-h-[128px] relative border-4 border-white rounded-full overflow-hidden">
+                        <!-- <img class="object-cover object-center w-full h-full" src='https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ' alt='Woman looking front'> -->
+                        <div class="w-full h-full flex items-center justify-center rounded-full bg-primary text-white text-xl font-bold">
+                            <?= htmlspecialchars(strtoupper(substr($_SESSION['user']['username'], 0, 1))) ?>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col justify-center w-full gap-3 overflow-hidden">
+                        <div class="flex flex-col md:flex-row justify-between items-center">
+                            <span class="text-lg md:text-2xl font-semibold font-kanit text-dark-secondary text-overflow"><?= $userObj['username'] ?? "-" ?></span>
+                            <div>
+                                <button type="button" class="text-base md:underline decoration-secondary text-white hover:text-secondary/60 md:btn-secondary md:w-40 first-letter hover:cursor-pointer" id="editProfileBtn">Edit</button>
+                            </div>
+                        </div>
+                        <!-- <span class="font-kanit font-light text-lg md:text-xl text-black text-overflow"><?= $_SESSION['user']['userId'] ?></span> -->
+                        <div class="flex w-full gap-4 mt-2 *:bg-dark-primary/40">
+                            <div class="flex flex-col w-full rounded-lg py-2 px-4 text-center">
+                                <p class="text-xl font-bold text-white"><?= $userObj['total_events_created'] ?></p>
+                                <span class="text-sm text-white">อีเวนท์ที่สร้าง</span>
+                            </div>
+                            <div class="flex flex-col w-full rounded-lg py-2 px-4 text-center">
+                                <p class="text-xl font-bold text-white"><?= $userObj['total_events_request'] ?></p>
+                                <span class="text-sm text-white">อีเวนท์ที่รออนุมัติ</span>
+                            </div>
+                            <div class="flex flex-col w-full rounded-lg py-2 px-4 text-center">
+                                <p class="text-xl font-bold text-white"><?= $userObj['total_events_joined'] ?></p>
+                                <span class="text-sm text-white">อีเวนท์ที่เข้าร่วม</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="flex flex-col justify-center w-full gap-3 overflow-hidden">
-                    <div class="flex flex-col md:flex-row justify-between items-center">
-                        <span class="text-xl md:text-3xl font-semibold font-kanit text-dark-secondary text-overflow"><?= $userObj['username'] ?? "-" ?></span>
-                        <div>
-                            <button type="button" class="text-base md:underline decoration-secondary text-white hover:text-secondary/60 md:btn-secondary md:w-40 first-letter hover:cursor-pointer" id="editProfileBtn">Edit</button>
+                <!-- Personal Information Section -->
+                <div class="border-t border-black/10 pt-6">
+                    <h3 class="text-xl md:text-2xl font-semibold font-kanit text-secondary/80 mb-4">ข้อมูลส่วนตัว</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
+                        <div class="flex flex-col">
+                            <span class="text-sm text-gray-600">ชื่อ</span>
+                            <span class="font-medium"><?= htmlspecialchars($userObj['name'] ?? "-") ?></span>
                         </div>
-                    </div>
-                    <!-- <span class="font-kanit font-light text-lg md:text-xl text-black text-overflow"><?= $_SESSION['user']['userId'] ?></span> -->
-                    <div class="flex w-full gap-4 mt-2 *:bg-dark-primary/40">
-                        <div class="flex flex-col w-full rounded-lg py-2 px-4 text-center">
-                            <span class="text-sm text-white">อีเวนท์ที่สร้าง</span>
-                            <p class="text-xl font-bold text-white"><?= $userObj['total_events_created'] ?></p>
+                        <div class="flex flex-col">
+                            <span class="text-sm text-gray-600">เพศ</span>
+                            <span class="font-medium"><?= htmlspecialchars($userObj['gender'] ?? "-") ?></span>
                         </div>
-                        <div class="flex flex-col w-full rounded-lg py-2 px-4 text-center">
-                            <span class="text-sm text-white">อีเวนท์ที่รออนุมัติ</span>
-                            <p class="text-xl font-bold text-white"><?= $userObj['total_events_request'] ?></p>
+                        <div class="flex flex-col">
+                            <span class="text-sm text-gray-600">วันเกิด</span>
+                            <span class="font-medium"><?= htmlspecialchars($userObj['birth'] ?? "-") ?></span>
                         </div>
-                        <div class="flex flex-col w-full rounded-lg py-2 px-4 text-center">
-                            <span class="text-sm text-white">อีเวนท์ที่เข้าร่วม</span>
-                            <p class="text-xl font-bold text-white"><?= $userObj['total_events_joined'] ?></p>
+                        <div class="flex flex-col">
+                            <span class="text-sm text-gray-600">เบอร์โทรศัพท์</span>
+                            <span class="font-medium"><?= htmlspecialchars($userObj['telno'] ?? "-") ?></span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-sm text-gray-600">การศึกษา</span>
+                            <span class="font-medium"><?= htmlspecialchars($userObj['education'] ?? "-") ?></span>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Personal Information Section -->
-            <div class="border-t border-black/10 pt-6">
-                <h3 class="text-xl md:text-2xl font-semibold font-kanit text-secondary/80 mb-4">ข้อมูลส่วนตัว</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
-                    <div class="flex flex-col">
-                        <span class="text-sm text-gray-600">ชื่อ</span>
-                        <span class="font-medium"><?= htmlspecialchars($userObj['name'] ?? "-") ?></span>
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="text-sm text-gray-600">เพศ</span>
-                        <span class="font-medium"><?= htmlspecialchars($userObj['gender'] ?? "-") ?></span>
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="text-sm text-gray-600">วันเกิด</span>
-                        <span class="font-medium"><?= htmlspecialchars($userObj['birth'] ?? "-") ?></span>
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="text-sm text-gray-600">เบอร์โทรศัพท์</span>
-                        <span class="font-medium"><?= htmlspecialchars($userObj['telno'] ?? "-") ?></span>
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="text-sm text-gray-600">การศึกษา</span>
-                        <span class="font-medium"><?= htmlspecialchars($userObj['education'] ?? "-") ?></span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Membership Info -->
-            <div class="border-t border-black/10 pt-6">
-                <h3 class="text-xl md:text-2xl font-semibold font-kanit text-secondary/80 mb-4">สมาชิก</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
-                    <div class="flex flex-col">
-                        <span class="text-sm text-gray-600">เข้าร่วมเมื่อ</span>
-                        <span class="font-medium">
-                            <?php
-                            $createdDate = $userObj['created'] ?? "-";
-                            if ($createdDate !== "-") {
-                                $dateParts = explode(" ", $createdDate);
-                                echo htmlspecialchars($dateParts[0]);
-                            } else {
-                                echo "-";
-                            }
-                            ?>
-                        </span>
-                    </div>
-                    <!-- <div class="flex flex-col">
+                <!-- Membership Info -->
+                <div class="border-t border-black/10 pt-6">
+                    <h3 class="text-xl md:text-2xl font-semibold font-kanit text-secondary/80 mb-4">สมาชิก</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
+                        <div class="flex flex-col">
+                            <span class="text-sm text-gray-600">เข้าร่วมเมื่อ</span>
+                            <span class="font-medium">
+                                <?php
+                                $createdDate = $userObj['created'] ?? "-";
+                                if ($createdDate !== "-") {
+                                    $dateParts = explode(" ", $createdDate);
+                                    echo htmlspecialchars($dateParts[0]);
+                                } else {
+                                    echo "-";
+                                }
+                                ?>
+                            </span>
+                        </div>
+                        <!-- <div class="flex flex-col">
                         <span class="text-sm text-gray-600">Status</span>
                         <span class="font-medium flex items-center">
                             <span class="inline-block w-2 h-2 rounded-full bg-green-500 mr-2"></span>
                             Active
                         </span>
                     </div> -->
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </section>
+
+        </section>
+
+
+
+    </main>
 
     <div id="editProfileModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden mt-24">
         <div class="bg-white rounded-xl w-full max-w-2xl p-6 max-h-[90vh] overflow-y-auto">
@@ -255,7 +261,7 @@ $calendar = new SchedulerCalendar();
                 const url = new URL(window.location.href);
                 url.searchParams.delete("isEdit");
                 window.history.replaceState({}, document.title, url.toString());
-    
+
                 document.getElementById('editProfileModal').classList.remove('hidden');
 
             }

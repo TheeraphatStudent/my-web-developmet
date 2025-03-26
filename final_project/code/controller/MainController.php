@@ -34,7 +34,12 @@ class MainController
         $event = new Event($this->connection);
 
         if (!isset($_SESSION['search']['value'])) {
-            $allEvents =  $event->getAllEvents();
+            if (isset($_SESSION['user']['userId'])) {
+                $allEvents = $event->queryAllEventByUserId($_SESSION['user']['userId']);
+            } else {
+                $allEvents =  $event->getAllEvents();
+
+            }
         } else {
             $allEvents = $_SESSION['search']['value'];
             unset($_SESSION['search']);
@@ -72,7 +77,7 @@ class MainController
 
             case 'logout':
                 unset($_SESSION['user']);
-                header("Location: ../?action=logged-out");
+                header("Location: ../");
                 exit;
         }
     }
@@ -85,13 +90,15 @@ class MainController
         $eventModel = new Event($this->connection);
         $regModel = new Registration($this->connection);
         $attModel = new Attendance($this->connection);
+        $userModel = new User($this->connection);
 
         $eventId = isset($_GET['id']) ? $_GET['id'] : null;
         $userId = isset($_SESSION['user']) ? $_SESSION['user']['userId'] : null;
 
         if (in_array($event, EventUtils::ACCEPT_EVENT)) {
             switch ($event) {
-                case 'checked-in':
+                case 'manage-attend':
+                    $allUserReg = $regModel->getUserRegisterByEventAndUserId(userId: $userId, eventId: $eventId);
                     $allUserAttendOnEvent = $attModel->getUserWasAcceptRegOnEventById(userId: $userId, eventId: $eventId);
 
                     require_once("./view/event/CheckedInView.php");
@@ -100,6 +107,7 @@ class MainController
                 case 'attendee':
                     $regObj = $regModel->getRegisterById(userId: $userId, eventId: $eventId);
                     $eventObj = $eventModel->getEventById($eventId);
+                    $organizeInfo = ($userModel->getUserByUserId($eventObj['organizeId']))['user'];
 
                     require_once("./view/event/AttendeeView.php");
                     break;
@@ -125,7 +133,7 @@ class MainController
                     break;
 
                 case 'statistic':
-                    $allUserReg = $regModel->getUserRegisterByEventAndUserId(userId: $userId, eventId: $eventId);
+                    // $allUserReg = $regModel->getUserRegisterByEventAndUserId(userId: $userId, eventId: $eventId);
 
                     // require_once("./view/event/statistic.php");
                     require_once("./view/event/StatisticView.php");

@@ -11,6 +11,7 @@ class TextEditor extends Component
     private $dest = '';
     private $isEdit = true;
     private $editorId = '';
+    private $textColor = 'text-white';
 
     public function __construct($editorId = null)
     {
@@ -57,9 +58,9 @@ class TextEditor extends Component
                     <button type="button" class="hover:bg-primary hover:text-white" onclick="TextEditorManager.insertMarkdown('<?= $this->editorId ?>', '![image](', ')')">
                         <img src="public/icons/img.svg" class="w-4 h-4" alt="">
                     </button>
-                    <button type="button" class="hover:bg-primary hover:text-white" onclick="TextEditorManager.selectAllContent('<?= $this->editorId ?>')">
+                    <!-- <button type="button" class="hover:bg-primary hover:text-white" onclick="TextEditorManager.selectAllContent('<?= $this->editorId ?>')">
                         <img src="public/icons/select-all.svg" class="w-4 h-4" alt="Select All">
-                    </button>
+                    </button> -->
                 </div>
             <?php endif; ?>
 
@@ -71,7 +72,7 @@ class TextEditor extends Component
                     data-editor-id="<?= $this->editorId ?>"></textarea>
 
                 <input class="editor-hidden-input hidden" name="description" type="text" name="description-<?= $this->editorId ?>" data-editor-id="<?= $this->editorId ?>">
-                <div class="editor-preview p-3 w-full <?= ($this->isEdit ? 'bg-primary h-[clamp(200px, 20vh, 100%)]' : 'bg-transparent') ?> overflow-auto text-white" data-editor-id="<?= $this->editorId ?>"></div>
+                <div class="editor-preview p-3 w-full <?= ($this->isEdit ? 'bg-primary h-[clamp(200px, 20vh, 100%)]' : 'bg-transparent') ?> overflow-auto <?= $this->textColor ?>" data-editor-id="<?= $this->editorId ?>"></div>
             </div>
         </div>
 
@@ -250,5 +251,10 @@ class TextEditor extends Component
     {
         $this->dest = $description;
         $this->isEdit = $isEdit;
+    }
+
+    public function setTextColor(string $color)
+    {
+        $this->textColor = $color;
     }
 }

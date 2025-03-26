@@ -2,15 +2,17 @@
 
 namespace FinalProject;
 
+date_default_timezone_set('Asia/Bangkok');
+
 ini_set('session.cookie_secure', false);
 ini_set('session.cookie_httponly', true);
 ini_set('session.cookie_lifetime', (60 * 60));
-ini_set('session.cookie_samesite', 'Lax');
+// ini_set('session.cookie_samesite', 'Lax');
 
 session_start();
 
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Methods: GET, PUT, DELETE, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
 const ALLOWED_REQUEST = ['type'];
@@ -33,7 +35,6 @@ use FinalProject\Controller\MainController;
 $action = $_GET['action'] ?? 'index';
 
 $isRequest = false;
-$isLogin = false;
 $response = null;
 
 // action = [page], request
@@ -58,22 +59,22 @@ $controller = new MainController();
 $env = new Environment();
 $_SESSION['mapApiKey'] = $env->getMapApiKey();
 
-// echo(print_r($_SESSION));
-
 // ********* Component ************
 
 $navbar = new Navbar();
 
 if (isset($_SESSION['user']) && isset($_SESSION['user']['userId'])) {
-    $controller->auth($action);
 
-    $response = $controller->request(["on" => "user", "form" => "verify"], ["userId" => $_SESSION['user']['userId']]);
-    // print_r($_SESSION['user']);
-    // print_r($response);
+    // echo (print_r($_SESSION));
+    // $controller->auth($action);
 
-    $navbar->UpdateNavbar($response['data']['isFound']);
+    $isLoginRes = $controller->request(["on" => "user", "form" => "verify"], ["userId" => $_SESSION['user']['userId']]);
+    $isProfileRes = $controller->request(["on" => "user", "form" => "profileVerify"], ["userId" => $_SESSION['user']['userId']]);
 
-    $isLogin = true;
+    $navbar->updateNavbar(
+        isLogin: $isLoginRes['data']['isFound'],
+        isProfileVerify: $isProfileRes['data']['isVerify']
+    );
 }
 
 switch ($action) {
@@ -129,10 +130,10 @@ switch ($action) {
 
         header('Location: ' . $response['redirect']);
         exit;
-        // ================= Page Content =================
+        break;
+    // ================= Page Content =================
 
     case 'index':
-    case 'logged-out':
         $controller->index();
         break;
 
@@ -144,7 +145,7 @@ switch ($action) {
 
     case 'event.attendee':
     case 'event.create':
-    case 'event.checked-in':
+    case 'event.manage-attend':
     case 'event.manage':
     case 'event.edit':
     case 'event.statistic':
@@ -188,40 +189,14 @@ if (!$isRequest) {
         <title>Act gate</title>
     </head>
 
-    <body>
+    <body class="relative">
         <?php
-        if ($action == 'logged-out' || !in_array($action, NOT_RENDER_NAVBAR_AND_ALERT)) {
+        if (!in_array($action, NOT_RENDER_NAVBAR_AND_ALERT)) {
             $navbar->render();
         }
 
         $content
         ?>
     </body>
-
-    <?php
-    if ($action != 'logged-out' && !$isLogin && !in_array($action, NOT_RENDER_NAVBAR_AND_ALERT)) {
-    ?>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                Swal.fire({
-                    title: 'คุณยังไม่ได้เข้าสู่ระบบ',
-                    text: 'หากต้องการสร้างหรือเข้าร่วมกิจกรรม\nต้องเข้าสู่ระบบก่อน',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'เข้าสู่ระบบตอนนี้',
-                    cancelButtonText: 'ขอสำรวจก่อน'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        setTimeout(() => {
-                            window.location.assign('../?action=login');
-                        }, 100);
-                    }
-                });
-            });
-        </script>
-    <?php
-    }
-    ?>
 <?php
 }

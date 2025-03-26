@@ -1,0 +1,12 @@
+Array ( 
+  [status] => 200 
+  [message] => Something went wrong! 
+  [data] => Array ( 
+    [isFound] => 1 ) [redirect] => / [type] => html ) 
+    Array ( [status] => 200 [message] => ผู้ใช้ยืนยันตัวตนเรียบร้อย [data] => 
+    Array ( [isVerify] => 1 ) [redirect] => / [type] => json ) 
+    Array ( [status] => 200 [message] => Search Work [data] => 
+    Array ( [data] => 
+    Array ( [0] => 
+    Array ( 
+      [eventId] => AG-20250000001_event-a613f1fac551f83367e10ea5a6946 [cover] => 67e10ea5a0e13_cover-cat.gif [title] => Sample Events [maximum] => 100 [type] => onsite [start] => 2025-03-27 08:00:00 [end] => 2025-03-30 04:00:00 [venue] => 0 [organizeId] => AGU-0000009_user-70c4f9b425efafa567cbd92a0c408 [organizeName] => Theeraphat Chueanokkhum [joined] => 0 ) [1] => Array ( [eventId] => AG-20250000036_event-fcecc6572ed34ea567e156b1152ef [cover] => 67e156b112d25_cover-Asset 13.png [title] => Hello world [maximum] => 100 [type] => onsite [start] => 2025-03-25 19:53:00 [end] => 2025-03-26 19:53:00 [venue] => 0 [organizeId] => AGU-0000010_user-c63d67aa8a96ef9a67ce1fc3103ab [organizeName] => Hello World [joined] => 0 ) [2] => Array ( [eventId] => AG-20250000037_event-c9a745c58e730ebb67e15a7981550 [cover] => 67e15a797ef0a_cover-header-frame.png [title] => Hello world [maximum] => 50 [type] => onsite [start] => 2025-03-25 20:08:00 [end] => 2025-03-26 20:08:00 [venue] => 0 [organizeId] => AGU-0000010_user-c63d67aa8a96ef9a67ce1fc3103ab [organizeName] => Hello World [joined] => 0 ) ) ) [redirect] => / [type] => search )
