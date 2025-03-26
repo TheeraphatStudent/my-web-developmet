@@ -5,6 +5,7 @@ namespace FinalProject\View\Event;
 require_once('components/map/map.php');
 require_once('components/texteditor/texteditor.php');
 require_once('utils/useImages.php');
+require_once('utils/useForm.php');
 
 use FinalProject\Components\Map;
 use FinalProject\Components\TextEditor;
@@ -83,7 +84,7 @@ $authors = array_map(function ($type) {
                         <div class="flex flex-col w-full gap-2.5">
                             <div
                                 class="form-title">
-                                Venue&nbsp;
+                                Fee&nbsp;
                                 <!-- <span class="form-required">*</span> -->
                             </div>
                             <input
@@ -94,10 +95,10 @@ $authors = array_map(function ($type) {
                             <div
                                 class="form-title">
                                 Maximum&nbsp;
-                                <!-- <span class="form-required">*</span> -->
+                                <span class="form-required">*</span>
                             </div>
                             <input
-                                class="input-field" type="number" name="maximum" placeholder="Enter maximum">
+                                required class="input-field" type="number" name="maximum" placeholder="Enter maximum">
 
                         </div>
                     </div>
@@ -115,17 +116,6 @@ $authors = array_map(function ($type) {
                                     <option value="<?= $option['value'] ?>"><?= $option['label'] ?></option>
                                 <?php endforeach; ?>
                             </select>
-
-                        </div>
-                        <div class="flex flex-col w-full gap-2.5">
-                            <div
-                                class="form-title">
-                                Link
-                            </div>
-                            <input
-                                class="input-field" name="link" type="url"
-                                placeholder="https://example.com"
-                                pattern="https?:\/\/.*">
 
                         </div>
                     </div>
@@ -182,7 +172,7 @@ $authors = array_map(function ($type) {
                         <span id="upload_text" class="underline cursor-pointer font-medium text-base text-white group-hover:text-white z-10 relative transition-colors duration-300">
                             Upload Cover
                         </span>
-                        <input required type="file" accept=".jpg, .jpeg, .webp" id="cover_img" name="cover" class="hidden">
+                        <input required type="file" accept="image/*" id="cover_img" name="cover" class="hidden">
                     </label>
                 </div>
 
@@ -206,7 +196,7 @@ $authors = array_map(function ($type) {
                                         Add Image
                                     </div>
                                 </div>
-                                <input type="file" id="image-uploads" accept=".png, .jpg, .jpeg" class="hidden" multiple>
+                                <input type="file" id="image-uploads" accept="image/*" class="hidden" multiple>
                             </label>
                         </div>
                     </div>
@@ -222,20 +212,62 @@ $authors = array_map(function ($type) {
                     <?php $textEditor->render() ?>
                 </div>
 
-                <div class="flex w-full justify-start items-start gap-5 flex-col md:flex-row">
+                <div class="flex w-full justify-start items-start gap-5 flex-col-reverse md:flex-row">
                     <a href="../" id="form-cancel" class="w-full md:w-1/3 btn-danger" onclick="window.history.back()">Cancel</a>
                     <button type="button" id="form-submit" class="w-full btn-secondary">Create Event</button>
                 </div>
 
         </form>
-
     </div>
 
     <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        <?= saveFormScript() ?>
+        <?= loadFormScript() ?>
+
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            iconColor: 'white',
+            customClass: {
+                popup: 'colored-toast',
+            },
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+        })
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('form-content');
+            let saveTimeout;
+
+            loadForm('create');
+
+            form.addEventListener('input', () => {
+                clearTimeout(saveTimeout);
+                saveTimeout = setTimeout(async() => {
+                    await saveForm('create').then(async (isSaved) => {
+                        if (isSaved) {
+                            await Toast.fire({
+                                icon: 'success',
+                                title: 'บันทึกข้อมููลแล้ว!',
+                            })
+                        }
+
+                    });
+
+
+                }, 3000);
+            });
+        });
+    </script>
 
     <!-- Validate Form -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        <?= clearFormScript() ?>
+
         document.addEventListener("DOMContentLoaded", () => {
             const form = document.getElementById("form-content");
 
@@ -265,30 +297,46 @@ $authors = array_map(function ($type) {
 
                 try {
                     const formData = new FormData(form);
-                    const response = await fetch(form.action, {
-                        method: form.method,
-                        body: formData
-                    });
 
-                    const result = await response.json();
-                    // console.log(result);
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'ยืนยันการสร้างกิจกรรม',
+                        text: "หากคุณสร้างกิจกรรม, คุณสามารถแก้ไขย้อนหลังได้",
+                        showDenyButton: true,
+                        confirmButtonText: 'สร้างทันที',
+                        denyButtonText: 'ยังก่อน'
 
-                    if (response.ok) {
-                        await Swal.fire({
-                            icon: "success",
-                            title: "สำเร็จ",
-                            text: "สร้างกิจกรรมเสร็จสิ้น!",
-                        });
+                    }).then(async (action) => {
+                        if (action.isConfirmed) {
+                            const response = await fetch(form.action, {
+                                method: form.method,
+                                body: formData
+                            });
 
-                        window.location.href = `${result?.redirect}`
+                            const result = await response.json();
+                            // console.log(result);
 
-                    } else {
-                        Swal.fire({
-                            icon: "error",
-                            title: "เกิดข้อผิดพลาด",
-                            text: "เกิดข้อผิดพลาดในการส่งข้อมูล, ลองใหม่อีกครั้ง"
-                        });
-                    }
+                            if (response.ok) {
+                                await Swal.fire({
+                                    icon: "success",
+                                    title: "สำเร็จ",
+                                    text: "สร้างกิจกรรมเสร็จสิ้น!",
+                                });
+
+                                clearForm('create');
+                                window.location.href = `${result?.redirect}`
+
+                            } else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "เกิดข้อผิดพลาด",
+                                    text: "เกิดข้อผิดพลาดในการส่งข้อมูล, ลองใหม่อีกครั้ง"
+                                });
+                            }
+
+                        }
+
+                    })
                 } catch (error) {
                     console.error(error);
                     console.error(error.message);
@@ -350,7 +398,11 @@ $authors = array_map(function ($type) {
                         reader.onload = async function(e) {
                             // console.log(e.target.result);
                             const value = e.target.result;
-                            const blobUrl = byte64toBlobUrl(value, 'image/jpeg', 512);
+                            // console.log(value)
+                            const imgObj = await createJpegObject(value);
+                            // console.log(imgObj)
+
+                            const blobUrl = byte64toBlobUrl(imgObj, 'image/jpeg', 512);
 
                             const coverImg = document.getElementById('cover_label');
 
@@ -387,9 +439,10 @@ $authors = array_map(function ($type) {
                             const file = files[i];
                             const reader = new FileReader();
 
-                            reader.onload = function(e) {
+                            reader.onload = async function(e) {
                                 const imageData = e.target.result;
-                                const blobUrl = byte64toBlobUrl(imageData, 'image/jpeg', 512);
+                                const imgObj = await createJpegObject(imageData);
+                                const blobUrl = byte64toBlobUrl(imgObj, 'image/jpeg', 512);
 
                                 // uploadedImages.push(blobUrl);
                                 // morePicInput.value = uploadedImages

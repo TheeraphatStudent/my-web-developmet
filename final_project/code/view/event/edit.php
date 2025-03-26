@@ -8,7 +8,6 @@ require_once('utils/useImages.php');
 require_once('components/breadcrumb.php');
 
 use FinalProject\Components\Breadcrumb;
-use FinalProject\Components\Map;
 use FinalProject\Components\TextEditor;
 
 $textEditor = new TextEditor();
@@ -96,10 +95,10 @@ $authors = array_map(function ($type) {
                         <div class="flex flex-col w-full gap-2.5">
                             <div
                                 class="form-title">
-                                Venue&nbsp;
+                                Fee&nbsp;
                                 <span class="form-required">*</span>
                             </div>
-                            <input required
+                            <input
                                 class="input-field" type="text" name="venue" placeholder="Enter venue" value="<?php echo htmlspecialchars($eventObj['venue']) ?>">
 
                         </div>
@@ -131,19 +130,6 @@ $authors = array_map(function ($type) {
                                 <?php endforeach; ?>
                             </select>
 
-                        </div>
-                        <div class="flex flex-col w-full gap-2.5">
-                            <div
-                                class="form-title">
-                                Link
-                            </div>
-                            <input
-                                class="input-field"
-                                name="link"
-                                type="url"
-                                value="<?php echo htmlspecialchars($eventObj['link'] ?? "") ?>"
-                                placeholder="https://example.com"
-                                pattern="https?:\/\/.*">
                         </div>
                     </div>
 
@@ -222,8 +208,8 @@ $authors = array_map(function ($type) {
                     <span id="upload_text" class="underline cursor-pointer font-medium text-base text-white group-hover:text-white z-10 relative transition-colors duration-300">
                         Upload Cover
                     </span>
-                    <input required type="file" accept=".png, .jpg, .jpeg" id="cover_img" name="cover" class="hidden">
-                    <input type="file" accept=".png, .jpg, .jpeg" id="cover_img_exist" name="cover_exist" class="hidden">
+                    <input required type="file" accept="image/*" id="cover_img" name="cover" class="hidden">
+                    <input type="file" accept="image/*" id="cover_img_exist" name="cover_exist" class="hidden">
                 </label>
             </div>
 
@@ -247,7 +233,7 @@ $authors = array_map(function ($type) {
                                     Add Image
                                 </div>
                             </div>
-                            <input type="file" id="image-uploads" accept=".png, .jpg, .jpeg" class="hidden" multiple>
+                            <input type="file" id="image-uploads" accept="image/*" class="hidden" multiple>
                         </label>
                     </div>
                 </div>

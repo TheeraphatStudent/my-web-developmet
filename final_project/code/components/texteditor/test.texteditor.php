@@ -9,6 +9,7 @@ require_once(__DIR__ . '/../component.php');
 class TextEditor extends Component
 {
     private $dest = '';
+    private $textColor = 'text-white';
 
     public function render()
     {
@@ -54,7 +55,7 @@ class TextEditor extends Component
             <div class="flex flex-col md:flex-row w-full h-full border border-white rounded-md overflow-hidden *:w-full *:md:w-1/2 *:min-h-[200px]">
                 <textarea value="Hello" required id="markdown-input" class="p-3 bg-white whitespace-pre border-r focus:outline-none" oninput="editor.updatePreview(this.value)" placeholder="ระบุรายละเอียดของงานที่นี่..."></textarea>
                 <input class="hidden" type="text" name="description" id="desc-input">
-                <div id="markdown-preview" class="p-3 bg-primary overflow-auto text-white"></div>
+                <div id="markdown-preview" class="p-3 bg-primary overflow-auto <?= $this->textColor ?>"></div>
             </div>
         </div>
 
@@ -149,5 +150,10 @@ class TextEditor extends Component
     public function updatetextarea($description)
     {
         $this->dest = $description;
+    }
+
+    public function setTextColor(string $color) {
+        $this->textColor = $color;
+
     }
 }

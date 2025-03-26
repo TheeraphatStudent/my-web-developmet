@@ -130,3 +130,9 @@ option {
   border: 2px solid #F5F5F5;
   transition: all 0.3s ease;
 }
+
+/* Toast */
+
+.colored-toast.swal2-icon-success {
+  background-color: #BCFFAB !important;
+}

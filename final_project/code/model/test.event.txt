@@ -1,0 +1,26 @@
+WITH RECURSIVE DateRange AS (
+    SELECT 
+        MIN(e.start) AS eventDate, 
+        e.eventId
+    FROM Event e
+    WHERE e.eventId = 'AG-20250000001_event-a613f1fac551f83367e10ea5a6946'
+    GROUP BY e.eventId
+    UNION ALL
+    SELECT DATE_ADD(eventDate, INTERVAL 1 DAY), eventId
+    FROM DateRange
+    WHERE eventDate < (SELECT MAX(e.end) FROM Event e WHERE e.eventId = DateRange.eventId)
+)
+SELECT 
+    e.eventId,
+    d.eventDate AS joinedDate,
+    MAX(a.created) as refDate,
+    COUNT(a.regId) AS totalJoined
+FROM DateRange d
+LEFT JOIN Event e ON d.eventId = e.eventId
+LEFT JOIN Registration r ON r.eventId = e.eventId
+LEFT JOIN Attendance a ON a.regId = r.regId AND DATE(a.created) = d.eventDate
+WHERE e.start <= e.end
+GROUP BY 
+    d.eventId, 
+    d.eventDate
+ORDER BY d.eventId, d.eventDate;

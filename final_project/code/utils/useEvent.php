@@ -4,5 +4,5 @@ namespace FinalProject\Utils;
 
 class Event
 {
-    public const ACCEPT_EVENT = ['checked-in', 'attendee', 'create', 'create-test', 'manage', 'edit', 'statistic'];
+    public const ACCEPT_EVENT = ['manage-attend', 'attendee', 'create', 'create-test', 'manage', 'edit', 'statistic'];
 }

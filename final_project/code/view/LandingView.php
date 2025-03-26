@@ -2,13 +2,16 @@
 
 namespace FinalProject\View;
 
-require_once(__DIR__ . '/../components/search.php');
-require_once(__DIR__ . '/../components/calendar/calendar.php');
+require_once('components/search.php');
+require_once('components/calendar/calendar.php');
+require_once('components/texteditor/texteditor.php');
 require_once('utils/useTags.php');
+require_once('utils/useDateTime.php');
 
 use FinalProject\Components\Search;
 use FinalProject\Components\Filter;
 use FinalProject\Components\SchedulerCalendar;
+use FinalProject\Components\TextEditor;
 
 $search = new Search();
 $filter = new Filter();
@@ -57,7 +60,6 @@ $calendar = new SchedulerCalendar();
         </div>
     </div>
 
-
     <!-- Landing Content -->
     <div class="flex flex-col items-center w-full h-full min-h-fit gap-5 *:w-full *:h-full mt-8">
         <!-- Filter -->
@@ -70,13 +72,10 @@ $calendar = new SchedulerCalendar();
         <!-- Content -->
         <?php if ((!empty($allEvents))) : ?>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-content h-full min-h-fit mx-10 px-5 lg:px-16">
-                <?php foreach ($allEvents as $item) :
-                    // $dataUrl = "data:image/png;base64," . base64_encode(file_get_contents($item['cover']));
-                    // print_r($item);
-                ?>
-                    <div class="flex flex-col justify-between items-center p-4 gap-4 rounded-lg w-full h-[420px] shadow-md bg-white hover:scale-[101%] hover:cursor-pointer">
+                <?php foreach ($allEvents as $item) : ?>
+                    <div class="flex flex-col gap-3 items-start p-4 rounded-lg w-full h-[440px] shadow-md bg-white hover:scale-[101%] hover:cursor-pointer">
                         <div
-                            class="flex flex-col justify-between items-stretch bg-center bg-cover rounded w-full h-60 overflow-hidden bg-dark-primary/50 border-dashed border-gray-400 border-2"
+                            class="flex flex-col justify-between items-stretch bg-center bg-cover rounded w-full min-h-56 max-h-56 overflow-hidden bg-dark-primary/50 border-dashed border-gray-400 border-2"
                             style="background-image: url(public/images/uploads/<?= $item['cover'] ?>);">
                             <!-- Tag -->
                             <div class="flex flex-row justify-start items-start gap-2.5 p-2.5 pb-3.5 w-full h-fit bg-gradient-to-b from-dark-primary/50 via-dark-primary/25 to-transparent">
@@ -108,38 +107,67 @@ $calendar = new SchedulerCalendar();
                             </div>
 
                             <!-- Organize Detail -->
-                            <div class="flex flex-row justify-start items-center gap-2.5 px-2.5 py-2 pt-6 w-full h-fit bg-gradient-to-t from-dark-primary/75 via-dark-primary/25 to-transparent">
-                                <div class="w-[32px] h-[32px] flex items-center justify-center rounded-full <?= (isset($_SESSION['user']['userId']) && $item['organizeId'] === $_SESSION['user']['userId']) ? 'bg-dark-secondary' : 'bg-primary' ?> text-white text-sm font-bold">
+                            <div class="flex flex-row justify-start items-center gap-2.5 px-2.5 py-2 pt-6 w-full h-fit bg-gradient-to-t from-dark-primary/75 via-dark-primary/25 to-transparent overflow-hidden">
+                                <div class="w-[32px] h-[32px] flex items-center justify-center rounded-full bg-primary text-white text-sm font-bold">
                                     <?= htmlspecialchars(strtoupper(substr(($item['organizeName'] ?? "-"), 0, 1))) ?>
                                 </div>
                                 <span class="text-white text-sm">
-                                    <?= htmlspecialchars($item['organizeName'] ?? "-") ?>
+                                    <?= htmlspecialchars($item['organizeName'] ?? "-") ?> <?= (isset($_SESSION['user']['userId']) && $item['organizeId'] === $_SESSION['user']['userId']) ? '(owned)' : '' ?>
                                 </span>
                             </div>
                         </div>
 
-                        <div class="flex flex-col justify-start items-start gap-3 h-24 w-full">
-                            <div class="flex flex-col justify-start items-start h-fit py-2 w-full gap-2">
-                                <div class="flex flex-row justify-between items-center gap-2.5 w-full h-7">
-                                    <div class="font-kanit text-xl whitespace-nowrap text-black leading-none font-normal">
-                                        <?= htmlspecialchars_decode($item['title'] ?? "-") ?>
-                                    </div>
-                                    <div class="font-kanit text-lg text-right whitespace-nowrap text-black leading-none font-normal">
-                                        <?= htmlspecialchars_decode($item['maximum'] === -1 ? "-" : $item['maximum']) ?>/<?= htmlspecialchars_decode($item['joined'] ?? "0") ?>
-                                    </div>
-                                </div>
-                                <div class="flex flex-col gap-1 font-kanit text-sm w-full whitespace-nowrap text-primary leading-none font-normal">
-                                    <span>เริ่มงาน: <?= $item['start'] ?></span>
-                                    <span>สิ้นสุด: <?= $item['end'] ?></span>
-                                </div>
+                        <div class="flex flex-col justify-start items-start h-full py-2 w-full gap-2.5 overflow-hidden">
+                            <div class="flex justify-between items-center gap-2 w-full h-fit">
+                                <span class="font-kanit text-xl whitespace-nowrap text-black leading-none font-normal">
+                                    <?= htmlspecialchars($item['title'] ?? "-", ENT_QUOTES, 'UTF-8') ?>
+                                </span>
+                                <span class="font-kanit text-lg text-right whitespace-nowrap text-black leading-none font-normal">
+                                    <?= htmlspecialchars(($item['joined'] ?? "0") . "/" . ($item['maximum'] === -1 ? "-" : ($item['maximum'] ?? "0")), ENT_QUOTES, 'UTF-8') ?>
+                                </span>
                             </div>
+
+                            <div class="flex flex-col w-full gap-1 font-kanit text-sm whitespace-nowrap text-primary leading-none font-normal">
+                                <span>เริ่มงาน: <?= dateFormat($item['start']) ?></span>
+                                <span>สิ้นสุด: <?= dateFormat($item['end']) ?></span>
+                            </div>
+
+                            <div class="flex items-center gap-2">
+                                <svg fill='#E24B4B' width="19.3px" height="20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                                </svg>
+
+                                <span class="text-gray-500 truncate w-full">
+                                    <?= $item['location'] ?? '-' ?>
+                                </span>
+                            </div>
+
                         </div>
+
                         <div class="flex flex-row justify-center items-center gap-2.5 w-full h-10">
-                            <a href="../?action=event.attendee&id=<?= $item['eventId'] ?>&joined=<?= $item['joined'] ?>" class="btn-primary max-h-10 w-full max-w-[80%]">
+                            <?php
+                            $statusMappings = [
+                                1 => ['class' => 'btn-warring', 'label' => 'รออนุมัติ'],
+                                2 => ['class' => 'btn-secondary', 'label' => 'อนุมัติแล้ว'],
+                                3 => ['class' => 'btn-gray', 'label' => 'เคยเข้าร่วมแล้ว'],
+                                4 => ['class' => 'btn-danger', 'label' => 'ถูกปฏิเสธ'],
+                            ];
+
+                            if (isset($item['haveBeenJoined']) && array_key_exists($item['haveBeenJoined'], $statusMappings)) {
+                                $buttonClass = $statusMappings[$item['haveBeenJoined']]['class'];
+                                $buttonLabel = $statusMappings[$item['haveBeenJoined']]['label'];
+                            } else {
+                                $buttonClass = 'btn-primary';
+                                $buttonLabel = 'ดูกิจกรรม';
+                            }
+                            ?>
+
+                            <a href="../?action=event.attendee&id=<?= htmlspecialchars($item['eventId']) ?>&joined=<?= htmlspecialchars($item['joined']) ?>" class="<?= htmlspecialchars($buttonClass) ?> max-h-10 w-full max-w-[80%]">
                                 <span class="font-kanit text-base text-white">
-                                    ดูกิจกรรม
+                                    <?= htmlspecialchars($buttonLabel) ?>
                                 </span>
                             </a>
+
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -171,14 +199,14 @@ $calendar = new SchedulerCalendar();
 
                     <!-- Text + Button -->
                     <div class="flex flex-col justify-center items-center md:items-start gap-3 text-center h-full md:text-left self-center">
-                        <div class="font-kanit text-2xl md:text-3xl text-teal-700 leading-tight font-normal">
+                        <div class="font-kanit text-2xl md:text-3xl text-primary leading-tight font-normal">
                             สร้าง<span class="font-bold">&nbsp;</span>
                             <a href="../?action=event.create" class="font-bold" style="text-decoration: underline;">กิจกรรม</a>
                             <span class="font-bold">&nbsp;</span>ของคุณได้ทันที
                         </div>
 
-                        <a href="../?action=event.create" class="mt-4 md:mt-0 flex justify-center items-center w-full md:w-[300px] h-[60px] rounded-lg shadow-md bg-sky-700 hover:bg-sky-800 transition">
-                            <span class="font-kanit text-[18px] text-white font-normal">
+                        <a href="../?action=event.create" class="mt-4 md:mt-0 flex justify-center items-center w-full md:w-[300px] h-[60px] rounded-lg shadow-md bg-secondary hover:bg-dark-secondary transition">
+                            <span class="font-kanit text-xl text-white font-normal">
                                 สร้างเลย
                             </span>
                         </a>
@@ -194,7 +222,7 @@ $calendar = new SchedulerCalendar();
             </div>
 
             <div class="flex flex-col lg:flex-row justify-between items-center gap-8 w-full">
-                <div class="flex flex-col md:justify-start justify-center items-start w-full lg:w-72 md:min-h-[280px] bg-white shadow-md">
+                <div class="flex flex-col md:justify-start justify-center items-start w-full lg:w-72 md:min-h-[280px] bg-white shadow-md hover:scale-[101%] hover:cursor-pointer">
                     <div class="w-full lg:w-72 h-3 bg-red"></div>
                     <div class="flex flex-col justify-start items-center gap-8 lg:gap-12 p-5 w-full lg:w-72">
                         <div class="flex flex-col justify-start items-center gap-2.5">
@@ -212,7 +240,7 @@ $calendar = new SchedulerCalendar();
                     </div>
                 </div>
 
-                <div class="flex flex-col md:justify-start justify-center items-start w-full lg:w-72 md:min-h-[280px] bg-white shadow-md">
+                <div class="flex flex-col md:justify-start justify-center items-start w-full lg:w-72 md:min-h-[280px] bg-white shadow-md hover:scale-[101%] hover:cursor-pointer">
                     <div class="w-full lg:w-72 h-3 bg-yellow"></div>
                     <div class="flex flex-col justify-start items-center gap-8 lg:gap-12 p-5 w-full lg:w-72">
                         <div class="flex flex-col justify-start items-center gap-2.5">
@@ -231,7 +259,7 @@ $calendar = new SchedulerCalendar();
                     </div>
                 </div>
 
-                <div class="flex flex-col md:justify-start justify-center items-start w-full lg:w-72 md:min-h-[280px] bg-white shadow-md">
+                <div class="flex flex-col md:justify-start justify-center items-start w-full lg:w-72 md:min-h-[280px] bg-white shadow-md hover:scale-[101%] hover:cursor-pointer">
                     <div class="w-full lg:w-72 h-3 bg-green"></div>
                     <div class="flex flex-col justify-start items-center gap-8 lg:gap-12 p-5 w-full lg:w-72">
                         <div class="flex flex-col justify-start items-center gap-2.5">

@@ -112,11 +112,11 @@ class RequestController
                 return response(status: $result['status'], message: $result['message'], data: $data, type: 'json', redirect: "../?action=event.manage");
 
             case 'search':
-                $result = $this->event->searchEvent(title: $data['looking'], dateStart: $data['dateStarted'], dateEnd: $data['dateEnded']);
+                $result = $this->event->searchEvents(title: $data['looking'], dateStart: $data['dateStarted'], dateEnd: $data['dateEnded']);
                 return response(status: 200, message: "Search Work", data: $result, type: 'search');
 
             case 'search_categories':
-                $result = $this->event->searchEventByCategories(dateType: $data['date'] ?? null, eventType: $data['type'] ?? null);
+                $result = $this->event->searchEvents(dateType: $data['date'] ?? null, eventType: $data['type'] ?? null);
                 return response(status: 200, message: "Search Work", data: $result, type: 'search');
 
             case 'register':
@@ -157,7 +157,7 @@ class RequestController
                         status: $authorId['status'],
                         message: $authorId['message'],
                         data: [null],
-                        redirect: '../?action=event.statistic&id=' . $data['eventId']
+                        redirect: '../?action=event.manage-attend&id=' . $data['eventId']
                     );
                 }
 
@@ -174,7 +174,7 @@ class RequestController
                     status: $result['status'],
                     message: $result['message'],
                     data: $result,
-                    redirect: '../?action=event.statistic&id=' . $data['eventId']
+                    redirect: '../?action=event.manage-attend&id=' . $data['eventId']
                 );
 
             case 'reject':
@@ -188,7 +188,7 @@ class RequestController
                 return response(
                     status: $response['status'],
                     message: $response['message'],
-                    redirect: '../?action=event.statistic&id=' . $data['eventId']
+                    redirect: '../?action=event.manage-attend&id=' . $data['eventId']
                 );
 
             default:
@@ -219,7 +219,7 @@ class RequestController
                         status: $authorId['status'],
                         message: $authorId['message'],
                         data: [null],
-                        redirect: '../?action=event.checked-in&id=' . $data['eventId']
+                        redirect: '../?action=event.manage-attend&id=' . $data['eventId']
                     );
                 }
 
@@ -228,14 +228,14 @@ class RequestController
                 return response(
                     status: $result['status'],
                     message: $result['message'],
-                    redirect: '../?action=event.checked-in&id=' . $data['eventId']
+                    redirect: '../?action=event.manage-attend&id=' . $data['eventId']
                 );
 
             default:
                 return response(
                     status: 404,
                     message: "Something went wrong!",
-                    redirect: '../?action=event.checked-in&id=' . $data['eventId']
+                    redirect: '../?action=event.manage-attend&id=' . $data['eventId']
                 );
         }
     }

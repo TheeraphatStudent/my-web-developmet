@@ -2,15 +2,15 @@
 
 namespace FinalProject\Components;
 
-use FinalProject\Controller\AuthController;
-use FinalProject\Controller\RequestController;
-use LDAP\Result;
+use FinalProject\Components\NotLoggedIn;
 
-require_once(__DIR__ . '/component.php');
+require_once('component.php');
+require_once('alert.php');
 
 class Navbar extends Component
 {
     private $isLogin = false;
+    private $isProfileVerify = false;
 
     public function render()
     {
@@ -24,25 +24,18 @@ class Navbar extends Component
                         </a>
                     </div>
 
-                    <!-- Actions -->
                     <div class="md:block hidden">
                         <div class="flex h-full gap-4 items-baseline *:text-black">
                             <?php if ($this->isLogin) : ?>
-                                <a href='../?action=event.create' class='hover:text-gray-600 text-sm rounded-md font-medium'>Create event</a>
-                                <a href='../?action=event.manage' class='hover:text-gray-600 text-sm rounded-md font-medium'>Manage event</a>
-                                <!-- <a href='../?action=event.manage' class='hover:text-gray-600 text-sm rounded-md font-medium'>Checked event</a> -->
-                                <a href='../?action=mail' class='hover:text-gray-600 text-sm rounded-md font-medium'>History</a>
+                                <a href='../?action=event.create' class='nav-item hover:text-gray-600 text-sm rounded-md font-medium'>สร้างกิจกรรม</a>
+                                <a href='../?action=event.manage' class='nav-item hover:text-gray-600 text-sm rounded-md font-medium'>จัดการกิจกรรม</a>
+                                <a href='../?action=mail' class='nav-item hover:text-gray-600 text-sm rounded-md font-medium'>ประวัติการเข้าร่วม</a>
                                 <div class="flex gap-2 items-center border-l-2 border-dark-primary">
                                     <a href="../?action=profile" class="ml-4 hover:text-gray-600 text-sm font-medium flex items-center no-underline">
                                         <div class="w-[56px] h-[56px] flex items-center justify-center rounded-full bg-primary text-white text-xl font-bold">
                                             <?= htmlspecialchars(strtoupper(substr($_SESSION['user']['username'], 0, 1))) ?>
                                         </div>
                                     </a>
-                                    <!-- <a href="../?action=profile" class="hover:text-gray-600 text-sm font-medium flex items-center no-underline">
-                                        <div class="w-[56px] h-[56px] flex items-center justify-center rounded-full bg-red text-white text-xl font-bold">
-                                            <img src="public/icons/exit.svg" alt="logout" width="24" height="24">
-                                        </div>
-                                    </a> -->
                                 </div>
                             <?php else : ?>
                                 <a href='..?action=register' class='group btn-primary signin-btn w-[160px]'>
@@ -52,24 +45,88 @@ class Navbar extends Component
                                     <span class='group-hover:text-white'>เข้าสู่ระบบ</span>
                                 </a>
                             <?php endif; ?>
-
                         </div>
                     </div>
+
                     <div class="md:hidden block">
-                        <div class="flex items-baseline space-x-4">
-                            <a href='#' class='flex items-center font-semibold h-14 px-4 rounded-xl'>
-                                <img src="public/icons/drawer.png" alt="">
-                            </a>
-                        </div>
+                        <button id="menuToggleBtn" class="flex items-center font-semibold h-14 px-4 rounded-xl transition-opacity ">
+                            <img src="public/icons/drawer.png" alt="">
+                        </button>
                     </div>
                 </div>
             </div>
         </nav>
+
+        <div id="mobileMenu" class="fixed inset-0 bg-white w-screen h-fit p-5 pt-[8rem] hidden">
+            <div class="flex flex-col h-full items-center gap-4 *:text-black">
+                <?php if ($this->isLogin) : ?>
+                    <div class="flex gap-2 items-center">
+                        <a href="../?action=profile" class="ml-4 hover:text-gray-600 text-sm font-medium flex items-center no-underline">
+                            <div class="w-[56px] h-[56px] flex items-center justify-center rounded-full bg-primary text-white text-xl font-bold">
+                                <?= htmlspecialchars(strtoupper(substr($_SESSION['user']['username'], 0, 1))) ?>
+                            </div>
+                        </a>
+                    </div>
+                    <a href='../?action=event.create' class='nav-item hover:text-gray-600 text-sm rounded-md font-medium'>สร้างกิจกรรม</a>
+                    <a href='../?action=event.manage' class='nav-item hover:text-gray-600 text-sm rounded-md font-medium'>จัดการกิจกรรม</a>
+                    <a href='../?action=mail' class='nav-item hover:text-gray-600 text-sm rounded-md font-medium'>ประวัติการเข้าร่วม</a>
+                <?php else : ?>
+                    <a href='..?action=register' class='group btn-primary signin-btn w-[160px]'>
+                        <span class='group-hover:text-white'>สร้างบัญชี</span>
+                    </a>
+                    <a href='..?action=login' class='group btn-primary-outline login-btn w-[160px]'>
+                        <span class='group-hover:text-white'>เข้าสู่ระบบ</span>
+                    </a>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const menuToggleBtn = document.getElementById("menuToggleBtn");
+                const mobileMenu = document.getElementById("mobileMenu");
+
+                menuToggleBtn.addEventListener("click", function() {
+                    mobileMenu.classList.toggle("hidden");
+                });
+            });
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const isVerify = <?php echo $this->isProfileVerify ?>;
+                const navItems = document.querySelectorAll('.nav-item');
+
+                navItems.forEach((item) => {
+                    item.addEventListener('click', function(event) {
+                        if (!isVerify) {
+                            event.preventDefault();
+                            Swal.fire({
+                                title: 'ยังขาดข้อมูลส่วนตัวบางส่วน!',
+                                text: 'กรุณาใส่ข้อมูลส่วนตัวที่โปรไฟล์ก่อนดำเนินการต่อ',
+                                icon: 'error',
+                                showDenyButton: true,
+                                confirmButtonText: 'ไปที่โปรไฟล์',
+                                denyButtonText: 'ยังก่อน'
+                            }).then((action) => {
+                                if (action.isConfirmed) {
+                                    window.location.href = '../?action=profile&isEdit=true'
+
+                                }
+
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
 <?php
     }
 
-    public function updateNavbar(bool $isLogin)
+    public function updateNavbar(bool $isLogin, $isProfileVerify)
     {
         $this->isLogin = $isLogin;
+        $this->isProfileVerify = $isProfileVerify;
     }
 }
